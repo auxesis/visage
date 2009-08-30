@@ -21,10 +21,15 @@ class CollectdJSON
   end
 
   def encode(opts={})
+    opts[:start] ||= (Time.now - 3600).to_i
+    opts[:end]   ||= (Time.now).to_i
+    opts[:start].to_s.gsub!(/\.\d+$/,'')
+    opts[:end].to_s.gsub!(/\.\d+$/,'')
+
     values = { 
       opts[:host] => {
         opts[:plugin] => {
-          opts[:plugin_instance] => opts[:rrd].fetch(['AVERAGE'])
+          opts[:plugin_instance] => opts[:rrd].fetch(['AVERAGE', '--start', opts[:start], '--end', opts[:end]])
         }
       }
     }
