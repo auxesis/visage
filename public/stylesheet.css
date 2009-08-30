@@ -1,0 +1,27 @@
+/* resets */
+
+body {
+  font-size: 62.5%;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+}
+
+/* stylesheet */
+
+body {
+  font-size: 1.2em;
+  font-family: Baskerville,Garamond,Times,serif;
+}
+
+h1, h2, h3, h4 {
+  font-family: Helvetica Neue,Helvetica,sans-serif;
+  font-weight: bold;
+}
+
+div#content {
+  margin: auto;
+  padding: 1em;
+}
