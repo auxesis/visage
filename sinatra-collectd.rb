@@ -31,7 +31,9 @@ get '/data/:host/:plugin/:plugin_instance' do
   collectd = CollectdJSON.new(:basedir => @rrddir)
   collectd.json(:host => params[:host], 
                 :plugin => params[:plugin], 
-                :plugin_instance => params[:plugin_instance])
+                :plugin_instance => params[:plugin_instance],
+                :start => params[:start],
+                :end => params[:end])
 end
 
 get '/:host' do 
