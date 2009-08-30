@@ -13,18 +13,37 @@ require 'lib/collectd-json'
 set :public, __DIR__ + '/public'
 set :views,  __DIR__ + '/views'
 
+configure do 
+  @rrddir = "/var/lib/collectd/rrd"
+  CollectdJSON.basedir = @rrddir
+end
+
 template :layout do 
   File.read('views/layout.haml')
 end
 
 get '/' do 
+  @hosts = CollectdJSON.hosts
   haml :index
 end
 
 get '/data/:host/:plugin/:plugin_instance' do 
-  collectd = CollectdJSON.new
+  collectd = CollectdJSON.new(:basedir => @rrddir)
   collectd.json(:host => params[:host], 
                 :plugin => params[:plugin], 
                 :plugin_instance => params[:plugin_instance])
+end
+
+get '/:host' do 
+  @hosts = CollectdJSON.hosts
+  @plugins = CollectdJSON.plugins(params[:host])
+  haml :index
+end
+
+get '/:host/:plugin' do 
+  @hosts = CollectdJSON.hosts
+  @plugins = CollectdJSON.plugins(params[:host])
+  
+  haml :index
 end
 
