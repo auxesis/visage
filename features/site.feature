@@ -3,7 +3,7 @@ Feature: Visit site
   A user
   Must be able to visualise the data
 
-  Scenario: Visit site
+  Scenario: Show available hosts
     When I go to /
-    Then I should see "sinatra-collectd"
-    Then show me the page
+    Then I should see a list of available hosts
+    When I follow the first host
