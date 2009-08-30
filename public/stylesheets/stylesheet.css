@@ -25,3 +25,24 @@ div#content {
   margin: auto;
   padding: 1em;
 }
+
+
+div#hosts li {
+  font-family: monospace;
+}
+
+li {
+  list-style-type: square;
+  margin: 0.5em 1em;
+}
+
+div#holder {
+  background-color: black;
+  height: 480px;
+  left: 50%;
+  margin: -220px 0 0 -320px;
+  position: absolute;
+  top: 50%;
+  width: 640px;
+}
+
