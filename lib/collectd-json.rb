@@ -5,8 +5,8 @@ require 'yajl'
 
 class CollectdJSON
 
-  def initialize
-    @basedir = "/var/lib/collectd/rrd"
+  def initialize(opts={})
+    @basedir = opts[:basedir] || "/var/lib/collectd/rrd"
   end
 
   def json(opts={})
@@ -31,6 +31,20 @@ class CollectdJSON
     
     encoder = Yajl::Encoder.new
     encoder.encode(values)
+  end
+
+  class << self
+    attr_accessor :basedir
+
+    def hosts
+      Dir.glob("#{@basedir}/*").map {|e| e.split('/').last }.sort
+    end
+
+    def plugins(opts={})
+      host = opts[:host] || '*'
+      Dir.glob("#{@basedir}/#{host}/*").map {|e| e.split('/').last }.sort
+    end
+
   end
 
 end
