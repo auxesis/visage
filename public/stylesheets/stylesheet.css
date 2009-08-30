@@ -37,12 +37,7 @@ li {
 }
 
 div#holder {
-  background-color: black;
-  height: 480px;
-  left: 50%;
-  margin: -220px 0 0 -320px;
-  position: absolute;
-  top: 50%;
   width: 640px;
+  height: 220px;
 }
 
