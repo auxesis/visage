@@ -2,7 +2,10 @@
 %html
   %head
     %title sinatra-collectd
-    %link{:rel => 'stylesheet', :href => 'stylesheet.css', :type => 'text/css'}
+    %link{:rel => 'stylesheet', :href => '/stylesheets/stylesheet.css', :type => 'text/css'}
+    %script{:type => "text/javascript", :src => "/javascripts/raphael-min.js"}
+    %script{:type => "text/javascript", :src => "/javascripts/application.js"}
+
   %body
     %div#content
       = yield
