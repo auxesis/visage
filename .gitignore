@@ -21,3 +21,4 @@ gems/gems/*
 !gems/gems/thor*/
 !gems/specifications/thor*
 merb_profile_results
+webrat*
