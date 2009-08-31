@@ -40,6 +40,46 @@ window.addEvent('domready', function () {
 			});
 		});
 
+		labels.each(function(label) {
+				container = new Element('div', {
+									'class': 'label plugin',
+									'events': {
+											'mouseover': function(e) {
+											   e.stop();
+												 var path = organisedDataSet.get(label).get('path');
+												 path.animate({'stroke-width': 3}, 300);
+											},
+											'mouseout': function(e) {
+											   e.stop();
+												 var path = organisedDataSet.get(label).get('path');
+												 path.animate({'stroke-width': 1.5}, 300);
+											},
+											'click': function(e) {
+											   e.stop();
+												 var path = organisedDataSet.get(label).get('path');
+												 path.animate({'opacity': 0.5}, 500);
+											}
+									}
+				});
+
+				box = new Element('span', {
+						'class': 'label plugin box ' + label,
+						'html': '&nbsp;',
+						'styles': { 
+						  'background-color': colours[plugin][plugin_instance][label]
+						}
+				});
+
+				desc = new Element('span', {
+					  'class': 'label plugin description ' + label,
+						'html': label
+				});
+
+				container.grab(box);
+				container.grab(desc);
+				$('labels').grab(container);
+		});
+
 	};
 
 	var colours = {'load': {'load': {'shortterm': "#73d216", 
