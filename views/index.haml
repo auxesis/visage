@@ -22,20 +22,21 @@
 
 
 - if @profile && @profile.graphs
-  - @profile.graphs.each do |graph| 
-    %div{:id => "graph-#{graph.gsub(/[^\w+]/, '_')}"}
+  - @profile.graphs.each do |graph|
+    - plugin, plugin_instance =  graph.split('/')
+    - graph_id = "graph#{graph.gsub(/[^\w+]/, '_')}"
+    %div{:id => graph_id}
       %div.labels
       %div.holder
       :javascript
         window.addEvent('domready', function() {
-          console.log('#{graph}');
+          new collectdSingleGraph('#{graph_id}', {
+            plugin: '#{plugin}', 
+            plugin_instance: '#{plugin_instance}', 
+            colours: #{@colours}});
         });
-         
-
-  %div#labels
-  %div#holder
-
+  
 - else
-  %div#labels
-  %div#holder
+  %div
+    Nothing to display!
   
