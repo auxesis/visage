@@ -85,6 +85,33 @@ var collectdSingleGraph = new Class({
           axis: "0 0 1 1", axisxlabels: 'head', axisxstep: 10,
 					colors: colours
       });
+
+			this.buildLabels(this.labels)
+		},
+		buildLabels: function(labels) {
+		    labels.each(function(label) {
+        		container = new Element('div', {
+        				'class': 'label plugin',
+            });
+
+		        box = new Element('span', {
+		            'class': 'label plugin box ' + label,
+		            'html': '&nbsp;',
+		            'styles': { 
+		              'background-color': this.options.colours[this.options.plugin][this.options.plugin_instance][label]
+		            }
+		        });
+		
+		        desc = new Element('span', {
+		            'class': 'label plugin description ' + label,
+		            'html': label
+		        });
+		
+		        container.grab(box);
+		        container.grab(desc);
+		        $(this.element).getChildren('div.labels')[0].grab(container);
+
+    		},this);	
 		}
 
 });
