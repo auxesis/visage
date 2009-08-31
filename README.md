@@ -40,3 +40,4 @@ TODO
  * data profiles
  * config file
  * graph builder + profile creator
+ * create proper mootools class
