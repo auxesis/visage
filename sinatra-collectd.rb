@@ -9,13 +9,17 @@ require 'RRDtool'
 require 'yajl'
 require 'haml'
 require 'lib/collectd-json'
+require 'lib/collectd-profile'
 
 set :public, __DIR__ + '/public'
 set :views,  __DIR__ + '/views'
 
 configure do 
   @rrddir = "/var/lib/collectd/rrd"
+  @config_filename = File.expand_path(File.join(__DIR__, 'config.yaml'))
+
   CollectdJSON.basedir = @rrddir
+  CollectdProfile.config_filename = @config_filename
 end
 
 template :layout do 
@@ -35,7 +39,7 @@ end
 
 get '/:host/:profile' do 
   @hosts = CollectdJSON.hosts
-  profile = CollectdProfile.get(params[:profile])
+  @profile = CollectdProfile.get(params[:profile])
   
   haml :index
 end
