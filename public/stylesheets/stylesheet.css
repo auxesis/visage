@@ -36,8 +36,16 @@ div#content {
 }
 
 
-div#hosts li {
-  font-family: monospace;
+div#header {
+  width: 400px;
+  float: left;
+  margin-right: 1em;
+}
+
+div#nav {
+  border-left: 1px dashed #ccc;
+  float: left; 
+  padding-left: 1em;
 }
 
 
@@ -46,8 +54,9 @@ div#holder {
   height: 220px;
 }
 
-div#hosts, div#plugins {
+div#hosts, div#stats {
   float: left;
+  padding: 0.3em 1em;
 }
 
 div#labels {

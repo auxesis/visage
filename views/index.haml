@@ -1,17 +1,24 @@
-%h1 sinatra-collectd
+%div#header
+  %h1 sinatra-collectd
 
-%div#hosts
-  %h2 Hosts
-  - @hosts.each do |host|
-    %li
-      %a{:href => "/#{host}"}= host
-
-%div#plugins
-  %h2 Plugins
-  %li
-    %a load
-  %li
-    %a memory
+%div#nav
+  %div#hosts
+    %h2 Hosts
+    - @hosts.each do |host|
+      %li
+        %a{:href => "/#{host}"}= host
+  
+  - if host = params[:host]
+    %div#stats
+      %h2 Profiles
+      %li
+        %a{:href => "/#{host}/cpu+load"} CPU + load
+      %li
+        %a{:href => "/#{host}/memory"} Memory
+      %li 
+        %a{:href => "/#{host}/disk+usage"} Disk usage
+      %li 
+        %a{:href => "/#{host}/processes"} Processes
 
 %div#labels
 %div#holder
