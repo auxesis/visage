@@ -26,17 +26,22 @@
     - plugin, plugin_instance =  graph.split('/')
     - graph_id = "graph#{graph.gsub(/[^\w+]/, '_')}"
     %div{:id => graph_id}
-      %div.labels
+      %div.labels.container
       %div.holder
       :javascript
         window.addEvent('domready', function() {
           new collectdSingleGraph('#{graph_id}', {
+            width: 900,
+            height: 130,
+            gridWidth: 800,
+            gridHeight: 100,
+            host: '#{params[:host]}',
             plugin: '#{plugin}', 
             plugin_instance: '#{plugin_instance}', 
             colours: #{@colours}});
         });
   
 - else
-  %div
-    Nothing to display!
+  %div#nothing
+    Sorry, nothing to display!
   
