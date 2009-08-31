@@ -30,3 +30,13 @@ Run all cucumber features:
 Specific features: 
 
     $ bin/cucumber --require features/ features/something.feature
+
+TODO
+----
+
+ * nice scrollbars to specify start/end time. 
+ * zoom + dynamic resize
+ * axis labels
+ * data profiles
+ * config file
+ * graph builder + profile creator
