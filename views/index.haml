@@ -20,6 +20,22 @@
       %li 
         %a{:href => "/#{host}/processes"} Processes
 
-%div#labels
-%div#holder
+
+- if @profile && @profile.graphs
+  - @profile.graphs.each do |graph| 
+    %div{:id => "graph-#{graph.gsub(/[^\w+]/, '_')}"}
+      %div.labels
+      %div.holder
+      :javascript
+        window.addEvent('domready', function() {
+          console.log('#{graph}');
+        });
+         
+
+  %div#labels
+  %div#holder
+
+- else
+  %div#labels
+  %div#holder
   
