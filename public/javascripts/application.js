@@ -95,7 +95,7 @@ window.addEvent('domready', function () {
       graphData(responseJSON);
     }
   });
-
+/*
   var width = 900, 
       height = 480,
       leftEdge = 10,
@@ -121,6 +121,7 @@ window.addEvent('domready', function () {
 
   var time = (new Date).getTime() / 1000;
   request.get({'start': time - 3600 , 'end': time});
-  
+ */
+	//var graph = new collectdSingleGraph('test-holder', {plugin: 'memory', plugin_instance: 'memory-free'});
 });
 
