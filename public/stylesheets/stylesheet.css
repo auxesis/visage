@@ -21,6 +21,15 @@ h1, h2, h3, h4 {
   font-weight: bold;
 }
 
+li {
+  list-style-type: square;
+  margin: 0.5em 1em;
+}
+
+a {
+  text-decoration: none;
+}
+
 div#content {
   margin: auto;
   padding: 1em;
@@ -31,13 +40,28 @@ div#hosts li {
   font-family: monospace;
 }
 
-li {
-  list-style-type: square;
-  margin: 0.5em 1em;
-}
 
 div#holder {
   width: 640px;
   height: 220px;
 }
 
+div#hosts, div#plugins {
+  float: left;
+}
+
+div#labels {
+  clear: both;
+}
+
+div.label.plugin {
+  padding: 0.5em;
+  float: left;
+}
+
+span.label.plugin.box {
+  width: 50px;
+  display: block;
+  float: left;
+  margin-right: 0.5em;
+}
