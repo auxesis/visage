@@ -1,9 +1,18 @@
 %h1 sinatra-collectd
 
 %div#hosts
+  %h2 Hosts
   - @hosts.each do |host|
     %li
       %a{:href => "/#{host}"}= host
 
+%div#plugins
+  %h2 Plugins
+  %li
+    %a load
+  %li
+    %a memory
+
+%div#labels
 %div#holder
   
