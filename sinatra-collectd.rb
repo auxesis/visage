@@ -36,15 +36,18 @@ get '/data/:host/:plugin/:plugin_instance' do
                 :end => params[:end])
 end
 
+get '/data/:host/:profile' do 
+  profile = CollectdProfile.get(params[:profile])
+end
+
 get '/:host' do 
   @hosts = CollectdJSON.hosts
-  @plugins = CollectdJSON.plugins(params[:host])
   haml :index
 end
 
-get '/:host/:plugin' do 
+get '/:host/:profile' do 
   @hosts = CollectdJSON.hosts
-  @plugins = CollectdJSON.plugins(params[:host])
+  profile = CollectdProfile.get(params[:profile])
   
   haml :index
 end
