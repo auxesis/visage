@@ -1,5 +1,43 @@
 --- 
 data_profiles: 
+  memory: 
+  - memory/memory-free
+  - memory/memory-buffered
+  - memory/memory-cached
+  - memory/memory-used
+  - swap/swap-cached
+  - swap/swap-free
+  - swap/swap-used
   cpu+load: 
   - load/load
   - cpu-0/cpu-idle
+  - cpu-0/cpu-wait
+colours: 
+  memory: 
+    memory-used: 
+      value: "#cc0000"
+    memory-buffered: 
+      value: "#edd400"
+    memory-cached: 
+      value: "#3465a4"
+    memory-free: 
+      value: "#73d216"
+  cpu-0: 
+    cpu-idle: 
+      value: "#d3d7cf"
+    cpu-wait: 
+      value: "#edd400"
+    cpu-user: 
+      value: "#3465a4"
+  swap: 
+    swap-used: 
+      value: "#cc0000"
+    swap-free: 
+      value: "#73d216"
+    swap-cached: 
+      value: "#3465a4"
+  load: 
+    load: 
+      longterm: "#ef2929"
+      shortterm: "#73d216"
+      midterm: "#3465a4"
