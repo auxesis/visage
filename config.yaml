@@ -1,0 +1,5 @@
+--- 
+data_profiles: 
+  cpu+load: 
+  - load/load
+  - cpu-0/cpu-idle
