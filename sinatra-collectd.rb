@@ -17,6 +17,7 @@ set :views,  __DIR__ + '/views'
 configure do 
   @rrddir = "/var/lib/collectd/rrd"
   @config_filename = File.expand_path(File.join(__DIR__, 'config.yaml'))
+  CONFIG_FILENAME = @config_filename
 
   CollectdJSON.basedir = @rrddir
   CollectdProfile.config_filename = @config_filename
@@ -41,9 +42,12 @@ get '/:host/:profile' do
   @hosts = CollectdJSON.hosts
   @profile = CollectdProfile.get(params[:profile])
   
+  @config = YAML::load(File.read(CONFIG_FILENAME))
+  encoder = Yajl::Encoder.new
+  @colours = encoder.encode(@config['colours'])
+  
   haml :index
 end
-
 
 # JSON data backend
 get '/data/:host/:plugin/:plugin_instance' do 
