@@ -133,10 +133,7 @@ var collectdMultiGraph = new Class({
 		        }, this);
 
 						this.plugin_instances.set(plugin_instance, structuredDataSet);
-						$each(structuredDataSet, function(plugin_instance) { 
-								this.length = plugin_instance.get('data').length
-						}, this);
-						//this.length = structuredDataSet.value.get('data').length
+						this.length = structuredDataSet.value.get('data').length
 		           
 				}, this);
 
@@ -148,35 +145,52 @@ var collectdMultiGraph = new Class({
         y = []
         colours = []
 				this.plugin_instances.each(function(data, name) {
-						$each(structuredDataSet, function(plugin_instance) { 
-								y.include(plugin_instance.get('data'));
-								colours.include(plugin_instance.get('colour'));
-						}, this);
+        		y.include(data.value.get('data'));
+						colours.include(data.value.get('colour'));
 				})
         
 				this.canvas.g.txtattr.font = "11px 'sans-serif'";
-        this.canvas.g.linechart(this.options.leftEdge, this.options.topEdge, this.options.gridWidth, this.options.gridHeight, x, y, {
+        c = this.canvas.g.linechart(this.options.leftEdge, this.options.topEdge, this.options.gridWidth, this.options.gridHeight, x, y, {
             nostroke: false, shade: false, width: 1.5,
             axis: "0 0 1 1", axisxlabels: 'head', axisxstep: 10,
             colors: colours
         });
+
+				lines = c.items[1]
+				count = 0
+				this.plugin_instances.each(function(data, name) {
+						console.log(count);
+						data.set('line', lines[count])
+						count += 1
+				})
   
         this.buildLabels(this.plugin_instances)
 		},
-		buildLabels: function(plugin_instances) {
+		buildLabels: function(plugin_instances, lines) {
         plugin_instances.each(function(data, name) {
-						$each(data, function(plugin_instance) {
-								this.backgroundColour = plugin_instance.get('colour');
-						});
             container = new Element('div', {
                 'class': 'label plugin',
+								'events': {
+										'mouseover': function(e) {
+												e.stop();
+												var path = data.get('line');
+												path.animate({'stroke-width': 3}, 300);
+												//path.toFront();
+										},
+										'mouseout': function(e) {
+												e.stop();
+												var path = data.get('line');
+												path.animate({'stroke-width': 1.5}, 300);
+												//path.toBack();
+										}
+								}
             });
 
             box = new Element('span', {
                 'class': 'label plugin box ' + name,
                 'html': '&nbsp;',
                 'styles': { 
-                      'background-color': this.backgroundColour
+                      'background-color': data.value.get('colour')
                 }
             });
         
