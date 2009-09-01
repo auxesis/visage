@@ -215,3 +215,26 @@ var collectdMultiGraph = new Class({
     }
 
 });
+
+
+var visageGraph = new Class({
+	Extends: collectdSingleGraph,
+	graphData: function(data) {
+
+		this.colors = ["#3465a4", "#73d216"];
+		this.canvas.g.txtattr.font = "11px 'sans-serif'";
+		y = [[1,4,22,5,5,6,33,9,1,2],[4,4,3,3,2,2,6,6,8,9]];
+		x = [];
+		for (var i = 0; i < y[0].length; i++) {
+			x.push(i)
+		}
+
+		c = this.canvas.g.linechart(this.options.leftEdge, this.options.topEdge, this.options.gridWidth, this.options.gridHeight, x, y, {
+			nostroke: false, shade: false, width: 1.5,
+			axis: "0 0 1 1", axisxstep: x.length - 1,
+			colors: this.colors
+      });
+
+	}
+})
+
