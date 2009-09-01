@@ -1,9 +1,9 @@
-sinatra-collectd
-================
+visage
+======
 
-Web interface for viewing collectd stats. 
+Web interface for viewing `collectd` statistics. 
 
-Also provides JSON interface onto collectd's RRD data.
+Also provides JSON interface onto `collectd`'s RRD data.
 
 Installing
 ----------
@@ -34,10 +34,11 @@ Specific features:
 TODO
 ----
 
+ * create proper mootools class - DONE
+ * switch to g.raphael - DONE
+ * config file - DONE
+ * data profiles - DONE
  * nice scrollbars to specify start/end time. 
  * zoom + dynamic resize
  * axis labels
- * data profiles
- * config file
  * graph builder + profile creator
- * create proper mootools class
