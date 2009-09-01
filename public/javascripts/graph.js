@@ -16,8 +16,8 @@ var collectdSingleGraph = new Class({
     initialize: function(element, host, plugin, options) {
         this.element = element;
         this.setOptions(options);
-				this.options.host = host;
-				this.options.plugin = plugin;
+        this.options.host = host;
+        this.options.plugin = plugin;
         this.canvas = Raphael(element, this.options.width, this.options.height);
         this.getData(); // calls graphData
     },
@@ -78,7 +78,7 @@ var collectdSingleGraph = new Class({
         this.buildLabels(this.labels)
     },
     
-		buildLabels: function(labels) {
+    buildLabels: function(labels) {
         labels.each(function(label) {
             container = new Element('div', {
                 'class': 'label plugin',
@@ -107,10 +107,10 @@ var collectdSingleGraph = new Class({
 });
 
 var collectdMultiGraph = new Class({
-		Extends: collectdSingleGraph,
+    Extends: collectdSingleGraph,
     graphData: function(data) {
 
-				this.plugin_instances = new Hash()
+        this.plugin_instances = new Hash()
 
         $each(data[this.options.host][this.options.plugin], function(data, plugin_instance) {
 
@@ -120,70 +120,70 @@ var collectdMultiGraph = new Class({
             labels = stats.splice(0,1)[0];
             dataSet = stats.splice(0,1);
 
-		        structuredDataSet = new Hash()
-		        labels.each(function(label, index) {
-		            blob = new Hash()
-		            blob.set('data', dataSet[0].map(function(item) {
-		                return isNaN(item[index]) ? 0 : item[index]
-		            }));
-		            blob.set('min', Math.min.apply(Math, blob.get('data')));                              
-		            blob.set('max', Math.max.apply(Math, blob.get('data')));
-		            blob.set('colour', this.options.colours[this.options.plugin][plugin_instance][label]);
-		            structuredDataSet.set(label, blob);
-		        }, this);
+            structuredDataSet = new Hash()
+            labels.each(function(label, index) {
+                blob = new Hash()
+                blob.set('data', dataSet[0].map(function(item) {
+                    return isNaN(item[index]) ? 0 : item[index]
+                }));
+                blob.set('min', Math.min.apply(Math, blob.get('data')));                              
+                blob.set('max', Math.max.apply(Math, blob.get('data')));
+                blob.set('colour', this.options.colours[this.options.plugin][plugin_instance][label]);
+                structuredDataSet.set(label, blob);
+            }, this);
 
-						this.plugin_instances.set(plugin_instance, structuredDataSet);
-						this.length = structuredDataSet.value.get('data').length
-		           
-				}, this);
+            this.plugin_instances.set(plugin_instance, structuredDataSet);
+            this.length = structuredDataSet.value.get('data').length
+               
+        }, this);
 
-				var x = [];
+        var x = [];
         for (var i = 0; i < this.length; i++) {
             x[i] = i * this.options.gridWidth / this.length;
         }
 
         y = []
         colours = []
-				this.plugin_instances.each(function(data, name) {
-        		y.include(data.value.get('data'));
-						colours.include(data.value.get('colour'));
-				})
+        this.plugin_instances.each(function(data, name) {
+            y.include(data.value.get('data'));
+            colours.include(data.value.get('colour'));
+        })
         
-				this.canvas.g.txtattr.font = "11px 'sans-serif'";
+        this.canvas.g.txtattr.font = "11px 'sans-serif'";
         c = this.canvas.g.linechart(this.options.leftEdge, this.options.topEdge, this.options.gridWidth, this.options.gridHeight, x, y, {
             nostroke: false, shade: false, width: 1.5,
             axis: "0 0 1 1", axisxlabels: 'head', axisxstep: 10,
             colors: colours
         });
 
-				lines = c.items[1]
-				count = 0
-				this.plugin_instances.each(function(data, name) {
-						console.log(count);
-						data.set('line', lines[count])
-						count += 1
-				})
+        lines = c.items[1]
+        count = 0
+        this.plugin_instances.each(function(data, name) {
+            console.log(count);
+            data.set('line', lines[count])
+            count += 1
+        })
   
         this.buildLabels(this.plugin_instances)
-		},
-		buildLabels: function(plugin_instances, lines) {
+    },
+    buildLabels: function(plugin_instances, lines) {
         plugin_instances.each(function(data, name) {
             container = new Element('div', {
                 'class': 'label plugin',
-								'events': {
-										'mouseover': function(e) {
-												e.stop();
-												var path = data.get('line');
-												path.animate({'stroke-width': 3}, 300);
-												//path.toFront();
-										},
-										'mouseout': function(e) {
-												e.stop();
-												var path = data.get('line');
-												path.animate({'stroke-width': 1.5}, 300);
-												//path.toBack();
-										}
-								}
+                'events': {
+                    'mouseover': function(e) {
+                        e.stop();
+                        var path = data.get('line');
+                        path.animate({'stroke-width': 3}, 300);
+                        //path.toFront();
+                    },
+                    'mouseout': function(e) {
+                        e.stop();
+                        var path = data.get('line');
+                        path.animate({'stroke-width': 1.5}, 300);
+                        //path.toBack();
+                    }
+                }
             });
 
             box = new Element('span', {
