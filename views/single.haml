@@ -1,0 +1,17 @@
+%div#header
+  %h1 Visage
+
+%div
+  %h3 Graph
+  %div.labels.container
+  %div#graph.holder
+  :javascript
+    window.addEvent('domready', function() {
+      var graph = new visageGraph('graph', 'theodor', 'memory', {
+        width: 900,
+        height: 220,
+        gridWidth: 800,
+        gridHeight: 200,
+        colours: #{@colours}
+      });
+    });
