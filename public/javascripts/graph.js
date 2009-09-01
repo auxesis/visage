@@ -133,14 +133,18 @@ var collectdMultiGraph = new Class({
             }, this);
 
             this.plugin_instances.set(plugin_instance, structuredDataSet);
+						this.startTime = startTime;
+						this.endTime = endTime;
             this.length = structuredDataSet.value.get('data').length
                
         }, this);
 
         var x = [];
         for (var i = 0; i < this.length; i++) {
-            x[i] = i * this.options.gridWidth / this.length;
+            x[i] = i * (this.endTime - this.startTime) / this.length / 60;
         }
+
+				x.reverse();
 
         y = []
         colours = []
@@ -159,7 +163,6 @@ var collectdMultiGraph = new Class({
         lines = c.items[1]
         count = 0
         this.plugin_instances.each(function(data, name) {
-            console.log(count);
             data.set('line', lines[count])
             count += 1
         })
@@ -182,7 +185,12 @@ var collectdMultiGraph = new Class({
                         var path = data.get('line');
                         path.animate({'stroke-width': 1.5}, 300);
                         //path.toBack();
-                    }
+                    },
+										'click': function(e) {
+												e.stop();
+                        var path = data.get('line');
+												path.attr('opacity') == 0 ? path.animate({'opacity': 1}, 350) : path.animate({'opacity': 0}, 350);
+										}
                 }
             });
 
