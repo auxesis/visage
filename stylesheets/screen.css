@@ -1,0 +1,68 @@
+
+/* resets */
+body {
+  font-size: 62.5%;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+}
+
+a { 
+  text-decoration: none;
+}
+
+/* styles */
+
+a               { color: #3465a4; padding: 2px 0px; }
+a:hover         { color: white; background-color: #3465a4; }
+a:visited       { color: #75507b; }
+a:hover:visited { color: white; background-color: #75507b; }
+a:active        { color: white; background-color: #cc0000; }
+
+p {
+  margin: 0 0 1em;
+}
+
+li {
+  margin: 0.55em 0 0.55em 1em; 
+}
+
+body {
+  font-family: Bitstream Vera Serif, Baskerville, Garamond, serif;
+  font-size: 1.2em;
+}
+
+div#header, div.section {
+  margin: 1em 0.5em;
+}
+
+div#about {
+  margin: 1em 0.5em 0;
+}
+
+h1, h2, h3, h4, h4 {
+  font-family: Bitstream Vera Sans, Helvetica Neue, sans-serif;
+}
+
+h1 {
+  font-size: 4em;
+}
+
+h1 span.project-name {
+  padding: 0 0.1em 0.1em;
+  background-color: #4e9a06;
+  color: white;
+}
+
+div.section h2 {
+  margin-bottom: 0.2em;
+}
+
+div#footer {
+  font-size: 0.6em;
+  color: gray;
+  text-align: center;
+  margin-bottom: 2em;
+}
