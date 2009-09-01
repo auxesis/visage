@@ -15,11 +15,11 @@ set :public, __DIR__ + '/public'
 set :views,  __DIR__ + '/views'
 
 configure do 
-  @rrddir = "/var/lib/collectd/rrd"
+  RRDDIR = "/var/lib/collectd/rrd"
   @config_filename = File.expand_path(File.join(__DIR__, 'config.yaml'))
   CONFIG_FILENAME = @config_filename
 
-  CollectdJSON.basedir = @rrddir
+  CollectdJSON.basedir = RRDDIR
   CollectdProfile.config_filename = @config_filename
 end
 
@@ -50,8 +50,16 @@ get '/:host/:profile' do
 end
 
 # JSON data backend
+get '/data/:host/:plugin' do 
+  collectd = CollectdJSON.new(:basedir => RRDDIR)
+  collectd.json(:host => params[:host], 
+                :plugin => params[:plugin], 
+                :start => params[:start],
+                :end => params[:end])
+end
+
 get '/data/:host/:plugin/:plugin_instance' do 
-  collectd = CollectdJSON.new(:basedir => @rrddir)
+  collectd = CollectdJSON.new(:basedir => RRDDIR)
   collectd.json(:host => params[:host], 
                 :plugin => params[:plugin], 
                 :plugin_instance => params[:plugin_instance],
