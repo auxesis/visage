@@ -50,7 +50,7 @@ get '/:host/:profile' do
 end
 
 # JSON data backend
-get '/data/:host/:plugin' do 
+get '/data/:host/:plugin/' do 
   collectd = CollectdJSON.new(:basedir => RRDDIR)
   collectd.json(:host => params[:host], 
                 :plugin => params[:plugin], 
