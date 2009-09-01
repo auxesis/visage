@@ -1,17 +1,13 @@
 --- 
 data_profiles: 
   memory: 
-  - memory/memory-free
-  - memory/memory-buffered
-  - memory/memory-cached
-  - memory/memory-used
-  - swap/swap-cached
-  - swap/swap-free
-  - swap/swap-used
+  - memory
+  - swap
   cpu+load: 
+  - cpu-0
   - load/load
-  - cpu-0/cpu-idle
-  - cpu-0/cpu-wait
+  disk+usage:
+  - df/df-root
 colours: 
   memory: 
     memory-used: 
@@ -24,11 +20,21 @@ colours:
       value: "#73d216"
   cpu-0: 
     cpu-idle: 
-      value: "#d3d7cf"
+      value: "#eeeeec"
     cpu-wait: 
       value: "#edd400"
     cpu-user: 
       value: "#3465a4"
+    cpu-system: 
+      value: "#cc0000"
+    cpu-nice:
+      value: "#73d216"
+    cpu-softirq: 
+      value: "#ad7fa8"
+    cpu-interrupt:
+      value: "#5c3566"
+    cpu-steal:
+      value: "#2e3436"
   swap: 
     swap-used: 
       value: "#cc0000"
@@ -41,3 +47,26 @@ colours:
       longterm: "#ef2929"
       shortterm: "#73d216"
       midterm: "#3465a4"
+  df:
+    'df-root':
+       used: "#cc0000"
+       free: "#73d216"
+  'disk-sda':
+    disk_merged:
+       read: "#73d216"
+       write: "#cc0000"
+    disk_time:
+       read: "#73d216"
+       write: "#cc0000"
+    disk_ops:
+       read: "#73d216"
+       write: "#cc0000"
+    disk_octets:
+       read: "#73d216"
+       write: "#cc0000"
+
+
+
+
+
+
