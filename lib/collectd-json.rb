@@ -14,13 +14,40 @@ class CollectdJSON
     plugin          = opts[:plugin]
     plugin_instance = opts[:plugin_instance]
 
-    rrdname = "#{@basedir}/#{host}/#{plugin}/#{plugin_instance}.rrd"
-    rrd = RRDtool.new(rrdname)
+    if plugin_instance
+      rrdname = "#{@basedir}/#{host}/#{plugin}/#{plugin_instance}.rrd"
+      rrd = RRDtool.new(rrdname)
 
-    encode(opts.merge(:rrd => rrd))
+      encode_single(opts.merge(:rrd => rrd))
+    else
+      rrds = {}
+      rrdglob = "#{@basedir}/#{host}/#{plugin}/*.rrd"
+      Dir.glob(rrdglob).map do |rrdname|
+        rrds[File.basename(rrdname, '.rrd')] = RRDtool.new(rrdname)
+      end
+
+      encode_multiple(opts.merge(:rrds => rrds))
+    end
   end
 
-  def encode(opts={})
+  def encode_multiple(opts={})
+    opts[:start] ||= (Time.now - 3600).to_i
+    opts[:end]   ||= (Time.now).to_i
+    opts[:start].to_s.gsub!(/\.\d+$/,'')
+    opts[:end].to_s.gsub!(/\.\d+$/,'')
+
+    values = { opts[:host] => { opts[:plugin] => {} } }
+    
+    opts[:rrds].each_pair do |name, rrd|
+      plugin_instance = rrd.fetch(['AVERAGE', '--start', opts[:start], '--end', opts[:end]])
+      values[opts[:host]][opts[:plugin]].merge!({ name => plugin_instance })
+    end
+
+    encoder = Yajl::Encoder.new
+    encoder.encode(values)
+  end
+
+  def encode_single(opts={})
     opts[:start] ||= (Time.now - 3600).to_i
     opts[:end]   ||= (Time.now).to_i
     opts[:start].to_s.gsub!(/\.\d+$/,'')
