@@ -26,20 +26,32 @@
     - plugin, plugin_instance =  graph.split('/')
     - graph_id = "graph#{graph.gsub(/[^\w+]/, '_')}"
     %div{:id => graph_id}
+      %h3= plugin
       %div.labels.container
       %div.holder
-      :javascript
-        window.addEvent('domready', function() {
-          new collectdSingleGraph('#{graph_id}', {
-            width: 900,
-            height: 130,
-            gridWidth: 800,
-            gridHeight: 100,
-            host: '#{params[:host]}',
-            plugin: '#{plugin}', 
-            plugin_instance: '#{plugin_instance}', 
-            colours: #{@colours}});
-        });
+      - if plugin_instance
+        :javascript
+          window.addEvent('domready', function() {
+            var graph = new collectdSingleGraph('#{graph_id}', '#{params[:host]}', '#{plugin}', {
+              width: 900,
+              height: 220,
+              gridWidth: 800,
+              gridHeight: 200,
+              plugin_instance: '#{plugin_instance}',
+              colours: #{@colours}
+            });
+          });
+      - else
+        :javascript
+          window.addEvent('domready', function() {
+            var graph = new collectdMultiGraph('#{graph_id}', '#{params[:host]}', '#{plugin}', {
+              width: 900,
+              height: 220,
+              gridWidth: 800,
+              gridHeight: 200,
+              colours: #{@colours}
+            });
+          });
   
 - else
   %div#nothing
