@@ -133,7 +133,10 @@ var collectdMultiGraph = new Class({
 		        }, this);
 
 						this.plugin_instances.set(plugin_instance, structuredDataSet);
-						this.length = structuredDataSet.value.get('data').length
+						$each(structuredDataSet, function(plugin_instance) { 
+								this.length = plugin_instance.get('data').length
+						}, this);
+						//this.length = structuredDataSet.value.get('data').length
 		           
 				}, this);
 
@@ -145,8 +148,10 @@ var collectdMultiGraph = new Class({
         y = []
         colours = []
 				this.plugin_instances.each(function(data, name) {
-        		y.include(data.value.get('data'));
-						colours.include(data.value.get('colour'));
+						$each(structuredDataSet, function(plugin_instance) { 
+								y.include(plugin_instance.get('data'));
+								colours.include(plugin_instance.get('colour'));
+						}, this);
 				})
         
 				this.canvas.g.txtattr.font = "11px 'sans-serif'";
@@ -160,6 +165,9 @@ var collectdMultiGraph = new Class({
 		},
 		buildLabels: function(plugin_instances) {
         plugin_instances.each(function(data, name) {
+						$each(data, function(plugin_instance) {
+								this.backgroundColour = plugin_instance.get('colour');
+						});
             container = new Element('div', {
                 'class': 'label plugin',
             });
@@ -168,7 +176,7 @@ var collectdMultiGraph = new Class({
                 'class': 'label plugin box ' + name,
                 'html': '&nbsp;',
                 'styles': { 
-                      'background-color': data.value.get('colour')
+                      'background-color': this.backgroundColour
                 }
             });
         
