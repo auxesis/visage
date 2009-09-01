@@ -33,6 +33,13 @@ get '/' do
   haml :index
 end
 
+get '/single/:host' do 
+  @config = YAML::load(File.read(CONFIG_FILENAME))
+  encoder = Yajl::Encoder.new
+  @colours = encoder.encode(@config['colours'])
+  haml :single
+end
+
 get '/:host' do 
   @hosts = CollectdJSON.hosts
   haml :index
