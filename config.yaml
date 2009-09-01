@@ -1,13 +1,25 @@
 --- 
-data_profiles: 
+profiles: 
   memory: 
-  - memory
-  - swap
+    :plugins: 
+    - memory
+    - swap
+    :name: Memory
+  processes: 
+    :plugins: 
+    - processes
+    - processes-ruby
+    :name: Processes
   cpu+load: 
-  - cpu-0
-  - load/load
-  disk+usage:
-  - df/df-root
+    :plugins: 
+    - cpu-0
+    - load/load
+    :name: CPU + Load
+  disk+usage: 
+    :plugins: 
+    - df/df-root
+    - disk-sda
+    :name: Disk Usage
 colours: 
   memory: 
     memory-used: 
