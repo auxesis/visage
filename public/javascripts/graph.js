@@ -221,11 +221,19 @@ var visageGraph = new Class({
 	Extends: collectdSingleGraph,
 	graphData: function(data) {
 
+        pluginInstance = data[this.options.host][this.options.plugin]['load']
+        startTime = pluginInstance.splice(0,1)
+        endTime = pluginInstance.splice(0,1)
+        dataSources = pluginInstance.splice(0,1)
+        primaryDataPoints = pluginInstance.splice(0,1)
+
+
 		this.colors = ["#3465a4", "#73d216"];
 		this.canvas.g.txtattr.font = "11px 'sans-serif'";
-		y = [[1,4,22,5,5,6,33,9,1,2],[4,4,3,3,2,2,6,6,8,9]];
 		x = [];
-		for (var i = 0; i < y[0].length; i++) {
+        y = this.extractYAxes(dataSources, primaryDataPoints)
+		
+        for (var i = 0; i < y[0].length; i++) {
 			x.push(i)
 		}
 
@@ -235,6 +243,19 @@ var visageGraph = new Class({
 			colors: this.colors
       });
 
-	}
+	},
+    extractYAxes: function(dataSources, dataSets) {
+        y = []
+        dataSources[0].each(function(name, index) { y.push([]) });
+
+        dataSets[0].each(function(primaryDataPoints) {
+            primaryDataPoints.each(function(pdp, index) {
+                value = isNaN(pdp) ? 0 : pdp
+                y[index].push(value)
+            });
+        });
+
+        return y
+    }
 })
 
