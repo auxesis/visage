@@ -219,9 +219,12 @@ var collectdMultiGraph = new Class({
 
 var visageGraph = new Class({
 	Extends: collectdSingleGraph,
+    // assemble data to graph, then draw it
 	graphData: function(data) {
 
         this.y = []
+        this.colours = []
+
         $each(data[this.options.host][this.options.plugin], function(pluginInstance, pluginIndex) {
             startTime = pluginInstance.splice(0,1)
 	        endTime = pluginInstance.splice(0,1)
@@ -248,13 +251,14 @@ var visageGraph = new Class({
       });
 
 	},
+    // separates the datasets into separate y-axes, suitable for passing to g.raphael 
     extractYAxes: function(dataSources, dataSets) {
         y = []
         dataSources[0].length.times(function() { y.push([]) });
-        //dataSources[0].each(function(name, index) { y.push([]) });
 
         dataSets[0].each(function(primaryDataPoints) {
             primaryDataPoints.each(function(pdp, index) {
+                // the last few pdps tend to be NaNs. normalise
                 value = isNaN(pdp) ? 0 : pdp
                 y[index].push(value)
             });
