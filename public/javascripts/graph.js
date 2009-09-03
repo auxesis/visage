@@ -229,7 +229,7 @@ var visageGraph = new Class({
 	        dataPoints = pluginInstance.splice(0,1)
 
             axes = this.extractYAxes(dataSources, dataPoints)
-            this.y.push(axes[0])
+            axes.each(function(axis) { this.y.push(axis) }, this);
         }, this);
 
 		this.colors = ["#3465a4", "#73d216"];
