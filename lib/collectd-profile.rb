@@ -20,7 +20,7 @@ class CollectdProfile
       id.gsub!(/\s+/, '+')
       if @config_filename && File.exists?(@config_filename)
         config = YAML::load(File.read(@config_filename))
-        CollectdProfile.new(:profile => config['data_profiles'][id])
+        CollectdProfile.new(:profile => config['profiles'][id])
       end
     end
 
