@@ -221,23 +221,26 @@ var visageGraph = new Class({
 	Extends: collectdSingleGraph,
 	graphData: function(data) {
 
-        pluginInstance = data[this.options.host][this.options.plugin]['load']
-        startTime = pluginInstance.splice(0,1)
-        endTime = pluginInstance.splice(0,1)
-        dataSources = pluginInstance.splice(0,1)
-        primaryDataPoints = pluginInstance.splice(0,1)
+        this.y = []
+        $each(data[this.options.host][this.options.plugin], function(pluginInstance, pluginIndex) {
+            startTime = pluginInstance.splice(0,1)
+	        endTime = pluginInstance.splice(0,1)
+	        dataSources = pluginInstance.splice(0,1)
+	        dataPoints = pluginInstance.splice(0,1)
 
+            axes = this.extractYAxes(dataSources, dataPoints)
+            this.y.push(axes[0])
+        }, this);
 
 		this.colors = ["#3465a4", "#73d216"];
 		this.canvas.g.txtattr.font = "11px 'sans-serif'";
+
 		x = [];
-        y = this.extractYAxes(dataSources, primaryDataPoints)
-		
-        for (var i = 0; i < y[0].length; i++) {
+        for (var i = 0; i < this.y[0].length; i++) {
 			x.push(i)
 		}
 
-		c = this.canvas.g.linechart(this.options.leftEdge, this.options.topEdge, this.options.gridWidth, this.options.gridHeight, x, y, {
+		c = this.canvas.g.linechart(this.options.leftEdge, this.options.topEdge, this.options.gridWidth, this.options.gridHeight, x, this.y, {
 			nostroke: false, shade: false, width: 1.5,
 			axis: "0 0 1 1", axisxstep: x.length - 1,
 			colors: this.colors
@@ -246,7 +249,8 @@ var visageGraph = new Class({
 	},
     extractYAxes: function(dataSources, dataSets) {
         y = []
-        dataSources[0].each(function(name, index) { y.push([]) });
+        dataSources[0].length.times(function() { y.push([]) });
+        //dataSources[0].each(function(name, index) { y.push([]) });
 
         dataSets[0].each(function(primaryDataPoints) {
             primaryDataPoints.each(function(pdp, index) {
