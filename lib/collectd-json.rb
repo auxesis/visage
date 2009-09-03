@@ -13,6 +13,7 @@ class CollectdJSON
     host            = opts[:host]
     plugin          = opts[:plugin]
     plugin_instance = opts[:plugin_instance]
+    @colors         = opts[:colors]
 
     if plugin_instance
       rrdname = "#{@basedir}/#{host}/#{plugin}/#{plugin_instance}.rrd"
@@ -37,9 +38,10 @@ class CollectdJSON
     opts[:end].to_s.gsub!(/\.\d+$/,'')
 
     values = { opts[:host] => { opts[:plugin] => {} } }
-    
+   
     opts[:rrds].each_pair do |name, rrd|
       plugin_instance = rrd.fetch(['AVERAGE', '--start', opts[:start], '--end', opts[:end]])
+      plugin_instance << get_color(:host => opts[:host], :plugin => opts[:plugin], :plugin_instance => name)
       values[opts[:host]][opts[:plugin]].merge!({ name => plugin_instance })
     end
 
@@ -63,6 +65,14 @@ class CollectdJSON
     
     encoder = Yajl::Encoder.new
     encoder.encode(values)
+  end
+
+  def get_color(opts={})
+    if opts[:host] && opts[:plugin] && opts[:plugin_instance]
+      (color = @colors[opts[:plugin]][opts[:plugin_instance]]) ? color : "#000"
+    else
+      "#000"
+    end
   end
 
   class << self

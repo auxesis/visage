@@ -34,14 +34,12 @@ get '/' do
 end
 
 get '/single/:host' do 
-  @config = YAML::load(File.read(CONFIG_FILENAME))
-  encoder = Yajl::Encoder.new
-  @colours = encoder.encode(@config['colours'])
   haml :single
 end
 
 get '/:host' do 
   @hosts = CollectdJSON.hosts
+
   haml :index
 end
 
@@ -49,29 +47,31 @@ get '/:host/:profile' do
   @hosts = CollectdJSON.hosts
   @profile = CollectdProfile.get(params[:profile])
   
-  @config = YAML::load(File.read(CONFIG_FILENAME))
-  encoder = Yajl::Encoder.new
-  @colours = encoder.encode(@config['colours'])
-  
   haml :index
 end
 
 # JSON data backend
 get '/data/:host/:plugin/' do 
+  config = YAML::load(File.read(CONFIG_FILENAME))
+
   collectd = CollectdJSON.new(:basedir => RRDDIR)
   collectd.json(:host => params[:host], 
                 :plugin => params[:plugin], 
                 :start => params[:start],
-                :end => params[:end])
+                :end => params[:end],
+                :colors => config['colors'])
 end
 
 get '/data/:host/:plugin/:plugin_instance' do 
+  config = YAML::load(File.read(CONFIG_FILENAME))
+
   collectd = CollectdJSON.new(:basedir => RRDDIR)
   collectd.json(:host => params[:host], 
                 :plugin => params[:plugin], 
                 :plugin_instance => params[:plugin_instance],
                 :start => params[:start],
-                :end => params[:end])
+                :end => params[:end],
+                :colors => config['colors'])
 end
 
 get '/data/:host/:profile' do 
