@@ -1,9 +1,10 @@
 visage
 ======
 
-Web interface for viewing `collectd` statistics. 
+Visage is a web interface for viewing `collectd` statistics.
 
-Also provides JSON interface onto `collectd`'s RRD data.
+It also provides a JSON interface onto `collectd`'s RRD data. giving you an easy
+way to mash up the data.
 
 Installing
 ----------
