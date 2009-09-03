@@ -20,7 +20,7 @@ profiles:
     - df/df-root
     - disk-sda
     :name: Disk Usage
-colours: 
+colors: 
   memory: 
     memory-used: 
       value: "#cc0000"
