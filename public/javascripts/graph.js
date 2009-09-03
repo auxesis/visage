@@ -226,9 +226,10 @@ var visageGraph = new Class({
             startTime = pluginInstance.splice(0,1)
 	        endTime = pluginInstance.splice(0,1)
 	        dataSources = pluginInstance.splice(0,1)
-	        dataPoints = pluginInstance.splice(0,1)
+	        dataSets = pluginInstance.splice(0,1)
 
-            axes = this.extractYAxes(dataSources, dataPoints)
+            axes = this.extractYAxes(dataSources, dataSets)
+            // sometimes we have multiple datapoints in a dataset (eg load/load)
             axes.each(function(axis) { this.y.push(axis) }, this);
         }, this);
 
