@@ -78,3 +78,8 @@ span.label.plugin.box {
   margin-right: 0.5em;
 }
 
+
+/* single */
+div#single {
+  clear: both;
+}
