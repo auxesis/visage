@@ -1,6 +1,6 @@
 basedir = File.expand_path(File.join(File.dirname(__FILE__), '..', '..'))
 gemdir = File.join(basedir, 'gems')
-app_file = File.join(basedir, 'sinatra-collectd')
+app_file = File.join(basedir, 'visage')
 
 require 'rubygems'
 Gem.clear_paths
