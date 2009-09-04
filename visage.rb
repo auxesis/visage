@@ -56,6 +56,7 @@ get '/data/:host/:plugin' do
                        :start => params[:start],
                        :end => params[:end],
                        :colors => config['colors'])
+  # if the request is cross-domain, we need to serve JSONP
   maybe_wrap_with_callback(json)
 end
 
