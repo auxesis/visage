@@ -21,38 +21,24 @@
         %a{:href => "/#{host}/processes"} Processes
 
 
-- if @profile && @profile.graphs
-  - @profile.graphs.each do |graph|
+- if @profile && @profile.plugins
+  - @profile.plugins.each do |graph|
     - plugin, plugin_instance =  graph.split('/')
     - graph_id = "graph#{graph.gsub(/[^\w+]/, '_')}"
     %div{:id => graph_id}
       %h3= plugin
       %div.labels.container
       %div.holder
-      - if plugin_instance
-        :javascript
-          window.addEvent('domready', function() {
-            var graph = new collectdSingleGraph('#{graph_id}', '#{params[:host]}', '#{plugin}', {
-              width: 900,
-              height: 220,
-              gridWidth: 800,
-              gridHeight: 200,
-              plugin_instance: '#{plugin_instance}',
-              colours: #{@colours}
-            });
+      :javascript
+        window.addEvent('domready', function() {
+          var graph = new visageGraph('#{graph_id}', '#{params[:host]}', '#{plugin}', {
+            width: 900,
+            height: 220,
+            gridWidth: 800,
+            gridHeight: 200
           });
-      - else
-        :javascript
-          window.addEvent('domready', function() {
-            var graph = new collectdMultiGraph('#{graph_id}', '#{params[:host]}', '#{plugin}', {
-              width: 900,
-              height: 220,
-              gridWidth: 800,
-              gridHeight: 200,
-              colours: #{@colours}
-            });
-          });
-  
+        });
+
 - else
   %div#nothing
     Sorry, nothing to display!
