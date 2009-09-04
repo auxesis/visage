@@ -39,6 +39,10 @@ var visageBase = new Class({
         if ($defined(this.options.plugin_instance)) {
             url.push(this.options.plugin_instance)
         }
+        // if no url is specified
+        if (!url[0].match(/http\:\/\//)) {
+            url[0] = '/' + url[0]
+        }
         console.log(url)
         return url.join('/')
     },
