@@ -51,22 +51,32 @@ get '/data/:host/:plugin' do
   config = YAML::load(File.read(CONFIG_FILENAME))
 
   collectd = CollectdJSON.new(:basedir => RRDDIR)
-  collectd.json(:host => params[:host], 
-                :plugin => params[:plugin], 
-                :start => params[:start],
-                :end => params[:end],
-                :colors => config['colors'])
+  json = collectd.json(:host => params[:host], 
+                       :plugin => params[:plugin], 
+                       :start => params[:start],
+                       :end => params[:end],
+                       :colors => config['colors'])
+  if params[:callback]
+    params[:callback] + '(' + json + ')'
+  else
+    json
+  end
 end
 
 get '/data/:host/:plugin/:plugin_instance' do 
   config = YAML::load(File.read(CONFIG_FILENAME))
 
   collectd = CollectdJSON.new(:basedir => RRDDIR)
-  collectd.json(:host => params[:host], 
-                :plugin => params[:plugin], 
-                :plugin_instance => params[:plugin_instance],
-                :start => params[:start],
-                :end => params[:end],
-                :colors => config['colors'])
+  json = collectd.json(:host => params[:host], 
+                       :plugin => params[:plugin], 
+                       :plugin_instance => params[:plugin_instance],
+                       :start => params[:start],
+                       :end => params[:end],
+                       :colors => config['colors'])
+  if params[:callback]
+    params[:callback] + '(' + json + ')'
+  else
+    json
+  end
 end
 
