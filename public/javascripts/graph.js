@@ -231,21 +231,22 @@ var visageGraph = new Class({
 	        dataSources = pluginInstance.splice(0,1)
 	        dataSets = pluginInstance.splice(0,1)
 
-            // color names are not consistent - extract them
+            // color names are not structured consistently - extract them
             colors = pluginInstance.splice(0,1)
-            $each(colors[0], function(color) { this.colors.push(color); }, this);
+            this.populateColors(colors);
 
             axes = this.extractYAxes(dataSources, dataSets)
             // sometimes we have multiple datapoints in a dataset (eg load/load)
             axes.each(function(axis) { this.y.push(axis) }, this);
         }, this);
-
+      
 		this.canvas.g.txtattr.font = "11px 'sans-serif'";
 
 		x = [];
         for (var i = 0; i < this.y[0].length; i++) {
 			x.push(i)
 		}
+
 
 		c = this.canvas.g.linechart(this.options.leftEdge, this.options.topEdge, this.options.gridWidth, this.options.gridHeight, x, this.y, {
 			nostroke: false, shade: false, width: 1.5,
@@ -254,6 +255,23 @@ var visageGraph = new Class({
       });
 
 	},
+    populateColors: function(nestedColors) {
+	        switch($type(nestedColors)) {
+	            case 'array':
+	                nestedColors.each(function(c) {
+	                    this.populateColors(c);
+	                }, this);
+	                break
+	            case 'string':
+	                this.colors.push(nestedColors);
+	                break
+	            default: 
+                    $each(nestedColors, function(c) {
+                        this.populateColors(c)
+                    }, this);
+	        }
+    },
+
     // separates the datasets into separate y-axes, suitable for passing to g.raphael 
     extractYAxes: function(dataSources, dataSets) {
         y = []
