@@ -7,11 +7,37 @@
   %div#graph.holder
   :javascript
     window.addEvent('domready', function() {
-      var graph = new visageGraph('graph', 'theodor', 'memory', {
+      var graph = new visageGraph('graph', 'theodor', 'cpu-0', {
         width: 900,
         height: 220,
         gridWidth: 800,
-        gridHeight: 200,
-        colours: #{@colours}
+        gridHeight: 200
       });
     });
+
+  %h3 Load
+  %div.labels.container
+  %div#graph-load.holder
+  :javascript
+    window.addEvent('domready', function() {
+      var graph = new visageGraph('graph-load', 'theodor', 'load', {
+        width: 900,
+        height: 220,
+        gridWidth: 800,
+        gridHeight: 200
+      });
+    });
+
+  %h3 Memory
+  %div.labels.container
+  %div#graph-memory.holder
+  :javascript
+    window.addEvent('domready', function() {
+      var graph = new visageGraph('graph-memory', 'theodor', 'memory', {
+        width: 900,
+        height: 220,
+        gridWidth: 800,
+        gridHeight: 200
+      });
+    });
+
