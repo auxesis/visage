@@ -2,23 +2,23 @@
 profiles: 
   memory: 
     :plugins: 
-    - memory
-    - swap
+      - memory
+      - swap
     :name: Memory
   processes: 
     :plugins: 
-    - processes
-    - processes-ruby
+      - processes
+      - processes-ruby
     :name: Processes
   cpu+load: 
     :plugins: 
-    - cpu-0
-    - load/load
+      - cpu-0
+      - load/load
     :name: CPU + Load
   disk+usage: 
     :plugins: 
-    - df/df-root
-    - disk-sda
+      - df/df-root
+      - disk-sda
     :name: Disk Usage
 colors: 
   memory: 
