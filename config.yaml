@@ -7,8 +7,8 @@ profiles:
     :name: Memory
   processes: 
     :plugins: 
-      - processes
-      - processes-ruby
+      - processes/ps_state-running
+      - processes/ps_state-sleeping
     :name: Processes
   cpu+load: 
     :plugins: 
