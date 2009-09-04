@@ -39,8 +39,8 @@ TODO
  * switch to g.raphael - DONE
  * config file - DONE
  * data profiles - DONE
- * handle single plugin instance in graphing code
- * specify data url in graphing code
+ * handle single plugin instance in graphing code - DONE
+ * specify data url in graphing code - DONE
  * nice scrollbars to specify start/end time. 
  * axis labels
  * combine graphs from different hosts
