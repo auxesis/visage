@@ -1,15 +1,12 @@
-%div#header
-  %h1 Visage
-
 %div#nav
-  %div#hosts
+  %div#hosts.nav
     %h2 Hosts
     - @hosts.each do |host|
       %li
         %a{:href => "/#{host}"}= host
   
   - if host = params[:host]
-    %div#stats
+    %div#profiles.nav
       %h2 Profiles
       %li
         %a{:href => "/#{host}/cpu+load"} CPU + load
@@ -20,26 +17,26 @@
       %li 
         %a{:href => "/#{host}/processes"} Processes
 
-
-- if @profile && @profile.plugins
-  - @profile.plugins.each do |graph|
-    - plugin, plugin_instance =  graph.split('/')
-    - graph_id = "graph#{graph.gsub(/[^\w+]/, '_')}"
-    %div{:id => graph_id}
-      %h3= plugin
-      %div.labels.container
-      %div.holder
-      :javascript
-        window.addEvent('domready', function() {
-          var graph = new visageGraph('#{graph_id}', '#{params[:host]}', '#{plugin}', {
-            width: 900,
-            height: 220,
-            gridWidth: 800,
-            gridHeight: 200
+%div#graphs
+  - if @profile && @profile.plugins
+    - @profile.plugins.each do |graph|
+      - plugin, plugin_instance =  graph.split('/')
+      - graph_id = "graph#{graph.gsub(/[^\w+]/, '_')}"
+      %div.graph
+        %h3.graph-title= plugin
+        %div.labels.container
+        %div{:id => graph_id, :class => 'holder'}
+        :javascript
+          window.addEvent('domready', function() {
+            var graph = new visageGraph('#{graph_id}', '#{params[:host]}', '#{plugin}', {
+              width: 900,
+              height: 220,
+              gridWidth: 800,
+              gridHeight: 200
+            });
           });
-        });
-
-- else
-  %div#nothing
-    Sorry, nothing to display!
+  
+  - else
+    %div#nothing
+      Sorry, nothing to display!
   

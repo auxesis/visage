@@ -2,7 +2,7 @@
 %html
   %head
     %title Visage
-    %link{:rel => 'stylesheet', :href => '/stylesheets/stylesheet.css', :type => 'text/css'}
+    %link{:rel => 'stylesheet', :href => '/stylesheets/screen.css', :type => 'text/css'}
     %script{:type => "text/javascript", :src => "/javascripts/raphael-min.js"}
     %script{:type => "text/javascript", :src => "/javascripts/g.raphael.js"}
     %script{:type => "text/javascript", :src => "/javascripts/g.line.js"}
@@ -11,6 +11,10 @@
     %script{:type => "text/javascript", :src => "/javascripts/application.js"}
 
   %body
-    %div#content
-      = yield
+    %div#wrapper
+      %div#header
+        %h1.project
+          %span.project-name Visage
+      %div#content
+        = yield
 
