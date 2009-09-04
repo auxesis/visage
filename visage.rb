@@ -56,11 +56,7 @@ get '/data/:host/:plugin' do
                        :start => params[:start],
                        :end => params[:end],
                        :colors => config['colors'])
-  if params[:callback]
-    params[:callback] + '(' + json + ')'
-  else
-    json
-  end
+  maybe_wrap_with_callback(json)
 end
 
 get '/data/:host/:plugin/:plugin_instance' do 
@@ -73,10 +69,13 @@ get '/data/:host/:plugin/:plugin_instance' do
                        :start => params[:start],
                        :end => params[:end],
                        :colors => config['colors'])
+  maybe_wrap_with_callback(json)
+end
+
+def maybe_wrap_with_callback(json)
   if params[:callback]
     params[:callback] + '(' + json + ')'
   else
     json
   end
 end
-
