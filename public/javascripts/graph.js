@@ -223,7 +223,7 @@ var visageGraph = new Class({
 	graphData: function(data) {
 
         this.y = []
-        this.colours = []
+        this.colors = []
 
         $each(data[this.options.host][this.options.plugin], function(pluginInstance, pluginIndex) {
             startTime = pluginInstance.splice(0,1)
@@ -231,12 +231,15 @@ var visageGraph = new Class({
 	        dataSources = pluginInstance.splice(0,1)
 	        dataSets = pluginInstance.splice(0,1)
 
+            // color names are not consistent - extract them
+            colors = pluginInstance.splice(0,1)
+            $each(colors[0], function(color) { this.colors.push(color); }, this);
+
             axes = this.extractYAxes(dataSources, dataSets)
             // sometimes we have multiple datapoints in a dataset (eg load/load)
             axes.each(function(axis) { this.y.push(axis) }, this);
         }, this);
 
-		this.colors = ["#3465a4", "#73d216"];
 		this.canvas.g.txtattr.font = "11px 'sans-serif'";
 
 		x = [];
