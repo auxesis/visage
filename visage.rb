@@ -33,10 +33,6 @@ get '/' do
   haml :index
 end
 
-get '/single/:host' do 
-  haml :single
-end
-
 get '/:host' do 
   @hosts = CollectdJSON.hosts
 
@@ -72,9 +68,5 @@ get '/data/:host/:plugin/:plugin_instance' do
                 :start => params[:start],
                 :end => params[:end],
                 :colors => config['colors'])
-end
-
-get '/data/:host/:profile' do 
-  profile = CollectdProfile.get(params[:profile])
 end
 
