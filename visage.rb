@@ -47,7 +47,7 @@ get '/:host/:profile' do
 end
 
 # JSON data backend
-get '/data/:host/:plugin/' do 
+get '/data/:host/:plugin' do 
   config = YAML::load(File.read(CONFIG_FILENAME))
 
   collectd = CollectdJSON.new(:basedir => RRDDIR)
