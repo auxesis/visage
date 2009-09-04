@@ -7,18 +7,18 @@
  */
 var visageBase = new Class({
     Implements: [Options, Events],
-        options: {
-            width: 900,
-            height: 220,
-            leftEdge: 100,
-            topEdge: 10,
-            gridWidth: 670,
-            gridHeight: 200,
-            columns: 60,
-            rows: 8,
-            topGutter: 50,
-            gridBorderColour: '#ccc',
-            secureJSON: false
+    options: {
+        width: 900,
+        height: 220,
+        leftEdge: 100,
+        topEdge: 10,
+        gridWidth: 670,
+        gridHeight: 200,
+        columns: 60,
+        rows: 8,
+        topGutter: 50,
+        gridBorderColour: '#ccc',
+        secureJSON: false
     },
     initialize: function(element, host, plugin, options) {
         this.element = element;
@@ -28,9 +28,12 @@ var visageBase = new Class({
         this.canvas = Raphael(element, this.options.width, this.options.height);
         this.getData(); // calls graphData
     },
+    dataURL: function() {
+        return ['/data', this.options.host, this.options.plugin, this.options.plugin_instance].join('/')
+    },
     getData: function() {
         this.request = new Request.JSON({
-            url: ['/data', this.options.host, this.options.plugin, this.options.plugin_instance].join('/'),
+            url: this.dataURL(),
             secure: this.options.secureJSON,
             onComplete: function(json) {
                 this.graphData(json);
