@@ -77,8 +77,8 @@ var collectdMultiGraph = new Class({
             }, this);
 
             this.plugin_instances.set(plugin_instance, structuredDataSet);
-						this.startTime = startTime;
-						this.endTime = endTime;
+                        this.startTime = startTime;
+                        this.endTime = endTime;
             this.length = structuredDataSet.value.get('data').length
                
         }, this);
@@ -88,7 +88,7 @@ var collectdMultiGraph = new Class({
             x[i] = i * (this.endTime - this.startTime) / this.length / 60;
         }
 
-				x.reverse();
+                x.reverse();
 
         y = []
         colours = []
@@ -130,11 +130,11 @@ var collectdMultiGraph = new Class({
                         path.animate({'stroke-width': 1.5}, 300);
                         //path.toBack();
                     },
-										'click': function(e) {
-												e.stop();
+                                        'click': function(e) {
+                                                e.stop();
                         var path = data.get('line');
-												path.attr('opacity') == 0 ? path.animate({'opacity': 1}, 350) : path.animate({'opacity': 0}, 350);
-										}
+                                                path.attr('opacity') == 0 ? path.animate({'opacity': 1}, 350) : path.animate({'opacity': 0}, 350);
+                                        }
                 }
             });
 
@@ -170,9 +170,9 @@ var collectdMultiGraph = new Class({
  *
  */
 var visageGraph = new Class({
-	Extends: visageBase,
+    Extends: visageBase,
     // assemble data to graph, then draw it
-	graphData: function(data) {
+    graphData: function(data) {
 
         this.y = []
         this.colors = []
@@ -180,9 +180,9 @@ var visageGraph = new Class({
 
         $each(data[this.options.host][this.options.plugin], function(pluginInstance, pluginInstanceName) {
             startTime = pluginInstance.splice(0,1)
-	        endTime = pluginInstance.splice(0,1)
-	        dataSources = pluginInstance.splice(0,1)
-	        dataSets = pluginInstance.splice(0,1)
+            endTime = pluginInstance.splice(0,1)
+            dataSources = pluginInstance.splice(0,1)
+            dataSets = pluginInstance.splice(0,1)
         
             this.pluginInstanceNames.push(pluginInstanceName)
 
@@ -195,39 +195,39 @@ var visageGraph = new Class({
             axes.each(function(axis) { this.y.push(axis) }, this);
         }, this);
       
-		this.canvas.g.txtattr.font = "11px 'sans-serif'";
+        this.canvas.g.txtattr.font = "11px 'sans-serif'";
 
-		x = [];
+        x = [];
         for (var i = 0; i < this.y[0].length; i++) {
-			x.push(i)
-		}
+            x.push(i)
+        }
 
-		this.graph = this.canvas.g.linechart(this.options.leftEdge, this.options.topEdge, this.options.gridWidth, this.options.gridHeight, x, this.y, {
-			                nostroke: false, 
+        this.graph = this.canvas.g.linechart(this.options.leftEdge, this.options.topEdge, this.options.gridWidth, this.options.gridHeight, x, this.y, {
+                            nostroke: false, 
                             shade: false, 
                             width: 1.5,
-                			axis: "0 0 1 1", 
-                			colors: this.colors, 
+                            axis: "0 0 1 1", 
+                            colors: this.colors, 
                             axisxstep: x.length / 20
         });
 
-	},
+    },
     /* recurse through colours data structure and generate a list of colours */
     populateColors: function(nestedColors) {
-	        switch($type(nestedColors)) {
-	            case 'array':
-	                nestedColors.each(function(c) {
-	                    this.populateColors(c);
-	                }, this);
-	                break
-	            case 'string':
-	                this.colors.push(nestedColors);
-	                break
-	            default: 
+            switch($type(nestedColors)) {
+                case 'array':
+                    nestedColors.each(function(c) {
+                        this.populateColors(c);
+                    }, this);
+                    break
+                case 'string':
+                    this.colors.push(nestedColors);
+                    break
+                default: 
                     $each(nestedColors, function(c) {
                         this.populateColors(c)
                     }, this);
-	        }
+            }
     },
     // separates the datasets into separate y-axes, suitable for passing to g.raphael 
     extractYAxes: function(dataSources, dataSets) {
