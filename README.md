@@ -39,7 +39,11 @@ TODO
  * switch to g.raphael - DONE
  * config file - DONE
  * data profiles - DONE
+ * handle single plugin instance in graphing code
+ * specify data url in graphing code
  * nice scrollbars to specify start/end time. 
- * zoom + dynamic resize
  * axis labels
- * graph builder + profile creator
+ * combine graphs from different hosts
+ * zoom + dynamic resize
+ * comment on time periods
+ * view list of comments
