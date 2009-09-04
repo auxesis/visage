@@ -1,4 +1,11 @@
-var collectdSingleGraph = new Class({
+/* 
+ * visageBase()
+ *
+ * Base class for fetching data and setting graph options.
+ * Should be used by other classes to build specialised graphing behaviour. 
+ *
+ */
+var visageBase = new Class({
     Implements: [Options, Events],
         options: {
             width: 900,
@@ -35,79 +42,16 @@ var collectdSingleGraph = new Class({
 
         this.request.get();
     },
-    graphData: function(data) {
-        this.stats = data[this.options.host][this.options.plugin][this.options.plugin_instance];
-        this.startTime = this.stats.splice(0,1);
-        this.endTime = this.stats.splice(0,1);
-        this.labels = this.stats.splice(0,1)[0];
-        this.dataSet = this.stats.splice(0,1);
-
-        this.structuredDataSet = new Hash()
-        this.labels.each(function(label, index) {
-            blob = new Hash()
-            blob.set('data', this.dataSet[0].map(function(item) {
-                return isNaN(item[index]) ? 0 : item[index]
-            }));
-            blob.set('min', Math.min.apply(Math, blob.get('data')));                              
-            blob.set('max', Math.max.apply(Math, blob.get('data')));                              
-            blob.set('colour', this.options.colours[this.options.plugin][this.options.plugin_instance][label]);
-            this.structuredDataSet.set(label, blob);
-        }, this);
-           
-        length = this.structuredDataSet.get(this.labels[0]).get('data').length
-  
-        var x = [];
-        for (var i = 0; i < length; i++) {
-            x[i] = i * this.options.gridWidth / length;
-        }
-  
-        y = []
-        colours = []
-        this.structuredDataSet.each(function(value, key) { 
-            y.include(value.get('data'));  
-            colours.include(value.get('colour'));
-        });
-  
-        this.canvas.g.txtattr.font = "11px 'sans-serif'";
-        this.canvas.g.linechart(this.options.leftEdge, this.options.topEdge, this.options.gridWidth, this.options.gridHeight, x, y, {
-            nostroke: false, shade: false, width: 1.5,
-            axis: "0 0 1 1", axisxlabels: 'head', axisxstep: 10,
-            colors: colours
-        });
-  
-        this.buildLabels(this.labels)
-    },
-    
-    buildLabels: function(labels) {
-        labels.each(function(label) {
-            container = new Element('div', {
-                'class': 'label plugin',
-            });
-
-            box = new Element('span', {
-                'class': 'label plugin box ' + label,
-                'html': '&nbsp;',
-                'styles': { 
-                      'background-color': this.options.colours[this.options.plugin][this.options.plugin_instance][label]
-                }
-            });
-        
-            desc = new Element('span', {
-                'class': 'label plugin description ' + label,
-                'html': label
-            });
-        
-            container.grab(box);
-            container.grab(desc);
-            $(this.element).getChildren('div.labels')[0].grab(container);
-
-        },this);    
-    }
-
 });
 
+/* 
+ * collectdMultiGraph()
+ *
+ * Original graph implementation. Superseded by visageGraph().
+ *
+ */
 var collectdMultiGraph = new Class({
-    Extends: collectdSingleGraph,
+    Extends: visageBase,
     graphData: function(data) {
 
         this.plugin_instances = new Hash()
@@ -216,9 +160,17 @@ var collectdMultiGraph = new Class({
 
 });
 
-
+/* 
+ * visageGraph()
+ *
+ * General purpose graph for rendering data from a single plugin
+ * with multiple plugin instances.
+ *
+ * Builds upon visageBase().
+ *
+ */
 var visageGraph = new Class({
-	Extends: collectdSingleGraph,
+	Extends: visageBase,
     // assemble data to graph, then draw it
 	graphData: function(data) {
 
@@ -254,6 +206,7 @@ var visageGraph = new Class({
       });
 
 	},
+    /* recurse through colours data structure and generate a list of colours */
     populateColors: function(nestedColors) {
 	        switch($type(nestedColors)) {
 	            case 'array':
@@ -270,7 +223,6 @@ var visageGraph = new Class({
                     }, this);
 	        }
     },
-
     // separates the datasets into separate y-axes, suitable for passing to g.raphael 
     extractYAxes: function(dataSources, dataSets) {
         y = []
