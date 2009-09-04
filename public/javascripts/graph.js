@@ -47,7 +47,7 @@ var visageBase = new Class({
         return url.join('/')
     },
     getData: function() {
-        this.request = new Request.JSON({
+        this.request = new Request.JSONP({
             url: this.dataURL(),
             secure: this.options.secureJSON,
             method: this.options.httpMethod,
@@ -59,7 +59,7 @@ var visageBase = new Class({
             }.bind(this)
         });
 
-        this.request.get();
+        this.request.send();
     },
 });
 
