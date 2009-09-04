@@ -8,8 +8,8 @@ class CollectdProfile
     @profile = opts[:profile]
   end
 
-  def graphs
-    @profile
+  def plugins
+    @profile[:plugins]
   end
 
   class << self
