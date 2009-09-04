@@ -18,7 +18,8 @@ var visageBase = new Class({
         rows: 8,
         topGutter: 50,
         gridBorderColour: '#ccc',
-        secureJSON: false
+        secureJSON: false,
+        httpMethod: 'get'
     },
     initialize: function(element, host, plugin, options) {
         this.element = element;
@@ -29,12 +30,23 @@ var visageBase = new Class({
         this.getData(); // calls graphData
     },
     dataURL: function() {
-        return ['/data', this.options.host, this.options.plugin, this.options.plugin_instance].join('/')
+        var url = ['data', this.options.host, this.options.plugin]
+        // if the data exists on another host (useful for embedding)
+        if ($defined(this.options.baseurl)) {
+            url.unshift(this.options.baseurl.replace(/\/$/, ''))
+        }
+        // for specific plugin instances
+        if ($defined(this.options.plugin_instance)) {
+            url.push(this.options.plugin_instance)
+        }
+        console.log(url)
+        return url.join('/')
     },
     getData: function() {
         this.request = new Request.JSON({
             url: this.dataURL(),
             secure: this.options.secureJSON,
+            method: this.options.httpMethod,
             onComplete: function(json) {
                 this.graphData(json);
             }.bind(this),
