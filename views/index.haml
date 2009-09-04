@@ -24,7 +24,6 @@
       - graph_id = "graph#{graph.gsub(/[^\w+]/, '_')}"
       %div.graph
         %h3.graph-title= plugin
-        %div.labels.container
         %div{:id => graph_id, :class => 'holder'}
         :javascript
           window.addEvent('domready', function() {
@@ -35,6 +34,7 @@
               gridHeight: 200
             });
           });
+        %div.labels.container
   
   - else
     %div#nothing
