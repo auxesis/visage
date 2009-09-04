@@ -176,12 +176,15 @@ var visageGraph = new Class({
 
         this.y = []
         this.colors = []
+        this.pluginInstanceNames = []
 
-        $each(data[this.options.host][this.options.plugin], function(pluginInstance, pluginIndex) {
+        $each(data[this.options.host][this.options.plugin], function(pluginInstance, pluginInstanceName) {
             startTime = pluginInstance.splice(0,1)
 	        endTime = pluginInstance.splice(0,1)
 	        dataSources = pluginInstance.splice(0,1)
 	        dataSets = pluginInstance.splice(0,1)
+        
+            this.pluginInstanceNames.push(pluginInstanceName)
 
             // color names are not structured consistently - extract them
             colors = pluginInstance.splice(0,1)
@@ -199,11 +202,14 @@ var visageGraph = new Class({
 			x.push(i)
 		}
 
-		c = this.canvas.g.linechart(this.options.leftEdge, this.options.topEdge, this.options.gridWidth, this.options.gridHeight, x, this.y, {
-			nostroke: false, shade: false, width: 1.5,
-			axis: "0 0 1 1", axisxstep: x.length - 1,
-			colors: this.colors, axisxstep: x.length / 20
-      });
+		this.graph = this.canvas.g.linechart(this.options.leftEdge, this.options.topEdge, this.options.gridWidth, this.options.gridHeight, x, this.y, {
+			                nostroke: false, 
+                            shade: false, 
+                            width: 1.5,
+                			axis: "0 0 1 1", 
+                			colors: this.colors, 
+                            axisxstep: x.length / 20
+        });
 
 	},
     /* recurse through colours data structure and generate a list of colours */
