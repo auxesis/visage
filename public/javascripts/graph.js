@@ -247,11 +247,10 @@ var visageGraph = new Class({
 			x.push(i)
 		}
 
-
 		c = this.canvas.g.linechart(this.options.leftEdge, this.options.topEdge, this.options.gridWidth, this.options.gridHeight, x, this.y, {
 			nostroke: false, shade: false, width: 1.5,
 			axis: "0 0 1 1", axisxstep: x.length - 1,
-			colors: this.colors
+			colors: this.colors, axisxstep: x.length / 20
       });
 
 	},
