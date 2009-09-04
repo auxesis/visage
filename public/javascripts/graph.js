@@ -211,6 +211,57 @@ var visageGraph = new Class({
                             axisxstep: x.length / 20
         });
 
+        this.graphLines = [];
+        $each(this.graph.items[1].items, function(line) { this.graphLines.push(line) }, this);
+
+        this.buildLabels(this.graphLines, this.pluginInstanceNames, this.colors);
+
+    },
+    buildLabels: function(graphLines, instanceNames, colors) {
+        
+        instanceNames.each(function(instanceName, index) {
+            var path = graphLines[index];
+            var color = colors[index]
+            var name = instanceName.split('-')[1]
+
+            var container = new Element('div', {
+                'class': 'label plugin',
+                'events': {
+                    'mouseover': function(e) {
+                        e.stop();
+                        path.animate({'stroke-width': 3}, 300);
+                        //path.toFront();
+                    },
+                    'mouseout': function(e) {
+                        e.stop();
+                        path.animate({'stroke-width': 1.5}, 300);
+                        //path.toBack();
+                    },
+                    'click': function(e) {
+                        e.stop();
+                        path.attr('opacity') == 0 ? path.animate({'opacity': 1}, 350) : path.animate({'opacity': 0}, 350);
+                    }
+                }
+            });
+
+            var box = new Element('span', {
+                'class': 'label plugin box ' + instanceName,
+                'html': '&nbsp;',
+                'styles': { 
+                      'background-color': color
+                }
+            });
+        
+            var desc = new Element('span', {
+                'class': 'label plugin description ' + instanceName,
+                'html': name
+            });
+       
+            container.grab(box);
+            container.grab(desc);
+            $(this.element).getNext('div.labels').grab(container);
+
+        }, this);
     },
     /* recurse through colours data structure and generate a list of colours */
     populateColors: function(nestedColors) {
