@@ -46,8 +46,10 @@ var visageBase = new Class({
         return url.join('/')
     },
     getData: function() {
+        console.log(this.requestData);
         this.request = new Request.JSONP({
             url: this.dataURL(),
+            data: this.requestData,
             secure: this.options.secureJSON,
             method: this.options.httpMethod,
             onComplete: function(json) {
@@ -74,6 +76,7 @@ var visageBase = new Class({
  */
 var visageGraph = new Class({
     Extends: visageBase,
+    Implements: Chain,
     // assemble data to graph, then draw it
     graphData: function(data) {
 
@@ -144,8 +147,23 @@ var visageGraph = new Class({
                     'action': this.dataURL(), 
                     'method': 'get',
                     'events': {
-                        'submit': function(e) {
+                        'submit': function(e, foo) {
                             e.stop();
+                           
+                            /*
+                             * Get the selected option, turn it into a hash for 
+                             * getData() to use.
+                             */
+                            data = new Hash()
+                            e.target.getElement('select').getSelected().each(function(option) {
+                                split = option.value.split('=')
+                                data.set(split[0], split[1])
+                            }, this);
+                            this.requestData = data
+
+                            /* Nuke graph. */
+                            this.graph.remove();
+                            /* Draw everything again. */
                             this.getData();
                         }.bind(this)
                     }
