@@ -71,7 +71,8 @@ class CollectdJSON
   def get_color(opts={})
     if opts[:host] && opts[:plugin] && opts[:plugin_instance]
       if @colors[opts[:plugin]] && @colors[opts[:plugin]][opts[:plugin_instance]]
-        @colors[opts[:plugin]][opts[:plugin_instance]]['value']
+        color = @colors[opts[:plugin]][opts[:plugin_instance]]
+        color ? color : "#000"
       else
         "#000"
       end
