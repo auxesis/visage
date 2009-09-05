@@ -157,6 +157,7 @@ var visageGraph = new Class({
                             e.target.getElement('select').getSelected().each(function(option) {
                                 split = option.value.split('=')
                                 data.set(split[0], split[1])
+                                currentTimePeriod = option.get('html') // is this setting a global?
                             }, this);
                             this.requestData = data
 
@@ -175,9 +176,15 @@ var visageGraph = new Class({
                                         'day': 24, '2 days': 48, '3 days': 72, 
                                         'week': 168, '2 weeks': 336, 'month': 672 });
             timescales.each(function(hour, label) {
+                var current = this.currentTimePeriod == 'last {label}'.substitute({'label': label });
+                var value = "start={start}".substitute({'start': currentUnixTime - (hour * 3600)});
+                var html = 'last {label}'.substitute({'label': label }); 
+
                 var option = new Element('option', {
-                    html: 'last {label}'.substitute({'label': label }),
-                    value: "start={start}".substitute({'start': currentUnixTime - (hour * 3600)})
+                    html: html,
+                    value: value,
+                    selected: (current ? 'selected' : '')
+
                 });
                 select.grab(option)
             });
