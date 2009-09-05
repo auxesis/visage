@@ -97,6 +97,7 @@ var visageGraph = new Class({
             // sometimes we have multiple datapoints in a dataset (eg load/load)
             axes.each(function(axis) { this.y.push(axis) }, this);
         }, this);
+
       
         this.canvas.g.txtattr.font = "11px 'sans-serif'";
 
@@ -118,7 +119,53 @@ var visageGraph = new Class({
         $each(this.graph.items[1].items, function(line) { this.graphLines.push(line) }, this);
 
         this.buildLabels(this.graphLines, this.pluginInstanceNames, this.colors);
+        this.buildDateSelector();
 
+    },
+    buildDateSelector: function() {
+            /* 
+             * container
+             *   \
+             *    - form
+             *        \
+             *         - select
+             *         |   \ 
+             *         |    - option
+             *         |    |
+             *         |    - option
+             *         |
+             *         - submit
+             */
+            var currentDate = new Date;
+            var currentUnixTime = parseInt(currentDate.getTime() / 1000);
+            
+            var container = $(this.element).getNext('div.timescale.container');
+            var form = new Element('form', { 
+                    'action': this.dataURL(), 
+                    'method': 'get',
+                    'events': {
+                        'submit': function(e) {
+                            e.stop();
+                            this.getData();
+                        }.bind(this)
+                    }
+            });
+
+            var select = new Element('select', { 'class': 'date timescale' });
+            var hours = [1, 2, 6, 12, 24, 48, 72, 168, 672]
+            hours.each(function(hour) {
+                var option = new Element('option', {
+                    html: 'last {hour} hours'.substitute({'hour': hour }),
+                    value: "starttime={starttime}".substitute({'starttime': currentUnixTime - (hour * 3600)})
+                });
+                select.grab(option)
+            });
+            
+            var submit = new Element('input', { 'type': 'submit', 'value': 'show' });
+            
+            form.grab(select);
+            form.grab(submit);
+            container.grab(form);
     },
     buildLabels: function(graphLines, instanceNames, colors) {
         
