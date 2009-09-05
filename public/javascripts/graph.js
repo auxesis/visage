@@ -171,10 +171,12 @@ var visageGraph = new Class({
             });
 
             var select = new Element('select', { 'class': 'date timescale' });
-            var hours = [1, 2, 6, 12, 24, 48, 72, 168, 672]
-            hours.each(function(hour) {
+            var timescales = new Hash({ 'hour': 1, '2 hours': 2, '6 hours': 6, '12 hours': 12, 
+                                        'day': 24, '2 days': 48, '3 days': 72, 
+                                        'week': 168, '2 weeks': 336, 'month': 672 });
+            timescales.each(function(hour, label) {
                 var option = new Element('option', {
-                    html: 'last {hour} hours'.substitute({'hour': hour }),
+                    html: 'last {label}'.substitute({'label': label }),
                     value: "start={start}".substitute({'start': currentUnixTime - (hour * 3600)})
                 });
                 select.grab(option)
@@ -187,7 +189,7 @@ var visageGraph = new Class({
             container.grab(form);
     },
     buildLabels: function(graphLines, instanceNames, colors) {
-        
+    
         instanceNames.each(function(instanceName, index) {
             var path = graphLines[index];
             var color = colors[index]
@@ -223,12 +225,12 @@ var visageGraph = new Class({
         
             var desc = new Element('span', {
                 'class': 'label plugin description ' + instanceName,
-                'html': name
+                'html': instanceName
             });
-       
+
             container.grab(box);
             container.grab(desc);
-            $(this.element).getNext('div.labels').grab(container);
+            $(this.element).getNext('div.labels.container').grab(container);
 
         }, this);
     },
