@@ -46,7 +46,6 @@ var visageBase = new Class({
         return url.join('/')
     },
     getData: function() {
-        console.log(this.requestData);
         this.request = new Request.JSONP({
             url: this.dataURL(),
             data: this.requestData,
@@ -161,8 +160,10 @@ var visageGraph = new Class({
                             }, this);
                             this.requestData = data
 
-                            /* Nuke graph. */
+                            /* Nuke graph + labels. */
                             this.graph.remove();
+                            $(this.element).getNext('div.labels.container').empty();
+                            $(this.element).getNext('div.timescale.container').empty();
                             /* Draw everything again. */
                             this.getData();
                         }.bind(this)
@@ -174,7 +175,7 @@ var visageGraph = new Class({
             hours.each(function(hour) {
                 var option = new Element('option', {
                     html: 'last {hour} hours'.substitute({'hour': hour }),
-                    value: "starttime={starttime}".substitute({'starttime': currentUnixTime - (hour * 3600)})
+                    value: "start={start}".substitute({'start': currentUnixTime - (hour * 3600)})
                 });
                 select.grab(option)
             });
