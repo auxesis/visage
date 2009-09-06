@@ -199,17 +199,16 @@ var visageGraph = new Class({
     },
     buildLabels: function(graphLines, instanceNames, dataSources, colors) {
 
-        console.log(dataSources);
-    
         dataSources.each(function(ds, index) {
             var path = graphLines[index];
             var color = colors[index]
-            if ($chk(instanceNames[index])) {
-                var instanceName = instanceNames[index]
+            if ($defined(instanceNames[index])) {
+                var instanceName = instanceNames[index];
+                var name = instanceName.split('-')[1]
             } else {
-                var instanceName = instanceNames[0]
+                var instanceName = instanceNames[0];
+                var name = ds;
             }
-            console.log(instanceName);
 
             var container = new Element('div', {
                 'class': 'label plugin',
@@ -241,11 +240,8 @@ var visageGraph = new Class({
         
             var desc = new Element('span', {
                 'class': 'label plugin description ' + instanceName,
-                'html': instanceName
+                'html': name
             });
-
-            console.log(box)
-            console.log(desc)
 
             container.grab(box);
             container.grab(desc);
@@ -270,6 +266,7 @@ var visageGraph = new Class({
                     }, this);
             }
     },
+    /* recurses, normalised data sources */
     populateDataSources: function (dataSources) {
         switch($type(dataSources)) {
             case 'array': 
