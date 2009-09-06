@@ -82,6 +82,7 @@ var visageGraph = new Class({
         this.y = []
         this.colors = []
         this.pluginInstanceNames = []
+        this.pluginInstanceDataSources = []
 
         $each(data[this.options.host][this.options.plugin], function(pluginInstance, pluginInstanceName) {
             startTime = pluginInstance.splice(0,1)
@@ -90,6 +91,7 @@ var visageGraph = new Class({
             dataSets = pluginInstance.splice(0,1)
         
             this.pluginInstanceNames.push(pluginInstanceName)
+            this.populateDataSources(dataSources);
 
             // color names are not structured consistently - extract them
             colors = pluginInstance.splice(0,1)
@@ -120,7 +122,7 @@ var visageGraph = new Class({
         this.graphLines = [];
         $each(this.graph.items[1].items, function(line) { this.graphLines.push(line) }, this);
 
-        this.buildLabels(this.graphLines, this.pluginInstanceNames, this.colors);
+        this.buildLabels(this.graphLines, this.pluginInstanceNames, this.pluginInstanceDataSources, this.colors);
         this.buildDateSelector();
 
     },
@@ -195,12 +197,19 @@ var visageGraph = new Class({
             form.grab(submit);
             container.grab(form);
     },
-    buildLabels: function(graphLines, instanceNames, colors) {
+    buildLabels: function(graphLines, instanceNames, dataSources, colors) {
+
+        console.log(dataSources);
     
-        instanceNames.each(function(instanceName, index) {
+        dataSources.each(function(ds, index) {
             var path = graphLines[index];
             var color = colors[index]
-            var name = instanceName.split('-')[1]
+            if ($chk(instanceNames[index])) {
+                var instanceName = instanceNames[index]
+            } else {
+                var instanceName = instanceNames[0]
+            }
+            console.log(instanceName);
 
             var container = new Element('div', {
                 'class': 'label plugin',
@@ -235,6 +244,9 @@ var visageGraph = new Class({
                 'html': instanceName
             });
 
+            console.log(box)
+            console.log(desc)
+
             container.grab(box);
             container.grab(desc);
             $(this.element).getNext('div.labels.container').grab(container);
@@ -257,6 +269,22 @@ var visageGraph = new Class({
                         this.populateColors(c)
                     }, this);
             }
+    },
+    populateDataSources: function (dataSources) {
+        switch($type(dataSources)) {
+            case 'array': 
+                dataSources.each(function(ds) {
+                    this.populateDataSources(ds)
+                }, this);
+                break
+            case 'string': 
+                this.pluginInstanceDataSources.push(dataSources);
+                break
+            default: 
+                $each(dataSources, function(ds) {
+                    this.populateDataSources(ds)
+                }, this);
+        }
     },
     // separates the datasets into separate y-axes, suitable for passing to g.raphael 
     extractYAxes: function(dataSources, dataSets) {
