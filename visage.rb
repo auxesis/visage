@@ -15,9 +15,9 @@ set :public, __DIR__ + '/public'
 set :views,  __DIR__ + '/views'
 
 configure do 
-  RRDDIR = "/var/lib/collectd/rrd"
   @config_filename = File.expand_path(File.join(__DIR__, 'config.yaml'))
   CONFIG_FILENAME = @config_filename
+  RRDDIR = YAML::load(File.read(@config_filename))['rrddir']
 
   CollectdJSON.basedir = RRDDIR
   CollectdProfile.config_filename = @config_filename
@@ -35,12 +35,14 @@ end
 
 get '/:host' do 
   @hosts = CollectdJSON.hosts
+  @profiles = CollectdProfile.all
 
   haml :index
 end
 
 get '/:host/:profile' do 
   @hosts = CollectdJSON.hosts
+  @profiles = CollectdProfile.all
   @profile = CollectdProfile.get(params[:profile])
   
   haml :index
