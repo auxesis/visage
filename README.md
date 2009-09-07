@@ -41,9 +41,9 @@ TODO
  * data profiles - DONE
  * handle single plugin instance in graphing code - DONE
  * specify data url in graphing code - DONE
- * nice scrollbars to specify start/end time. 
- * axis labels
- * combine graphs from different hosts
+ * generate holders for graph/labels/time selector
+ * axis labels (with human readable times)
  * zoom + dynamic resize
+ * combine graphs from different hosts
  * comment on time periods
  * view list of comments
