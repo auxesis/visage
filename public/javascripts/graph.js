@@ -168,6 +168,18 @@ var visageGraph = new Class({
             } else {
                 graph.selectionMade = true
                 graph.selectionEnd = this.axis
+                var select = $(parentElement).getElement('div.timescale.container select')
+                var hasSelected = select.getChildren('option').some(function(option) {
+                    return option.get('html') == 'selected'
+                });
+                if (!hasSelected) {
+	                var option = new Element('option', {
+	                    html: 'selected',
+	                    value: '',
+	                    selected: true
+	                });
+	                select.grab(option)
+                }
             }
         });
         this.graph.hoverColumn(function () {
@@ -234,7 +246,7 @@ var visageGraph = new Class({
                              * getData() to use.
                              */
                             data = new Hash()
-                            if ($defined(this.graph.selectionStart) && $defined(this.graph.selectionEnd)) {
+                            if (e.target.getElement('select').getSelected().get('html') == 'selected') {
                                 data.set('start', this.graph.selectionStart);
                                 data.set('end', this.graph.selectionEnd);
                             } else {
