@@ -314,7 +314,7 @@ var visageGraph = new Class({
                 'styles': {
                     'padding': '0.2em 0.5em 0',
                     'float': 'left',
-                    'width': '150px',
+                    'width': '180px',
                 },
                 'events': {
                     'mouseover': function(e) {
