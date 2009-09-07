@@ -94,19 +94,3 @@ div#footer {
   margin-bottom: 2em;
 }
 
-div.labels.container {
-  margin: 0.5em 0.1em;
-  margin-left: 2.5em;
-}
-
-div.label.plugin {
-  padding: 0.5em;
-  float: left;
-}
-
-span.label.plugin.box {
-  width: 50px;
-  display: block;
-  float: left;
-  margin-right: 0.5em;
-}
