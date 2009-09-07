@@ -72,6 +72,8 @@ var visageBase = new Class({
         $(this.parentElement).grab(this.graphHeader);
     },
     buildGraphContainer: function() {
+        $(this.parentElement).set('style', 'padding-top: 1em');
+
         this.graphContainer = new Element('div', {
             'class': 'graph container',
             'styles': {
@@ -166,13 +168,19 @@ var visageGraph = new Class({
         this.timescaleContainer = new Element('div', {
             'class': 'timescale container',
             'styles': {
-                'float': 'right'
+                'float': 'right',
+                'width': '20%'
             }
         });
-        $(this.parentElement).grab(this.timescaleContainer)
+        $(this.parentElement).grab(this.timescaleContainer, 'top')
         
         this.labelsContainer = new Element('div', {
-            'class': 'labels container'
+            'class': 'labels container',
+            'styles': {
+                'float': 'left',
+                'margin-left': '80px',
+                'margin-bottom': '1em' 
+            }
         });
         $(this.parentElement).grab(this.labelsContainer)
     },
@@ -263,8 +271,9 @@ var visageGraph = new Class({
             var container = new Element('div', {
                 'class': 'label plugin',
                 'styles': {
-                    'padding': '0.5em',
-                    'float': 'left'
+                    'padding': '0.2em 0.5em 0',
+                    'float': 'left',
+                    'width': '150px',
                 },
                 'events': {
                     'mouseover': function(e) {
@@ -284,13 +293,14 @@ var visageGraph = new Class({
                 }
             });
 
-            var box = new Element('span', {
+            var box = new Element('div', {
                 'class': 'label plugin box ' + instanceName,
                 'html': '&nbsp;',
                 'styles': { 
                       'background-color': color,
                       'width': '48px',
                       'height': '18px',
+                      'float': 'left',
                       'margin-right': '0.5em'
                 }
             });
