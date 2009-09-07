@@ -85,7 +85,11 @@ class CollectdJSON
     attr_accessor :basedir
 
     def hosts
-      Dir.glob("#{@basedir}/*").map {|e| e.split('/').last }.sort
+      if @basedir
+        Dir.glob("#{@basedir}/*").map {|e| e.split('/').last }.sort
+      else
+        ['You need to specify <strong>rrddir</strong> in config.yaml!']
+      end
     end
 
     def plugins(opts={})
