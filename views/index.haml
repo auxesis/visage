@@ -1,21 +1,19 @@
 %div#nav
   %div#hosts.nav
     %h2 Hosts
-    - @hosts.each do |host|
-      %li
-        %a{:href => "/#{host}"}= host
+    %ul
+      - @hosts.each do |host|
+        %li
+          %a{:href => "/#{host}"}= host
   
   - if host = params[:host]
     %div#profiles.nav
       %h2 Profiles
-      %li
-        %a{:href => "/#{host}/cpu+load"} CPU + load
-      %li
-        %a{:href => "/#{host}/memory"} Memory
-      %li 
-        %a{:href => "/#{host}/disk+usage"} Disk usage
-      %li 
-        %a{:href => "/#{host}/processes"} Processes
+
+      %ul
+        - @profiles.each_pair do |profile, config|
+          %li
+            %a{:href => "/#{host}/#{profile}"}= config['name']
 
 %div#graphs
   - if @profile && @profile.plugins
