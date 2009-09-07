@@ -22,11 +22,13 @@ var visageBase = new Class({
         httpMethod: 'get'
     },
     initialize: function(element, host, plugin, options) {
-        this.element = element;
+        this.parentElement = element;
         this.setOptions(options);
         this.options.host = host;
         this.options.plugin = plugin;
-        this.canvas = Raphael(element, this.options.width, this.options.height);
+        this.buildGraphHeader();
+        this.buildGraphContainer();
+        this.canvas = Raphael(this.graphContainer, this.options.width, this.options.height);
         this.getData(); // calls graphData
     },
     dataURL: function() {
@@ -55,12 +57,29 @@ var visageBase = new Class({
                 this.graphData(json);
             }.bind(this),
             onFailure: function(header, value) {
-                $(this.element).set('html', header)
+                $(this.parentElement).set('html', header)
             }.bind(this)
         });
 
         this.request.send();
     },
+    buildGraphHeader: function() {
+        header = $chk(this.options.name) ? this.options.name : this.options.plugin
+        this.graphHeader = new Element('h3', {
+            'class': 'graph-title',
+            'html': header
+        });
+        $(this.parentElement).grab(this.graphHeader);
+    },
+    buildGraphContainer: function() {
+        this.graphContainer = new Element('div', {
+            'class': 'graph container',
+            'styles': {
+                'margin-bottom': '24px'
+            }
+        });
+        $(this.parentElement).grab(this.graphContainer)
+    }
 });
 
 
@@ -78,6 +97,8 @@ var visageGraph = new Class({
     Implements: Chain,
     // assemble data to graph, then draw it
     graphData: function(data) {
+
+        this.buildContainers();
 
         this.y = []
         this.colors = []
@@ -141,6 +162,20 @@ var visageGraph = new Class({
         this.buildDateSelector();
 
     },
+    buildContainers: function() {
+        this.timescaleContainer = new Element('div', {
+            'class': 'timescale container',
+            'styles': {
+                'float': 'right'
+            }
+        });
+        $(this.parentElement).grab(this.timescaleContainer)
+        
+        this.labelsContainer = new Element('div', {
+            'class': 'labels container'
+        });
+        $(this.parentElement).grab(this.labelsContainer)
+    },
     buildDateSelector: function() {
             /* 
              * container
@@ -158,7 +193,7 @@ var visageGraph = new Class({
             var currentDate = new Date;
             var currentUnixTime = parseInt(currentDate.getTime() / 1000);
             
-            var container = $(this.element).getNext('div.timescale.container');
+            var container = $(this.timescaleContainer);
             var form = new Element('form', { 
                     'action': this.dataURL(), 
                     'method': 'get',
@@ -180,8 +215,8 @@ var visageGraph = new Class({
 
                             /* Nuke graph + labels. */
                             this.graph.remove();
-                            $(this.element).getNext('div.labels.container').empty();
-                            $(this.element).getNext('div.timescale.container').empty();
+                            $(this.labelsContainer).empty();
+                            $(this.timescaleContainer).empty();
                             /* Draw everything again. */
                             this.getData();
                         }.bind(this)
@@ -227,6 +262,10 @@ var visageGraph = new Class({
 
             var container = new Element('div', {
                 'class': 'label plugin',
+                'styles': {
+                    'padding': '0.5em',
+                    'float': 'left'
+                },
                 'events': {
                     'mouseover': function(e) {
                         e.stop();
@@ -249,7 +288,10 @@ var visageGraph = new Class({
                 'class': 'label plugin box ' + instanceName,
                 'html': '&nbsp;',
                 'styles': { 
-                      'background-color': color
+                      'background-color': color,
+                      'width': '48px',
+                      'height': '18px',
+                      'margin-right': '0.5em'
                 }
             });
         
@@ -260,7 +302,7 @@ var visageGraph = new Class({
 
             container.grab(box);
             container.grab(desc);
-            $(this.element).getNext('div.labels.container').grab(container);
+            $(this.labelsContainer).grab(container);
 
         }, this);
     },
