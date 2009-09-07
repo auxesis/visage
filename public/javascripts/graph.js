@@ -83,13 +83,16 @@ var visageGraph = new Class({
         this.colors = []
         this.pluginInstanceNames = []
         this.pluginInstanceDataSources = []
+        this.intervals = new Hash()
 
         $each(data[this.options.host][this.options.plugin], function(pluginInstance, pluginInstanceName) {
             startTime = pluginInstance.splice(0,1)
             endTime = pluginInstance.splice(0,1)
             dataSources = pluginInstance.splice(0,1)
             dataSets = pluginInstance.splice(0,1)
-        
+       
+            this.intervals.set('start', startTime);
+            this.intervals.set('end', endTime);
             this.pluginInstanceNames.push(pluginInstanceName)
             this.populateDataSources(dataSources);
 
@@ -105,9 +108,16 @@ var visageGraph = new Class({
       
         this.canvas.g.txtattr.font = "11px 'sans-serif'";
 
+        var start = this.intervals.get('start')[0]
+        var end = this.intervals.get('end')[0]
+        var increment = (end - start) / this.y[0].length;
+
         x = [];
-        for (var i = 0; i < this.y[0].length; i++) {
-            x.push(i)
+
+        var counter = start;
+        while (counter < end) {
+            x.push(counter)
+            counter += increment
         }
 
         this.graph = this.canvas.g.linechart(this.options.leftEdge, this.options.topEdge, this.options.gridWidth, this.options.gridHeight, x, this.y, {
@@ -117,6 +127,11 @@ var visageGraph = new Class({
                             axis: "0 0 1 1", 
                             colors: this.colors, 
                             axisxstep: x.length / 20
+        });
+
+        this.graph.clickColumn(function () {
+            console.log('click: ' + this.x );
+            console.log('click: ' + this.y );
         });
 
         this.graphLines = [];
