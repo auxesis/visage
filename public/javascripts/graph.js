@@ -153,15 +153,16 @@ var visageGraph = new Class({
         });
 
         var graph = this.graph;
-        graph.selectionMade = true
         var parentElement = this.parentElement
+        var gridHeight = this.options.gridHeight
+        graph.selectionMade = true
         this.graph.clickColumn(function () {
             if ($chk(graph.selectionMade) && graph.selectionMade) {
                 if ($defined(graph.selection)) {
                     graph.selection.remove();
                 }
                 graph.selectionMade = false
-                graph.selection = this.paper.rect(this.x, 0, 1, 200);
+                graph.selection = this.paper.rect(this.x, 0, 1, gridHeight);
                 graph.selection.toBack();
                 graph.selection.attr({'fill': '#000'});
                 graph.selectionStart = this.axis
