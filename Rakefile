@@ -24,6 +24,7 @@ task :deps do
           'rack-test' => '= 0.4.1', 
           'rake' => '= 0.8.7',
           'sinatra' => '= 0.9.4', 
+          'haml' => '= 2.0.5',
           'RubyRRDtool' => '= 0.6.0',
           'yajl-ruby' => '= 0.6.3'}
 
