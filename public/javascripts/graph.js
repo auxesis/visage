@@ -152,6 +152,16 @@ var visageGraph = new Class({
                             axisxstep: x.length / 20
         });
 
+        this.addSelectionInterface();
+
+        this.graphLines = [];
+        $each(this.graph.items[1].items, function(line) { this.graphLines.push(line) }, this);
+
+        this.buildLabels(this.graphLines, this.pluginInstanceNames, this.pluginInstanceDataSources, this.colors);
+        this.buildDateSelector();
+
+    },
+    addSelectionInterface: function() {
         var graph = this.graph;
         var parentElement = this.parentElement
         var gridHeight = this.options.gridHeight
@@ -189,12 +199,6 @@ var visageGraph = new Class({
                 graph.selection.attr({'width': width});
             }
         });
-
-        this.graphLines = [];
-        $each(this.graph.items[1].items, function(line) { this.graphLines.push(line) }, this);
-
-        this.buildLabels(this.graphLines, this.pluginInstanceNames, this.pluginInstanceDataSources, this.colors);
-        this.buildDateSelector();
 
     },
     buildContainers: function() {
