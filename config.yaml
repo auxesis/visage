@@ -1,25 +1,35 @@
 --- 
+rrddir: '/var/lib/collectd/rrd'
 profiles: 
-  memory: 
-    :plugins: 
-      - memory
-      - swap
-    :name: Memory
-  processes: 
-    :plugins: 
-      - processes/ps_state-running
-      - processes/ps_state-sleeping
-    :name: Processes
   cpu+load: 
-    :plugins: 
+    plugins: 
       - cpu-0
       - load/load
-    :name: CPU + Load
+    name: CPU + Load
+    order: 1
+  memory: 
+    plugins: 
+      - memory
+      - swap
+    name: Memory
+    order: 2
   disk+usage: 
-    :plugins: 
+    plugins: 
       - df/df-root
       - disk-sda
-    :name: Disk Usage
+    name: Disk Usage
+    order: 3
+  network: 
+    plugins: 
+      - tcpconns-80-local
+    name: Networking
+    order: 4
+  processes: 
+    plugins: 
+      - processes/ps_state-running
+      - processes/ps_state-sleeping
+    name: Processes
+    order: 5
 colors: 
   memory: 
     memory-used: 
