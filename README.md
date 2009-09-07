@@ -16,6 +16,20 @@ Freeze in dependencies:
 This will pull in RubyRRDtool, which requires the rrdtool headers to build a C
 extension. On Ubuntu these are in the `librrd2-dev` package.
 
+Configuring
+-----------
+
+Config lives in `config.yaml`. You may want to customise the plugins displayed
+in the profiles list. The default works for my laptop, but your production 
+servers are going to be quite different. :-)
+
+You should be able to deduce the config format from the existing file (it's
+simple nested key-value data).
+
+Make sure collectd's RRD directory is readable by whatever user the web server
+is running as. You can tell Visage where collectd's rrd directory is in 
+`config.yaml`, with the `rrddir` key.
+
 Developing
 ----------
 
