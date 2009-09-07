@@ -23,8 +23,7 @@
       - plugin, plugin_instance =  graph.split('/')
       - graph_id = "graph#{graph.gsub(/[^\w+]/, '_')}"
       %div.graph
-        %h3.graph-title= plugin
-        %div{:id => graph_id, :class => 'holder'}
+        %div{:id => graph_id}
         :javascript
           window.addEvent('domready', function() {
             var graph = new visageGraph('#{graph_id}', '#{params[:host]}', '#{plugin}', {
@@ -32,11 +31,10 @@
               height: 220,
               gridWidth: 800,
               gridHeight: 200,
-              pluginInstance: '#{plugin_instance || ''}'
+              pluginInstance: '#{plugin_instance || ''}',
+              name: '#{plugin} on #{host}'
             });
           });
-        %div.labels.container
-        %div.timescale.container
   
   - else
     %div#nothing
