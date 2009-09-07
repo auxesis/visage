@@ -13,6 +13,9 @@ Freeze in dependencies:
 
     $ rake deps
 
+This will pull in RubyRRDtool, which requires the rrdtool headers to build a C
+extension. On Ubuntu these are in the `librrd2-dev` package.
+
 Developing
 ----------
 
