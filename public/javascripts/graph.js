@@ -152,9 +152,29 @@ var visageGraph = new Class({
                             axisxstep: x.length / 20
         });
 
+        var graph = this.graph;
+        graph.selectionMade = true
+        var parentElement = this.parentElement
         this.graph.clickColumn(function () {
-            console.log('click: ' + this.x );
-            console.log('click: ' + this.y );
+            if ($chk(graph.selectionMade) && graph.selectionMade) {
+                if ($defined(graph.selection)) {
+                    graph.selection.remove();
+                }
+                graph.selectionMade = false
+                graph.selection = this.paper.rect(this.x, 0, 1, 200);
+                graph.selection.toBack();
+                graph.selection.attr({'fill': '#000'});
+                graph.selectionStart = this.axis
+            } else {
+                graph.selectionMade = true
+                graph.selectionEnd = this.axis
+            }
+        });
+        this.graph.hoverColumn(function () {
+            if ($chk(graph.selection) && !graph.selectionMade) {
+                var width = this.x - graph.selection.attr('x');
+                graph.selection.attr({'width': width});
+            }
         });
 
         this.graphLines = [];
@@ -208,23 +228,31 @@ var visageGraph = new Class({
                     'events': {
                         'submit': function(e, foo) {
                             e.stop();
-                           
+                          
                             /*
                              * Get the selected option, turn it into a hash for 
                              * getData() to use.
                              */
                             data = new Hash()
-                            e.target.getElement('select').getSelected().each(function(option) {
-                                split = option.value.split('=')
-                                data.set(split[0], split[1])
-                                currentTimePeriod = option.get('html') // is this setting a global?
-                            }, this);
+                            if ($defined(this.graph.selectionStart) && $defined(this.graph.selectionEnd)) {
+                                data.set('start', this.graph.selectionStart);
+                                data.set('end', this.graph.selectionEnd);
+                            } else {
+	                            e.target.getElement('select').getSelected().each(function(option) {
+	                                split = option.value.split('=')
+	                                data.set(split[0], split[1])
+	                                currentTimePeriod = option.get('html') // is this setting a global?
+	                            }, this);
+                            }
                             this.requestData = data
 
                             /* Nuke graph + labels. */
                             this.graph.remove();
                             $(this.labelsContainer).empty();
                             $(this.timescaleContainer).empty();
+                            if ($defined(this.graph.selection)) {
+                                this.graph.selection.remove();
+                            }
                             /* Draw everything again. */
                             this.getData();
                         }.bind(this)
