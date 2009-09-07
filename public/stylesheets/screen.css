@@ -83,14 +83,14 @@ h1 span.project-name {
   color: white;
 }
 
-h3.graph-title {
-  margin-left: 2.5em;
-}
-
 div#footer {
   font-size: 0.6em;
   color: gray;
   text-align: center;
   margin-bottom: 2em;
+}
+
+div#nothing {
+  margin-top: 1em;
 }
 
