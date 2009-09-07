@@ -11,9 +11,9 @@
       %h2 Profiles
 
       %ul
-        - @profiles.each_pair do |profile, config|
+        - @profiles.each do |profile|
           %li
-            %a{:href => "/#{host}/#{profile}"}= config['name']
+            %a{:href => "/#{host}/#{profile.url}"}= profile.name
 
 %div#graphs
   - if @profile && @profile.plugins
