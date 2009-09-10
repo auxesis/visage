@@ -90,6 +90,7 @@ TODO
  * specify data url in graphing code - DONE
  * generate holders for graph/labels/time selector - DONE
  * axis labels (with human readable times)
+ * detailed point-in-time data on hover
  * zoom + dynamic resize - DONE
  * combine graphs from different hosts
  * comment on time periods
