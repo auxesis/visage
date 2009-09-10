@@ -34,6 +34,10 @@ body {
   font-size: 1.2em;
 }
 
+div.section {
+  clear: both;
+}
+
 div#header, div.section {
   margin: 1em 0.5em;
 }
