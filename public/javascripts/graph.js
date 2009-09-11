@@ -160,6 +160,25 @@ var visageGraph = new Class({
         this.buildLabels(this.graphLines, this.pluginInstanceNames, this.pluginInstanceDataSources, this.colors);
         this.buildDateSelector();
 
+        //this.buildEmbedder();
+    },
+    buildEmbedder: function() {
+        pre = new Element('textarea', {
+                'id': 'embedder',
+                'class': 'embedder',
+                'html': this.embedCode()
+        });
+        this.embedderContainer.grab(pre)
+    },
+    embedCode: function() {
+        baseurl = "{protocol}//{host}".substitute({'host': window.location.host, 'protocol': window.location.protocol});
+        code = "<script src='{baseurl}/javascripts/visage.js' type='text/javascript'></script>".substitute({'baseurl': baseurl});
+        code += "<div id='graph'></div>"
+        code += "<script type='text/javascript'>window.addEvent('domready', function() { var graph = new visageGraph('graph', '{host}', '{plugin}', ".substitute({'host': this.options.host, 'plugin': this.options.plugin});
+        code += "{"
+        code += "width: 900, height: 220, gridWidth: 800, gridHeight: 200, baseurl: '{baseurl}', embedded: true".substitute({'baseurl': baseurl});
+        code += "}); });</script>"
+        return code.replace('<', '&lt;').replace('>', '&gt;')
     },
     addSelectionInterface: function() {
         var graph = this.graph;
@@ -221,6 +240,17 @@ var visageGraph = new Class({
             }
         });
         $(this.parentElement).grab(this.labelsContainer)
+        
+        this.embedderContainer = new Element('div', {
+            'class': 'embedder container',
+            'styles': {
+                'font-style': 'monospace',
+                'margin-left': '80px',
+                'font-size': '0.8em',
+                'clear': 'both'
+            }
+        });
+        $(this.parentElement).grab(this.embedderContainer)
     },
     buildDateSelector: function() {
             /* 
@@ -268,6 +298,7 @@ var visageGraph = new Class({
                             this.graph.remove();
                             $(this.labelsContainer).empty();
                             $(this.timescaleContainer).empty();
+                            $(this.embedderContainer).empty();
                             if ($defined(this.graph.selection)) {
                                 this.graph.selection.remove();
                             }
