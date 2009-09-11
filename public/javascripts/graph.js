@@ -308,7 +308,11 @@ var visageGraph = new Class({
             var color = colors[index]
             if ($defined(instanceNames[index])) {
                 var instanceName = instanceNames[index];
-                var name = instanceName.split('-')[1]
+                if ($defined(instanceName.split('-')[1])) {
+                    var name = instanceName.split('-')[1]
+                } else {
+                    var name = instanceName
+                }
             } else {
                 var instanceName = instanceNames[0];
                 var name = ds;
