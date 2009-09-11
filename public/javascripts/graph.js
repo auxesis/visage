@@ -217,7 +217,7 @@ var visageGraph = new Class({
             'styles': {
                 'float': 'left',
                 'margin-left': '80px',
-                'margin-bottom': '1em'
+                'padding-bottom': '1em'
             }
         });
         $(this.parentElement).grab(this.labelsContainer)
