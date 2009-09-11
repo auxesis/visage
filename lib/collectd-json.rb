@@ -6,7 +6,9 @@ require 'yajl'
 class CollectdJSON
 
   def initialize(opts={})
-    @basedir = opts[:basedir] || "/var/lib/collectd/rrd"
+    @rrddir = opts[:basedir] || "/var/lib/collectd/rrd"
+    @fallback_colors = opts[:fallback_colors] || {}
+    @used_fallbacks = []
   end
 
   def json(opts={})
@@ -16,13 +18,13 @@ class CollectdJSON
     @colors         = opts[:plugin_colors]
 
     if plugin_instance
-      rrdname = "#{@basedir}/#{host}/#{plugin}/#{plugin_instance}.rrd"
+      rrdname = "#{@rrddir}/#{host}/#{plugin}/#{plugin_instance}.rrd"
       rrd = RRDtool.new(rrdname)
 
       encode_single(opts.merge(:rrd => rrd))
     else
       rrds = {}
-      rrdglob = "#{@basedir}/#{host}/#{plugin}/*.rrd"
+      rrdglob = "#{@rrddir}/#{host}/#{plugin}/*.rrd"
       Dir.glob(rrdglob).map do |rrdname|
         rrds[File.basename(rrdname, '.rrd')] = RRDtool.new(rrdname)
       end
@@ -74,6 +76,20 @@ class CollectdJSON
       color = @colors[opts[:plugin]][opts[:plugin_instance]]
       color ? color : random_color
 
+    when opts[:plugin] =~ /\-/ && opts[:plugin_instance] =~ /\-/
+      base_plugin = opts[:plugin].split('-').first
+      base_plugin_instance = opts[:plugin_instance].split('-').first
+      
+      if plugin_colors = @colors[base_plugin]
+        color = plugin_colors[opts[:plugin_instance]]
+        color ? color : random_color
+      elsif plugin_colors = @colors[opts[:plugin]]
+        color = plugin_colors[base_plugin_instance]
+        color ? color : random_color
+      else
+        random_color
+      end
+
     when opts[:plugin_instance] =~ /\-/
       base_plugin_instance = opts[:plugin_instance].split('-').first
       if plugin_colors = @colors[opts[:plugin]]
@@ -97,24 +113,26 @@ class CollectdJSON
   end
 
   def random_color
-    
-    "#000"
+    fallbacks = @fallback_colors.to_a.sort_by {|pair| pair[0] }
+    fallback = fallbacks.find { |color| !@used_fallbacks.include?(color) }
+    @used_fallbacks << fallback
+    fallback[1] || "#000"
   end
 
   class << self
-    attr_accessor :basedir
+    attr_accessor :rrddir
 
     def hosts
-      if @basedir
-        Dir.glob("#{@basedir}/*").map {|e| e.split('/').last }.sort
+      if @rrddir
+        Dir.glob("#{@rrddir}/*").map {|e| e.split('/').last }.sort
       else
-        ['You need to specify <strong>rrddir</strong> in config.yaml!']
+        ['You need to specify <strong>rrddir</strong> in config/init.rb!']
       end
     end
 
     def plugins(opts={})
       host = opts[:host] || '*'
-      Dir.glob("#{@basedir}/#{host}/*").map {|e| e.split('/').last }.sort
+      Dir.glob("#{@rrddir}/#{host}/*").map {|e| e.split('/').last }.sort
     end
 
   end
