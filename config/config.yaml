@@ -27,8 +27,7 @@ profiles:
     order: 4
   processes: 
     plugins: 
-      - processes/ps_state-running
-      - processes/ps_state-sleeping
+      - processes
     name: Processes
     order: 5
 plugin_colors: 
