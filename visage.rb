@@ -18,8 +18,8 @@ set :views,  __DIR__ + '/views'
 configure do 
   require 'config/init'
 
-  CollectdJSON.basedir = Visage::Config.rrddir
-  CollectdProfile.config_filename = Visage::Config.config_filename
+  CollectdJSON.rrddir = Visage::Config.rrddir
+  CollectdProfile.profiles = Visage::Config.profiles
 end
 
 template :layout do 
@@ -55,7 +55,8 @@ get %r{/data/([^/]+)/([^/]+)(/([^/]+))*} do
   plugin = params[:captures][1]
   plugin_instance = params[:captures][3]
 
-  collectd = CollectdJSON.new(:basedir => Visage::Config.rrddir)
+  collectd = CollectdJSON.new(:rrddir => Visage::Config.rrddir, 
+                              :fallback_colors => Visage::Config.fallback_colors)
   json = collectd.json(:host => host, 
                        :plugin => plugin,
                        :plugin_instance => plugin_instance,
