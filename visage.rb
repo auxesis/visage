@@ -10,17 +10,16 @@ require 'yajl'
 require 'haml'
 require 'lib/collectd-json'
 require 'lib/collectd-profile'
+require 'lib/visage-config'
 
 set :public, __DIR__ + '/public'
 set :views,  __DIR__ + '/views'
 
 configure do 
-  @config_filename = File.expand_path(File.join(__DIR__, 'config.yaml'))
-  CONFIG_FILENAME = @config_filename
-  RRDDIR = YAML::load(File.read(@config_filename))['rrddir']
+  require 'config/init'
 
-  CollectdJSON.basedir = RRDDIR
-  CollectdProfile.config_filename = @config_filename
+  CollectdJSON.basedir = Visage::Config.rrddir
+  CollectdProfile.config_filename = Visage::Config.config_filename
 end
 
 template :layout do 
@@ -56,15 +55,13 @@ get %r{/data/([^/]+)/([^/]+)(/([^/]+))*} do
   plugin = params[:captures][1]
   plugin_instance = params[:captures][3]
 
-  config = YAML::load(File.read(CONFIG_FILENAME))
-
-  collectd = CollectdJSON.new(:basedir => RRDDIR)
+  collectd = CollectdJSON.new(:basedir => Visage::Config.rrddir)
   json = collectd.json(:host => host, 
                        :plugin => plugin,
                        :plugin_instance => plugin_instance,
                        :start => params[:start],
                        :end => params[:end],
-                       :colors => config['colors'])
+                       :plugin_colors => Visage::Config.plugin_colors)
   # if the request is cross-domain, we need to serve JSONP
   maybe_wrap_with_callback(json)
 end
