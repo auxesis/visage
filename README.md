@@ -96,6 +96,7 @@ TODO
  * fix key labels - DONE
  * axis labels (with human readable times)
  * detailed point-in-time data on hover
+ * embedded html generator
  * zoom + dynamic resize - DONE
  * combine graphs from different hosts
  * comment on time periods
