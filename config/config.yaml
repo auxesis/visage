@@ -1,9 +1,9 @@
 --- 
-rrddir: '/var/lib/collectd/rrd'
 profiles: 
   cpu+load: 
     plugins: 
       - cpu-0
+      - cpu-1
       - load/load
     name: CPU + Load
     order: 1
@@ -21,6 +21,7 @@ profiles:
     order: 3
   network: 
     plugins: 
+      - tcpconns-9393-local
       - tcpconns-80-local
     name: Networking
     order: 4
@@ -30,7 +31,7 @@ profiles:
       - processes/ps_state-sleeping
     name: Processes
     order: 5
-colors: 
+plugin_colors: 
   memory: 
     memory-used: 
       value: "#cc0000"
@@ -40,7 +41,7 @@ colors:
       value: "#3465a4"
     memory-free: 
       value: "#73d216"
-  cpu-0: 
+  cpu: 
     cpu-idle: 
       value: "#eeeeec"
     cpu-wait: 
@@ -70,10 +71,10 @@ colors:
       shortterm: "#73d216"
       midterm: "#3465a4"
   df:
-    'df-root':
-       used: "#cc0000"
-       free: "#73d216"
-  'disk-sda':
+    df: 
+      used: "#cc0000"
+      free: "#73d216"
+  disk:
     disk_merged:
        read: "#73d216"
        write: "#cc0000"
