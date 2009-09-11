@@ -303,8 +303,6 @@ var visageGraph = new Class({
     },
     buildLabels: function(graphLines, instanceNames, dataSources, colors) {
 
-        console.log(instanceNames)
-        console.log(dataSources)
         dataSources.each(function(ds, index) {
             var path = graphLines[index];
             var color = colors[index]
@@ -336,6 +334,7 @@ var visageGraph = new Class({
                     'padding': '0.2em 0.5em 0',
                     'float': 'left',
                     'width': '180px',
+                    'font-size': '0.8em'
                 },
                 'events': {
                     'mouseover': function(e) {
