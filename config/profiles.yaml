@@ -29,5 +29,6 @@ profiles:
   processes: 
     plugins: 
       - processes
+      - processes-collectd
     name: Processes
     order: 5
