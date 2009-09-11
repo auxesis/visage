@@ -69,6 +69,7 @@ get %r{/data/([^/]+)/([^/]+)(/([^/]+))*} do
   maybe_wrap_with_callback(json)
 end
 
+# wraps json with a callback method that JSONP clients can call
 def maybe_wrap_with_callback(json)
   if params[:callback]
     params[:callback] + '(' + json + ')'
