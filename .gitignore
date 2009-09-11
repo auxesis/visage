@@ -22,3 +22,4 @@ gems/gems/*
 !gems/specifications/thor*
 merb_profile_results
 webrat*
+config/profiles.yaml
