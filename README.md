@@ -89,6 +89,8 @@ TODO
  * handle single plugin instance in graphing code - DONE
  * specify data url in graphing code - DONE
  * generate holders for graph/labels/time selector - DONE
+ * smart colour selection (CPU-1 = CPU)
+ * title attributes
  * axis labels (with human readable times)
  * detailed point-in-time data on hover
  * zoom + dynamic resize - DONE
