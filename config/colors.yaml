@@ -1,82 +1,82 @@
 --- 
 Aluminium 1: 
   color: "#eeeeec"
-  fallback_order: 5
+  fallback_order: 20
 Aluminium 2: 
   color: "#d3d7cf"
-  fallback_order: 10
+  fallback_order: 20
 Aluminium 3: 
   color: "#babdb6"
-  fallback_order: 10
+  fallback_order: 15
 Aluminium 4: 
   color: "#888a85"
-  fallback_order: 8
+  fallback_order: 20
 Aluminium 5: 
   color: "#555753"
-  fallback_order: 10
+  fallback_order: 20
 Aluminium 6: 
   color: "#2e3436"
-  fallback_order: 10
+  fallback_order: 7
 Butter 1: 
   color: "#fce94f"
-  fallback_order: 4
+  fallback_order: 12
 Butter 2: 
   color: "#edd400"
-  fallback_order: 1
+  fallback_order: 4
 Butter 3: 
   color: "#c4a000"
-  fallback_order: 10
+  fallback_order: 20
 Chameleon 1: 
   color: "#8ae234"
-  fallback_order: 5
+  fallback_order: 11
 Chameleon 2: 
   color: "#73d216"
   fallback_order: 1
 Chameleon 3: 
   color: "#4e9a06"
-  fallback_order: 10
+  fallback_order: 20
 Chocolate 1: 
   color: "#e9b96e"
-  fallback_order: 5
+  fallback_order: 14
 Chocolate 2: 
   color: "#c17d11"
   fallback_order: 5
 Chocolate 3: 
   color: "#8f5902"
-  fallback_order: 10
+  fallback_order: 20
 Orange 1: 
   color: "#fcaf3e"
-  fallback_order: 5
+  fallback_order: 13
 Orange 2: 
   color: "#f57900"
-  fallback_order: 3
+  fallback_order: 5
 Orange 3: 
   color: "#ce5c00"
-  fallback_order: 10
+  fallback_order: 20
 Plum 1: 
   color: "#ad7fa8"
-  fallback_order: 5
+  fallback_order: 9
 Plum 2: 
   color: "#5c3566"
-  fallback_order: 1
+  fallback_order: 20
 Plum 3: 
   color: "#5c3566"
-  fallback_order: 10
+  fallback_order: 1
 Scarlet Red 1: 
   color: "#ef2929"
-  fallback_order: 5
+  fallback_order: 8
 Scarlet Red 2: 
   color: "#cc0000"
   fallback_order: 0
 Scarlet Red 3: 
   color: "#a40000"
-  fallback_order: 10
+  fallback_order: 20
 Sky Blue 1: 
   color: "#729fcf"
-  fallback_order: 5
+  fallback_order: 10
 Sky Blue 2: 
   color: "#3465a4"
-  fallback_order: 0
+  fallback_order: 2
 Sky Blue 3: 
   color: "#204a87"
-  fallback_order: 10
+  fallback_order: 20
