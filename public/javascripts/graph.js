@@ -213,10 +213,11 @@ var visageGraph = new Class({
         
         this.labelsContainer = new Element('div', {
             'class': 'labels container',
+            'title': 'click to hide',
             'styles': {
                 'float': 'left',
                 'margin-left': '80px',
-                'margin-bottom': '1em' 
+                'margin-bottom': '1em'
             }
         });
         $(this.parentElement).grab(this.labelsContainer)
