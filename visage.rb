@@ -26,6 +26,15 @@ template :layout do
   File.read('views/layout.haml')
 end
 
+# infrastructure for embedding
+get '/javascripts/visage.js' do
+  javascript = ""
+  %w{raphael-min g.raphael g.line mootools-1.2.3-core mootools-1.2.3.1-more graph}.each do |js|
+    javascript += File.read(File.join(__DIR__, 'public', 'javascripts', "#{js}.js"))
+  end
+  javascript
+end
+
 # user facing
 get '/' do 
   @hosts = CollectdJSON.hosts
