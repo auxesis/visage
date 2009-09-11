@@ -120,7 +120,7 @@ var visageGraph = new Class({
             this.populateDataSources(dataSources);
 
             // color names are not structured consistently - extract them
-            colors = pluginInstance.splice(0,1)
+            colors = pluginInstance.splice(0,10)
             this.populateColors(colors);
 
             axes = this.extractYAxes(dataSources, dataSets)
@@ -316,6 +316,10 @@ var visageGraph = new Class({
                 } else {
                     var name = instanceName
                 }
+            // disk operations
+            } else if (ds == 'read' || ds == 'write') {
+                var instanceName = instanceNames[Math.round(index / 2)]
+                var name = instanceName.split('_')[1] + '-' + ds
             } else {
                 var name = ds
             }
