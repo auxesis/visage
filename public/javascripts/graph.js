@@ -303,19 +303,31 @@ var visageGraph = new Class({
     },
     buildLabels: function(graphLines, instanceNames, dataSources, colors) {
 
+        console.log(instanceNames)
+        console.log(dataSources)
         dataSources.each(function(ds, index) {
             var path = graphLines[index];
             var color = colors[index]
-            if ($defined(instanceNames[index])) {
-                var instanceName = instanceNames[index];
-                if ($defined(instanceName.split('-')[1])) {
-                    var name = instanceName.split('-')[1]
+            if (instanceNames.length == dataSources.length) {
+                if ($defined(instanceNames[index])) {
+                    var instanceName = instanceNames[index];
+                    if ($defined(instanceName.split('-')[1])) {
+                        var name = instanceName.split('-')[1]
+                    } else {
+                        var name = instanceName
+                    }
                 } else {
-                    var name = instanceName
+                    var instanceName = instanceNames[0];
+                    var name = ds;
                 }
-            } else {
-                var instanceName = instanceNames[0];
-                var name = ds;
+            } else if (instanceNames.length == dataSources.length / 2) {
+                var instanceName = instanceNames[Math.round(index / 2)];
+                if (instanceName) {
+                    var name = instanceName.split('_')[1] + '-' + ds
+                } else {
+                    var name = instanceNames[0].split('_')[1] + '-' + ds
+                }
+
             }
 
             var container = new Element('div', {
