@@ -13,7 +13,7 @@ class CollectdJSON
     host            = opts[:host]
     plugin          = opts[:plugin]
     plugin_instance = opts[:plugin_instance]
-    @colors         = opts[:colors]
+    @colors         = opts[:plugin_colors]
 
     if plugin_instance
       rrdname = "#{@basedir}/#{host}/#{plugin}/#{plugin_instance}.rrd"
@@ -69,16 +69,36 @@ class CollectdJSON
   end
 
   def color_for(opts={})
-    if opts[:host] && opts[:plugin] && opts[:plugin_instance]
-      if @colors[opts[:plugin]] && @colors[opts[:plugin]][opts[:plugin_instance]]
-        color = @colors[opts[:plugin]][opts[:plugin_instance]]
-        color ? color : "#000"
+    case 
+    when @colors[opts[:plugin]] && @colors[opts[:plugin]][opts[:plugin_instance]]
+      color = @colors[opts[:plugin]][opts[:plugin_instance]]
+      color ? color : random_color
+
+    when opts[:plugin_instance] =~ /\-/
+      base_plugin_instance = opts[:plugin_instance].split('-').first
+      if plugin_colors = @colors[opts[:plugin]]
+        color = plugin_colors[base_plugin_instance]
+        color ? color : random_color
       else
-        "#000"
+        random_color
       end
+
+    when opts[:plugin] =~ /\-/
+      base_plugin = opts[:plugin].split('-').first
+      if plugin_colors = @colors[base_plugin]
+        color = plugin_colors[opts[:plugin_instance]]
+      else
+        random_color
+      end
+
     else
-      "#000"
+      random_color
     end
+  end
+
+  def random_color
+    
+    "#000"
   end
 
   class << self
