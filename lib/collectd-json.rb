@@ -74,7 +74,7 @@ class CollectdJSON
     case 
     when @colors[opts[:plugin]] && @colors[opts[:plugin]][opts[:plugin_instance]]
       color = @colors[opts[:plugin]][opts[:plugin_instance]]
-      color ? color : random_color
+      color ? color : fallback_color
 
     when opts[:plugin] =~ /\-/ && opts[:plugin_instance] =~ /\-/
       base_plugin = opts[:plugin].split('-').first
@@ -82,21 +82,21 @@ class CollectdJSON
       
       if plugin_colors = @colors[base_plugin]
         color = plugin_colors[opts[:plugin_instance]]
-        color ? color : random_color
+        color ? color : fallback_color
       elsif plugin_colors = @colors[opts[:plugin]]
         color = plugin_colors[base_plugin_instance]
-        color ? color : random_color
+        color ? color : fallback_color
       else
-        random_color
+        fallback_color
       end
 
     when opts[:plugin_instance] =~ /\-/
       base_plugin_instance = opts[:plugin_instance].split('-').first
       if plugin_colors = @colors[opts[:plugin]]
         color = plugin_colors[base_plugin_instance]
-        color ? color : random_color
+        color ? color : fallback_color
       else
-        random_color
+        fallback_color
       end
 
     when opts[:plugin] =~ /\-/
@@ -104,15 +104,15 @@ class CollectdJSON
       if plugin_colors = @colors[base_plugin]
         color = plugin_colors[opts[:plugin_instance]]
       else
-        random_color
+        fallback_color
       end
 
     else
-      random_color
+      fallback_color
     end
   end
 
-  def random_color
+  def fallback_color
     fallbacks = @fallback_colors.to_a.sort_by {|pair| pair[0] }
     fallback = fallbacks.find { |color| !@used_fallbacks.include?(color) }
     @used_fallbacks << fallback
