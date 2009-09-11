@@ -93,7 +93,7 @@ TODO
  * smart colour selection (CPU-1 = CPU) - DONE
  * title attributes - DONE
  * split profiles + colors => plugins into separate files - DONE
- * fix key labels
+ * fix key labels - DONE
  * axis labels (with human readable times)
  * detailed point-in-time data on hover
  * zoom + dynamic resize - DONE
