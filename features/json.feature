@@ -20,3 +20,9 @@ Feature: Export data
   Scenario: Make cross-domain requests
     When I go to /data/theodor/cpu-0?callback=foobar
     Then I should receive JSON wrapped in a callback named "foobar"
+
+  Scenario: Retrieve multiple plugin instances without color definition
+    When I go to /data/theodor/tcpconns-80-local
+    Then the request should succeed
+    Then I should receive valid JSON
+    And each plugin instance should have a different color
