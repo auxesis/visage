@@ -43,7 +43,9 @@ class CollectdJSON
    
     opts[:rrds].each_pair do |name, rrd|
       plugin_instance = rrd.fetch(['AVERAGE', '--start', opts[:start], '--end', opts[:end]])
-      plugin_instance << color_for(:host => opts[:host], :plugin => opts[:plugin], :plugin_instance => name)
+      plugin_instance.last.last.size.times do
+        plugin_instance << color_for(:host => opts[:host], :plugin => opts[:plugin], :plugin_instance => name)
+      end
       values[opts[:host]][opts[:plugin]].merge!({ name => plugin_instance })
     end
 
@@ -63,8 +65,10 @@ class CollectdJSON
           opts[:plugin_instance] => opts[:rrd].fetch(['AVERAGE', '--start', opts[:start], '--end', opts[:end]])
         }
       }
-    }
-    values[opts[:host]][opts[:plugin]][opts[:plugin_instance]] << color_for(:host => opts[:host], :plugin => opts[:plugin], :plugin_instance => opts[:plugin_instance])
+    } 
+    values[opts[:host]][opts[:plugin]][opts[:plugin_instance]].last.last.size.times do 
+      values[opts[:host]][opts[:plugin]][opts[:plugin_instance]] << color_for(:host => opts[:host], :plugin => opts[:plugin], :plugin_instance => opts[:plugin_instance])
+    end
     
     encoder = Yajl::Encoder.new
     encoder.encode(values)
@@ -116,7 +120,7 @@ class CollectdJSON
     fallbacks = @fallback_colors.to_a.sort_by {|pair| pair[1]['fallback_order'] }
     fallback = fallbacks.find { |color| !@used_fallbacks.include?(color) }
     @used_fallbacks << fallback
-    fallback[1] || "#000"
+    fallback[1]['color'] || "#000"
   end
 
   class << self
