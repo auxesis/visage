@@ -49,29 +49,23 @@ get '/:host/:profile' do
 end
 
 # JSON data backend
-get '/data/:host/:plugin' do 
+
+# /data/:host/:plugin/:optional_plugin_instance
+get %r{/data/([^/]+)/([^/]+)(/([^/]+))*} do 
+  host = params[:captures][0]
+  plugin = params[:captures][1]
+  plugin_instance = params[:captures][3]
+
   config = YAML::load(File.read(CONFIG_FILENAME))
 
   collectd = CollectdJSON.new(:basedir => RRDDIR)
-  json = collectd.json(:host => params[:host], 
-                       :plugin => params[:plugin], 
+  json = collectd.json(:host => host, 
+                       :plugin => plugin,
+                       :plugin_instance => plugin_instance,
                        :start => params[:start],
                        :end => params[:end],
                        :colors => config['colors'])
   # if the request is cross-domain, we need to serve JSONP
-  maybe_wrap_with_callback(json)
-end
-
-get '/data/:host/:plugin/:plugin_instance' do 
-  config = YAML::load(File.read(CONFIG_FILENAME))
-
-  collectd = CollectdJSON.new(:basedir => RRDDIR)
-  json = collectd.json(:host => params[:host], 
-                       :plugin => params[:plugin], 
-                       :plugin_instance => params[:plugin_instance],
-                       :start => params[:start],
-                       :end => params[:end],
-                       :colors => config['colors'])
   maybe_wrap_with_callback(json)
 end
 
