@@ -1,0 +1,33 @@
+--- 
+profiles: 
+  cpu+load: 
+    plugins: 
+      - cpu-0
+      - cpu-1
+      - load/load
+      - battery-0
+    name: CPU + Load
+    order: 1
+  memory: 
+    plugins: 
+      - memory
+      - swap
+    name: Memory
+    order: 2
+  disk+usage: 
+    plugins: 
+      - df/df-root
+      - disk-sda
+    name: Disk Usage
+    order: 3
+  network: 
+    plugins: 
+      - tcpconns-9393-local
+      - tcpconns-80-local
+    name: Networking
+    order: 4
+  processes: 
+    plugins: 
+      - processes
+    name: Processes
+    order: 5
