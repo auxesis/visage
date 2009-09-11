@@ -89,7 +89,7 @@ TODO
  * handle single plugin instance in graphing code - DONE
  * specify data url in graphing code - DONE
  * generate holders for graph/labels/time selector - DONE
- * clean up routes
+ * clean up routes - DONE
  * smart colour selection (CPU-1 = CPU)
  * title attributes - DONE
  * axis labels (with human readable times)
