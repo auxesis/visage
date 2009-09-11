@@ -41,7 +41,7 @@ class CollectdJSON
    
     opts[:rrds].each_pair do |name, rrd|
       plugin_instance = rrd.fetch(['AVERAGE', '--start', opts[:start], '--end', opts[:end]])
-      plugin_instance << get_color(:host => opts[:host], :plugin => opts[:plugin], :plugin_instance => name)
+      plugin_instance << color_for(:host => opts[:host], :plugin => opts[:plugin], :plugin_instance => name)
       values[opts[:host]][opts[:plugin]].merge!({ name => plugin_instance })
     end
 
@@ -62,13 +62,13 @@ class CollectdJSON
         }
       }
     }
-    values[opts[:host]][opts[:plugin]][opts[:plugin_instance]] << get_color(:host => opts[:host], :plugin => opts[:plugin], :plugin_instance => opts[:plugin_instance])
+    values[opts[:host]][opts[:plugin]][opts[:plugin_instance]] << color_for(:host => opts[:host], :plugin => opts[:plugin], :plugin_instance => opts[:plugin_instance])
     
     encoder = Yajl::Encoder.new
     encoder.encode(values)
   end
 
-  def get_color(opts={})
+  def color_for(opts={})
     if opts[:host] && opts[:plugin] && opts[:plugin_instance]
       if @colors[opts[:plugin]] && @colors[opts[:plugin]][opts[:plugin_instance]]
         color = @colors[opts[:plugin]][opts[:plugin_instance]]
