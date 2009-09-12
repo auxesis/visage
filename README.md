@@ -19,16 +19,28 @@ extension. On Ubuntu these are in the `librrd2-dev` package.
 Configuring
 -----------
 
-Config lives in `config.yaml`. You may want to customise the plugins displayed
-in the profiles list. The default works for my laptop, but your production 
-servers are going to be quite different. :-)
+Config lives in several files under `config/`. 
+
+ * `profiles.yaml` - graphs Visage is to display
+ * `plugin-colors.yaml` - colors for specific plugins/plugin instances
+ * `fallback-colors.yaml` - ordered list of fallback colors
+ * `init.rd` - bootstrapping code, specifies collectd's RRD directory
+
+`profiles.yaml` isn't setup by default, but you can copy `profiles.yaml.sample`
+across and edit to taste. The plugins are in the format of 
+`plugin`/`plugin-instance`, with `plugins-instance` being optional. 
+
+If you don't specify a `plugin-instance` Visage will attempt to graph all plugin
+instances under the specified `plugin`, e.g. `cpu-0` will display `cpu-idle`, 
+`cpu-interrupt`, `cpu-nice`, etc, whereas `cpu-0/cpu-wait` will only show 
+`cpu-wait`. 
 
 You should be able to deduce the config format from the existing file (it's
 simple nested key-value data).
 
 Make sure collectd's RRD directory is readable by whatever user the web server
-is running as. You can tell Visage where collectd's rrd directory is in 
-`config.yaml`, with the `rrddir` key.
+is running as. You can specify where collectd's rrd directory is in `init.rb`,
+with the `c['rrddir']` key.
 
 Developing
 ----------
