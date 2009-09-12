@@ -6,6 +6,17 @@ Visage is a web interface for viewing `collectd` statistics.
 It also provides a JSON interface onto `collectd`'s RRD data. giving you an easy
 way to mash up the data.
 
+Features
+--------
+
+ * renders graphs in the browser, and retrieves data asynchronously
+ * interactive graph keys, to highlight lines and toggle line visibility
+ * drop-down or mouse selection of timeframes (also rendered asynchronously)
+ * JSON interface onto `collectd` RRDs
+
+Check out a demo at [visage.unstated.net](http://visage.unstated.net).
+
+
 Installing
 ----------
 
@@ -13,15 +24,15 @@ Freeze in dependencies:
 
     $ rake deps
 
-This will pull in RubyRRDtool, which requires the rrdtool headers to build a C
-extension. On Ubuntu these are in the `librrd2-dev` package.
+Amongst other things, this will pull in RubyRRDtool, which requires the rrdtool
+headers to build a C extension. On Ubuntu these are in the `librrd2-dev` package.
 
 Configuring
 -----------
 
 Config lives in several files under `config/`. 
 
- * `profiles.yaml` - graphs Visage is to display
+ * `profiles.yaml` - groups of graphs Visage is to display
  * `plugin-colors.yaml` - colors for specific plugins/plugin instances
  * `fallback-colors.yaml` - ordered list of fallback colors
  * `init.rd` - bootstrapping code, specifies collectd's RRD directory
@@ -35,8 +46,8 @@ instances under the specified `plugin`, e.g. `cpu-0` will display `cpu-idle`,
 `cpu-interrupt`, `cpu-nice`, etc, whereas `cpu-0/cpu-wait` will only show 
 `cpu-wait`. 
 
-You should be able to deduce the config format from the existing file (it's
-simple nested key-value data).
+It  should be pretty easy to deduce the config format from the existing file 
+(it's simple nested key-value data).
 
 Make sure collectd's RRD directory is readable by whatever user the web server
 is running as. You can specify where collectd's rrd directory is in `init.rb`,
