@@ -1,10 +1,10 @@
 Visage
 ======
 
-Visage is a web interface for viewing `collectd` statistics.
+Visage is a web interface for viewing [collectd](http://collectd.org) statistics.
 
-It also provides a JSON interface onto `collectd`'s RRD data. giving you an easy
-way to mash up the data.
+It also provides a [JSON](http://json.org) interface onto `collectd`'s RRD data, 
+giving you an easy way to mash up the data.
 
 Features
 --------
@@ -90,6 +90,9 @@ This assumes you have a checkout of the code at `/srv/www/visage.example.org/roo
 If you don't want to use Apache + Passenger, you can install the `thin` or 
 `mongrel` gems and run up a web server yourself. 
 
+Ubuntu users looking for Passenger packages should add John Ferlito's 
+[mod-passenger PPA](https://launchpad.net/~johnf-inodes/+archive/mod-passenger)
+to their apt sources.
 
 Testing 
 -------
