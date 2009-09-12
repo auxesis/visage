@@ -1,8 +1,10 @@
+#!/usr/bin/env ruby
+
 __DIR__ = File.expand_path(File.join(File.dirname(__FILE__)))
 require File.join(__DIR__, '..', 'lib', 'visage-config')
 
 Visage::Config.use do |c|
-  c['fallback_colors'] = YAML::load(File.read(File.join(__DIR__, 'colors.yaml')))
+  c['fallback_colors'] = YAML::load(File.read(File.join(__DIR__, 'fallback-colors.yaml')))
  
   profile_filename = File.join(__DIR__, 'profiles.yaml')
   unless File.exists?(profile_filename)
@@ -22,6 +24,7 @@ Visage::Config.use do |c|
     c[key] = value
   end
 
+  # Location of collectd's RRD - you may want to edit this!
   c['rrddir'] = "/var/lib/collectd/rrd"
 end
 
