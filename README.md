@@ -1,4 +1,4 @@
-visage
+Visage
 ======
 
 Visage is a web interface for viewing `collectd` statistics.
@@ -14,7 +14,7 @@ Features
  * drop-down or mouse selection of timeframes (also rendered asynchronously)
  * JSON interface onto `collectd` RRDs
 
-Check out a demo at [visage.unstated.net](http://visage.unstated.net).
+Check out a demo at [http://visage.unstated.net/](http://visage.unstated.net).
 
 
 Installing
@@ -39,7 +39,7 @@ Config lives in several files under `config/`.
 
 `profiles.yaml` isn't setup by default, but you can copy `profiles.yaml.sample`
 across and edit to taste. The plugins are in the format of 
-`plugin`/`plugin-instance`, with `plugins-instance` being optional. 
+`plugin/plugin-instance`, with `plugins-instance` being optional. 
 
 If you don't specify a `plugin-instance` Visage will attempt to graph all plugin
 instances under the specified `plugin`, e.g. `cpu-0` will display `cpu-idle`, 
