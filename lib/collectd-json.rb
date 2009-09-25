@@ -6,7 +6,7 @@ require 'yajl'
 class CollectdJSON
 
   def initialize(opts={})
-    @rrddir = opts[:basedir] || "/var/lib/collectd/rrd"
+    @rrddir = opts[:rrddir] || "/var/lib/collectd/rrd"
     @fallback_colors = opts[:fallback_colors] || {}
     @used_fallbacks = []
   end
