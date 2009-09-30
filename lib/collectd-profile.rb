@@ -14,8 +14,10 @@ class CollectdProfile
     attr_accessor :profiles
 
     def get(id)
-      id.gsub!(/\s+/, '+')
-      OpenStruct.new(@profiles[id])
+      if found = @profiles.find {|p| p[1]["splatpart"] == id }
+        found = found[1]
+      end
+      OpenStruct.new(found)
     end
 
     def all
@@ -23,7 +25,7 @@ class CollectdProfile
       profiles = @profiles.to_a.sort_by { |profile| 
         profile[1]["order"] 
       }.map { |profile| 
-        OpenStruct.new(profile[1].merge({'url' => profile[0]}))
+        OpenStruct.new(profile[1].merge({'name' => profile[0]}))
       }
     end
 
