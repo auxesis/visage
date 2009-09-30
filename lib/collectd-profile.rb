@@ -14,6 +14,7 @@ class CollectdProfile
     attr_accessor :profiles
 
     def get(id)
+      id.gsub!(/\s+/, '+')
       if found = @profiles.find {|p| p[1]["splatpart"] == id }
         OpenStruct.new(found[1])
       else
