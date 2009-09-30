@@ -29,8 +29,6 @@ class CollectdJSON
   def encode(opts={})
     opts[:start] ||= (Time.now - 3600).to_i
     opts[:end]   ||= (Time.now).to_i
-    opts[:start].to_s.gsub!(/\.\d+$/,'')
-    opts[:end].to_s.gsub!(/\.\d+$/,'')
 
     values = { opts[:host] => { opts[:plugin] => {} } }
    
