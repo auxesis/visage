@@ -15,9 +15,10 @@ class CollectdProfile
 
     def get(id)
       if found = @profiles.find {|p| p[1]["splatpart"] == id }
-        found = found[1]
+        OpenStruct.new(found[1])
+      else
+        nil
       end
-      OpenStruct.new(found)
     end
 
     def all
