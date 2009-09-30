@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby
 
-__DIR__ = File.expand_path(File.join(File.dirname(__FILE__)))
+__DIR__ = File.expand_path(File.dirname(__FILE__))
 require File.join(__DIR__, '..', 'lib', 'visage-config')
 
 Visage::Config.use do |c|
