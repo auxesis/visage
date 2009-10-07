@@ -162,15 +162,40 @@ var visageGraph = new Class({
         this.buildLabels(this.graphLines, this.pluginInstanceNames, this.pluginInstanceDataSources, this.colors);
         this.buildDateSelector();
 
-        //this.buildEmbedder();
+        this.buildEmbedder();
     },
     buildEmbedder: function() {
-        pre = new Element('textarea', {
+        var pre = new Element('textarea', {
                 'id': 'embedder',
                 'class': 'embedder',
-                'html': this.embedCode()
+                'html': this.embedCode(),
+                'styles': {
+                    'width': '500px',
+                    'padding': '3px'
+                }
         });
-        this.embedderContainer.grab(pre)
+        this.embedderContainer.grab(pre);
+
+        var slider = new Fx.Slide(pre, {
+            duration: 200 
+        });
+
+        slider.slideOut();
+
+        var toggler = new Element('a', {
+                'id': 'toggler',
+                'class': 'toggler',
+                'html': '(embed)',
+                'href': '#',
+                'styles': {
+                    'font-size': '0.7em',
+                }
+        });
+        toggler.addEvent('click', function(e) {
+            e.stop();
+            slider.toggle();
+        });
+        this.embedderTogglerContainer.grab(toggler);
     },
     embedCode: function() {
         baseurl = "{protocol}//{host}".substitute({'host': window.location.host, 'protocol': window.location.protocol});
@@ -178,7 +203,7 @@ var visageGraph = new Class({
         code += "<div id='graph'></div>"
         code += "<script type='text/javascript'>window.addEvent('domready', function() { var graph = new visageGraph('graph', '{host}', '{plugin}', ".substitute({'host': this.options.host, 'plugin': this.options.plugin});
         code += "{"
-        code += "width: 900, height: 220, gridWidth: 800, gridHeight: 200, baseurl: '{baseurl}', embedded: true".substitute({'baseurl': baseurl});
+        code += "width: 900, height: 220, gridWidth: 800, gridHeight: 200, baseurl: '{baseurl}'".substitute({'baseurl': baseurl});
         code += "}); });</script>"
         return code.replace('<', '&lt;').replace('>', '&gt;')
     },
@@ -223,6 +248,18 @@ var visageGraph = new Class({
 
     },
     buildContainers: function() {
+        this.embedderTogglerContainer = new Element('div', {
+            'class': 'embedder-toggler container',
+            'styles': {
+                'float': 'right',
+                'width': '20%',
+                'text-align': 'right',
+                'margin-right': '12px',
+                'padding-top': '4px'
+            }
+        });
+        $(this.parentElement).grab(this.embedderTogglerContainer, 'top')
+
         this.timescaleContainer = new Element('div', {
             'class': 'timescale container',
             'styles': {
