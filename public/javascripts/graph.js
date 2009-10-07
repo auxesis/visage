@@ -180,7 +180,7 @@ var visageGraph = new Class({
             duration: 200 
         });
 
-        slider.slideOut();
+        slider.hide();
 
         var toggler = new Element('a', {
                 'id': 'toggler',
@@ -338,6 +338,7 @@ var visageGraph = new Class({
                             $(this.labelsContainer).empty();
                             $(this.timescaleContainer).empty();
                             $(this.embedderContainer).empty();
+                            $(this.embedderTogglerContainer).empty();
                             if ($defined(this.graph.selection)) {
                                 this.graph.selection.remove();
                             }
