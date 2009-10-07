@@ -18,6 +18,7 @@ var visageBase = new Class({
         rows: 8,
         topGutter: 50,
         gridBorderColour: '#ccc',
+        shade: false,
         secureJSON: false,
         httpMethod: 'get'
     },
@@ -149,7 +150,8 @@ var visageGraph = new Class({
                             width: 1.5,
                             axis: "0 0 1 1", 
                             colors: this.colors, 
-                            axisxstep: x.length / 20
+                            axisxstep: x.length / 20,
+                            shade: this.options.shade
         });
 
         this.addSelectionInterface();
