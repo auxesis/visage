@@ -162,7 +162,9 @@ var visageGraph = new Class({
         this.buildLabels(this.graphLines, this.pluginInstanceNames, this.pluginInstanceDataSources, this.colors);
         this.buildDateSelector();
 
+        /* disabling this for now for dramatic effect
         this.buildEmbedder();
+        */
     },
     buildEmbedder: function() {
         var pre = new Element('textarea', {
