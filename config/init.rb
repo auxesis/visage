@@ -26,5 +26,8 @@ Visage::Config.use do |c|
 
   # Location of collectd's RRD - you may want to edit this!
   c['rrddir'] = "/var/lib/collectd/rrd"
+
+  # whether to shade in graphs
+  c['shade'] = false
 end
 
