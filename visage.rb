@@ -59,16 +59,16 @@ end
 # JSON data backend
 
 # /data/:host/:plugin/:optional_plugin_instance
-get %r{/data/([^/]+)/([^/]+)(/([^/]+))*} do 
+get %r{/data/([^/]+)/([^/]+)((/[^/]+)*)} do 
   host = params[:captures][0]
   plugin = params[:captures][1]
-  plugin_instance = params[:captures][3]
+  plugin_instance = params[:captures][2]
 
   collectd = CollectdJSON.new(:rrddir => Visage::Config.rrddir, 
                               :fallback_colors => Visage::Config.fallback_colors)
   json = collectd.json(:host => host, 
                        :plugin => plugin,
-                       :plugin_instance => plugin_instance,
+                       :plugin_instances => plugin_instances,
                        :start => params[:start],
                        :end => params[:end],
                        :plugin_colors => Visage::Config.plugin_colors)
