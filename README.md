@@ -59,7 +59,7 @@ Developing
 For development: 
 
     $ gem install shotgun
-    $ shotgun sinatra-collectd.rb
+    $ shotgun visage.rb
 
 Deploying
 ---------
