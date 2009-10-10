@@ -61,7 +61,7 @@ end
 get %r{/data/([^/]+)/([^/]+)((/[^/]+)*)} do 
   host = params[:captures][0]
   plugin = params[:captures][1]
-  plugin_instance = params[:captures][2]
+  plugin_instances = params[:captures][2]
 
   collectd = CollectdJSON.new(:rrddir => Visage::Config.rrddir, 
                               :fallback_colors => Visage::Config.fallback_colors)
