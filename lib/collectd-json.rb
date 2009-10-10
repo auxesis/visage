@@ -18,16 +18,16 @@ class CollectdJSON
 
   # Entry point.
   def json(opts={})
-    host            = opts[:host]
-    plugin          = opts[:plugin]
-    plugin_instance = opts[:plugin_instance]
-    @colors         = opts[:plugin_colors]
+    host             = opts[:host]
+    plugin           = opts[:plugin]
+    plugin_instances = opts[:plugin_instances]
+    @colors          = opts[:plugin_colors]
 
-    rrds = {}
-    rrdglob = "#{@rrddir}/#{host}/#{plugin}/#{plugin_instance || '*'}.rrd"
-    Dir.glob(rrdglob).map do |rrdname|
-      rrds[File.basename(rrdname, '.rrd')] = Errand.new(:filename => rrdname)
-    end
+      rrds = {}
+      rrdglob = "#{@rrddir}/#{host}/#{plugin}/#{ plugin_instances=="" ? '*' : '{' + plugin_instances.split('/').join(',') + '}' }.rrd"
+      Dir.glob(rrdglob).map do |rrdname|
+        rrds[File.basename(rrdname, '.rrd')] = RRDtool.new(rrdname)
+      end
 
     encode(opts.merge(:rrds => rrds))
   end
