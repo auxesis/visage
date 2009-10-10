@@ -44,7 +44,8 @@ across and edit to taste. The plugins are in the format of
 If you don't specify a `plugin-instance` Visage will attempt to graph all plugin
 instances under the specified `plugin`, e.g. `cpu-0` will display `cpu-idle`, 
 `cpu-interrupt`, `cpu-nice`, etc, whereas `cpu-0/cpu-wait` will only show 
-`cpu-wait`. 
+`cpu-wait`. You can even choose a specific basket (and only those) of plugin
+instances to graph, with something like `cpu-0/cpu-system/cpu-user/cpu-wait`.
 
 It  should be pretty easy to deduce the config format from the existing file 
 (it's simple nested key-value data).
