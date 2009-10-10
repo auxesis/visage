@@ -18,7 +18,7 @@
 %div#graphs
   - if @profile && @profile.plugins
     - @profile.plugins.each do |graph|
-      - plugin, plugin_instance =  graph.split('/')
+      - plugin, plugin_instances =  graph.split('/', 2)
       - graph_id = "graph#{graph.gsub(/[^\w+]/, '_')}"
       %div.graph
         %div{:id => graph_id}
@@ -30,7 +30,7 @@
               gridWidth: 800,
               gridHeight: 200,
               shade: #{Visage::Config.shade || false},
-              pluginInstance: '#{plugin_instance || ''}',
+              pluginInstance: '#{plugin_instances || ''}',
               name: '#{plugin} on #{host}'
             });
           });
