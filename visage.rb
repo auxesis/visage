@@ -9,7 +9,6 @@ require 'errand'
 require 'yajl'
 require 'haml'
 require 'lib/collectd-json'
-require 'lib/collectd-profile'
 require 'lib/visage-config'
 
 set :public, __DIR__ + '/public'
@@ -19,7 +18,7 @@ configure do
   require 'config/init'
 
   CollectdJSON.rrddir = Visage::Config.rrddir
-  CollectdProfile.profiles = Visage::Config.profiles
+  Visage::Config::Profiles.profiles = Visage::Config.profiles
 end
 
 template :layout do 
@@ -43,15 +42,15 @@ end
 
 get '/:host' do 
   @hosts = CollectdJSON.hosts
-  @profiles = CollectdProfile.all
+  @profiles = Visage::Config::Profiles.all
 
   haml :index
 end
 
 get '/:host/:profile' do 
   @hosts = CollectdJSON.hosts
-  @profiles = CollectdProfile.all
-  @profile = CollectdProfile.get(params[:profile])
+  @profiles = Visage::Config::Profiles.all
+  @profile = Visage::Config::Profiles.get(params[:profile])
   
   haml :index
 end
