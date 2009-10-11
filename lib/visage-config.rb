@@ -1,7 +1,7 @@
 module Visage
   class Config 
-    class << self
 
+    class << self
       def use
         @configuration ||= {}
         yield @configuration
@@ -20,5 +20,30 @@ module Visage
         @configuration
       end
     end
+
+    class Profiles
+      class << self
+        attr_accessor :profiles
+
+        def get(id)
+          id.gsub!(/\s+/, '+')
+          if found = @profiles.find {|p| p[1]["splatpart"] == id }
+            OpenStruct.new(found[1])
+          else
+            nil
+          end
+        end
+
+        def all
+          # here be ugliness
+          profiles = @profiles.to_a.sort_by { |profile| 
+            profile[1]["order"] 
+          }.map { |profile| 
+            OpenStruct.new(profile[1].merge({'name' => profile[0]}))
+          }
+        end
+      end
+    end
+
   end
 end
