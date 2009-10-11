@@ -23,6 +23,8 @@ module Visage
 
     class Profiles
       class << self
+        require 'ostruct'
+
         attr_accessor :profiles
 
         def get(id)
