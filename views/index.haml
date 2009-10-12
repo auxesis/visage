@@ -2,9 +2,16 @@
   %div#hosts.nav
     %h2 Hosts
     %ul
-      - @hosts.each do |host|
+      - if !Visage::Config.rrddir
         %li
-          %a{:href => "/#{host}"}= host
+          You need to specify <strong>rrddir</strong> in config/init.rb!
+      - elsif @hosts.empty?
+        %li
+          No hosts found. Please check <strong>rrddir</strong> in config/init.rb!
+      - else
+        - @hosts.each do |host|
+          %li
+            %a{:href => "/#{host}"}= host
   
   - if host = params[:host]
     %div#profiles.nav
