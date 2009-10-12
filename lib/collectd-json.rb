@@ -11,7 +11,7 @@ require 'yajl'
 class CollectdJSON
 
   def initialize(opts={})
-    @rrddir = opts[:rrddir] || "/var/lib/collectd/rrd"
+    @rrddir = opts[:rrddir] || CollectdJSON.rrddir
     @fallback_colors = opts[:fallback_colors] || {}
     @used_fallbacks = []
   end
@@ -120,7 +120,11 @@ class CollectdJSON
   end
 
   class << self
-    attr_accessor :rrddir
+    attr_writer :rrddir
+
+    def rrddir
+      @rrddir || @rrddir = "/var/lib/collectd/rrd"
+    end
 
     def hosts
       if @rrddir
