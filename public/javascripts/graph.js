@@ -156,10 +156,7 @@ var visageGraph = new Class({
 
         this.addSelectionInterface();
 
-        this.graphLines = [];
-        $each(this.graph.items[1].items, function(line) { this.graphLines.push(line) }, this);
-
-        this.buildLabels(this.graphLines, this.pluginInstanceNames, this.pluginInstanceDataSources, this.colors);
+        this.buildLabels(this.graph.lines, this.pluginInstanceNames, this.pluginInstanceDataSources, this.colors);
         this.buildDateSelector();
 
         /* disabling this for now for dramatic effect
