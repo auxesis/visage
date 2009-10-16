@@ -439,7 +439,7 @@ var visageGraph = new Class({
                 }
             // disk operations
             } else if (ds == 'read' || ds == 'write') {
-                var instanceName = instanceNames[Math.round(index / 2)]
+                var instanceName = instanceNames[Math.round((index -1) / 2)]
                 var name = instanceName.split('_')[1] + '-' + ds
             } else {
                 var name = ds
