@@ -16,7 +16,6 @@ var visageBase = new Class({
         gridHeight: 200,
         columns: 60,
         rows: 8,
-        topGutter: 50,
         gridBorderColour: '#ccc',
         shade: false,
         secureJSON: false,
@@ -158,6 +157,50 @@ var visageGraph = new Class({
 
         this.buildLabels(this.graph.lines, this.pluginInstanceNames, this.pluginInstanceDataSources, this.colors);
         this.buildDateSelector();
+
+        /* clean up graph labels */
+        this.graph.axis[0].text.items.getLast().hide()
+        $each(this.graph.axis[0].text.items, function (time) {
+            
+            var unixTime = time.attr('text')
+            var d = new Date(time.attr('text') * 1000);
+            time.attr({'text': d.strftime("%H:%M")});
+
+            time.mouseover(function () {
+                this.attr({'text': d.strftime("%H:%M")});
+            });
+
+            /*
+            time.mouseout(function () {
+                this.attr({'text': d.strftime("%H:%M")});
+            });
+            */
+        });
+
+        $each(this.graph.axis[1].text.items, function (value) {
+            if (value.attr('text') > 1073741824) {
+                // FIXME: no JS reference on train means awful rounding hacks!
+                var r = value.attr('text') / 1073741824;
+                if ($chk(this.previous) && this.previous.toString()[0] == r.toString()[0]) {
+                    var round = '.' + r.toString().split('.')[1][0]
+                } else {
+                    var round = ''
+                }
+                value.attr({'text': Math.floor(r) + round + 'g'})
+            } else if (value.attr('text') > 1048576) {
+                // and again :-(
+                var r = value.attr('text') / 1048576;
+                if ($chk(this.previous) && this.previous.toString()[0] == r.toString()[0]) {
+                    var round = '.' + r.toString().split('.')[1][0]
+                } else {
+                    var round = ''
+                }
+                value.attr({'text': Math.floor(r) + round + 'm'})
+            } else if (value.attr('text') > 1024) {
+                value.attr({'text': Math.floor(value.attr('text') / 1024) + 'k'})
+            }
+            this.previous = value.attr('text')
+        });
 
         /* disabling this for now for dramatic effect
         this.buildEmbedder();
