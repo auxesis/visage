@@ -180,25 +180,32 @@ var visageGraph = new Class({
         $each(this.graph.axis[1].text.items, function (value) {
             if (value.attr('text') > 1073741824) {
                 // FIXME: no JS reference on train means awful rounding hacks!
-                var r = value.attr('text') / 1073741824;
+                var label = value.attr('text') / 1073741824;
                 if ($chk(this.previous) && this.previous.toString()[0] == r.toString()[0]) {
                     var round = '.' + r.toString().split('.')[1][0]
                 } else {
                     var round = ''
                 }
-                value.attr({'text': Math.floor(r) + round + 'g'})
+                var unit = 'g'
             } else if (value.attr('text') > 1048576) {
                 // and again :-(
-                var r = value.attr('text') / 1048576;
+                var label = value.attr('text') / 1048576;
                 if ($chk(this.previous) && this.previous.toString()[0] == r.toString()[0]) {
                     var round = '.' + r.toString().split('.')[1][0]
                 } else {
                     var round = ''
                 }
-                value.attr({'text': Math.floor(r) + round + 'm'})
+                var unit = 'm'
             } else if (value.attr('text') > 1024) {
-                value.attr({'text': Math.floor(value.attr('text') / 1024) + 'k'})
+                var label = value.attr('text') / 1024;
+                var round = '';
+                var unit = 'k';
+            } else {
+                var label = value.attr('text');
+                var round = '';
+                var unit = ''
             }
+            value.attr({'text': Math.floor(label) + round + unit})
             this.previous = value.attr('text')
         });
 
