@@ -181,30 +181,26 @@ var visageGraph = new Class({
             if (value.attr('text') > 1073741824) {
                 // FIXME: no JS reference on train means awful rounding hacks!
                 var label = value.attr('text') / 1073741824;
-                if ($chk(this.previous) && this.previous.toString()[0] == r.toString()[0]) {
-                    var round = '.' + r.toString().split('.')[1][0]
-                } else {
-                    var round = ''
-                }
                 var unit = 'g'
             } else if (value.attr('text') > 1048576) {
                 // and again :-(
                 var label = value.attr('text') / 1048576;
-                if ($chk(this.previous) && this.previous.toString()[0] == r.toString()[0]) {
-                    var round = '.' + r.toString().split('.')[1][0]
-                } else {
-                    var round = ''
-                }
                 var unit = 'm'
             } else if (value.attr('text') > 1024) {
                 var label = value.attr('text') / 1024;
-                var round = '';
                 var unit = 'k';
             } else {
                 var label = value.attr('text');
-                var round = '';
                 var unit = ''
             }
+
+            var decimal = label.toString().split('.')
+            if ($chk(this.previous) && this.previous.toString()[0] == label.toString()[0] && decimal.length > 1) {
+                var round = '.' + decimal[1][0]
+            } else {
+                var round = ''
+            }
+
             value.attr({'text': Math.floor(label) + round + unit})
             this.previous = value.attr('text')
         });
