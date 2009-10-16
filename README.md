@@ -120,7 +120,7 @@ TODO
  * title attributes - DONE
  * split profiles + colors => plugins into separate files - DONE
  * fix key labels - DONE
- * axis labels (with human readable times)
+ * axis labels (with human readable times) - DONE
  * detailed point-in-time data on hover
  * embedded html generator - DONE
  * zoom + dynamic resize - DONE
@@ -128,3 +128,4 @@ TODO
  * comment on time periods
  * view list of comments
  * provide option to shade under graphs - DONE
+ * interface to build custom graph profiles
