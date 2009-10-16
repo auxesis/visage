@@ -153,10 +153,17 @@ var visageGraph = new Class({
                             shade: this.options.shade
         });
 
+        this.formatAxes();
         this.addSelectionInterface();
 
         this.buildLabels(this.graph.lines, this.pluginInstanceNames, this.pluginInstanceDataSources, this.colors);
         this.buildDateSelector();
+
+        /* disabling this for now for dramatic effect
+        this.buildEmbedder();
+        */
+    },
+    formatAxes: function() {
 
         /* clean up graph labels */
         this.graph.axis[0].text.items.getLast().hide()
@@ -178,8 +185,9 @@ var visageGraph = new Class({
         });
 
         $each(this.graph.axis[1].text.items, function (value) {
+            // FIXME: no JS reference on train means awful rounding hacks!
+            // if you are reading this, it's a bug!
             if (value.attr('text') > 1073741824) {
-                // FIXME: no JS reference on train means awful rounding hacks!
                 var label = value.attr('text') / 1073741824;
                 var unit = 'g'
             } else if (value.attr('text') > 1048576) {
@@ -205,9 +213,6 @@ var visageGraph = new Class({
             this.previous = value.attr('text')
         });
 
-        /* disabling this for now for dramatic effect
-        this.buildEmbedder();
-        */
     },
     buildEmbedder: function() {
         var pre = new Element('textarea', {
