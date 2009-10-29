@@ -3,6 +3,11 @@
 require 'RRDtool'
 require 'yajl'
 
+# Exposes RRDs as JSON. 
+#
+# A loose shim onto RRDtool, with some extra logic to normalise the data.
+# Also provides a recommended color for rendering the data in a line graph.
+#
 class CollectdJSON
 
   def initialize(opts={})
@@ -11,21 +16,24 @@ class CollectdJSON
     @used_fallbacks = []
   end
 
+  # Entry point.
   def json(opts={})
     host            = opts[:host]
     plugin          = opts[:plugin]
     plugin_instance = opts[:plugin_instance]
     @colors         = opts[:plugin_colors]
 
-      rrds = {}
-      rrdglob = "#{@rrddir}/#{host}/#{plugin}/#{plugin_instance || '*'}.rrd"
-      Dir.glob(rrdglob).map do |rrdname|
-        rrds[File.basename(rrdname, '.rrd')] = RRDtool.new(rrdname)
-      end
+    rrds = {}
+    rrdglob = "#{@rrddir}/#{host}/#{plugin}/#{plugin_instance || '*'}.rrd"
+    Dir.glob(rrdglob).map do |rrdname|
+      rrds[File.basename(rrdname, '.rrd')] = RRDtool.new(rrdname)
+    end
 
-      encode(opts.merge(:rrds => rrds))
+    encode(opts.merge(:rrds => rrds))
   end
 
+  # Attempt to structure the JSON reasonably sanely, so the consumer doesn't
+  # have to do a lot of computationally expensive work when processing it.
   def encode(opts={})
     opts[:start] ||= (Time.now - 3600).to_i
     opts[:end]   ||= (Time.now).to_i
@@ -44,6 +52,7 @@ class CollectdJSON
         end
       end
 
+      # append the line color onto the end of the data set
       plugin_instance.last.last.size.times do
         plugin_instance << color_for(:host => opts[:host], :plugin => opts[:plugin], :plugin_instance => name)
       end
@@ -54,6 +63,9 @@ class CollectdJSON
     encoder.encode(values)
   end
 
+  # We append the recommended line color onto data set, so the javascript
+  # doesn't try and have to work it out. This lets us use all sorts of funky
+  # fallback logic when determining what colours should be used.
   def color_for(opts={})
     case 
     when @colors[opts[:plugin]] && @colors[opts[:plugin]][opts[:plugin_instance]]
