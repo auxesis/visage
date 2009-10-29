@@ -511,7 +511,7 @@ var visageGraph = new Class({
                     }, this);
             }
     },
-    /* recurses, normalised data sources */
+    /* recursive function, normalise the data sources */
     populateDataSources: function (dataSources) {
         switch($type(dataSources)) {
             case 'array': 
