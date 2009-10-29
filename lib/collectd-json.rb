@@ -36,6 +36,14 @@ class CollectdJSON
    
     opts[:rrds].each_pair do |name, rrd|
       plugin_instance = rrd.fetch(['AVERAGE', '--start', opts[:start], '--end', opts[:end]])
+   
+      # filter out NaNs, so yajl doesn't choke
+      plugin_instance[3].each do |datasets|
+        datasets.map! do |datapoint|
+          datapoint.nan? ? 0.0 : datapoint
+        end
+      end
+
       plugin_instance.last.last.size.times do
         plugin_instance << color_for(:host => opts[:host], :plugin => opts[:plugin], :plugin_instance => name)
       end
