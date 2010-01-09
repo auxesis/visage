@@ -6,7 +6,7 @@ profiles:
       - cpu-1
       - load/load
       - battery-0
-    splatpart: cpu+load
+    name: CPU + Load
     order: 1
   Memory:
     plugins:
@@ -24,7 +24,8 @@ profiles:
     plugins:
       - tcpconns-9393-local
       - tcpconns-80-local
-    splatpart: network
+      - tcpconns-22-local
+    name: Networking
     order: 4
   Processes:
     plugins:
