@@ -24,6 +24,7 @@ profiles:
     plugins: 
       - tcpconns-9393-local
       - tcpconns-80-local
+      - tcpconns-22-local
     name: Networking
     order: 4
   processes: 
