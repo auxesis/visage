@@ -20,12 +20,12 @@ Check out a demo at [http://visage.unstated.net/](http://visage.unstated.net).
 Installing
 ----------
 
-Freeze in dependencies:
+Bundle dependencies:
 
-    $ rake deps
+    $ gem bundle 
 
 Amongst other things, this will pull in RubyRRDtool, which requires the rrdtool
-headers to build a C extension. On Ubuntu these are in the `librrd2-dev` package.
+headers to build a C extension. On Debian/Ubuntu these are in the `librrd2-dev` package.
 
 Configuring
 -----------
