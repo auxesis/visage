@@ -1,9 +1,5 @@
 #!/usr/bin/env ruby
 
-require 'rubygems'
-Gem.clear_paths
-__DIR__ = File.expand_path(File.dirname(__FILE__))
-Gem.path << File.join(__DIR__, 'gems')
 require 'sinatra'
 require 'errand'
 require 'yajl'
