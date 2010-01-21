@@ -5,7 +5,7 @@ Gem.clear_paths
 __DIR__ = File.expand_path(File.dirname(__FILE__))
 Gem.path << File.join(__DIR__, 'gems')
 require 'sinatra'
-require 'RRDtool'
+require 'errand'
 require 'yajl'
 require 'haml'
 require 'lib/collectd-json'
