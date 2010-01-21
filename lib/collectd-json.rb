@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby
 
-require 'RRDtool'
+require 'errand'
 require 'yajl'
 
 # Exposes RRDs as JSON. 
@@ -26,7 +26,7 @@ class CollectdJSON
     rrds = {}
     rrdglob = "#{@rrddir}/#{host}/#{plugin}/#{plugin_instance || '*'}.rrd"
     Dir.glob(rrdglob).map do |rrdname|
-      rrds[File.basename(rrdname, '.rrd')] = RRDtool.new(rrdname)
+      rrds[File.basename(rrdname, '.rrd')] = Errand.new(:filename => rrdname)
     end
 
     encode(opts.merge(:rrds => rrds))
@@ -43,20 +43,22 @@ class CollectdJSON
     values = { opts[:host] => { opts[:plugin] => {} } }
    
     opts[:rrds].each_pair do |name, rrd|
-      plugin_instance = rrd.fetch(['AVERAGE', '--start', opts[:start], '--end', opts[:end]])
-   
-      # filter out NaNs, so yajl doesn't choke
-      plugin_instance[3].each do |datasets|
-        datasets.map! do |datapoint|
-          datapoint.nan? ? 0.0 : datapoint
+      rrd_data = rrd.fetch(:function => "AVERAGE", :start => opts[:start], :end => opts[:end])
+        plugin_instance = {:start => rrd_data[:start], :finish => rrd_data[:finish], :data => rrd_data[:data]}
+        
+        # filter out NaNs, so yajl doesn't choke
+        
+        plugin_instance[:data].each_pair do |source, points|
+          points.map! do |datapoint|
+            (!datapoint || datapoint.nan?) ? 0.0 : datapoint
+          end
         end
-      end
 
       # append the line color onto the end of the data set
-      plugin_instance.last.last.size.times do
-        plugin_instance << color_for(:host => opts[:host], :plugin => opts[:plugin], :plugin_instance => name)
+      plugin_instance[:data].each_key do |source|
+        plugin_instance[:colors] = color_for(:host => opts[:host], :plugin => opts[:plugin], :plugin_instance => name)
       end
-      values[opts[:host]][opts[:plugin]].merge!({ name => plugin_instance })
+      values[opts[:host]][opts[:plugin]].merge!({ name => plugin_instance})
     end
 
     encoder = Yajl::Encoder.new
