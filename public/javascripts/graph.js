@@ -109,30 +109,29 @@ var visageGraph = new Class({
         this.intervals = new Hash()
 
         $each(data[this.options.host][this.options.plugin], function(pluginInstance, pluginInstanceName) {
-            startTime = pluginInstance.splice(0,1)
-            endTime = pluginInstance.splice(0,1)
-            dataSources = pluginInstance.splice(0,1)
-            dataSets = pluginInstance.splice(0,1)
+            startTime = pluginInstance.start
+            endTime = pluginInstance.finish
+            data = pluginInstance.data
        
             this.intervals.set('start', startTime);
             this.intervals.set('end', endTime);
             this.pluginInstanceNames.push(pluginInstanceName)
-            this.populateDataSources(dataSources);
+            this.populateDataSources(data);
 
             // color names are not structured consistently - extract them
-            colors = pluginInstance.splice(0,10)
+            colors = pluginInstance.colors
             this.populateColors(colors);
 
-            axes = this.extractYAxes(dataSources, dataSets)
+            axes = this.extractYAxes(data)
             // sometimes we have multiple datapoints in a dataset (eg load/load)
-            axes.each(function(axis) { this.y.push(axis) }, this);
+            axes.each(function(axis) { this.y.push(axis) }, this);  
         }, this);
 
       
         this.canvas.g.txtattr.font = "11px 'sans-serif'";
 
-        var start = this.intervals.get('start')[0]
-        var end = this.intervals.get('end')[0]
+        var start = this.intervals.get('start')
+        var end = this.intervals.get('end')
         var increment = (end - start) / this.y[0].length;
 
         x = [];
@@ -496,49 +495,27 @@ var visageGraph = new Class({
     },
     /* recurse through colours data structure and generate a list of colours */
     populateColors: function(nestedColors) {
-            switch($type(nestedColors)) {
-                case 'array':
-                    nestedColors.each(function(c) {
-                        this.populateColors(c);
-                    }, this);
-                    break
-                case 'string':
-                    this.colors.push(nestedColors);
-                    break
-                default: 
-                    $each(nestedColors, function(c) {
-                        this.populateColors(c)
-                    }, this);
-            }
+        
+                $each(nestedColors, function(color, key) {
+                    this.colors.push(color);
+                }, this);
     },
-    /* recursive function, normalise the data sources */
-    populateDataSources: function (dataSources) {
-        switch($type(dataSources)) {
-            case 'array': 
-                dataSources.each(function(ds) {
-                    this.populateDataSources(ds)
-                }, this);
-                break
-            case 'string': 
-                this.pluginInstanceDataSources.push(dataSources);
-                break
-            default: 
-                $each(dataSources, function(ds) {
-                    this.populateDataSources(ds)
-                }, this);
-        }
+    populateDataSources: function (data) {
+            for(key in data) {this.pluginInstanceDataSources.push(key)};
     },
     // separates the datasets into separate y-axes, suitable for passing to g.raphael 
-    extractYAxes: function(dataSources, dataSets) {
+    extractYAxes: function(data) {
         y = []
-        dataSources[0].length.times(function() { y.push([]) });
 
-        dataSets[0].each(function(primaryDataPoints) {
+        $each(data, function(primaryDataPoints, key) {
+            vals = []
             primaryDataPoints.each(function(pdp, index) {
                 // the last few pdps tend to be NaNs. normalise
                 value = isNaN(pdp) ? 0 : pdp
-                y[index].push(value)
+                vals.push(value)
             });
+            window.console.log(vals)
+            y.push(vals)
         });
 
         return y
