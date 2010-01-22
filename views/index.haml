@@ -20,7 +20,7 @@
       %ul
         - @profiles.each do |profile|
           %li
-            %a{:href => "/#{host}/#{profile.splatpart}"}= profile.name
+            %a{:href => "/#{host}/#{profile.splat}"}= profile.name
 
 %div#graphs
   - if @profile && @profile.plugins

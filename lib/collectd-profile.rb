@@ -15,7 +15,7 @@ class CollectdProfile
 
     def get(id)
       id.gsub!(/\s+/, '+')
-      if found = @profiles.find {|p| p[1]["splatpart"] == id }
+      if found = @profiles.find {|p| p[1]["splat"] == id }
         OpenStruct.new(found[1])
       else
         nil
