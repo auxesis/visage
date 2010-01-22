@@ -126,7 +126,8 @@ class CollectdJSON
 
     def hosts
       if @rrddir
-        Dir.glob("#{@rrddir}/*").map {|e| e.split('/').last }.sort
+        d = Dir.glob("#{@rrddir}/*").map {|e| e.split('/').last }.sort
+        d.empty? ? ['No hosts found. Please check <strong>rrddir</strong> in config/init.rb!'] : d
       else
         ['You need to specify <strong>rrddir</strong> in config/init.rb!']
       end
