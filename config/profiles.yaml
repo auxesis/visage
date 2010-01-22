@@ -12,13 +12,13 @@ profiles:
     plugins:
       - memory
       - swap
-    splatpart: mem
+    splatpart: memory
     order: 2
   Disk Usage:
     plugins:
       - df/df-root
       - disk-sda
-    splatpart: du
+    splatpart: disk+usage
     order: 3
   Networking:
     plugins:
