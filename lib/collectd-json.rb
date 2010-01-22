@@ -11,20 +11,21 @@ require 'yajl'
 class CollectdJSON
 
   def initialize(opts={})
-    @rrddir = opts[:rrddir] || "/var/lib/collectd/rrd"
+    @rrddir = opts[:rrddir] || CollectdJSON.rrddir
     @fallback_colors = opts[:fallback_colors] || {}
     @used_fallbacks = []
   end
 
   # Entry point.
   def json(opts={})
-    host            = opts[:host]
-    plugin          = opts[:plugin]
-    plugin_instance = opts[:plugin_instance]
-    @colors         = opts[:plugin_colors]
+    host             = opts[:host]
+    plugin           = opts[:plugin]
+    plugin_instances = opts[:plugin_instances]
+    instances        = plugin_instances.blank? ? '*' : '{' + plugin_instances.split('/').join(',') + '}'
+    @colors          = opts[:plugin_colors]
 
     rrds = {}
-    rrdglob = "#{@rrddir}/#{host}/#{plugin}/#{plugin_instance || '*'}.rrd"
+    rrdglob = "#{@rrddir}/#{host}/#{plugin}/#{instances}.rrd"
     Dir.glob(rrdglob).map do |rrdname|
       rrds[File.basename(rrdname, '.rrd')] = Errand.new(:filename => rrdname)
     end
@@ -37,8 +38,6 @@ class CollectdJSON
   def encode(opts={})
     opts[:start] ||= (Time.now - 3600).to_i
     opts[:end]   ||= (Time.now).to_i
-    opts[:start].to_s.gsub!(/\.\d+$/,'')
-    opts[:end].to_s.gsub!(/\.\d+$/,'')
 
     values = { opts[:host] => { opts[:plugin] => {} } }
    
@@ -118,7 +117,11 @@ class CollectdJSON
   end
 
   class << self
-    attr_accessor :rrddir
+    attr_writer :rrddir
+
+    def rrddir
+      @rrddir || @rrddir = "/var/lib/collectd/rrd"
+    end
 
     def hosts
       if @rrddir
