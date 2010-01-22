@@ -7,7 +7,6 @@ require 'errand'
 require 'yajl'
 require 'haml'
 require 'lib/collectd-json'
-require 'lib/collectd-profile'
 require 'lib/visage-config'
 
 set :public, __DIR__ + '/public'
@@ -17,7 +16,7 @@ configure do
   require 'config/init'
 
   CollectdJSON.rrddir = Visage::Config.rrddir
-  CollectdProfile.profiles = Visage::Config.profiles
+  Visage::Config::Profiles.profiles = Visage::Config.profiles
 end
 
 template :layout do 
@@ -41,15 +40,15 @@ end
 
 get '/:host' do 
   @hosts = CollectdJSON.hosts
-  @profiles = CollectdProfile.all
+  @profiles = Visage::Config::Profiles.all
 
   haml :index
 end
 
 get '/:host/:profile' do 
   @hosts = CollectdJSON.hosts
-  @profiles = CollectdProfile.all
-  @profile = CollectdProfile.get(params[:profile])
+  @profiles = Visage::Config::Profiles.all
+  @profile = Visage::Config::Profiles.get(params[:profile])
   
   haml :index
 end
@@ -57,16 +56,15 @@ end
 # JSON data backend
 
 # /data/:host/:plugin/:optional_plugin_instance
-get %r{/data/([^/]+)/([^/]+)(/([^/]+))*} do 
+get %r{/data/([^/]+)/([^/]+)((/[^/]+)*)} do 
   host = params[:captures][0]
   plugin = params[:captures][1]
-  plugin_instance = params[:captures][3]
+  plugin_instances = params[:captures][2]
 
-  collectd = CollectdJSON.new(:rrddir => Visage::Config.rrddir, 
-                              :fallback_colors => Visage::Config.fallback_colors)
+  collectd = CollectdJSON.new(:fallback_colors => Visage::Config.fallback_colors)
   json = collectd.json(:host => host, 
                        :plugin => plugin,
-                       :plugin_instance => plugin_instance,
+                       :plugin_instances => plugin_instances,
                        :start => params[:start],
                        :end => params[:end],
                        :plugin_colors => Visage::Config.plugin_colors)
