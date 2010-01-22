@@ -5,8 +5,8 @@ gem "rack-test", "= 0.4.1", :only => :testing
 gem "rake", "= 0.8.7"
 gem "sinatra", "= 0.9.4"
 gem "haml", "= 2.0.5"
-gem "auxesis-RubyRRDtool", "= 0.6.0"
+gem "errand", "= 0.7.0"
 gem "yajl-ruby", "= 0.6.3"
 
-disable_system_gems
+#disable_system_gems
 
