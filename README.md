@@ -24,7 +24,7 @@ Bundle dependencies:
 
     $ gem bundle 
 
-Amongst other things, this will pull in RubyRRDtool, which requires the rrdtool
+Amongst other things, this will pull in Errand, which requires the rrdtool
 headers to build a C extension. On Debian/Ubuntu these are in the `librrd2-dev` package.
 
 Configuring
