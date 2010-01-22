@@ -1,5 +1,7 @@
 #!/usr/bin/env ruby
 
+__DIR__ = File.expand_path(File.dirname(__FILE__))
+
 require 'sinatra'
 require 'RRDtool'
 require 'yajl'
