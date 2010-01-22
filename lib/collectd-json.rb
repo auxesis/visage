@@ -113,6 +113,10 @@ class CollectdJSON
   def fallback_color
     fallbacks = @fallback_colors.to_a.sort_by {|pair| pair[1]['fallback_order'] }
     fallback = fallbacks.find { |color| !@used_fallbacks.include?(color) }
+    unless fallback
+      @used_fallbacks = []
+      fallback = fallbacks.find { |color| !@used_fallbacks.include?(color) }
+    end
     @used_fallbacks << fallback
     fallback[1]['color'] || "#000"
   end
