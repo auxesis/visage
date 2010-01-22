@@ -3,7 +3,7 @@
 __DIR__ = File.expand_path(File.dirname(__FILE__))
 
 require 'sinatra'
-require 'RRDtool'
+require 'errand'
 require 'yajl'
 require 'haml'
 require 'lib/collectd-json'
