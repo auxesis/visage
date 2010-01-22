@@ -514,7 +514,6 @@ var visageGraph = new Class({
                 value = isNaN(pdp) ? 0 : pdp
                 vals.push(value)
             });
-            window.console.log(vals)
             y.push(vals)
         });
 
