@@ -1,7 +1,10 @@
 #!/usr/bin/env ruby
 
+$: << File.expand_path(File.dirname(__FILE__))
+
 require 'errand'
 require 'yajl'
+require 'patches/string'
 
 # Exposes RRDs as JSON. 
 #
