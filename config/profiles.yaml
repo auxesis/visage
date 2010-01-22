@@ -1,35 +1,35 @@
---- 
-profiles: 
-  cpu+load: 
-    plugins: 
-      - cpu-0
+---
+profiles:
+  CPU + Load:
+    plugins:
+      - cpu-0/cpu-user/cpu-system/cpu-idle/cpu-wait/cpu-interrupt
       - cpu-1
       - load/load
       - battery-0
-    name: CPU + Load
+    splatpart: cpu+load
     order: 1
-  memory: 
-    plugins: 
+  Memory:
+    plugins:
       - memory
       - swap
-    name: Memory
+    splatpart: mem
     order: 2
-  disk+usage: 
-    plugins: 
+  Disk Usage:
+    plugins:
       - df/df-root
       - disk-sda
-    name: Disk Usage
+    splatpart: du
     order: 3
-  network: 
-    plugins: 
+  Networking:
+    plugins:
       - tcpconns-9393-local
       - tcpconns-80-local
       - tcpconns-22-local
-    name: Networking
+    splatpart: network
     order: 4
-  processes: 
-    plugins: 
+  Processes:
+    plugins:
       - processes
       - processes-collectd
-    name: Processes
+    splatpart: processes
     order: 5
