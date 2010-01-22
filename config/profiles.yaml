@@ -6,30 +6,30 @@ profiles:
       - cpu-1
       - load/load
       - battery-0
-    splatpart: cpu+load
+    splat: cpu+load
     order: 1
   Memory:
     plugins:
       - memory
       - swap
-    splatpart: memory
+    splat: memory
     order: 2
   Disk Usage:
     plugins:
       - df/df-root
       - disk-sda
-    splatpart: disk+usage
+    splat: disk+usage
     order: 3
   Networking:
     plugins:
       - tcpconns-9393-local
       - tcpconns-80-local
       - tcpconns-22-local
-    splatpart: network
+    splat: network
     order: 4
   Processes:
     plugins:
       - processes
       - processes-collectd
-    splatpart: processes
+    splat: processes
     order: 5
