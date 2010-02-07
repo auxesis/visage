@@ -1,5 +1,3 @@
-source :gemcutter
-
 gem "cucumber", :group => :testing
 gem "rspec", :group => :testing
 gem "webrat", :group => :testing
