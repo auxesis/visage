@@ -41,6 +41,7 @@ specs:
     version: 0.6.2
 - errand: 
     version: 0.7.0
-hash: 5a3963622ba6a29ae03234b6c80ea0cfa1dae3bf
-sources: []
-
+hash: a4edc44bb5e4f6dfafcdab6c692d62c6088468d5
+sources: 
+- Rubygems: 
+    uri: http://gemcutter.org
