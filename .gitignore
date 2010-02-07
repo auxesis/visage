@@ -7,3 +7,4 @@ tmp/*
 webrat*
 .bundle/
 vendor/gems/*
+!vendor/gems/cache/
