@@ -1,3 +1,0 @@
-#!/usr/bin/env ruby1.8
-require File.join(File.dirname(__FILE__), "../vendor/gems/environment")
-load File.join(File.dirname(__FILE__), "../vendor/gems/gems/cucumber-0.3.98/bin/cucumber")
