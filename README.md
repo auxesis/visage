@@ -22,10 +22,10 @@ Installing
 
 Bundle dependencies:
 
-    $ gem bundle 
+    $ bundle install vendor/gems/
 
 Amongst other things, this will pull in Errand, which requires the rrdtool
-headers to build a C extension. On Debian/Ubuntu these are in the `librrd2-dev` package.
+headers to build a C extension. On Debian/Ubuntu these are in the `librrd2-dev` package, and on RHEL/CentOS `rrdtool-devel`.
 
 Configuring
 -----------
@@ -35,7 +35,7 @@ Config lives in several files under `config/`.
  * `profiles.yaml` - groups of graphs Visage is to display
  * `plugin-colors.yaml` - colors for specific plugins/plugin instances
  * `fallback-colors.yaml` - ordered list of fallback colors
- * `init.rd` - bootstrapping code, specifies collectd's RRD directory
+ * `init.rb` - bootstrapping code, specifies collectd's RRD directory
 
 `profiles.yaml` isn't setup by default, but you can copy `profiles.yaml.sample`
 across and edit to taste. The plugins are in the format of 
