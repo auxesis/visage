@@ -1,47 +1,21 @@
 --- 
 dependencies: 
-- cucumber: ">= 0"
-- rspec: ">= 0"
-- webrat: ">= 0"
-- rack-test: ">= 0"
 - sinatra: ">= 0"
 - haml: ">= 0"
 - errand: ">= 0"
 - yajl-ruby: ">= 0"
 specs: 
-- nokogiri: 
-    version: 1.4.1
 - yajl-ruby: 
     version: 0.7.0
-- builder: 
-    version: 2.1.2
-- json_pure: 
-    version: 1.2.0
 - rack: 
     version: 1.1.0
-- rack-test: 
-    version: 0.5.3
 - sinatra: 
     version: 0.9.4
-- webrat: 
-    version: 0.7.0
-- polyglot: 
-    version: 0.2.9
-- treetop: 
-    version: 1.4.3
 - haml: 
     version: 2.2.19
-- diff-lcs: 
-    version: 1.1.2
-- rspec: 
-    version: 1.3.0
-- term-ansicolor: 
-    version: 1.0.4
-- cucumber: 
-    version: 0.6.2
 - errand: 
     version: 0.7.0
-hash: a4edc44bb5e4f6dfafcdab6c692d62c6088468d5
+hash: 84bf5ab433a601c5850b22fe6bd2ed0312657016
 sources: 
 - Rubygems: 
     uri: http://gemcutter.org
