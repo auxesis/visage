@@ -5,6 +5,3 @@ tmp/*
 *~
 .#*
 webrat*
-bin/*
-vendor/gems/*
-!vendor/cache/
