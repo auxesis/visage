@@ -44,17 +44,17 @@ plugin_colors:
       free: "#73d216"
   disk:
     disk_merged:
-       read: "#73d216"
-       write: "#cc0000"
+       read: "#8ae234"
+       write: "#ef2929"
     disk_time:
-       read: "#73d216"
-       write: "#cc0000"
+       read: "#729fcf"
+       write: "#fcaf3e"
     disk_ops:
-       read: "#73d216"
-       write: "#cc0000"
+       read: "#ad7fa8"
+       write: "#fce94f"
     disk_octets:
-       read: "#73d216"
-       write: "#cc0000"
+       read: "#c17d11"
+       write: "#888a85"
 
 
 
