@@ -115,6 +115,10 @@ class CollectdJSON
   def fallback_color
     fallbacks = @fallback_colors.to_a.sort_by {|pair| pair[1]['fallback_order'] }
     fallback = fallbacks.find { |color| !@used_fallbacks.include?(color) }
+    unless fallback
+      @used_fallbacks = []
+      fallback = fallbacks.find { |color| !@used_fallbacks.include?(color) }
+    end
     @used_fallbacks << fallback
     fallback[1]['color'] || "#000"
   end
@@ -128,10 +132,7 @@ class CollectdJSON
 
     def hosts
       if @rrddir
-        d = Dir.glob("#{@rrddir}/*").map {|e| e.split('/').last }.sort
-        d.empty? ? ['No hosts found. Please check <strong>rrddir</strong> in config/init.rb!'] : d
-      else
-        ['You need to specify <strong>rrddir</strong> in config/init.rb!']
+        Dir.glob("#{@rrddir}/*").map {|e| e.split('/').last }.sort
       end
     end
 
