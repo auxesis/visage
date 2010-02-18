@@ -1,0 +1,33 @@
+--- 
+dependencies: 
+  errand: 
+    group: 
+    - :default
+    version: ">= 0"
+  haml: 
+    group: 
+    - :default
+    version: ">= 0"
+  sinatra: 
+    group: 
+    - :default
+    version: ">= 0"
+  yajl-ruby: 
+    group: 
+    - :default
+    version: ">= 0"
+specs: 
+- yajl-ruby: 
+    version: 0.7.1
+- rack: 
+    version: 1.1.0
+- sinatra: 
+    version: 0.9.4
+- haml: 
+    version: 2.2.20
+- errand: 
+    version: 0.7.0
+hash: 23d236df09b4377bba58e5ec5684e3c9425617d6
+sources: 
+- Rubygems: 
+    uri: http://gemcutter.org
