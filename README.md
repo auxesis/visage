@@ -25,7 +25,8 @@ Bundle dependencies:
     $ bundle install vendor/gems/
 
 Amongst other things, this will pull in Errand, which requires the rrdtool
-headers to build a C extension. On Debian/Ubuntu these are in the `librrd2-dev` package, and on RHEL/CentOS `rrdtool-devel`.
+headers to build a C extension. On Debian/Ubuntu these are in the `librrd2-dev` 
+package, and on RHEL/CentOS `rrdtool-devel`.
 
 Configuring
 -----------
