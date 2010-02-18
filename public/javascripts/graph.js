@@ -120,14 +120,13 @@ var visageGraph = new Class({
 
             // color names are not structured consistently - extract them
             colors = pluginInstance.colors
-            this.colors.push(colors);
+            this.populateColors(colors);
 
             axes = this.extractYAxes(data)
             // sometimes we have multiple datapoints in a dataset (eg load/load)
             axes.each(function(axis) { this.y.push(axis) }, this);  
         }, this);
 
-      
         this.canvas.g.txtattr.font = "11px 'sans-serif'";
 
         var start = this.intervals.get('start')
@@ -141,7 +140,6 @@ var visageGraph = new Class({
             x.push(counter)
             counter += increment
         }
-        
         
         this.graph = this.canvas.g.linechart(this.options.leftEdge, this.options.topEdge, this.options.gridWidth, this.options.gridHeight, x, this.y, {
                             nostroke: false, 
@@ -493,6 +491,15 @@ var visageGraph = new Class({
             $(this.labelsContainer).grab(container);
 
         }, this);
+    },
+    populateColors: function(nestedColors) {
+        if ($type(nestedColors) == "string") {
+            this.colors.push(nestedColors)
+        } else {
+	        $each(nestedColors, function(color, key) {
+	            this.colors.push(color);
+	        }, this);
+        }
     },
     populateDataSources: function (data) {
             for(key in data) {this.pluginInstanceDataSources.push(key)};
