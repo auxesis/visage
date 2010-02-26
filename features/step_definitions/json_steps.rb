@@ -1,8 +1,19 @@
 Then /^I should receive valid JSON$/ do
   yajl = Yajl::Parser.new
   lambda {
-    yajl.parse(response_body)
+    @response = yajl.parse(response_body)
   }.should_not raise_error
+ 
+  host   = @response.keys.first
+  plugin = @response[host].keys.first
+  metric = @response[host][plugin].keys.first
+  
+  host.should_not be_nil
+  plugin.should_not be_nil
+  metric.should_not be_nil
+
+  data = @response[host][plugin][metric]["data"]
+  #.values.first.size.should > 0
 end
 
 Then /^I should receive JSON wrapped in a callback named "([^\"]*)"$/ do |callback|
@@ -37,8 +48,10 @@ Then /^each plugin instance should have a different color$/ do
   @colours = []
   data.values.map { |k,v| k.values }.map {|k,v| k.values }.map do |a|
     a.each do |b|
-      b.last.should =~ /^#[0-9a-fA-F]+$/
-      @colours << b.last
+      b["colors"].values.each do |string|
+        string.should =~ /^#[0-9a-fA-F]+$/
+        @colours << string
+      end
     end
   end
 
