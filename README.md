@@ -131,3 +131,4 @@ TODO
  * view list of comments
  * provide option to shade under graphs - DONE
  * interface to build custom graph profiles
+ * refactor tests to work on hosts other than my laptop
