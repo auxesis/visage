@@ -110,25 +110,9 @@ Specific features:
 TODO
 ----
 
- * create proper mootools class - DONE
- * switch to g.raphael - DONE
- * config file - DONE
- * data profiles - DONE
- * handle single plugin instance in graphing code - DONE
- * specify data url in graphing code - DONE
- * generate holders for graph/labels/time selector - DONE
- * clean up routes - DONE
- * smart colour selection (CPU-1 = CPU) - DONE
- * title attributes - DONE
- * split profiles + colors => plugins into separate files - DONE
- * fix key labels - DONE
- * axis labels (with human readable times) - DONE
- * detailed point-in-time data on hover
- * embedded html generator - DONE
- * zoom + dynamic resize - DONE
+ * refactor tests to work on hosts other than my laptop
+ * interface to build custom graph profiles
  * combine graphs from different hosts
+ * detailed point-in-time data on hover
  * comment on time periods
  * view list of comments
- * provide option to shade under graphs - DONE
- * interface to build custom graph profiles
- * refactor tests to work on hosts other than my laptop
