@@ -22,7 +22,7 @@ Feature: Export data
     Then I should receive JSON wrapped in a callback named "foobar"
 
   Scenario: Retrieve multiple plugin instances without color definition
-    When I go to /data/theodor/tcpconns-80-local
+    When I go to /data/theodor/memory
     Then the request should succeed
     Then I should receive valid JSON
     And each plugin instance should have a different color
@@ -32,3 +32,9 @@ Feature: Export data
     Then the request should succeed
     Then I should receive valid JSON
     And the plugin instance should have a color
+
+  Scenario: Retrieve a plugin through a glob
+    When I go to /data/theodor/tcpconns-*-local/tcp_connections-LISTEN
+    Then show me the page
+    Then the request should succeed
+    Then I should receive valid JSON
