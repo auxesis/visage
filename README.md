@@ -14,11 +14,26 @@ Features
  * drop-down or mouse selection of timeframes (also rendered asynchronously)
  * JSON interface onto `collectd` RRDs
 
-Check out a demo at [http://visage.unstated.net/](http://visage.unstated.net).
+Check out [http://visage.unstated.net/nadia/cpu+load](a demo).
+
+Dependencies
+------------
+
+Ruby (install with `gem install <dep>`:
+
+ * bundler
+
+System (install with your system's package manager):
+
+ * git, librrd-dev, ruby, rubygems
 
 
 Installing
 ----------
+
+Check out the code from GitHub: 
+
+    $ git clone git@github.com:auxesis/visage.git
 
 Bundle dependencies:
 
