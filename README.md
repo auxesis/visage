@@ -21,7 +21,11 @@ Dependencies
 
 Ruby (install with `gem install <dep>`:
 
- * bundler
+ * bundler08
+
+**Please note Visage uses `bundler08` *not* `bundler`.** Current `bundler` 
+releases depend on a version of RubyGems that is not packaged on any recent 
+stable Linux distribution.
 
 System (install with your system's package manager):
 
@@ -37,7 +41,7 @@ Check out the code from GitHub:
 
 Bundle dependencies:
 
-    $ bundle install vendor/gems/
+    $ gem bundle
 
 Amongst other things, this will pull in Errand, which requires the rrdtool
 headers to build a C extension. On Debian/Ubuntu these are in the `librrd2-dev` 
