@@ -63,3 +63,13 @@ Then /^the plugin instance should have a color$/ do
   Then "each plugin instance should have a different color"
 end
 
+
+Given /^I have the "([^\"]*)" plugin collecting data on multiple ports$/ do |plugin|
+  Dir.glob("/var/lib/collectd/rrd/theodor/tcpconns*").size.should > 1
+end
+
+Then /^I should see multiple plugins$/ do
+  @response.should_not be_nil
+  host = @response.keys.first
+  @response[host].keys.size.should > 1
+end
