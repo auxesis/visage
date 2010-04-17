@@ -27,6 +27,12 @@ Feature: Export data
     Then I should receive valid JSON
     And each plugin instance should have a different color
   
+  Scenario: Retrieve multiple plugin instances without color definition
+    When I go to /data/theodor/cpu-0/cpu-user
+    Then the request should succeed
+    Then I should receive valid JSON
+    And each plugin instance should have a different color
+
   Scenario: Retrieve single plugin instance with a color definition
     When I go to /data/theodor/tcpconns-80-local/tcp_connections-LISTEN
     Then the request should succeed

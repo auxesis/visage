@@ -46,12 +46,11 @@ Then /^each plugin instance should have a different color$/ do
   data = yajl.parse(response_body)
 
   @colours = []
-  data.values.map { |k,v| k.values }.map {|k,v| k.values }.map do |a|
+  data.values.map { |k,v| k.values }.map {|k,v| k.values }.map {|k,v| k.values }.map do |a|
     a.each do |b|
-      b["colors"].values.each do |string|
-        string.should =~ /^#[0-9a-fA-F]+$/
-        @colours << string
-      end
+      string = b["color"]
+      string.should =~ /^#[0-9a-fA-F]+$/
+      @colours << string
     end
   end
 
