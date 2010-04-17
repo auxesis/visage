@@ -2,6 +2,7 @@ config/profiles.yaml
 .DS_Store
 log/*
 tmp/*
+bin/*
 *~
 .#*
 webrat*
