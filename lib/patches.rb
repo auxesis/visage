@@ -11,3 +11,8 @@ class String
   end
 end
 
+class NilClass
+  def blank?
+    true
+  end
+end
