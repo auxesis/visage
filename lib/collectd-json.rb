@@ -4,7 +4,7 @@ $: << File.expand_path(File.dirname(__FILE__))
 
 require 'errand'
 require 'yajl'
-require 'patches/string'
+require 'patches'
 
 # Exposes RRDs as JSON. 
 #
