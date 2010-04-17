@@ -27,11 +27,16 @@ Feature: Export data
     Then I should receive valid JSON
     And each plugin instance should have a different color
   
-  Scenario: Retrieve multiple plugin instances without color definition
-    When I go to /data/theodor/cpu-0/cpu-user
+  Scenario Outline: Return only one colour per metric
+    When I go to /data/theodor/<path> 
     Then the request should succeed
     Then I should receive valid JSON
     And each plugin instance should have a different color
+
+  Examples: 
+    | path           |
+    | cpu-0/cpu-user |
+    | df/df-root     |
 
   Scenario: Retrieve single plugin instance with a color definition
     When I go to /data/theodor/tcpconns-80-local/tcp_connections-LISTEN
