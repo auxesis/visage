@@ -26,51 +26,65 @@ class CollectdJSON
     plugin_instances = opts[:plugin_instances][/\w.*/]
     instances        = plugin_instances.blank? ? '*' : '{' + plugin_instances.split('/').join(',') + '}'
     @colors          = opts[:plugin_colors]
-    @plugin_names = []
 
-    rrds = {}
     rrdglob = "#{@rrddir}/#{host}/#{plugin}/#{instances}.rrd"
-    plugin_offset = @rrddir.size + 1 + host.size + 1
+    plugin_offset = @rrddir.size + 1 + host.size + 1 
+
+    data = []
 
     Dir.glob(rrdglob).map do |rrdname|
-      plugin_name = rrdname[plugin_offset..-1].split('/').first
-      @plugin_names << plugin_name
-      
-      rrds[File.basename(rrdname, '.rrd')] = Errand.new(:filename => rrdname)
+      filename      = rrdname[plugin_offset..-1].split('/')
+      plugin_name   = filename.first
+      instance_name = filename.last.split('.').first
+      rrd = Errand.new(:filename => rrdname)
+
+      data << { :plugin => plugin_name, :instance => instance_name, 
+                 :host => host, 
+                 :start => opts[:start] || (Time.now - 3600).to_i,
+                 :end => opts[:end] || Time.now.to_i, 
+                 :rrd => rrd }
     end
 
-    encode(opts.merge(:rrds => rrds, :plugin => @plugin_names))
+    encode(data)
   end
 
-  # Attempt to structure the JSON reasonably sanely, so the consumer doesn't
-  # have to do a lot of computationally expensive work when processing it.
-  def encode(opts={})
-    opts[:start] ||= (Time.now - 3600).to_i
-    opts[:end]   ||= (Time.now).to_i
+  private 
+  # Attempt to structure the JSON reasonably sanely, so the consumer (i.e. a 
+  # browser) doesn't have to do a lot of computationally expensive work.
+  def encode(datas)
 
-    values = { opts[:host] => { opts[:plugin] => {} } }
+    structure = {}
+    datas.each do |data|
+      rrd_data = data[:rrd].fetch(:function => "AVERAGE", 
+                                  :start => data[:start], 
+                                  :end => data[:end])[:data]
 
-    opts[:rrds].each_pair do |name, rrd|
-      rrd_data = rrd.fetch(:function => "AVERAGE", :start => opts[:start], :end => opts[:end])
-        plugin_instance = {:start => rrd_data[:start], :finish => rrd_data[:finish], :data => rrd_data[:data]}
-        
+      # A single rrd can have multiple data sets (multiple metrics within
+      # the same file). Separate the metrics. 
+      rrd_data.each_pair do |source, metric|
         # filter out NaNs, so yajl doesn't choke
-        
-        plugin_instance[:data].each_pair do |source, points|
-          points.map! do |datapoint|
-            (!datapoint || datapoint.nan?) ? 0.0 : datapoint
-          end
+        metric.map! do |datapoint|
+          (!datapoint || datapoint.nan?) ? 0.0 : datapoint
         end
 
-      # append the line color onto the end of the data set
-      plugin_instance[:data].each_key do |source|
-        plugin_instance[:colors] = color_for(:host => opts[:host], :plugin => opts[:plugin], :plugin_instance => name)
+        color = color_for(:host => data[:host], 
+                          :plugin => data[:plugin], 
+                          :instance => data[:instance],
+                          :metric => source)
+
+        structure[data[:host]] ||= {}
+        structure[data[:host]][data[:plugin]] ||= {}
+        structure[data[:host]][data[:plugin]][data[:instance]] ||= {}
+        structure[data[:host]][data[:plugin]][data[:instance]][source] ||= {}
+        structure[data[:host]][data[:plugin]][data[:instance]][source][:start] ||= data[:start]
+        structure[data[:host]][data[:plugin]][data[:instance]][source][:end]   ||= data[:end]
+        structure[data[:host]][data[:plugin]][data[:instance]][source][:data]  ||= metric
+        structure[data[:host]][data[:plugin]][data[:instance]][source][:color] ||= color
       end
-      values[opts[:host]][opts[:plugin]].merge!({ name => plugin_instance})
     end
 
     encoder = Yajl::Encoder.new
-    encoder.encode(values)
+    encoder.encode(structure)
   end
 
   # We append the recommended line color onto data set, so the javascript
@@ -78,28 +92,32 @@ class CollectdJSON
   # fallback logic when determining what colours should be used.
   def color_for(opts={})
     case 
-    when @colors[opts[:plugin]] && @colors[opts[:plugin]][opts[:plugin_instance]]
-      color = @colors[opts[:plugin]][opts[:plugin_instance]]
+    when @colors[opts[:plugin]] && @colors[opts[:plugin]][opts[:instance]] && @colors[opts[:plugin]][opts[:instance]][opts[:metric]]
+      color = @colors[opts[:plugin]][opts[:instance]].values.first
       color ? color : fallback_color
 
-    when opts[:plugin] =~ /\-/ && opts[:plugin_instance] =~ /\-/
+    when @colors[opts[:plugin]] && @colors[opts[:plugin]][opts[:instance]]
+      color = @colors[opts[:plugin]][opts[:instance]]
+      color ? color : fallback_color
+
+    when opts[:plugin] =~ /\-/ && opts[:instance] =~ /\-/
       base_plugin = opts[:plugin].split('-').first
-      base_plugin_instance = opts[:plugin_instance].split('-').first
-      
+      base_instance = opts[:instance].split('-').first
+
       if plugin_colors = @colors[base_plugin]
-        color = plugin_colors[opts[:plugin_instance]]
+        color = plugin_colors[opts[:instance]].values.first
         color ? color : fallback_color
       elsif plugin_colors = @colors[opts[:plugin]]
-        color = plugin_colors[base_plugin_instance]
+        color = plugin_colors[base_instance]
         color ? color : fallback_color
       else
         fallback_color
       end
 
-    when opts[:plugin_instance] =~ /\-/
-      base_plugin_instance = opts[:plugin_instance].split('-').first
+    when opts[:instance] =~ /\-/
+      base_instance = opts[:instance].split('-').first
       if plugin_colors = @colors[opts[:plugin]]
-        color = plugin_colors[base_plugin_instance]
+        color = plugin_colors[base_instance]
         color ? color : fallback_color
       else
         fallback_color
@@ -108,7 +126,7 @@ class CollectdJSON
     when opts[:plugin] =~ /\-/
       base_plugin = opts[:plugin].split('-').first
       if plugin_colors = @colors[base_plugin]
-        color = plugin_colors[opts[:plugin_instance]]
+        color = plugin_colors[opts[:instance]]
       else
         fallback_color
       end
