@@ -23,17 +23,23 @@ class CollectdJSON
   def json(opts={})
     host             = opts[:host]
     plugin           = opts[:plugin]
-    plugin_instances = opts[:plugin_instances]
+    plugin_instances = opts[:plugin_instances][/\w.*/]
     instances        = plugin_instances.blank? ? '*' : '{' + plugin_instances.split('/').join(',') + '}'
     @colors          = opts[:plugin_colors]
+    @plugin_names = []
 
     rrds = {}
     rrdglob = "#{@rrddir}/#{host}/#{plugin}/#{instances}.rrd"
+    plugin_offset = @rrddir.size + 1 + host.size + 1
+
     Dir.glob(rrdglob).map do |rrdname|
+      plugin_name = rrdname[plugin_offset..-1].split('/').first
+      @plugin_names << plugin_name
+      
       rrds[File.basename(rrdname, '.rrd')] = Errand.new(:filename => rrdname)
     end
 
-    encode(opts.merge(:rrds => rrds))
+    encode(opts.merge(:rrds => rrds, :plugin => @plugin_names))
   end
 
   # Attempt to structure the JSON reasonably sanely, so the consumer doesn't
@@ -43,7 +49,7 @@ class CollectdJSON
     opts[:end]   ||= (Time.now).to_i
 
     values = { opts[:host] => { opts[:plugin] => {} } }
-   
+
     opts[:rrds].each_pair do |name, rrd|
       rrd_data = rrd.fetch(:function => "AVERAGE", :start => opts[:start], :end => opts[:end])
         plugin_instance = {:start => rrd_data[:start], :finish => rrd_data[:finish], :data => rrd_data[:data]}
