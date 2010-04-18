@@ -428,11 +428,11 @@ var visageGraph = new Class({
     //buildLabels: function(graphLines, instanceNames, dataSources, colors) {
 
         this.ys.each(function(set, index) {
-            var path     = this.graph.lines[index]
-            var color    = this.colors[index]
-            var plugin   = this.options.plugin
-            var instance = this.instances[index]
-            var metric   = this.metrics[index]
+            var path     = this.graph.lines[index],
+                color    = this.colors[index]
+                plugin   = this.options.plugin
+                instance = this.instances[index]
+                metric   = this.metrics[index]
 
             var container = new Element('div', {
                 'class': 'label plugin',
