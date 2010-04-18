@@ -15,6 +15,12 @@
   %body
     %div#wrapper
       %div#header
+        %div#nav
+          %span 
+            %a{:href => "/profiles"} profiles
+          %span
+            %a{:href => "/builder"} builder
+          
       %div#content
         = yield
 

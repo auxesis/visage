@@ -36,7 +36,20 @@ div#header {
   border-bottom: 6px solid #c5d6ed;
 }
 
-div#content {
+div#nav {
+  padding-top: 8px;
+  color: white;
+  font-family: Bitstream Vera Sans, Helvetica Neue, sans-serif;
+  font-weight: bold;
+  text-align: right;
+  font-size: 16px;
+}
+
+div#nav span {
+  margin-left: 12px;
+}
+
+div#content, div#nav {
   width: 950px;
   margin: auto;
 }
