@@ -1,7 +1,8 @@
 %div#hosts.builder
   %h2 Hosts
-  %input{:name => "hosts", :type => "text", :class => "text"}
-  %img{:src => "/images/search.png", :class => "search"}
+  %form{:action => "/builder", :method => :get}
+    %input{:name => "hosts", :type => "text", :class => "text"}
+    %img{:src => "/images/search.png", :class => "search"}
   
   %ul.selected
 
