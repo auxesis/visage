@@ -37,16 +37,21 @@ div#header {
 }
 
 div#nav {
-  padding-top: 8px;
+  padding-top: 10px;
   color: white;
-  font-family: Bitstream Vera Sans, Helvetica Neue, sans-serif;
-  font-weight: bold;
+  font-family: sans-serif;
   text-align: right;
   font-size: 16px;
 }
 
-div#nav span {
+div#nav a {
+  margin-top: 8px;
   margin-left: 12px;
+  color: white;
+}
+
+div#nav a:hover {
+  text-shadow: 0 1px 6px rgba(115,157,211,0.9);
 }
 
 div#content, div#nav {
