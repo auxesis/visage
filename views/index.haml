@@ -2,9 +2,31 @@
   %h2 Hosts
   %input{:name => "hosts", :type => "text", :class => "text"}
   %img{:src => "/images/search.png", :class => "search"}
+  
+  %ul.selected
+
+  %ul.available
+    - @hosts.each do |name|
+      %li 
+        %table 
+          %tr 
+            %td.name= name
+            %td.meta
+              %img{:src => "/images/add.png"}
 
 %div#metrics.builder
   %h2 Metrics
   %input{:name => "metrics", :type => "text", :class => "text"}
   %img{:src => "/images/search.png", :class => "search"}
+
+  %ul.selected
+
+  %ul.available
+    - @plugins.each do |name|
+      %li 
+        %table 
+          %tr 
+            %td.name= name
+            %td.meta 
+              %img{:src => "/images/add.png"}
 

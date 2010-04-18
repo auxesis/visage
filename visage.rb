@@ -6,6 +6,7 @@ require 'sinatra'
 require 'errand'
 require 'yajl'
 require 'haml'
+require 'lib/collectd'
 require 'lib/collectd-json'
 require 'lib/visage-config'
 
@@ -34,6 +35,9 @@ end
 
 # user facing
 get '/' do 
+  @hosts   = Collectd.hosts
+  @plugins = Collectd.plugins
+
   haml :index
 end
 
