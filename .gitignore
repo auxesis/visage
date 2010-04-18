@@ -7,4 +7,5 @@ bin/*
 .#*
 webrat*
 .bundle/
-vendor/gems/*
+vendor/gems/ruby/*/*
+!vendor/gems/ruby/*/cache/*
