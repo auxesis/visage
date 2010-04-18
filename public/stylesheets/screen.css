@@ -35,22 +35,42 @@ body {
 }
 
 div#header {
+  height: 40px;
+  background-color: #3465a4;
+  margin-bottom: 16px;
+}
+
+div#content {
+  width: 950px;
+  margin: auto;
+}
+
+div#hosts {
+  clear: left;
+}
+
+div.builder {
   float: left;
-  width: 20em;
+  margin-left: 25px;
+  width: 450px;
 }
 
-div.nav {
-  float: left;
-  margin: 1em;
-  margin-right: 2em;
+div.builder h2 {
+  color: #666;
+  border-bottom: 4px solid #888;
+  margin-bottom: 8px;
 }
 
-div.nav li {
-  margin-left: 2px;
+div.builder input.text {
+  border: 1px solid #444;
+  font-size: 16px;
+  padding: 4px;
+  -moz-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.25);
+  -webkit-box-shadow: 0 1px 5px rgba(0, 0, 0, 0.25);
 }
 
-div#header {
-  margin: 1em 0.5em;
+div.builder img.search {
+  float: right;
 }
 
 div#graphs {
@@ -67,10 +87,6 @@ div.graph {
 
 h1, h2, h3, h4, h5 {
   font-family: Bitstream Vera Sans, Helvetica Neue, sans-serif;
-}
-
-h2, h3, h4, h5 {
-  /*text-transform: uppercase;*/
 }
 
 h1 {

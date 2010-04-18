@@ -34,7 +34,6 @@ end
 
 # user facing
 get '/' do 
-  @hosts = CollectdJSON.hosts
   haml :index
 end
 
