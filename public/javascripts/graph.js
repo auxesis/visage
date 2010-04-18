@@ -100,66 +100,70 @@ var visageGraph = new Class({
     // assemble data to graph, then draw it
     graphData: function(data) {
 
-        this.buildContainers();
+        this.ys        = []
+        this.colors    = []
+        this.instances = []
+        this.metrics   = []
 
-        this.y = []
-        this.colors = []
-        this.pluginInstanceNames = []
-        this.pluginInstanceDataSources = []
-        this.intervals = new Hash()
+        var host = this.options.host
+        var plugin = this.options.plugin
 
-        $each(data[this.options.host][this.options.plugin], function(pluginInstance, pluginInstanceName) {
-            startTime = pluginInstance.start
-            endTime = pluginInstance.finish
-            data = pluginInstance.data
-       
-            this.intervals.set('start', startTime);
-            this.intervals.set('end', endTime);
-            this.pluginInstanceNames.push(pluginInstanceName)
-            this.populateDataSources(data);
-
-            // color names are not structured consistently - extract them
-            colors = pluginInstance.colors
-            this.populateColors(colors);
-
-            axes = this.extractYAxes(data)
-            // sometimes we have multiple datapoints in a dataset (eg load/load)
-            axes.each(function(axis) { this.y.push(axis) }, this);  
+        $each(data[host][plugin], function(instance, iname) {
+            $each(instance, function(metric, mname) {
+	            this.colors.push(metric.color)
+                this.x = this.buildXAxis(metric)
+                this.ys.push(metric.data)
+                this.instances.push(iname) // labels
+                this.metrics.push(mname) // labels
+            }, this);
         }, this);
 
-        this.canvas.g.txtattr.font = "11px 'sans-serif'";
-
-        var start = this.intervals.get('start')
-        var end = this.intervals.get('end')
-        var increment = (end - start) / this.y[0].length;
-
-        x = [];
-
-        var counter = start;
-        while (counter < end) {
-            x.push(counter)
-            counter += increment
-        }
-        
-        this.graph = this.canvas.g.linechart(this.options.leftEdge, this.options.topEdge, this.options.gridWidth, this.options.gridHeight, x, this.y, {
-                            nostroke: false, 
-                            shade: false, 
-                            width: 1.5,
-                            axis: "0 0 1 1", 
-                            colors: this.colors, 
-                            axisxstep: x.length / 20,
-                            shade: this.options.shade
-        });
-
-        this.formatAxes();
+        this.buildContainers();
+        this.drawGraph();
         this.addSelectionInterface();
 
-        this.buildLabels(this.graph.lines, this.pluginInstanceNames, this.pluginInstanceDataSources, this.colors);
+        this.buildLabels();
+        //this.buildLabels(this.graph.lines, this.instances, this.metrics, this.colors);
+        /*
         this.buildDateSelector();
 
         /* disabling this for now for dramatic effect
         this.buildEmbedder();
         */
+    },
+    buildXAxis: function(metric) {
+        var interval = (metric.end - metric.start) / metric.data.length;
+        var counter = metric.start;
+        var x = []
+        while (counter < metric.end) {
+            x.push(counter)
+            counter += interval 
+        }
+        return x
+    },
+    drawGraph: function() {
+
+        var colors = this.colors;
+        var left   = this.options.leftEdge
+        var top    = this.options.topEdge
+        var width  = this.options.gridWidth
+        var height = this.options.gridHeight
+        var x      = this.x  // x axis
+        var ys     = this.ys // y axes 
+        var xstep  = x.length / 20
+        var shade  = this.options.shade
+
+        this.canvas.g.txtattr.font = "11px 'sans-serif'";
+        this.graph = this.canvas.g.linechart(left, top, width, height, x, ys, {
+                            nostroke: false, 
+                            width: 1.5,
+                            axis: "0 0 1 1", 
+                            colors: colors, 
+                            axisxstep: xstep,
+                            shade: shade
+        });
+
+        this.formatAxes();
     },
     formatAxes: function() {
 
@@ -268,7 +272,7 @@ var visageGraph = new Class({
                 graph.selectionMade = false
                 graph.selection = this.paper.rect(this.x, 0, 1, gridHeight);
                 graph.selection.toBack();
-                graph.selection.attr({'fill': '#000'});
+                graph.selection.attr({fill: '#555', stroke: '#555'});
                 graph.selectionStart = this.axis
             } else {
                 graph.selectionMade = true
@@ -420,28 +424,15 @@ var visageGraph = new Class({
             form.grab(submit);
             container.grab(form);
     },
-    buildLabels: function(graphLines, instanceNames, dataSources, colors) {
+    buildLabels: function() {
+    //buildLabels: function(graphLines, instanceNames, dataSources, colors) {
 
-        dataSources.each(function(ds, index) {
-            var path = graphLines[index];
-            var color = colors[index]
-            
-            var instanceName = instanceNames[index]
-
-            // generic ds name, attempt to specialise
-            if (ds == 'value') {
-                if (instanceName.match(/-/)) {
-                    var name = instanceName.split('-')[1]
-                } else {
-                    var name = instanceName
-                }
-            // disk operations
-            } else if (ds == 'read' || ds == 'write') {
-                var instanceName = instanceNames[Math.round((index -1) / 2)]
-                var name = instanceName.split('_')[1] + '-' + ds
-            } else {
-                var name = ds
-            }
+        this.ys.each(function(set, index) {
+            var path     = this.graph.lines[index]
+            var color    = this.colors[index]
+            var plugin   = this.options.plugin
+            var instance = this.instances[index]
+            var metric   = this.metrics[index]
 
             var container = new Element('div', {
                 'class': 'label plugin',
@@ -470,7 +461,7 @@ var visageGraph = new Class({
             });
 
             var box = new Element('div', {
-                'class': 'label plugin box ' + instanceName,
+                'class': 'label plugin box ' + metric,
                 'html': '&nbsp;',
                 'styles': { 
                       'background-color': color,
@@ -480,9 +471,18 @@ var visageGraph = new Class({
                       'margin-right': '0.5em'
                 }
             });
-        
+     
+            // plugin/instance/metrics names can be unmeaningful. make them pretty
+            var name;
+            name = instance.replace(plugin, '');
+            name = name.replace('tcp_connections', '')
+            name = name.replace('ps_state', '')
+            name = name.replace(plugin.split('-')[0], '')
+            name += metric == "value" ? "" : " (" + metric + ")"
+            name = name.replace(/^[-|_]*/, '')
+
             var desc = new Element('span', {
-                'class': 'label plugin description ' + instanceName,
+                'class': 'label plugin description ' + metric,
                 'html': name
             });
 
@@ -491,34 +491,6 @@ var visageGraph = new Class({
             $(this.labelsContainer).grab(container);
 
         }, this);
-    },
-    populateColors: function(nestedColors) {
-        if ($type(nestedColors) == "string") {
-            this.colors.push(nestedColors)
-        } else {
-	        $each(nestedColors, function(color, key) {
-	            this.colors.push(color);
-	        }, this);
-        }
-    },
-    populateDataSources: function (data) {
-            for(key in data) {this.pluginInstanceDataSources.push(key)};
-    },
-    // separates the datasets into separate y-axes, suitable for passing to g.raphael 
-    extractYAxes: function(data) {
-        y = []
-
-        $each(data, function(primaryDataPoints, key) {
-            vals = []
-            primaryDataPoints.each(function(pdp, index) {
-                // the last few pdps tend to be NaNs. normalise
-                value = isNaN(pdp) ? 0 : pdp
-                vals.push(value)
-            });
-            y.push(vals)
-        });
-
-        return y
     }
 })
 
