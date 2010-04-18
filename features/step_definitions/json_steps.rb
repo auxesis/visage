@@ -72,3 +72,8 @@ Then /^I should see multiple plugins$/ do
   host = @response.keys.first
   @response[host].keys.size.should > 1
 end
+
+Then /^I should see multiple hosts$/ do
+  @response.should_not be_nil
+  @response.keys.size.should > 1
+end

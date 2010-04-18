@@ -50,3 +50,12 @@ Feature: Export data
     Then the request should succeed
     Then I should receive valid JSON
     And I should see multiple plugins
+
+  Scenario: Retrieve multple hosts through a glob
+    Given I have the "memory" plugin collecting data on multiple ports
+    When I go to /data/*/libvirt/virt_cpu_total
+    Then the request should succeed
+    Then I should receive valid JSON
+    And I should see multiple hosts
+
+
