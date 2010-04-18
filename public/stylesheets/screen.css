@@ -24,11 +24,6 @@ p {
   margin: 0 0 1em;
 }
 
-li {
-  margin: 0.55em 0 0.55em 1em; 
-  list-style-type: none;
-}
-
 body {
   font-family: Bitstream Vera Serif, Baskerville, Garamond, serif;
   font-size: 1.2em;
@@ -38,6 +33,7 @@ div#header {
   height: 40px;
   background-color: #3465a4;
   margin-bottom: 16px;
+  border-bottom: 6px solid #c5d6ed;
 }
 
 div#content {
@@ -58,19 +54,46 @@ div.builder {
 div.builder h2 {
   color: #666;
   border-bottom: 4px solid #888;
-  margin-bottom: 8px;
+  margin-bottom: 12px;
 }
 
 div.builder input.text {
   border: 1px solid #444;
   font-size: 16px;
   padding: 4px;
+  width: 20em;
   -moz-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.25);
   -webkit-box-shadow: 0 1px 5px rgba(0, 0, 0, 0.25);
 }
 
+div.builder ul {
+  margin-top: 16px;
+}
+
 div.builder img.search {
   float: right;
+}
+
+div.builder li {
+  list-style-type: none;
+}
+
+div.builder li tr:hover {
+  background-color: #fffaba;
+}
+
+div.builder li td {
+  padding: 4px;
+}
+
+div.builder li td.name {
+  width: 350px;
+}
+
+div.builder li td.meta {
+  width: 80px;
+  text-align: right;
+  padding-right: 8px;
 }
 
 div#graphs {
