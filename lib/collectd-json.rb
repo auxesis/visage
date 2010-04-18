@@ -38,11 +38,11 @@ class CollectdJSON
       instance_name = filename.last.split('.').first
       rrd = Errand.new(:filename => rrdname)
 
-      data << { :plugin => plugin_name, :instance => instance_name, 
-                 :host => host, 
-                 :start => opts[:start] || (Time.now - 3600).to_i,
-                 :end => opts[:end] || Time.now.to_i, 
-                 :rrd => rrd }
+      data << { :plugin  => plugin_name, :instance => instance_name, 
+                 :host   => host, 
+                 :start  => opts[:start] || (Time.now - 3600).to_i,
+                 :finish => opts[:finish] || Time.now.to_i, 
+                 :rrd    => rrd }
     end
 
     encode(data)
@@ -55,9 +55,10 @@ class CollectdJSON
 
     structure = {}
     datas.each do |data|
-      rrd_data = data[:rrd].fetch(:function => "AVERAGE", 
+      fetch = data[:rrd].fetch(:function => "AVERAGE", 
                                   :start => data[:start], 
-                                  :end => data[:end])[:data]
+                                  :finish => data[:finish])
+      rrd_data = fetch[:data]
 
       # A single rrd can have multiple data sets (multiple metrics within
       # the same file). Separate the metrics. 
@@ -76,10 +77,10 @@ class CollectdJSON
         structure[data[:host]][data[:plugin]] ||= {}
         structure[data[:host]][data[:plugin]][data[:instance]] ||= {}
         structure[data[:host]][data[:plugin]][data[:instance]][source] ||= {}
-        structure[data[:host]][data[:plugin]][data[:instance]][source][:start] ||= data[:start]
-        structure[data[:host]][data[:plugin]][data[:instance]][source][:end]   ||= data[:end]
-        structure[data[:host]][data[:plugin]][data[:instance]][source][:data]  ||= metric
-        structure[data[:host]][data[:plugin]][data[:instance]][source][:color] ||= color
+        structure[data[:host]][data[:plugin]][data[:instance]][source][:start]  ||= data[:start]
+        structure[data[:host]][data[:plugin]][data[:instance]][source][:finish] ||= data[:finish]
+        structure[data[:host]][data[:plugin]][data[:instance]][source][:data]   ||= metric
+        structure[data[:host]][data[:plugin]][data[:instance]][source][:color]  ||= color
       end
     end
 

@@ -125,6 +125,7 @@ var visageGraph = new Class({
 
         this.buildLabels();
         this.addSelectionInterface();
+        this.addDebugInterface();
         this.buildDateSelector();
 
         /* disabling this for now for dramatic effect
@@ -133,13 +134,13 @@ var visageGraph = new Class({
     },
     buildXAxis: function(metric) {
         var start    = metric.start.toInt(),
-            end      = metric.end.toInt(),
+            finish   = metric.finish.toInt(),
             length   = metric.data.length,
-            interval = (end - start) / length,
+            interval = (finish - start) / length,
             counter  = start,
             x        = []
 
-        while (counter < end) {
+        while (counter < finish) {
             x.push(counter)
             counter += interval 
         }
@@ -263,6 +264,14 @@ var visageGraph = new Class({
         code += "}); });</script>"
         return code.replace('<', '&lt;').replace('>', '&gt;')
     },
+    addDebugInterface: function() {
+        var graph = this.graph;
+        /*
+        graph.hoverColumn(function () {
+            console.log([this.axis])
+        });
+        */
+    },
     addSelectionInterface: function() {
         var graph = this.graph;
         var parentElement = this.parentElement
@@ -280,7 +289,7 @@ var visageGraph = new Class({
                 graph.selectionStart = this.axis.toInt()
             } else {
                 graph.selectionMade = true
-                graph.selectionEnd = this.axis.toInt()
+                graph.selectionFinish = this.axis.toInt()
                 var select = $(parentElement).getElement('div.timescale.container select')
                 var hasSelected = select.getChildren('option').some(function(option) {
                     return option.get('html') == 'selected'
@@ -379,7 +388,7 @@ var visageGraph = new Class({
                             data = new Hash()
                             if (e.target.getElement('select').getSelected().get('html') == 'selected') {
                                 data.set('start', this.graph.selectionStart);
-                                data.set('end', this.graph.selectionEnd);
+                                data.set('finish', this.graph.selectionFinish);
                             } else {
                                 e.target.getElement('select').getSelected().each(function(option) {
                                     split = option.value.split('=')
