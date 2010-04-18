@@ -110,7 +110,7 @@ var visageGraph = new Class({
 
         $each(data[host][plugin], function(instance, iname) {
             $each(instance, function(metric, mname) {
-	            this.colors.push(metric.color)
+                this.colors.push(metric.color)
                 if ( !$defined(this.x) ) {
                     this.x = this.buildXAxis(metric)
                 }
@@ -286,12 +286,12 @@ var visageGraph = new Class({
                     return option.get('html') == 'selected'
                 });
                 if (!hasSelected) {
-	                var option = new Element('option', {
-	                    html: 'selected',
-	                    value: '',
-	                    selected: true
-	                });
-	                select.grab(option)
+                    var option = new Element('option', {
+                        html: 'selected',
+                        value: '',
+                        selected: true
+                    });
+                    select.grab(option)
                 }
             }
         });
@@ -381,11 +381,11 @@ var visageGraph = new Class({
                                 data.set('start', this.graph.selectionStart);
                                 data.set('end', this.graph.selectionEnd);
                             } else {
-	                            e.target.getElement('select').getSelected().each(function(option) {
-	                                split = option.value.split('=')
-	                                data.set(split[0], split[1])
-	                                currentTimePeriod = option.get('html') // is this setting a global?
-	                            }, this);
+                                e.target.getElement('select').getSelected().each(function(option) {
+                                    split = option.value.split('=')
+                                    data.set(split[0], split[1])
+                                    currentTimePeriod = option.get('html') // is this setting a global?
+                                }, this);
                             }
                             this.requestData = data
 
