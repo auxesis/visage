@@ -1,48 +1,10 @@
-%div#nav
-  %div#hosts.nav
-    %h2 Hosts
-    %ul
-      - if !Visage::Config.rrddir
-        %li
-          You need to specify <strong>rrddir</strong> in config/init.rb!
-      - elsif @hosts.empty?
-        %li
-          No hosts found. Please check <strong>rrddir</strong> in config/init.rb!
-      - else
-        - @hosts.each do |host|
-          %li
-            %a{:href => "/#{host}"}= host
-  
-  - if host = params[:host]
-    %div#profiles.nav
-      %h2 Profiles
+%div#hosts.builder
+  %h2 Hosts
+  %input{:name => "hosts", :type => "text", :class => "text"}
+  %img{:src => "/images/search.png", :class => "search"}
 
-      %ul
-        - @profiles.each do |profile|
-          %li
-            %a{:href => "/#{host}/#{profile.splat}"}= profile.name
+%div#metrics.builder
+  %h2 Metrics
+  %input{:name => "metrics", :type => "text", :class => "text"}
+  %img{:src => "/images/search.png", :class => "search"}
 
-%div#graphs
-  - if @profile && @profile.plugins
-    - @profile.plugins.each do |graph|
-      - plugin, plugin_instances =  graph.split('/', 2)
-      - graph_id = "graph#{graph.gsub(/[^\w+]/, '_')}"
-      %div.graph
-        %div{:id => graph_id}
-        :javascript
-          window.addEvent('domready', function() {
-            var graph = new visageGraph('#{graph_id}', '#{params[:host]}', '#{plugin}', {
-              width: 900,
-              height: 220,
-              gridWidth: 800,
-              gridHeight: 200,
-              shade: #{Visage::Config.shade || false},
-              pluginInstance: '#{plugin_instances || ''}',
-              name: '#{plugin} on #{host}'
-            });
-          });
-  
-  - else
-    %div#nothing
-      Sorry, nothing to display!
-  
