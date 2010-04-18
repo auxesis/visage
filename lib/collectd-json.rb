@@ -33,9 +33,10 @@ class CollectdJSON
     data = []
 
     Dir.glob(rrdglob).map do |rrdname|
-      filename      = rrdname[plugin_offset..-1].split('/')
-      plugin_name   = filename.first
-      instance_name = filename.last.split('.').first
+      parts         = rrdname.gsub(/#{@rrddir}\//, '').split('/')
+      host          = parts[0]
+      plugin_name   = parts[1]
+      instance_name = parts[2].split('.').first
       rrd = Errand.new(:filename => rrdname)
 
       data << { :plugin  => plugin_name, :instance => instance_name, 
