@@ -111,7 +111,9 @@ var visageGraph = new Class({
         $each(data[host][plugin], function(instance, iname) {
             $each(instance, function(metric, mname) {
 	            this.colors.push(metric.color)
-                this.x = this.buildXAxis(metric)
+                if ( !$defined(this.x) ) {
+                    this.x = this.buildXAxis(metric)
+                }
                 this.ys.push(metric.data)
                 this.instances.push(iname) // labels
                 this.metrics.push(mname) // labels
@@ -120,11 +122,9 @@ var visageGraph = new Class({
 
         this.buildContainers();
         this.drawGraph();
-        this.addSelectionInterface();
 
         this.buildLabels();
-        //this.buildLabels(this.graph.lines, this.instances, this.metrics, this.colors);
-        /*
+        this.addSelectionInterface();
         this.buildDateSelector();
 
         /* disabling this for now for dramatic effect
@@ -132,10 +132,14 @@ var visageGraph = new Class({
         */
     },
     buildXAxis: function(metric) {
-        var interval = (metric.end - metric.start) / metric.data.length;
-        var counter = metric.start;
-        var x = []
-        while (counter < metric.end) {
+        var start    = metric.start.toInt(),
+            end      = metric.end.toInt(),
+            length   = metric.data.length,
+            interval = (end - start) / length,
+            counter  = start,
+            x        = []
+
+        while (counter < end) {
             x.push(counter)
             counter += interval 
         }
@@ -272,11 +276,11 @@ var visageGraph = new Class({
                 graph.selectionMade = false
                 graph.selection = this.paper.rect(this.x, 0, 1, gridHeight);
                 graph.selection.toBack();
-                graph.selection.attr({fill: '#555', stroke: '#555'});
-                graph.selectionStart = this.axis
+                graph.selection.attr({fill: '#555', stroke: '#555', opacity: 0.4});
+                graph.selectionStart = this.axis.toInt()
             } else {
                 graph.selectionMade = true
-                graph.selectionEnd = this.axis
+                graph.selectionEnd = this.axis.toInt()
                 var select = $(parentElement).getElement('div.timescale.container select')
                 var hasSelected = select.getChildren('option').some(function(option) {
                     return option.get('html') == 'selected'
@@ -387,6 +391,7 @@ var visageGraph = new Class({
 
                             /* Nuke graph + labels. */
                             this.graph.remove();
+                            delete this.x;
                             $(this.labelsContainer).empty();
                             $(this.timescaleContainer).empty();
                             $(this.embedderContainer).empty();
