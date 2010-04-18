@@ -36,22 +36,28 @@ end
 # user facing
 get '/' do 
   @hosts   = Collectd.hosts
-  @plugins = Collectd.plugins
+  @metrics = Collectd.metrics
 
   haml :index
 end
 
-get '/:host' do 
-  @hosts = CollectdJSON.hosts
-  @profiles = Visage::Config::Profiles.all
+get "/builder" do 
+  @selected_hosts = Collectd.hosts(:hosts => params[:hosts])
+  if Collectd.hosts == @selected_hosts
+    @selected_hosts = []
+    @hosts = Collectd.hosts
+  else 
+    @hosts = Collectd.hosts - @selected_hosts
+  end
 
-  haml :index
-end
+  @selected_metrics = Collectd.metrics(:metrics => params[:metrics])
+  if Collectd.metrics == @selected_metrics
+    @selected_metrics = []
+    @metrics = Collectd.metrics
+  else
+    @metrics = Collectd.metrics - @selected_metrics 
+  end
 
-get '/:host/:profile' do 
-  @hosts = CollectdJSON.hosts
-  @profiles = Visage::Config::Profiles.all
-  @profile = Visage::Config::Profiles.get(params[:profile])
   
   haml :index
 end

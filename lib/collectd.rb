@@ -11,13 +11,35 @@ class Collectd
       @rrddir = "/var/lib/collectd/rrd"
     end
 
-    def hosts
-      Dir.glob("#{rrddir}/*").map {|e| e.split('/').last }.sort
+    def hosts(opts={})
+      case 
+      when opts[:hosts].blank?
+        glob = "*"
+      when opts[:hosts] =~ /,/
+        glob = "{#{opts[:hosts].strip.gsub(/\s*/, '').gsub(/,$/, '')}}"
+      else
+        glob = opts[:hosts]
+      end
+
+      Dir.glob("#{rrddir}/#{glob}").map {|e| e.split('/').last }.sort.uniq
     end
 
-    def plugins(opts={})
-      host = opts[:host] || '*'
-      Dir.glob("#{rrddir}/#{host}/*").map {|e| e.split('/').last }.sort.uniq
+    def metrics(opts={})
+      case 
+      when opts[:metrics].blank?
+        glob = "*/*"
+      when opts[:metrics] =~ /,/
+        puts "\n" * 4
+        glob = "{" + opts[:metrics].split(/\s*,\s*/).map { |m| 
+          m =~ /\// ? m : ["*/#{m}", "#{m}/*"]
+        }.join(',').gsub(/,$/, '') + "}"
+      when opts[:metrics] !~ /\//
+        glob = "#{opts[:metrics]}/#{opts[:metrics]}"
+      else
+        glob = opts[:metrics]
+      end
+
+      Dir.glob("#{rrddir}/*/#{glob}.rrd").map {|e| e.split('/')[-2..-1].join('/').gsub(/\.rrd$/, '')}.sort.uniq
     end
 
   end

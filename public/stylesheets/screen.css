@@ -76,7 +76,7 @@ div.builder h2 {
 }
 
 div.builder input.text {
-  border: 1px solid #444;
+  border: 1px solid #bbb;
   font-size: 16px;
   padding: 4px;
   width: 20em;
@@ -84,20 +84,38 @@ div.builder input.text {
   -webkit-box-shadow: 0 1px 5px rgba(0, 0, 0, 0.25);
 }
 
+div.builder input.text:focus {
+  border: 1px solid #666;
+}
+
 div.builder ul {
   margin-top: 16px;
 }
 
-div.builder img.search {
+div.builder img.icon {
   float: right;
 }
 
 div.builder li {
   list-style-type: none;
+  padding: 4px 8px;
 }
 
-div.builder li tr:hover {
+div.builder h5 {
+  margin-top: 8px;
+  margin-left: 8px;
+}
+
+div.builder ul.available {
+  margin-top: 4px;
+}
+
+div.builder ul.selected {
   background-color: #fffaba;
+}
+
+div.builder li:hover {
+  /*background-color: #fffaba;*/
 }
 
 div.builder li td {

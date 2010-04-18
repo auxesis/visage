@@ -1,33 +1,32 @@
-%div#hosts.builder
-  %h2 Hosts
+%div#builder 
   %form{:action => "/builder", :method => :get}
-    %input{:name => "hosts", :type => "text", :class => "text"}
-    %img{:src => "/images/search.png", :class => "search"}
   
-  %ul.selected
+    %div#hosts.builder
+      %h2 Hosts
+      %input{:name => "hosts", :type => "text", :class => "text", :value => params[:hosts]}
+      %img{:src => "/images/hosts.png", :class => "icon hosts"}
+      
+      %ul.selected
+        - @selected_hosts.each do |name|
+          %li= name 
 
-  %ul.available
-    - @hosts.each do |name|
-      %li 
-        %table 
-          %tr 
-            %td.name= name
-            %td.meta
-              %img{:src => "/images/add.png"}
+      %h5 Available
+      %ul.available
+        - @hosts.each do |name|
+          %li= name 
+    
+    %div#metrics.builder
+      %h2 Metrics
+      %input{:name => "metrics", :type => "text", :class => "text", :value => params[:metrics]}
+      %img{:src => "/images/metrics.png", :class => "icon metrics"}
+    
+      %ul.selected
+        - @selected_metrics.each do |name|
+          %li= name 
 
-%div#metrics.builder
-  %h2 Metrics
-  %input{:name => "metrics", :type => "text", :class => "text"}
-  %img{:src => "/images/search.png", :class => "search"}
-
-  %ul.selected
-
-  %ul.available
-    - @plugins.each do |name|
-      %li 
-        %table 
-          %tr 
-            %td.name= name
-            %td.meta 
-              %img{:src => "/images/add.png"}
-
+      %h5 Available
+      %ul.available
+        - @metrics.each do |name|
+          %li= name 
+    
+  
