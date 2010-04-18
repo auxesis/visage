@@ -67,7 +67,7 @@ get %r{/data/([^/]+)/([^/]+)((/[^/]+)*)} do
                        :plugin => plugin,
                        :plugin_instances => plugin_instances,
                        :start => params[:start],
-                       :end => params[:end],
+                       :finish => params[:finish],
                        :plugin_colors => Visage::Config.plugin_colors)
   # if the request is cross-domain, we need to serve JSONP
   maybe_wrap_with_callback(json)
