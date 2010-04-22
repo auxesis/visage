@@ -1,14 +1,7 @@
 #!/usr/bin/env ruby
 
-begin
-  # Require the preresolved locked set of gems.
-  require File.expand_path('.bundle/environment', __FILE__)
-rescue LoadError
-  # Fallback on doing the resolve at runtime.
-  require "rubygems"
-  require "bundler"
-  Bundler.setup
-end
+__DIR__ = File.expand_path(File.dirname(__FILE__))
+require "#{__DIR__}/vendor/gems/environment"
 
 require 'visage'
 run Sinatra::Application
