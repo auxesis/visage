@@ -44,7 +44,7 @@ Feature: Export data
     Then I should receive valid JSON
     And the plugin instance should have a color
 
-  Scenario: Retrieve a multiple plugins through a glob
+  Scenario: Retrieve multiple plugins through a glob
     Given I have the "tcpconns" plugin collecting data on multiple ports
     When I go to /data/theodor/tcpconns-*-local/tcp_connections-LISTEN
     Then the request should succeed
@@ -62,7 +62,5 @@ Feature: Export data
     | host                    |
     | *                       |
     | %7Brgh,flapjack-test%7D |
-
-
 
 
