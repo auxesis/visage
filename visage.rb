@@ -35,10 +35,7 @@ end
 
 # user facing
 get '/' do 
-  @hosts   = Collectd.hosts
-  @metrics = Collectd.metrics
-
-  haml :index
+  redirect '/builder'
 end
 
 get "/builder" do 
