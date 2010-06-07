@@ -129,9 +129,12 @@ Specific features:
 TODO
 ----
 
+ * detailed point-in-time data on hover (timestamp, value)
+ * build interface to build custom graph profiles
+ * give graph profile an alternate private url
+ * make notes/annotations on private url
+ * include table of axis mappings + default y-axis heights for rendering
  * refactor tests to work on hosts other than my laptop
- * interface to build custom graph profiles
  * combine graphs from different hosts
- * detailed point-in-time data on hover
  * comment on time periods
  * view list of comments
