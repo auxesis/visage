@@ -5,6 +5,7 @@
       %h2 Hosts
       %input{:name => "hosts", :type => "text", :class => "text", :value => params[:hosts]}
       %img{:src => "/images/hosts.png", :class => "icon hosts"}
+      %span{:class => "glob example"} e.g. &ldquo;charlie&rdquo;, &ldquo;*.bravo*&rdquo;, &ldquo;echo, foxtrot*&rdquo;
       
       %ul.selected
         - @selected_hosts.each do |name|
@@ -19,6 +20,7 @@
       %h2 Metrics
       %input{:name => "metrics", :type => "text", :class => "text", :value => params[:metrics]}
       %img{:src => "/images/metrics.png", :class => "icon metrics"}
+      %span{:class => "glob example"} e.g. &ldquo;cpu*/*&rdquo;, &ldquo;disk*/*ops, disk*/*time&rdquo;
     
       %ul.selected
         - @selected_metrics.each do |name|
