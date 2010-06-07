@@ -26,6 +26,7 @@ class CollectdJSON
     plugin_instances = opts[:plugin_instances][/\w.*/]
     instances        = plugin_instances.blank? ? '*' : '{' + plugin_instances.split('/').join(',') + '}'
     @colors          = opts[:plugin_colors]
+    @plugin_names = []
 
     rrdglob = "#{@rrddir}/#{host}/#{plugin}/#{instances}.rrd"
     plugin_offset = @rrddir.size + 1 + host.size + 1 
@@ -64,6 +65,7 @@ class CollectdJSON
       # A single rrd can have multiple data sets (multiple metrics within
       # the same file). Separate the metrics. 
       rrd_data.each_pair do |source, metric|
+        
         # filter out NaNs, so yajl doesn't choke
         metric.map! do |datapoint|
           (!datapoint || datapoint.nan?) ? 0.0 : datapoint
