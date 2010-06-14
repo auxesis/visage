@@ -8,7 +8,7 @@ body {
   padding: 0;
 }
 
-a { 
+a {
   text-decoration: none;
 }
 
@@ -78,15 +78,6 @@ div#profile-meta input.text {
   -webkit-box-shadow: 0 1px 5px rgba(0, 0, 0, 0.25);
 }
 
-div#profile-meta h2 {
-  font-family: Bitstream Vera Sans, Helvetica Neue, sans-serif;
-  font-weight: bold;
-  color: #666;
-  border-bottom: 4px solid #888;
-  margin-bottom: 12px;
-}
-
-
 div#profile-meta input.create.profile {
   -moz-box-shadow: 0 1px 3px rgba(0,0,0,0.5);
   -webkit-box-shadow: 0 1px 3px rgba(0,0,0,0.5);
@@ -115,17 +106,16 @@ background-image: -moz-linear-gradient(
 );
 }
 
+p.error {
+  color: red;
+  font-size: 80%;
+}
 
 div.builder {
   float: left;
   margin-left: 25px;
   width: 450px;
-}
-
-div.builder h2 {
-  color: #666;
-  border-bottom: 4px solid #888;
-  margin-bottom: 12px;
+  margin-bottom: 24px;
 }
 
 div.builder input.text {
@@ -212,6 +202,13 @@ h1, h2, h3, h4, h5 {
   font-family: Bitstream Vera Sans, Helvetica Neue, sans-serif;
 }
 
+h2 {
+  font-weight: bold;
+  color: #666;
+  border-bottom: 4px solid #888;
+  margin-bottom: 12px;
+}
+
 h1 {
   font-size: 4em;
 }
@@ -233,3 +230,14 @@ div#nothing {
   margin-top: 1em;
 }
 
+
+div#profiles {
+  float: left;
+  margin-left: 25px;
+  width: 450px;
+}
+
+div#profiles ul li {
+  margin-bottom: 8px;
+  list-style-type: none;
+}

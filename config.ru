@@ -6,5 +6,9 @@ require 'pathname'
 require @root.join('vendor', 'gems', 'environment')
 
 require 'visage'
-run Sinatra::Application
+
+use Visage::Profiles
+use Visage::Builder
+use Visage::JSON
+run Sinatra::Base
 
