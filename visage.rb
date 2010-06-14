@@ -54,7 +54,6 @@ get "/builder" do
   else
     @metrics = Collectd.metrics - @selected_metrics 
   end
-
   
   haml :index
 end
@@ -81,9 +80,5 @@ end
 
 # wraps json with a callback method that JSONP clients can call
 def maybe_wrap_with_callback(json)
-  if params[:callback]
-    params[:callback] + '(' + json + ')'
-  else
-    json
-  end
+  params[:callback] ? params[:callback] + '(' + json + ')' : json
 end
