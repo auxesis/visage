@@ -1,5 +1,16 @@
 %div#builder 
   %form{:action => "/builder", :method => :get}
+
+    - if @selected_hosts.size > 0 && @selected_metrics.size > 0
+      %div#profile-preview
+        %p foo
+      %div#profile-meta
+        %p
+          %h2 Profile name
+        %p 
+          %input{:name => "profile_name", :value => params[:profile_name], :type => "text", :class => "text"}
+        %p
+          %input{:type => "submit", :value => "create profile", :class => "create profile", :name => "create"}
   
     %div#hosts.builder
       %h2 Hosts
