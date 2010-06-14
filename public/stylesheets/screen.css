@@ -88,6 +88,10 @@ div.builder input.text:focus {
   border: 1px solid #666;
 }
 
+div.builder input.submit {
+  opacity: 0;
+}
+
 div.builder ul {
   margin-top: 16px;
 }
