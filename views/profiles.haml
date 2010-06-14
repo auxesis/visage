@@ -1,0 +1,8 @@
+%div#profiles
+  %h2 Profiles
+
+  %ul
+    - @profiles.each do |prof|
+      %li
+        %a{:href => "/profiles/#{prof.url}"}= prof.profile_name
+
