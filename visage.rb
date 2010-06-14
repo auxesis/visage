@@ -55,7 +55,7 @@ get "/builder" do
     @metrics = Collectd.metrics - @selected_metrics 
   end
   
-  haml :index
+  haml :builder
 end
 
 # JSON data backend
