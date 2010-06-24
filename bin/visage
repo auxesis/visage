@@ -9,7 +9,7 @@ case action
 when "start"
   require 'rubygems'
   require 'rack'
-  config = @root.join('lib/visage-app/config.ru').to_s
+  config = @root.join('lib/visage/config.ru').to_s
   Rack::Server.start(:config => config, :Port => 9292)
 when "genapache"
   require 'socket'
