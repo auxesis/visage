@@ -7,8 +7,10 @@ action = ARGV[0]
 
 case action
 when "start"
-  command = "rackup #{@root.join('config.ru')}"
-  system(command)
+  require 'rubygems'
+  require 'rack'
+  config = @root.join('config.ru').to_s
+  Rack::Server.start(:config => config, :Port => 9292)
 else
   puts "Usage: visage start"
 end
