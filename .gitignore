@@ -2,10 +2,8 @@ config/profiles.yaml
 .DS_Store
 log/*
 tmp/*
-bin/*
+pkg/*
 *~
 .#*
 webrat*
-.bundle/
-vendor/gems/ruby/*/*
-!vendor/gems/ruby/*/cache/*
+visage.gemspec
