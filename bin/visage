@@ -11,7 +11,28 @@ when "start"
   require 'rack'
   config = @root.join('config.ru').to_s
   Rack::Server.start(:config => config, :Port => 9292)
+when "genapache"
+  require 'socket'
+  fqdn = Socket.gethostbyname(Socket.gethostname).first
+  public_dir = @root.join('lib/visage-app/public')
+
+  puts <<-CONFIG
+<VirtualHost *>
+  ServerName #{fqdn}
+  ServerAdmin root@#{fqdn}
+
+  DocumentRoot #{public_dir}
+
+  <Directory "#{public_dir}">
+     Options FollowSymLinks Indexes
+     AllowOverride None
+     Order allow,deny
+     Allow from all
+   </Directory>
+
+</VirtualHost>
+  CONFIG
 else
-  puts "Usage: visage start"
+  puts "Usage: visage <start|genapache>"
 end
 
