@@ -19,15 +19,15 @@ Check out [a demo](http://visage.unstated.net/nadia/cpu+load).
 Installing
 ----------
 
-On Ubuntu, run:
+On Ubuntu, to install dependencies run:
 
     $ sudo apt-get install -y librrd-ruby ruby rubygems
 
-On CentOS, run:
+On CentOS, to install dependencies run:
 
     $ sudo yum install -y rrdtool ruby rubygems
 
-To install the app:
+Then install the app with:
 
     $ gem install visage
 
@@ -35,7 +35,7 @@ To install the app:
 Running
 -------
 
-Run with:
+You can check out the application quickly with:
 
     $ visage start
 
