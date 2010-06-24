@@ -115,6 +115,10 @@ And run the app with:
 
     $ shotgun visage.rb
 
+Create and install a new gem from the current source tree:
+
+    $ rake install
+
 Run all cucumber features:
 
     $ rake cucumber
