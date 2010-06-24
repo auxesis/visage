@@ -1,0 +1,15 @@
+#!/usr/bin/env ruby
+
+require 'pathname'
+
+@root = Pathname.new(File.dirname(__FILE__)).parent.expand_path
+action = ARGV[0]
+
+case action
+when "start"
+  command = "rackup #{@root.join('config.ru')}"
+  system(command)
+else
+  puts "Usage: visage start"
+end
+
