@@ -1,0 +1,63 @@
+--- 
+plugin_colors: 
+  memory: 
+    memory-used: 
+      value: "#cc0000"
+    memory-buffered: 
+      value: "#edd400"
+    memory-cached: 
+      value: "#3465a4"
+    memory-free: 
+      value: "#73d216"
+  cpu: 
+    cpu-idle: 
+      value: "#eeeeec"
+    cpu-wait: 
+      value: "#edd400"
+    cpu-user: 
+      value: "#3465a4"
+    cpu-system: 
+      value: "#cc0000"
+    cpu-nice:
+      value: "#73d216"
+    cpu-softirq: 
+      value: "#ad7fa8"
+    cpu-interrupt:
+      value: "#5c3566"
+    cpu-steal:
+      value: "#2e3436"
+  swap: 
+    swap-used: 
+      value: "#cc0000"
+    swap-free: 
+      value: "#73d216"
+    swap-cached: 
+      value: "#3465a4"
+  load: 
+    load: 
+      longterm: "#ef2929"
+      shortterm: "#73d216"
+      midterm: "#3465a4"
+  df:
+    df: 
+      used: "#cc0000"
+      free: "#73d216"
+  disk:
+    disk_merged:
+       read: "#8ae234"
+       write: "#ef2929"
+    disk_time:
+       read: "#729fcf"
+       write: "#fcaf3e"
+    disk_ops:
+       read: "#ad7fa8"
+       write: "#fce94f"
+    disk_octets:
+       read: "#c17d11"
+       write: "#888a85"
+
+
+
+
+
+
