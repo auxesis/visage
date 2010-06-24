@@ -29,7 +29,7 @@ On CentOS, to install dependencies run:
 
 Then install the app with:
 
-    $ gem install visage
+    $ gem install visage-app
 
 
 Running
