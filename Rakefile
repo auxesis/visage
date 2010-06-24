@@ -15,7 +15,7 @@ end
 begin
   require 'jeweler'
   Jeweler::Tasks.new do |gemspec|
-    gemspec.name = "visage"
+    gemspec.name = "visage-app"
     gemspec.summary = "a web (interface | service) for viewing collectd statistics"
     gemspec.description = "Visage is a web interface for viewing collectd statistics. It also provides a JSON interface onto collectd's RRD data, giving you an easy way to mash up the data."
     gemspec.email = "lindsay@holmwood.id.au"
