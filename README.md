@@ -35,7 +35,7 @@ Then install the app with:
 Running
 -------
 
-You can check out the application quickly with:
+You can try out the application quickly with:
 
     $ visage start
 
