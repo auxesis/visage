@@ -16,36 +16,29 @@ Features
 
 Check out [a demo](http://visage.unstated.net/nadia/cpu+load).
 
-Dependencies
-------------
-
-Ruby (install with `gem install <dep>`:
-
- * bundler08
-
-**Please note Visage uses `bundler08` *not* `bundler`.** Current `bundler`
-releases depend on a version of RubyGems that is not packaged on any recent
-stable Linux distribution.
-
-System (install with your system's package manager):
-
- * git, librrd-dev, ruby, rubygems
-
-
 Installing
 ----------
 
-Check out the code from GitHub:
+On Ubuntu, run:
 
-    $ git clone git://github.com/auxesis/visage.git
+    $ sudo apt-get install -y librrd-ruby ruby rubygems
 
-Bundle dependencies:
+On CentOS, run:
 
-    $ gem bundle
+    $ sudo yum install -y rrdtool ruby rubygems
 
-Amongst other things, this will pull in Errand, which requires the rrdtool
-headers to build a C extension. On Debian/Ubuntu these are in the `librrd2-dev`
-package, and on RHEL/CentOS `rrdtool-devel`.
+To install the app:
+
+    $ gem install visage
+
+
+Running
+-------
+
+Run with:
+
+    $ visage start
+
 
 Configuring
 -----------
@@ -77,9 +70,13 @@ with the `c['rrddir']` key.
 Developing
 ----------
 
+Check out the code with:
+
+    $ git clone git://github.com/auxesis/visage.git
+
 For development:
 
-    $ gem install shotgun
+    $ gem install shotgun rack-test rspec cucumber webrat
     $ shotgun visage.rb
 
 Deploying
