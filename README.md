@@ -14,7 +14,13 @@ Features
  * drop-down or mouse selection of timeframes (also rendered asynchronously)
  * JSON interface onto `collectd` RRDs
 
-Check out [a demo](http://visage.unstated.net/nadia/cpu+load).
+Here, have a graph:
+
+
+![Something I prepared earlier.](http://farm2.static.flickr.com/1020/4730994504_c8c6fc9c18_z.jpg)
+
+
+Or check out [a live demo](http://visage.unstated.net/nadia/cpu+load).
 
 Installing
 ----------
