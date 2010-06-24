@@ -1,10 +1,11 @@
-basedir = File.expand_path(File.join(File.dirname(__FILE__), '..', '..'))
-gemdir = File.join(basedir, 'gems')
-app_file = File.join(basedir, 'visage')
+#!/usr/bin/env ruby
+
+require 'pathname'
+
+@root = Pathname.new(File.dirname(__FILE__)).parent.parent.expand_path
+app_file = @root.join('lib/visage')
 
 require 'rubygems'
-Gem.clear_paths
-Gem.path << gemdir
 require 'spec/expectations'
 require 'rack/test'
 require 'webrat'
@@ -29,7 +30,7 @@ class SinatraWorld
   end
 end
 
-World do 
+World do
   SinatraWorld.new
 end
 
