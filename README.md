@@ -67,18 +67,6 @@ Make sure collectd's RRD directory is readable by whatever user the web server
 is running as. You can specify where collectd's rrd directory is in `init.rb`,
 with the `c['rrddir']` key.
 
-Developing
-----------
-
-Check out the code with:
-
-    $ git clone git://github.com/auxesis/visage.git
-
-For development:
-
-    $ gem install shotgun rack-test rspec cucumber webrat
-    $ shotgun visage.rb
-
 Deploying
 ---------
 
@@ -112,8 +100,20 @@ Ubuntu users looking for Passenger packages should add John Ferlito's
 [mod-passenger PPA](https://launchpad.net/~johnf-inodes/+archive/mod-passenger)
 to their apt sources.
 
-Testing
--------
+Developing + testing
+--------------------
+
+Check out the code with:
+
+    $ git clone git://github.com/auxesis/visage.git
+
+Install the development dependencies with
+
+    $ gem install shotgun rack-test rspec cucumber webrat
+
+And run the app with:
+
+    $ shotgun visage.rb
 
 Run all cucumber features:
 
