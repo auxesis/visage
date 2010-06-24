@@ -2,6 +2,6 @@
 
 $0 = "visage"
 
-require 'lib/visage'
+require 'lib/visage-app'
 run Sinatra::Application
 
