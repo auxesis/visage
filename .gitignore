@@ -6,4 +6,4 @@ pkg/*
 *~
 .#*
 webrat*
-visage.gemspec
+visage-app.gemspec
