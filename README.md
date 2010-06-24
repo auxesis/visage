@@ -70,31 +70,25 @@ with the `c['rrddir']` key.
 Deploying
 ---------
 
-With Passenger, create an Apache vhost with the `DocumentRoot` set to the
-`public/` directory of where you have deployed the checked out code, e.g.
+Visage can attempt to generate an Apache vhost config for use with Passenger:
 
+    $ visage genapache
     <VirtualHost *>
-      ServerName visage.example.org
-      ServerAdmin contact@visage.example.org
+      ServerName ubuntu.localdomain
+      ServerAdmin root@ubuntu.localdomain
 
-      DocumentRoot /srv/www/visage.example.org/root/public/
+      DocumentRoot /home/user/.gem/ruby/1.8/gems/visage-app-0.1.0/lib/visage-app/public
 
-      <Directory "/srv/www/visage.example.org/root/public/">
+      <Directory "/home/user/.gem/ruby/1.8/gems/visage-app-0.1.0/lib/visage-app/public">
          Options FollowSymLinks Indexes
          AllowOverride None
          Order allow,deny
          Allow from all
        </Directory>
 
-       ErrorLog /srv/www/visage.example.org/log/apache_errors_log
-       CustomLog /srv/www/visage.example.org/log/apache_app_log combined
-
     </VirtualHost>
 
-This assumes you have a checkout of the code at `/srv/www/visage.example.org/root`.
-
-If you don't want to use Apache + Passenger, you can install the `thin` or
-`mongrel` gems and run up a web server yourself.
+Copypasta this into your system's Apache config structure and tune to taste.
 
 Ubuntu users looking for Passenger packages should add John Ferlito's
 [mod-passenger PPA](https://launchpad.net/~johnf-inodes/+archive/mod-passenger)
