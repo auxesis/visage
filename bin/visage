@@ -14,7 +14,7 @@ when "start"
 when "genapache"
   require 'socket'
   fqdn = Socket.gethostbyname(Socket.gethostname).first
-  public_dir = @root.join('lib/visage-app/public')
+  public_dir = @root.join('lib/visage/public')
 
   puts <<-CONFIG
 <VirtualHost *>
@@ -24,11 +24,11 @@ when "genapache"
   DocumentRoot #{public_dir}
 
   <Directory "#{public_dir}">
-     Options FollowSymLinks Indexes
-     AllowOverride None
-     Order allow,deny
-     Allow from all
-   </Directory>
+    Options FollowSymLinks Indexes
+    AllowOverride None
+    Order allow,deny
+    Allow from all
+  </Directory>
 
 </VirtualHost>
   CONFIG
