@@ -2,6 +2,7 @@
 
 __DIR__ = File.expand_path(File.dirname(__FILE__))
 require File.join(__DIR__, '..', 'config')
+require 'yaml'
 
 Visage::Config.use do |c|
   c['fallback_colors'] = YAML::load(File.read(File.join(__DIR__, 'fallback-colors.yaml')))
