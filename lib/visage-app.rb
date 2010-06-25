@@ -1,22 +1,22 @@
 #!/usr/bin/env ruby
 
 require 'pathname'
-@root = Pathname.new(File.dirname(__FILE__)).expand_path
+@root = Pathname.new(File.dirname(__FILE__)).parent.expand_path
 $: << @root.to_s
 
 require 'sinatra'
 require 'errand'
 require 'yajl'
 require 'haml'
-require 'visage/collectd/json'
-require 'visage/config'
+require 'lib/visage/config'
+require 'lib/visage/helpers'
+require 'lib/visage/config/init'
+require 'lib/visage/collectd/json'
 
-set :public, @root.join('visage/public')
-set :views,  @root.join('visage/views')
+set :public, @root.join('lib/visage/public')
+set :views,  @root.join('lib/visage/views')
 
 configure do
-  require 'visage/config/init'
-
   CollectdJSON.rrddir = Visage::Config.rrddir
   Visage::Config::Profiles.profiles = Visage::Config.profiles
 end
