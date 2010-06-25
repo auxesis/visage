@@ -11,8 +11,8 @@
       - else
         - @hosts.each do |host|
           %li
-            %a{:href => "/#{host}"}= host
-  
+            %a{:href => link_to("/#{host}")}= host
+
   - if host = params[:host]
     %div#profiles.nav
       %h2 Profiles
@@ -20,7 +20,7 @@
       %ul
         - @profiles.each do |profile|
           %li
-            %a{:href => "/#{host}/#{profile.splat}"}= profile.name
+            %a{:href => link_to("/#{host}/#{profile.splat}")}= profile.name
 
 %div#graphs
   - if @profile && @profile.plugins
@@ -41,8 +41,8 @@
               name: '#{plugin} on #{host}'
             });
           });
-  
+
   - else
     %div#nothing
       Sorry, nothing to display!
-  
+
