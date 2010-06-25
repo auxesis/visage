@@ -31,3 +31,17 @@ begin
 rescue LoadError
   puts "Jeweler not available. Install it with: gem install jeweler"
 end
+
+desc "push gem"
+task :push do
+  filenames = Dir.glob("pkg/*.gem")
+  filenames_with_times = filenames.map do |filename|
+    [filename, File.mtime(filename)]
+  end
+
+  newest = filenames_with_times.sort_by { |tuple| tuple.last }.last
+  newest_filename = newest.first
+
+  command = "gem push #{newest_filename}"
+  system(command)
+end
