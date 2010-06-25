@@ -72,6 +72,9 @@ class CollectdJSON
           (!datapoint || datapoint.nan?) ? 0.0 : datapoint
         end
 
+        # Sometimes the last value from the RRD is ridiculously large.
+        metric[-1] = 0
+
         color = color_for(:host => data[:host],
                           :plugin => data[:plugin],
                           :instance => data[:instance],
@@ -103,6 +106,7 @@ class CollectdJSON
 
     return fallback_color unless plugin
     return color_for(opts.merge(:plugin => plugin[/(.+)-.+$/, 1])) unless @colors[plugin]
+    return fallback_color unless instance
     return color_for(opts.merge(:instance => instance[/(.+)-.+$/, 1])) unless @colors[plugin][instance]
     return @colors[plugin][instance][metric] if @colors[plugin][instance]
     return fallback_color
