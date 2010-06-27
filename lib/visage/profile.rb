@@ -10,16 +10,16 @@ module Visage
                 :name, :errors
 
     @@root = Pathname.new(File.dirname(__FILE__)).parent.parent.expand_path
-    @@profiles_filename = @@root.join('config').join('profiles.yaml')
+    @@profiles_filename = @@root.join('lib/visage/config/profiles.yaml')
 
     def self.get(id)
       url = id.downcase.gsub(/[^\w]+/, "+")
-      profiles = YAML::load(File.read(@@profiles_filename))
+      profiles = YAML::load_file(@@profiles_filename) || {}
       profiles[url] ? self.new(profiles[url]) : nil
     end
 
     def self.all
-      profiles = YAML::load(File.read(@@profiles_filename))
+      profiles = YAML::load_file(@@profiles_filename) || {}
       profiles.values.map { |prof| self.new(prof) }
     end
 
@@ -61,7 +61,7 @@ module Visage
                   :url => @options[:profile_name].downcase.gsub(/[^\w]+/, "+") }
 
         # Save it.
-        profiles = YAML::load(File.read(@@profiles_filename)) || {}
+        profiles = YAML::load_file(@@profiles_filename) || {}
         profiles[attrs[:url]] = attrs
 
         File.open(@@profiles_filename, 'w') do |file|
