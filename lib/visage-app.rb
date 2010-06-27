@@ -92,6 +92,14 @@ module Visage
       maybe_wrap_with_callback(json)
     end
 
+    get %r{/data/([^/]+)} do
+      host = params[:captures][0]
+      metrics = Visage::Collectd::RRDs.metrics(:host => host)
+
+      json = { host => metrics }.to_json
+      maybe_wrap_with_callback(json)
+    end
+
     get %r{/data(/)*} do
       hosts = Visage::Collectd::RRDs.hosts
       json = { :hosts => hosts }.to_json
