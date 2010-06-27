@@ -29,6 +29,7 @@ module Visage
       @errors = {}
 
       # FIXME: this is nasty
+      # FIXME: doesn't work if there's only one host
       @selected_hosts = Visage::Collectd::RRDs.hosts(:hosts => @options[:hosts])
       if Visage::Collectd::RRDs.hosts == @selected_hosts
         @selected_hosts = []
