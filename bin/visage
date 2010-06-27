@@ -2,6 +2,9 @@
 
 require 'pathname'
 
+require 'socket'
+fqdn = Socket.gethostbyname(Socket.gethostname).first
+
 @root = Pathname.new(File.dirname(__FILE__)).parent.expand_path
 action = ARGV[0]
 
@@ -9,6 +12,17 @@ case action
 when "start"
   require 'rubygems'
   require 'rack'
+
+  puts ' _    ___'
+  puts '| |  / (_)________ _____ ____'
+  puts '| | / / / ___/ __ `/ __ `/ _ \\'
+  puts '| |/ / (__  ) /_/ / /_/ /  __/'
+  puts '|___/_/____/\__,_/\__, /\___/'
+  puts '                 /____/'
+  puts
+  puts "will be running at http://#{fqdn}:9292/"
+  puts
+
   config = @root.join('lib/visage/config.ru').to_s
   server = Rack::Server.new(:config => config, :Port => 9292)
   server.start
