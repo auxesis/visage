@@ -4,8 +4,13 @@ Then /^I should receive valid JSON$/ do
     @response = yajl.parse(response_body)
   }.should_not raise_error
 
-  if @response.keys.first == "hosts"
+  case
+  when @response.keys.first == "hosts"
     @response["hosts"].should respond_to(:size)
+  when @response[@response.keys.first].respond_to?(:size)
+    host    = @response.keys.first
+    plugins = @response[host]
+    plugins.size.should > 0
   else
     host   = @response.keys.first
     plugin = @response[host].keys.first
@@ -97,4 +102,22 @@ When /^I visit "([^"]*)" on the first available host$/ do |glob|
   host = @response["hosts"].first
   url  = "/data/#{host}/#{glob}"
   When "I go to #{url}"
+end
+
+
+When /^I visit the first available host$/ do
+  When 'I go to /data'
+  Then 'the request should succeed'
+  Then 'I should receive valid JSON'
+  Then 'the JSON should have a list of hosts'
+
+  host = @response["hosts"].first
+  url  = "/data/#{host}"
+  When "I go to #{url}"
+end
+
+Then /^the JSON should have a list of plugins$/ do
+  host    = @response.keys.first
+  plugins = @response[host]
+  plugins.size.should > 0
 end
