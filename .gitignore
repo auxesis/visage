@@ -1,4 +1,3 @@
-config/profiles.yaml
 .DS_Store
 log/*
 tmp/*
@@ -7,3 +6,4 @@ pkg/*
 .#*
 webrat*
 visage-app.gemspec
+lib/visage/config/profiles.yaml

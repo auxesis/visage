@@ -4,78 +4,103 @@ require 'pathname'
 @root = Pathname.new(File.dirname(__FILE__)).parent.expand_path
 $: << @root.to_s
 
-require 'sinatra'
+require 'sinatra/base'
 require 'errand'
 require 'yajl'
 require 'haml'
+require 'lib/visage/profile'
 require 'lib/visage/config'
 require 'lib/visage/helpers'
 require 'lib/visage/config/init'
 require 'lib/visage/collectd/json'
 
-set :public, @root.join('lib/visage/public')
-set :views,  @root.join('lib/visage/views')
 
-configure do
-  CollectdJSON.rrddir = Visage::Config.rrddir
-  Visage::Config::Profiles.profiles = Visage::Config.profiles
-end
+module Visage
+  class Application < Sinatra::Base
+    __DIR__ = File.expand_path(File.dirname(__FILE__))
 
-# infrastructure for embedding
-get '/javascripts/visage.js' do
-  javascript = ""
-  %w{raphael-min g.raphael g.line mootools-1.2.3-core mootools-1.2.3.1-more graph}.each do |js|
-    javascript += File.read(File.join(__DIR__, 'public', 'javascripts', "#{js}.js"))
+    set :public, @root.join('lib/visage/public')
+    set :views,  @root.join('lib/visage/views')
   end
-  javascript
-end
 
-# user facing
-get '/' do
-  @hosts = CollectdJSON.hosts
-  haml :index
-end
+  class Profiles < Application
+    get '/profiles/:url' do
+      @profile = Visage::Profile.get(params[:url])
+      raise Sinatra::NotFound unless @profile
+      haml :profile
+    end
 
-get '/:host' do
-  @hosts = CollectdJSON.hosts
-  @profiles = Visage::Config::Profiles.all
+    get '/profiles' do
+      @profiles = Visage::Profile.all
+      haml :profiles
+    end
+  end
 
-  haml :index
-end
 
-get '/:host/:profile' do
-  @hosts = CollectdJSON.hosts
-  @profiles = Visage::Config::Profiles.all
-  @profile = Visage::Config::Profiles.get(params[:profile])
+  class Builder < Application
 
-  haml :index
-end
+    template :layout do
+      File.read('views/layout.haml')
+    end
 
-# JSON data backend
+    # user facing
+    get '/' do
+      redirect '/builder'
+    end
 
-# /data/:host/:plugin/:optional_plugin_instance
-get %r{/data/([^/]+)/([^/]+)((/[^/]+)*)} do
-  host = params[:captures][0]
-  plugin = params[:captures][1]
-  plugin_instances = params[:captures][2]
+    get "/builder" do
+      if params[:submit] == "create"
+        @profile = Visage::Profile.new(params)
 
-  collectd = CollectdJSON.new(:rrddir => Visage::Config.rrddir,
-                              :fallback_colors => Visage::Config.fallback_colors)
-  json = collectd.json(:host => host,
-                       :plugin => plugin,
-                       :plugin_instances => plugin_instances,
-                       :start => params[:start],
-                       :finish => params[:finish],
-                       :plugin_colors => Visage::Config.plugin_colors)
-  # if the request is cross-domain, we need to serve JSONP
-  maybe_wrap_with_callback(json)
-end
+        if @profile.save
+          redirect "/profiles/#{@profile.url}"
+        else
+          haml :builder
+        end
+      else
+        @profile = Visage::Profile.new(params)
 
-# wraps json with a callback method that JSONP clients can call
-def maybe_wrap_with_callback(json)
-  if params[:callback]
-    params[:callback] + '(' + json + ')'
-  else
-    json
+        haml :builder
+      end
+    end
+
+    # infrastructure for embedding
+    get '/javascripts/visage.js' do
+      javascript = ""
+      %w{raphael-min g.raphael g.line mootools-1.2.3-core mootools-1.2.3.1-more graph}.each do |js|
+        javascript += File.read(File.join(__DIR__, 'public', 'javascripts', "#{js}.js"))
+      end
+      javascript
+    end
+
+  end
+
+  class JSON < Application
+
+    # JSON data backend
+
+    # /data/:host/:plugin/:optional_plugin_instance
+    get %r{/data/([^/]+)/([^/]+)((/[^/]+)*)} do
+      host = params[:captures][0]
+      plugin = params[:captures][1]
+      plugin_instances = params[:captures][2]
+
+      collectd = CollectdJSON.new(:rrddir => Visage::Config.rrddir,
+                                  :fallback_colors => Visage::Config.fallback_colors)
+      json = collectd.json(:host => host,
+                           :plugin => plugin,
+                           :plugin_instances => plugin_instances,
+                           :start => params[:start],
+                           :finish => params[:finish],
+                           :plugin_colors => Visage::Config.plugin_colors)
+      # if the request is cross-domain, we need to serve JSONP
+      maybe_wrap_with_callback(json)
+    end
+
+    # wraps json with a callback method that JSONP clients can call
+    def maybe_wrap_with_callback(json)
+      params[:callback] ? params[:callback] + '(' + json + ')' : json
+    end
+
   end
 end
