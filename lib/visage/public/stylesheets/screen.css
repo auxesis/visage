@@ -48,10 +48,12 @@ div#nav a {
   margin-top: 8px;
   margin-left: 12px;
   color: white;
+  font-weight: bold;
 }
 
 div#nav a:hover {
   text-shadow: 0 1px 6px rgba(115,157,211,0.9);
+  background-color: #3465a4;
 }
 
 div#content, div#nav {
