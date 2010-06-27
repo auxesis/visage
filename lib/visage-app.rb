@@ -4,10 +4,6 @@ require 'pathname'
 @root = Pathname.new(File.dirname(__FILE__)).parent.expand_path
 $: << @root.to_s
 
-require 'sinatra/base'
-require 'errand'
-require 'yajl'
-require 'haml'
 require 'lib/visage/profile'
 require 'lib/visage/config'
 require 'lib/visage/helpers'
