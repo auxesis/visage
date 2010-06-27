@@ -26,7 +26,7 @@ class SinatraWorld
   Webrat::Methods.delegate_to_session :response_code, :response_body
 
   def app
-    Sinatra::Application
+    Visage::JSON
   end
 end
 
