@@ -41,7 +41,9 @@ module Visage
             glob = opts[:metrics]
           end
 
-          Dir.glob("#{rrddir}/*/#{glob}.rrd").map {|e| e.split('/')[-2..-1].join('/').gsub(/\.rrd$/, '')}.sort.uniq
+          host_glob = (opts[:host] || "*")
+
+          Dir.glob("#{rrddir}/#{host_glob}/#{glob}.rrd").map {|e| e.split('/')[-2..-1].join('/').gsub(/\.rrd$/, '')}.sort.uniq
         end
 
       end
