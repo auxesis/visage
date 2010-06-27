@@ -1,0 +1,13 @@
+- page_title 'Profiles'
+
+%div#profiles
+  %h2 Profiles
+
+  %ul
+    - @profiles.each do |prof|
+      %li
+        %a{:href => link_to("/profiles/#{prof.url}")}= prof.profile_name
+
+  %p.create
+    %a{:href => link_to("/builder")} Create a new profile.
+

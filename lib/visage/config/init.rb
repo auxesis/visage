@@ -1,29 +1,33 @@
 #!/usr/bin/env ruby
 
-__DIR__ = File.expand_path(File.dirname(__FILE__))
-require File.join(__DIR__, '..', 'config')
+@root = Pathname.new(File.dirname(__FILE__)).parent.parent.parent.expand_path
+@config_directory = Pathname.new(File.dirname(__FILE__)).expand_path
+require @root.join('lib/visage/config')
 require 'yaml'
 
 Visage::Config.use do |c|
-  c['fallback_colors'] = YAML::load(File.read(File.join(__DIR__, 'fallback-colors.yaml')))
-
-  profile_filename = File.join(__DIR__, 'profiles.yaml')
+  # setup profiles file
+  profile_filename = @config_directory.join('profiles.yaml')
   unless File.exists?(profile_filename)
-    puts "You need to specify a list of profiles in config/profile.yaml!"
-    puts "Check out config/profiles.yaml.sample for an example."
-    exit 1
-  end
-  YAML::load(File.read(profile_filename)).each_pair do |key, value|
-    c[key] = value
+    FileUtils.touch(profile_filename)
   end
 
-  plugin_colors_filename = File.join(__DIR__, 'plugin-colors.yaml')
+  # setup plugin colors file
+  plugin_colors_filename = @config_directory.join('plugin-colors.yaml')
   unless File.exists?(plugin_colors_filename)
     puts "It's highly recommended you specify graph line colors in config/plugin-colors.yaml!"
   end
-  YAML::load(File.read(plugin_colors_filename)).each_pair do |key, value|
-    c[key] = value
+
+  # load config from profiles + plugin colors file
+  [profile_filename, plugin_colors_filename].each do |filename|
+    if File.exists?(filename)
+      config = YAML::load_file(filename) || {}
+      config.each_pair {|key, value| c[key] = value}
+    end
   end
+
+  # load fallback colors
+  c['fallback_colors'] = YAML::load(File.read(@config_directory.join('fallback-colors.yaml')))
 
   # Location of collectd's RRD - you may want to edit this!
   c['rrddir'] = "/var/lib/collectd/rrd"

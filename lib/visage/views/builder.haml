@@ -1,0 +1,52 @@
+- page_title "Profile builder"
+
+%div#builder
+  %form{:action => "/builder", :method => :get}
+
+    - if @profile.selected_hosts.size > 0 && @profile.selected_metrics.size > 0
+      %div#profile-preview
+        %h2 Preview
+        %div#graph
+          %p Coming soon!
+      %div#profile-meta
+        %h2 Profile name
+        %p
+          %input{:name => "profile_name", :value => params[:profile_name], :type => "text", :class => "text"}
+        %p.error
+          = @profile.errors[:profile_name]
+        %p
+          %input{:type => "submit", :value => "create", :class => "create", :name => "submit"}
+
+    %div#hosts.builder
+      %h2 Hosts
+      %input{:name => "hosts", :type => "text", :class => "text", :value => params[:hosts]}
+      %input{:name => "submit", :type => "submit", :class => "submit", :value => "hosts"}
+      %img{:src => link_to("/images/hosts.png"), :class => "icon hosts"}
+      %span{:class => "glob example"} e.g. &ldquo;charlie&rdquo;, &ldquo;*.bravo*&rdquo;, &ldquo;echo, foxtrot*&rdquo;
+
+      %ul.selected
+        - @profile.selected_hosts.each do |name|
+          %li= name
+
+      %h5 Available
+      %ul.available
+        - @profile.hosts.each do |name|
+          %li= name
+
+    %div#metrics.builder
+      %h2 Metrics
+      %input{:name => "metrics", :type => "text", :class => "text", :value => params[:metrics]}
+      %input{:name => "submit", :type => "submit", :class => "submit", :value => "metrics"}
+      %img{:src => link_to("/images/metrics.png"), :class => "icon metrics"}
+      %span{:class => "glob example"} e.g. &ldquo;cpu*/*&rdquo;, &ldquo;disk*/*ops, disk*/*time&rdquo;
+
+      %ul.selected
+        - @profile.selected_metrics.each do |name|
+          %li= name
+
+      %h5 Available
+      %ul.available
+        - @profile.metrics.each do |name|
+          %li= name
+
+

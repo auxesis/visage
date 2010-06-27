@@ -24,5 +24,13 @@ module Sinatra
     end
   end
 
-  helpers LinkToHelper
+  module PageTitleHelper
+    def page_title(string)
+      @page_title = string
+    end
+
+    def include_page_title
+      @page_title ? "#{@page_title} | Visage" : "Visage"
+    end
+  end
 end

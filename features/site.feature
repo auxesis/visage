@@ -4,6 +4,8 @@ Feature: Visit site
   Must be able to visualise the data
 
   Scenario: Show available hosts
-    When I go to /
-    Then I should see a list of available hosts
-    When I follow the first host
+    When I go to /profiles
+    And I visit the first profile
+    Then I should see a list of graphs
+
+
