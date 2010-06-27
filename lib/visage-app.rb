@@ -4,13 +4,14 @@ require 'pathname'
 @root = Pathname.new(File.dirname(__FILE__)).parent.expand_path
 $: << @root.to_s
 
+require 'sinatra/base'
 require 'lib/visage/profile'
 require 'lib/visage/config'
 require 'lib/visage/helpers'
 require 'lib/visage/config/init'
 require 'lib/visage/collectd/rrds'
 require 'lib/visage/collectd/json'
-
+require 'yajl/json_gem'
 
 module Visage
   class Application < Sinatra::Base
@@ -88,6 +89,12 @@ module Visage
                            :finish => params[:finish],
                            :plugin_colors => Visage::Config.plugin_colors)
       # if the request is cross-domain, we need to serve JSONP
+      maybe_wrap_with_callback(json)
+    end
+
+    get %r{/data(/)*} do
+      hosts = Visage::Collectd::RRDs.hosts
+      json = { :hosts => hosts }.to_json
       maybe_wrap_with_callback(json)
     end
 
