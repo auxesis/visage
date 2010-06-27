@@ -33,19 +33,19 @@ module Visage
       # FIXME: this is nasty
       # FIXME: doesn't work if there's only one host
       # FIXME: add regex matching option
-      @selected_hosts = Visage::Collectd::RRDs.hosts(:hosts => @options[:hosts])
-      if Visage::Collectd::RRDs.hosts == @selected_hosts
+      if @options[:hosts].blank?
         @selected_hosts = []
         @hosts = Visage::Collectd::RRDs.hosts
       else
+        @selected_hosts = Visage::Collectd::RRDs.hosts(:hosts => @options[:hosts])
         @hosts = Visage::Collectd::RRDs.hosts - @selected_hosts
       end
 
-      @selected_metrics = Visage::Collectd::RRDs.metrics(:metrics => @options[:metrics])
-      if Visage::Collectd::RRDs.metrics == @selected_metrics
+      if @options[:metrics].blank?
         @selected_metrics = []
         @metrics = Visage::Collectd::RRDs.metrics
       else
+        @selected_metrics = Visage::Collectd::RRDs.metrics(:metrics => @options[:metrics])
         @metrics = Visage::Collectd::RRDs.metrics - @selected_metrics
       end
     end
