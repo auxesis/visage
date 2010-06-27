@@ -21,6 +21,8 @@ module Visage
     @root = Pathname.new(File.dirname(__FILE__)).parent.expand_path
     set :public, @root.join('lib/visage/public')
     set :views,  @root.join('lib/visage/views')
+
+    helpers Sinatra::LinkToHelper
   end
 
   class Profiles < Application
