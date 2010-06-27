@@ -2,7 +2,7 @@
 
 root = Pathname.new(File.dirname(__FILE__)).parent.parent
 $: << root.join('lib')
-require 'patches'
+require 'lib/visage/patches'
 
 module Visage
   class Profile
@@ -29,20 +29,20 @@ module Visage
       @errors = {}
 
       # FIXME: this is nasty
-      @selected_hosts = Collectd.hosts(:hosts => @options[:hosts])
-      if Collectd.hosts == @selected_hosts
+      @selected_hosts = Visage::Collectd::RRDs.hosts(:hosts => @options[:hosts])
+      if Visage::Collectd::RRDs.hosts == @selected_hosts
         @selected_hosts = []
-        @hosts = Collectd.hosts
+        @hosts = Visage::Collectd::RRDs.hosts
       else
-        @hosts = Collectd.hosts - @selected_hosts
+        @hosts = Visage::Collectd::RRDs.hosts - @selected_hosts
       end
 
-      @selected_metrics = Collectd.metrics(:metrics => @options[:metrics])
-      if Collectd.metrics == @selected_metrics
+      @selected_metrics = Visage::Collectd::RRDs.metrics(:metrics => @options[:metrics])
+      if Visage::Collectd::RRDs.metrics == @selected_metrics
         @selected_metrics = []
-        @metrics = Collectd.metrics
+        @metrics = Visage::Collectd::RRDs.metrics
       else
-        @metrics = Collectd.metrics - @selected_metrics
+        @metrics = Visage::Collectd::RRDs.metrics - @selected_metrics
       end
     end
 
