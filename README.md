@@ -25,55 +25,40 @@ Or check out [a live demo](http://visage.unstated.net/nadia/cpu+load).
 Installing
 ----------
 
+N.B: Visage must be deployed on a machine where `collectd` stores its stats in RRD.
+
 On Ubuntu, to install dependencies run:
 
-    $ sudo apt-get install -y librrd-ruby ruby rubygems
+    $ sudo apt-get install -y librrd-ruby ruby ruby-dev rubygems collectd
 
 On CentOS, to install dependencies run:
 
-    $ sudo yum install -y rrdtool ruby rubygems
+    $ sudo yum install -y rrdtool ruby rubygems collectd
 
 Then install the app with:
 
     $ gem install visage-app
 
-
 Running
 -------
 
-You can try out the application quickly with:
+You can try out Visage quickly with:
 
     $ visage start
 
-Configuring
------------
+Then paste the URL from the output into your browser.
 
-Config lives in several files under `config/`.
+If you get a `command not found` when running the above command (RubyGems likely
+isn't on your PATH), try this instead:
 
- * `profiles.yaml` - groups of graphs Visage is to display
- * `plugin-colors.yaml` - colors for specific plugins/plugin instances
- * `fallback-colors.yaml` - ordered list of fallback colors
- * `init.rb` - bootstrapping code, specifies collectd's RRD directory
-
-`profiles.yaml` isn't setup by default, but you can copy `profiles.yaml.sample`
-across and edit to taste. The plugins are in the format of
-`plugin/plugin-instance`, with `plugins-instance` being optional.
-
-If you don't specify a `plugin-instance` Visage will attempt to graph all plugin
-instances under the specified `plugin`, e.g. `cpu-0` will display `cpu-idle`,
-`cpu-interrupt`, `cpu-nice`, etc, whereas `cpu-0/cpu-wait` will only show
-`cpu-wait`. You can also choose a specific group of plugin instances to graph,
-with something like `cpu-0/cpu-system/cpu-user/cpu-wait`.
-
-It should be pretty easy to deduce the config format from the existing file
-(it's simple nested key-value data).
-
-Make sure collectd's RRD directory is readable by whatever user the web server
-is running as. You can specify where collectd's rrd directory is in `init.rb`,
-with the `c['rrddir']` key.
+    $ $(dirname $(dirname $(gem which visage-app)))/bin/visage start
 
 Deploying
 ---------
+
+Visage can be deployed on Apache with Passenger:
+
+    $ sudo apt-get install libapache2-mod-passenger
 
 Visage can attempt to generate an Apache vhost config for use with Passenger:
 
@@ -94,9 +79,29 @@ Visage can attempt to generate an Apache vhost config for use with Passenger:
 
 Copypasta this into your system's Apache config structure and tune to taste.
 
-Ubuntu users looking for Passenger packages should add John Ferlito's
-[mod-passenger PPA](https://launchpad.net/~johnf-inodes/+archive/mod-passenger)
-to their apt sources.
+To do this on Debian/Ubuntu:
+
+    $ sudo -s
+    $ visage genapache > /etc/apache2/sites-enabled/visage
+    $ a2dissite default
+    $ service apache2 reload
+
+Then head to your Apache instance and Visage will be up and running.
+
+Configuring
+-----------
+
+On the off chance you need to tweak Visage's configuration, it lives in several files
+under `lib/visage/config/`.
+
+ * `plugin-colors.yaml` - colors for specific plugins/plugin instances
+ * `fallback-colors.yaml` - ordered list of fallback colors
+ * `init.rb` - bootstrapping code, specifies collectd's RRD directory
+
+Make sure collectd's RRD directory is readable by whatever user the web server
+is running as. You can specify where collectd's rrd directory is in `init.rb`,
+with the `c['rrddir']` key.
+
 
 Developing + testing
 --------------------
