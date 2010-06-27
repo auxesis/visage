@@ -10,7 +10,8 @@ when "start"
   require 'rubygems'
   require 'rack'
   config = @root.join('lib/visage/config.ru').to_s
-  Rack::Server.start(:config => config, :Port => 9292)
+  server = Rack::Server.new(:config => config, :Port => 9292)
+  server.start
 when "genapache"
   require 'socket'
   fqdn = Socket.gethostbyname(Socket.gethostname).first
