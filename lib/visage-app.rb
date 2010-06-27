@@ -12,13 +12,13 @@ require 'lib/visage/profile'
 require 'lib/visage/config'
 require 'lib/visage/helpers'
 require 'lib/visage/config/init'
+require 'lib/visage/collectd/rrds'
 require 'lib/visage/collectd/json'
 
 
 module Visage
   class Application < Sinatra::Base
-    __DIR__ = File.expand_path(File.dirname(__FILE__))
-
+    @root = Pathname.new(File.dirname(__FILE__)).parent.expand_path
     set :public, @root.join('lib/visage/public')
     set :views,  @root.join('lib/visage/views')
   end
@@ -68,7 +68,7 @@ module Visage
     get '/javascripts/visage.js' do
       javascript = ""
       %w{raphael-min g.raphael g.line mootools-1.2.3-core mootools-1.2.3.1-more graph}.each do |js|
-        javascript += File.read(File.join(__DIR__, 'public', 'javascripts', "#{js}.js"))
+        javascript += File.read(@root.join('lib/visage/public/javascripts', "#{js}.js"))
       end
       javascript
     end
