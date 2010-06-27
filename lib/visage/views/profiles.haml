@@ -4,5 +4,5 @@
   %ul
     - @profiles.each do |prof|
       %li
-        %a{:href => "/profiles/#{prof.url}"}= prof.profile_name
+        %a{:href => link_to("/profiles/#{prof.url}")}= prof.profile_name
 
