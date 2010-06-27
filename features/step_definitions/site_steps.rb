@@ -1,4 +1,11 @@
-Then /^I should see a list of available hosts$/ do
+When /^I visit the first profile$/ do
   doc = Nokogiri::HTML(response_body)
-  doc.search('div#hosts li').size.should > 0
+  link_text = doc.search('div#profiles ul a').first['href']
+
+  visit(link_text)
+end
+
+Then /^I should see a list of graphs$/ do
+  doc = Nokogiri::HTML(response_body)
+  doc.search('div#profile div.graph').size.should > 1
 end
