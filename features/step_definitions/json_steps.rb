@@ -3,17 +3,26 @@ Then /^I should receive valid JSON$/ do
   lambda {
     @response = yajl.parse(response_body)
   }.should_not raise_error
- 
-  host   = @response.keys.first
-  plugin = @response[host].keys.first
-  metric = @response[host][plugin].keys.first
-  
-  host.should_not be_nil
-  plugin.should_not be_nil
-  metric.should_not be_nil
 
-  data = @response[host][plugin][metric]["data"]
-  #.values.first.size.should > 0
+  case
+  when @response.keys.first == "hosts"
+    @response["hosts"].should respond_to(:size)
+  when @response[@response.keys.first].respond_to?(:size)
+    host    = @response.keys.first
+    plugins = @response[host]
+    plugins.size.should > 0
+  else
+    host   = @response.keys.first
+    plugin = @response[host].keys.first
+    metric = @response[host][plugin].keys.first
+
+    host.should_not be_nil
+    plugin.should_not be_nil
+    metric.should_not be_nil
+
+    data = @response[host][plugin][metric]["data"]
+  end
+
 end
 
 Then /^I should receive JSON wrapped in a callback named "([^\"]*)"$/ do |callback|
@@ -76,4 +85,39 @@ end
 Then /^I should see multiple hosts$/ do
   @response.should_not be_nil
   @response.keys.size.should > 1
+end
+
+Then /^the JSON should have a list of hosts$/ do
+  @response["hosts"].size.should > 0
+end
+
+Given /^a list of hosts exist$/ do
+  When 'I go to /data'
+  Then 'the request should succeed'
+  Then 'I should receive valid JSON'
+  Then 'the JSON should have a list of hosts'
+end
+
+When /^I visit "([^"]*)" on the first available host$/ do |glob|
+  host = @response["hosts"].first
+  url  = "/data/#{host}/#{glob}"
+  When "I go to #{url}"
+end
+
+
+When /^I visit the first available host$/ do
+  When 'I go to /data'
+  Then 'the request should succeed'
+  Then 'I should receive valid JSON'
+  Then 'the JSON should have a list of hosts'
+
+  host = @response["hosts"].first
+  url  = "/data/#{host}"
+  When "I go to #{url}"
+end
+
+Then /^the JSON should have a list of plugins$/ do
+  host    = @response.keys.first
+  plugins = @response[host]
+  plugins.size.should > 0
 end

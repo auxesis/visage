@@ -7,5 +7,7 @@ $: << @root.to_s
 $0 = "visage"
 
 require 'lib/visage-app'
-run Sinatra::Application
-
+use Visage::Profiles
+use Visage::Builder
+use Visage::JSON
+run Sinatra::Base

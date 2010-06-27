@@ -1,11 +1,10 @@
 #!/usr/bin/env ruby
 
-$: << File.expand_path(File.dirname(__FILE__))
-$: << File.expand_path(File.join(File.dirname(__FILE__), '..'))
-
+@root = Pathname.new(File.dirname(__FILE__)).parent.parent.parent.expand_path
+$: << @root.to_s
+require 'lib/visage/patches'
 require 'errand'
 require 'yajl'
-require 'patches'
 
 # Exposes RRDs as JSON.
 #

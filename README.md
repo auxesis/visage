@@ -45,7 +45,6 @@ You can try out the application quickly with:
 
     $ visage start
 
-
 Configuring
 -----------
 
@@ -91,7 +90,6 @@ Visage can attempt to generate an Apache vhost config for use with Passenger:
          Order allow,deny
          Allow from all
        </Directory>
-
     </VirtualHost>
 
 Copypasta this into your system's Apache config structure and tune to taste.
@@ -123,16 +121,11 @@ Run all cucumber features:
 
     $ rake cucumber
 
-Specific features:
-
-    $ bin/cucumber --require features/ features/something.feature
-
 TODO
 ----
 
- * refactor tests to work on hosts other than my laptop
- * interface to build custom graph profiles
- * combine graphs from different hosts
- * detailed point-in-time data on hover
- * comment on time periods
- * view list of comments
+ * detailed point-in-time data on hover (timestamp, value)
+ * give graph profile an alternate private url
+ * make notes/annotations on private url
+ * include table of axis mappings + default y-axis heights for rendering
+ * view metrics from multiple hosts on the same graph
