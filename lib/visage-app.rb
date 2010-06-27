@@ -5,6 +5,7 @@ require 'pathname'
 $: << @root.to_s
 
 require 'sinatra/base'
+require 'haml'
 require 'lib/visage/profile'
 require 'lib/visage/config'
 require 'lib/visage/helpers'
