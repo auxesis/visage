@@ -2,7 +2,9 @@
 
 root = Pathname.new(File.dirname(__FILE__)).parent.parent
 $: << root.join('lib')
+require 'lib/visage/graph'
 require 'lib/visage/patches'
+require 'digest/md5'
 
 module Visage
   class Profile
@@ -30,6 +32,7 @@ module Visage
 
       # FIXME: this is nasty
       # FIXME: doesn't work if there's only one host
+      # FIXME: add regex matching option
       @selected_hosts = Visage::Collectd::RRDs.hosts(:hosts => @options[:hosts])
       if Visage::Collectd::RRDs.hosts == @selected_hosts
         @selected_hosts = []
@@ -77,6 +80,38 @@ module Visage
     def valid?
       valid_profile_name?
     end
+
+    def graphs
+      graphs = []
+
+      hosts = Visage::Collectd::RRDs.hosts(:hosts => @options[:hosts])
+      metrics = @options[:metrics]
+      hosts.each do |host|
+        attrs = {}
+        globs = Visage::Collectd::RRDs.metrics(:host => host, :metrics => metrics)
+        globs.each do |n|
+          parts    = n.split('/')
+          plugin   = parts[0]
+          instance = parts[1]
+          attrs[plugin] ||= []
+          attrs[plugin] << instance
+        end
+
+        attrs.each_pair do |plugin, instances|
+          graphs << Visage::Graph.new(:host => host,
+                                      :plugin => plugin,
+                                      :instances => instances)
+        end
+      end
+
+      graphs
+    end
+
+    def private_id
+      Digest::MD5.hexdigest("#{@options[:url]}\n")
+    end
+
+    private
 
     def valid_profile_name?
       if @options[:profile_name].blank?
