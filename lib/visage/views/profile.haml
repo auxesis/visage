@@ -1,3 +1,5 @@
+- page_title @profile.options[:profile_name]
+
 %div#profile
   - @profile.graphs.each do |graph|
     %div{:id => graph.id, :class => 'graph'}
