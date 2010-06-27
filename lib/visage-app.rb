@@ -23,6 +23,10 @@ module Visage
   end
 
   class Profiles < Application
+    get '/' do
+      redirect '/profiles'
+    end
+
     get '/profiles/:url' do
       @profile = Visage::Profile.get(params[:url])
       raise Sinatra::NotFound unless @profile
@@ -37,11 +41,6 @@ module Visage
 
 
   class Builder < Application
-
-    # user facing
-    get '/' do
-      redirect '/builder'
-    end
 
     get "/builder" do
       if params[:submit] == "create"
