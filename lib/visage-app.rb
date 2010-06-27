@@ -21,6 +21,7 @@ module Visage
     set :views,  @root.join('lib/visage/views')
 
     helpers Sinatra::LinkToHelper
+    helpers Sinatra::PageTitleHelper
   end
 
   class Profiles < Application
