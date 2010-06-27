@@ -241,3 +241,11 @@ div#profiles ul li {
   margin-bottom: 8px;
   list-style-type: none;
 }
+
+div#profiles ul {
+  margin-bottom: 16px;
+}
+
+div#profiles p.create {
+  font-size: 85%;
+}
