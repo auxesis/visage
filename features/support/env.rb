@@ -23,7 +23,7 @@ class SinatraWorld
   include Webrat::Methods
   include Webrat::Matchers
 
-  Webrat::Methods.delegate_to_session :response_code, :response_body
+  Webrat::Methods.delegate_to_session :response_code, :response_body, :response_headers, :response
 
   def app
     Visage::JSON
