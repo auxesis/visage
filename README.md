@@ -128,5 +128,4 @@ TODO
  * give graph profile an alternate private url
  * make notes/annotations on private url
  * include table of axis mappings + default y-axis heights for rendering
- * refactor tests to work on hosts other than my laptop
  * view metrics from multiple hosts on the same graph
