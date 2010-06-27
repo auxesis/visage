@@ -39,10 +39,6 @@ module Visage
 
   class Builder < Application
 
-    template :layout do
-      File.read('views/layout.haml')
-    end
-
     # user facing
     get '/' do
       redirect '/builder'
