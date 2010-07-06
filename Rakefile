@@ -33,7 +33,7 @@ rescue LoadError
 end
 
 desc "push gem"
-task :push do
+task :push => :lintian do
   filenames = Dir.glob("pkg/*.gem")
   filenames_with_times = filenames.map do |filename|
     [filename, File.mtime(filename)]
@@ -44,4 +44,13 @@ task :push do
 
   command = "gem push #{newest_filename}"
   system(command)
+end
+
+task :lintian do
+  require 'pathname'
+  @root = Pathname.new(File.dirname(__FILE__)).expand_path
+  javascripts_path = @root.join('lib/visage/public/javascripts')
+
+  count = `grep -c 'console.log' #{javascripts_path.join('graph.js')}`.strip.to_i
+  abort("#{count} instances of console.log found in graph.js!") if count > 0
 end
