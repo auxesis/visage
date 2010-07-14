@@ -20,7 +20,7 @@ begin
     gemspec.description = "Visage is a web interface for viewing collectd statistics. It also provides a JSON interface onto collectd's RRD data, giving you an easy way to mash up the data."
     gemspec.email = "lindsay@holmwood.id.au"
     gemspec.homepage = "http://auxesis.github.com/visage"
-    gemspec.authors = ["Lindsay Holmwood", "Xavier Mehrenberger"]
+    gemspec.authors = ["Lindsay Holmwood"]
 
     gemspec.add_dependency "sinatra", "1.0"
     gemspec.add_dependency "tilt", "1.0.1"
