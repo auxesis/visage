@@ -12,7 +12,9 @@
             gridHeight: 200,
             shade: false,
             pluginInstance: '#{graph.instances.join(',')}',
-            name: '#{graph.plugin} on #{graph.host}'
+            name: '#{graph.plugin} on #{graph.host}',
+            start: '#{@start}',
+            finish: '#{@finish}'
           });
         });
 
