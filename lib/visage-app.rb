@@ -79,9 +79,9 @@ module Visage
 
     # /data/:host/:plugin/:optional_plugin_instance
     get %r{/data/([^/]+)/([^/]+)((/[^/]+)*)} do
-      host = params[:captures][0]
-      plugin = params[:captures][1]
-      plugin_instances = params[:captures][2]
+      host = params[:captures][0].gsub("\0", "")
+      plugin = params[:captures][1].gsub("\0", "")
+      plugin_instances = params[:captures][2].gsub("\0", "")
 
       collectd = CollectdJSON.new(:rrddir => Visage::Config.rrddir,
                                   :fallback_colors => Visage::Config.fallback_colors)
@@ -96,7 +96,7 @@ module Visage
     end
 
     get %r{/data/([^/]+)} do
-      host = params[:captures][0]
+      host = params[:captures][0].gsub("\0", "")
       metrics = Visage::Collectd::RRDs.metrics(:host => host)
 
       json = { host => metrics }.to_json
