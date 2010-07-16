@@ -72,7 +72,7 @@ class CollectdJSON
         end
 
         # Sometimes the last value from the RRD is ridiculously large.
-        metric[-1] = 0
+        metric.slice!(-1)
 
         color = color_for(:host => data[:host],
                           :plugin => data[:plugin],
