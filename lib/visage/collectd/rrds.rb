@@ -10,7 +10,7 @@ module Visage
 
       class << self
         def rrddir
-          @rrddir = "/var/lib/collectd/rrd"
+          @rrddir ||= Visage::Config.rrddir
         end
 
         def hosts(opts={})
