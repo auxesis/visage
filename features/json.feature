@@ -51,13 +51,13 @@ Feature: Export data
     And each plugin instance should have a different color
 
   Examples:
-    | path           |
-    | cpu-0/cpu-user |
-    | df/df-root     |
+    | path               |
+    | cpu-0/cpu-user     |
+    | memory/memory-used |
 
   Scenario: Retrieve single plugin instance with a color definition
     Given a list of hosts exist
-    When I visit "swap/swap-used" on the first available host
+    When I visit "load/load" on the first available host
     Then the request should succeed
     Then I should receive valid JSON
     And the plugin instance should have a color
