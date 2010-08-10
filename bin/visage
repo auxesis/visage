@@ -4,7 +4,7 @@ require 'pathname'
 
 require 'socket'
 fqdn = Socket.gethostbyname(Socket.gethostname).first
-
+$stdout.sync = true
 @root = Pathname.new(File.dirname(__FILE__)).parent.expand_path
 action = ARGV[0]
 
@@ -21,6 +21,9 @@ when "start"
   puts '                 /____/'
   puts
   puts "will be running at http://#{fqdn}:9292/"
+  puts
+  require @root.join('lib/visage-app')
+  puts "Looking for RRDs in #{Visage::Config.rrddir}"
   puts
 
   config = @root.join('lib/visage/config.ru').to_s
