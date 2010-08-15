@@ -46,6 +46,7 @@ task :push => :lintian do
   system(command)
 end
 
+desc "perform lintian checks on the JavaScript about to be shipped"
 task :lintian do
   require 'pathname'
   @root = Pathname.new(File.dirname(__FILE__)).expand_path
@@ -53,4 +54,12 @@ task :lintian do
 
   count = `grep -c 'console.log' #{javascripts_path.join('graph.js')}`.strip.to_i
   abort("#{count} instances of console.log found in graph.js!") if count > 0
+end
+
+desc "clean up various generated files"
+task :clean do
+  [ "webrat.log", "pkg/", "visage-app-*.spec", "_site/"].each do |filename|
+    puts "Removing #{filename}"
+    FileUtils.rm_rf(filename)
+  end
 end
