@@ -9,24 +9,24 @@ body {
   padding: 0;
 }
 
-a { 
+a {
   text-decoration: none;
 }
 
 /* styles */
-
+/*
 a               { color: #3465a4; padding: 2px 0px; }
 a:hover         { color: white; background-color: #3465a4; }
 a:visited       { color: #75507b; }
 a:hover:visited { color: white; background-color: #75507b; }
 a:active        { color: white; background-color: #cc0000; }
-
+*/
 p {
   margin: 0 0 1em;
 }
 
 li {
-  margin: 0.55em 0 0.55em 1em; 
+  margin: 0.55em 0 0.55em 1em;
 }
 
 body {
@@ -34,39 +34,58 @@ body {
   font-size: 1.2em;
 }
 
-div.section {
-  clear: both;
-}
-
-div#header, div.section {
-  margin: 1em 0.5em;
-}
-
-div#about {
-  margin: 1em 0.5em 0;
-}
-
 h1, h2, h3, h4, h4 {
   font-family: Bitstream Vera Sans, Helvetica Neue, sans-serif;
 }
 
-h1 {
-  font-size: 4em;
+div#wrapper {
+  width: 800px;
+  margin: auto;
 }
 
-h1 span.project-name {
-  padding: 0 0.1em 0.1em;
-  background-color: #3465a4;
-  color: white;
+div#header {
+  text-align: center;
+  margin-bottom: 32px;
+}
+
+div#header h1.project {
+  font-size: 144px;
+}
+
+div#nav {
+  font-family: Bitstream Vera Sans, Helvetica Neue, sans-serif;
+  font-size: 24px;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 32px;
+  background-color: #eee;
+}
+
+div#nav ul {
+  padding: 16px 32px;
+}
+
+div#nav ul li {
+  display: inline;
+  padding: 16px;
+}
+
+div#nav ul li:hover {
+  background-color: #fff;
+}
+
+div#nav ul li a {
+  padding: 16px 32px;
+}
+
+div#content {
+  margin: auto;
+}
+
+div.section {
+  margin-bottom: 32px;
 }
 
 div.section h2 {
-  margin-bottom: 0.2em;
-}
-
-div#footer {
-  font-size: 0.6em;
-  color: gray;
-  text-align: center;
-  margin-bottom: 2em;
+  margin-bottom: 16px;
 }
