@@ -29,4 +29,15 @@ window.addEvent('load', function() {
     });
 
     pathHackSlider.hide();
+
+    $$('div#nav a').each(function(element) {
+        element.addEvent('click', function(e) {
+            e.stop()
+            var href     = element.get('href');
+            var section  = href.substring(1);
+            var scroller = new Fx.Scroll(window)
+
+            scroller.toElement(section).chain(function() { parent.location.hash = href; });
+        });
+    });
 });
