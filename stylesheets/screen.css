@@ -54,7 +54,7 @@ div#header {
 
 div#header h1.project {
   font-size: 144px;
-  text-shadow: 2px 2px 6px rgba(50,50,50,0.4);
+  text-shadow: 1px 1px 6px rgba(50,50,50,0.5);
 }
 
 div#nav {
