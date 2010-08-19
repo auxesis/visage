@@ -43,6 +43,12 @@ div#wrapper {
   margin: auto;
 }
 
+div#footer {
+  text-align: center;
+  font-size: 90%;
+  color: gray;
+}
+
 div#header {
   text-align: center;
   margin-bottom: 32px;
@@ -88,4 +94,18 @@ div.section {
 
 div.section h2 {
   margin-bottom: 16px;
+}
+
+div#install p {
+  margin: 16px 0;
+}
+
+blockquote.code pre {
+  padding: 16px;
+  background-color: #eee;
+}
+
+div#install p.alternate {
+  color: #666;
+  font-size: 80%;
 }
