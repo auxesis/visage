@@ -17,8 +17,23 @@ title: Visage
 
 <div id="install" class="section">
   <h2>Install</h2>
+  <p>Install some dependencies...</p>
+  <blockquote class="code">
+    <pre id="debian-install">apt-get install -y librrd-ruby ruby ruby-dev rubygems collectd</pre>
+    <pre id="rhel-install">yum install -y rrdtool ruby rubygems collectd</pre>
+    <p class="alternate">Hey! I use <a href="#rhel-install">CentOS/RHEL</a>!</p>
+  </blockquote>
+  <p>Then install Visage:</p>
   <blockquote class="code">
     <pre>gem install visage-app</pre>
+  </blockquote>
+  <p>Now, to start Visage:</p>
+  <blockquote class="code">
+    <pre>visage start</pre>
+  </blockquote>
+  <p class="alternate">(That didn't work? <a href="#rubygems-path-hack">Try this</a>):</p>
+  <blockquote id="rubygems-path-hack" class="code">
+    <pre>$(dirname $(dirname $(gem which visage-app)))/bin/visage start</pre>
   </blockquote>
 </div>
 
@@ -26,6 +41,3 @@ title: Visage
   <h2>Support</h2>
 </div>
 
-<div id="footer" class="section">
-  By <a href="http://holmwood.id.au/~lindsay/">Lindsay Holmwood</a>.
-</div>
