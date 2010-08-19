@@ -17,12 +17,16 @@ title: Visage
 
 <div id="install" class="section">
   <h2>Install</h2>
-  <p>Install some dependencies...</p>
-  <blockquote class="code">
-    <pre id="debian-install">apt-get install -y librrd-ruby ruby ruby-dev rubygems collectd</pre>
-    <pre id="rhel-install">yum install -y rrdtool ruby rubygems collectd</pre>
-    <p class="alternate">Hey! I use <a href="#rhel-install">CentOS/RHEL</a>!</p>
+  <p>First, some dependencies&hellip;</p>
+  <blockquote id="debian-installer" class="code">
+    <pre>apt-get install -y librrd-ruby ruby ruby-dev rubygems collectd</pre>
   </blockquote>
+  <blockquote id="rhel-installer" class="code">
+    <pre>yum install -y rrdtool ruby rubygems collectd</pre>
+  </blockquote>
+  <p id="installer-toggler" class="alternate">
+    Hey wait a sec! I use <a href="#rhel-installer">CentOS/RHEL</a>!
+  </p>
   <p>Then install Visage:</p>
   <blockquote class="code">
     <pre>gem install visage-app</pre>
@@ -31,7 +35,9 @@ title: Visage
   <blockquote class="code">
     <pre>visage start</pre>
   </blockquote>
-  <p class="alternate">(That didn't work? <a href="#rubygems-path-hack">Try this</a>):</p>
+  <p id="rubygems-path-hack-toggler" class="alternate">
+    That didn't work? <a href="#rubygems-path-hack">Try this</a>.
+  </p>
   <blockquote id="rubygems-path-hack" class="code">
     <pre>$(dirname $(dirname $(gem which visage-app)))/bin/visage start</pre>
   </blockquote>
@@ -39,5 +45,15 @@ title: Visage
 
 <div id="support" class="section">
   <h2>Support</h2>
+  <p>Having problems? <a href="http://github.com/auxesis/visage/issues">Report a bug</a>.</p>
+  <p>Wanna help out? <a href="http://github.com/auxesis/visage">Download the source</a>.</p>
+  <p>
+    Visage is built with
+    <a href="http://raphaeljs.com/">Raphaël</a>,
+    <a href="http://mootools.net/">MooTools</a>, &amp;
+    <a href="http://sinatrarb.com/">Sinatra</a>,
+    and is
+    <a href="http://en.wikipedia.org/wiki/MIT_License">MIT Licensed</a>
+  </p>
 </div>
 
