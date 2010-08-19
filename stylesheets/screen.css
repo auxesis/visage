@@ -14,13 +14,10 @@ a {
 }
 
 /* styles */
-/*
-a               { color: #3465a4; padding: 2px 0px; }
-a:hover         { color: white; background-color: #3465a4; }
-a:visited       { color: #75507b; }
-a:hover:visited { color: white; background-color: #75507b; }
-a:active        { color: white; background-color: #cc0000; }
-*/
+a {
+  color: #6097D1;
+}
+
 p {
   margin: 0 0 1em;
 }
@@ -57,6 +54,7 @@ div#header {
 
 div#header h1.project {
   font-size: 144px;
+  text-shadow: 2px 2px 6px rgba(50,50,50,0.4);
 }
 
 div#nav {
@@ -65,7 +63,14 @@ div#nav {
   font-weight: bold;
   text-align: center;
   margin-bottom: 32px;
-  background-color: #eee;
+  background-color: #3465A4;
+  border: 2px solid #C5D6ED;
+  -moz-border-radius: 10px;
+  -webkit-border-radius: 10px;
+  -moz-box-shadow: 0 4px 7px rgba(0,0,0,0.4);
+  -webkit-box-shadow: 0 4px 7px rgba(0,0,0,0.4);
+  background: -webkit-gradient(linear, left top, left bottom, from(#4C94F0), to(#244671)); /* for webkit browsers */
+  background: -moz-linear-gradient(top, #4C94F0, #244671); /* for firefox 3.6+ */
 }
 
 div#nav ul {
@@ -77,12 +82,22 @@ div#nav ul li {
   padding: 16px;
 }
 
+/*
 div#nav ul li:hover {
   background-color: #fff;
 }
+*/
 
 div#nav ul li a {
   padding: 16px 32px;
+  color: white;
+  text-shadow: 0 2px 1px rgba(0,0,0,0.5);
+}
+
+div#nav ul li a:hover {
+  text-shadow: 0 2px 1px rgba(255,255,255,0.1);
+  background: -webkit-gradient(linear, left top, left bottom, from(#529EFF), to(#274C7A));
+  background: -moz-linear-gradient(top, #529EFF, #274C7A);
 }
 
 div#content {
