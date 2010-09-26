@@ -239,6 +239,12 @@ div#profiles {
   width: 450px;
 }
 
+div#profiles div#sort {
+  text-align: right;
+  font-size: 85%;
+  color: #888;
+}
+
 div#profiles ul li {
   margin-bottom: 8px;
   list-style-type: none;
