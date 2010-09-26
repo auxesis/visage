@@ -38,7 +38,7 @@ module Visage
     end
 
     get '/profiles' do
-      @profiles = Visage::Profile.all
+      @profiles = Visage::Profile.all(:sort => params[:sort])
       haml :profiles
     end
   end
