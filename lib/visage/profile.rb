@@ -20,9 +20,11 @@ module Visage
       profiles[url] ? self.new(profiles[url]) : nil
     end
 
-    def self.all
+    def self.all(opts={})
+      sort = opts[:sort]
       profiles = YAML::load_file(@@profiles_filename) || {}
-      profiles.values.map { |prof| self.new(prof) }
+      profiles = sort == "name" ? profiles.sort.map {|i| i.last } : profiles.values
+      profiles.map { |prof| self.new(prof) }
     end
 
     def initialize(opts={})
