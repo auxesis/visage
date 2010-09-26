@@ -2,6 +2,11 @@
 
 %div#profiles
   %h2 Profiles
+  %div#sort
+    Sort by:
+    %a{:href => link_to("/profiles?sort=name")} name
+    |
+    %a{:href => link_to("/profiles?sort=created")} created
 
   %ul
     - @profiles.each do |prof|
