@@ -26,7 +26,11 @@ class SinatraWorld
   Webrat::Methods.delegate_to_session :response_code, :response_body, :response_headers, :response
 
   def app
-    Visage::JSON
+    Rack::Builder.new do
+      use Visage::Profiles
+      use Visage::Builder
+      use Visage::JSON
+    end
   end
 end
 
