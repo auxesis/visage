@@ -14,5 +14,5 @@ Feature: Visit site
     When I follow "created"
     Then I should see a list of profiles
     When I follow "name"
-    Then I should see a list of profiles
+    Then I should see a list of profiles sorted alphabetically
 
