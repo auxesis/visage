@@ -1,6 +1,5 @@
 module Visage
   class Config
-
     class << self
       def use
         @configuration ||= {}
