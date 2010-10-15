@@ -129,6 +129,7 @@ Run all cucumber features:
 TODO
 ----
 
+ * make other lines slightly opaque when hovering over labels
  * detailed point-in-time data on hover (timestamp, value)
  * give graph profile an alternate private url
  * make notes/annotations on private url
