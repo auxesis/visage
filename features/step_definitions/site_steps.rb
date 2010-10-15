@@ -7,7 +7,7 @@ end
 
 Then /^I should see a list of graphs$/ do
   doc = Nokogiri::HTML(response_body)
-  doc.search('div#profile div.graph').size.should > 1
+  doc.search('div#profile div.graph').size.should > 0
 end
 
 Then /^I should see a list of profiles$/ do

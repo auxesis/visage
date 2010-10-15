@@ -221,6 +221,16 @@ h1 span.project-name {
   color: white;
 }
 
+h4.error {
+  margin: 8px 0;
+}
+
+div.graph pre {
+  line-height: 1.6em;
+  font-size: 90%;
+  margin-top: -10px;
+}
+
 div#footer {
   font-size: 0.6em;
   color: gray;

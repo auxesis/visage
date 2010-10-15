@@ -19,4 +19,13 @@
             finish: '#{@finish}'
           });
         });
+  - if @profile.graphs.size == 0
+    %div.graph
+      %h4.error Oops! Looks like there aren't any graphs matching the specified patterns.
+      %p These are the patterns:
+      %pre
+        :preserve
+          Host:    #{@profile.options[:hosts]}
+          Metrics: #{@profile.options[:metrics]}
+
 
