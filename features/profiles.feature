@@ -17,3 +17,11 @@ Feature: Visit site
     Then I should see a list of graphs
     And I should see a profile heading
 
+  Scenario: Navigate profiles
+    When I go to /profiles
+    And I visit the first profile
+    Then I should see a list of graphs
+    And I should see a profile heading
+    When I follow "back to profiles"
+    Then I should see a list of profiles
+
