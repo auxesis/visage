@@ -25,3 +25,12 @@ Then /^I should see a list of profiles sorted alphabetically$/ do
 
   unsorted.should == sorted
 end
+
+Then /^I should see a profile heading$/ do
+  doc = Nokogiri::HTML(response_body)
+  doc.search('div#profile h2#profile_name').size.should == 1
+end
+
+Then /^show me the page source$/ do
+  puts response_body
+end

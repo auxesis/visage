@@ -1,6 +1,8 @@
-- page_title @profile.options[:profile_name]
+- profile_name = @profile.options[:profile_name]
+- page_title(profile_name)
 
 %div#profile
+  %h2#profile_name= profile_name
   - @profile.graphs.each do |graph|
     %div{:id => graph.id, :class => 'graph'}
       :javascript
