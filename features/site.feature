@@ -5,14 +5,13 @@ Feature: Visit site
 
   Scenario: List profiles
     When I go to /profiles
-    Then show me the page source
     Then I should see a list of profiles
     When I follow "created"
     Then I should see a list of profiles
     When I follow "name"
     Then I should see a list of profiles sorted alphabetically
 
-  Scenario: Show graphs
+  Scenario: Show profile
     When I go to /profiles
     And I visit the first profile
     Then I should see a list of graphs
