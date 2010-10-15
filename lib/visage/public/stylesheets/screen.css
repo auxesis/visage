@@ -221,6 +221,10 @@ h1 span.project-name {
   color: white;
 }
 
+h2#profile_name {
+  margin: 36px 0;
+}
+
 h4.error {
   margin: 8px 0;
 }
@@ -229,6 +233,10 @@ div.graph pre {
   line-height: 1.6em;
   font-size: 90%;
   margin-top: -10px;
+}
+
+div#bottom_nav {
+  margin: 32px 0;
 }
 
 div#footer {
