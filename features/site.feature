@@ -3,16 +3,18 @@ Feature: Visit site
   A user
   Must be able to visualise the data
 
-  Scenario: Show graphs
-    When I go to /profiles
-    And I visit the first profile
-    Then I should see a list of graphs
-
   Scenario: List profiles
     When I go to /profiles
+    Then show me the page source
     Then I should see a list of profiles
     When I follow "created"
     Then I should see a list of profiles
     When I follow "name"
     Then I should see a list of profiles sorted alphabetically
+
+  Scenario: Show graphs
+    When I go to /profiles
+    And I visit the first profile
+    Then I should see a list of graphs
+    And I should see a profile heading
 
