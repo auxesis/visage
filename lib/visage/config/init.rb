@@ -33,6 +33,13 @@ module Visage
         YAML::load_file(path)
       end
 
+      def self.open(filename, &block)
+        path = self.find(filename)
+        ::File.open(path, 'r+') do |f|
+          block.call(f)
+        end
+      end
+
       def initialize(filename, opts={})
         unless ::File.exists?(filename)
           path = @@config_directories.first.join(filename)
