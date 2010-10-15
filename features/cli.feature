@@ -14,4 +14,11 @@ Feature: command line utility
     When I start the visage server helper with "visage start"
     Then I should see "Looking for RRDs in /.*collectd" on the terminal
 
+  Scenario: Specified configuration directory
+    Given the "visage" gem is installed
+    And there is no file at "features/data/config/with_no_profiles/profiles.yaml"
+    When I start the visage server helper with "visage start" and the following variables:
+      | CONFIG_PATH                           |
+      | features/data/config/with_no_profiles |
+    Then I should see a file at "features/data/config/with_no_profiles/profiles.yaml"
 

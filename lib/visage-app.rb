@@ -22,6 +22,27 @@ module Visage
 
     helpers Sinatra::LinkToHelper
     helpers Sinatra::PageTitleHelper
+
+    configure do
+      Visage::Config.use do |c|
+        # Base configuration files.
+        c['profiles']        = Visage::Config::File.load('profiles.yaml', :create => true, :ignore_bundled => true)
+        c['profile_colours'] = Visage::Config::File.load('plugin-colors.yaml')
+        c['fallback_colors'] = Visage::Config::File.load('fallback-colors.yaml')
+
+        # FIXME: make this configurable through file
+        c['shade'] = false
+        c['rrddir'] = ENV["RRDDIR"] ? Pathname.new(ENV["RRDDIR"]).expand_path : Pathname.new("/var/lib/collectd/rrd").expand_path
+
+#        # load config from profiles + plugin colors file
+#        [profile_filename, plugin_colors_filename].each do |filename|
+#          if File.exists?(filename)
+#            config = YAML::load_file(filename) || {}
+#            config.each_pair {|key, value| c[key] = value}
+#          end
+#        end
+      end
+    end
   end
 
   class Profiles < Application

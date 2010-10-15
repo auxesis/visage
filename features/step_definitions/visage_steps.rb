@@ -23,3 +23,24 @@ Then /^I should see "([^"]*)" on the terminal$/ do |string|
   output = @pipe.read(250)
   output.should =~ /#{string}/
 end
+
+Given /^there is no file at "([^"]*)"$/ do |filename|
+  FileUtils.rm_f(filename).should be_true
+end
+
+When /^I start the visage server helper with "([^"]*)" and the following variables:$/ do |cmd, table|
+  table.hashes.each do |hash|
+    hash.each_pair do |variable, value|
+      ENV[variable] = value
+    end
+  end
+  When %(I start the visage server helper with "#{cmd}")
+end
+
+Then /^I should see a file at "([^"]*)"$/ do |filename|
+  File.exists?(filename).should be_true
+end
+
+Then /^show me the output$/ do
+  puts @pipe.read(250)
+end
