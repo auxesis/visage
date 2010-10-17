@@ -5,6 +5,7 @@
   %h2#profile_name= profile_name
   - @profile.graphs.each do |graph|
     %div{:id => graph.id, :class => 'graph'}
+      %img{:src => "/images/loader.gif"}
       :javascript
         window.addEvent('domready', function() {
           var graph = new visageGraph('#{graph.id}', '#{graph.host}', '#{graph.plugin}', {
