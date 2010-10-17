@@ -8,11 +8,6 @@
       :javascript
         window.addEvent('domready', function() {
           var graph = new visageGraph('#{graph.id}', '#{graph.host}', '#{graph.plugin}', {
-            width: 900,
-            height: 220,
-            gridWidth: 800,
-            gridHeight: 200,
-            shade: false,
             pluginInstance: '#{graph.instances.join(',')}',
             name: '#{graph.plugin} on #{graph.host}',
             start: '#{@start}',
