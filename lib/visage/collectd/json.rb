@@ -62,13 +62,20 @@ class CollectdJSON
       # the same file). Separate the metrics.
       rrd_data.each_pair do |source, metric|
 
-        # filter out NaNs, so yajl doesn't choke
+        # Filter out NaNs and weirdly massive values so yajl doesn't choke
         metric.map! do |datapoint|
-          (!datapoint || datapoint.nan?) ? 0.0 : datapoint
+          case
+          when datapoint && datapoint.nan?
+            @tripped = true
+            @last_valid
+          when @tripped
+            @last_valid
+          else
+            @last_valid = datapoint
+          end
         end
 
-        # Sometimes the last value from the RRD is ridiculously large.
-        metric[-1] = 0
+        metric[-1] = 0.0
 
         structure[data[:host]] ||= {}
         structure[data[:host]][data[:plugin]] ||= {}
