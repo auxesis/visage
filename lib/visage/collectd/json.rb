@@ -9,14 +9,11 @@ require 'yajl'
 # Exposes RRDs as JSON.
 #
 # A loose shim onto RRDtool, with some extra logic to normalise the data.
-# Also provides a recommended color for rendering the data in a line graph.
 #
 class CollectdJSON
 
   def initialize(opts={})
     @rrddir = opts[:rrddir] || CollectdJSON.rrddir
-    @fallback_colors = opts[:fallback_colors] || {}
-    @used_fallbacks = []
   end
 
   # Entry point.
@@ -25,7 +22,6 @@ class CollectdJSON
     plugin           = opts[:plugin]
     plugin_instances = opts[:plugin_instances][/\w.*/]
     instances        = plugin_instances.blank? ? '*' : '{' + plugin_instances.split('/').join(',') + '}'
-    @colors          = opts[:plugin_colors]
     @plugin_names = []
 
     rrdglob = "#{@rrddir}/#{host}/#{plugin}/#{instances}.rrd"
@@ -74,11 +70,6 @@ class CollectdJSON
         # Sometimes the last value from the RRD is ridiculously large.
         metric.slice!(-1)
 
-        color = color_for(:host => data[:host],
-                          :plugin => data[:plugin],
-                          :instance => data[:instance],
-                          :metric => source)
-
         structure[data[:host]] ||= {}
         structure[data[:host]][data[:plugin]] ||= {}
         structure[data[:host]][data[:plugin]][data[:instance]] ||= {}
@@ -86,40 +77,11 @@ class CollectdJSON
         structure[data[:host]][data[:plugin]][data[:instance]][source][:start]  ||= data[:start]
         structure[data[:host]][data[:plugin]][data[:instance]][source][:finish] ||= data[:finish]
         structure[data[:host]][data[:plugin]][data[:instance]][source][:data]   ||= metric
-        structure[data[:host]][data[:plugin]][data[:instance]][source][:color]  ||= color
       end
     end
 
     encoder = Yajl::Encoder.new
     encoder.encode(structure)
-  end
-
-  # We append the recommended line color onto data set, so the javascript
-  # doesn't try and have to work it out. This lets us use all sorts of funky
-  # fallback logic when determining what colours should be used.
-  def color_for(opts={})
-
-    plugin   = opts[:plugin]
-    instance = opts[:instance]
-    metric   = opts[:metric]
-
-    return fallback_color unless plugin
-    return color_for(opts.merge(:plugin => plugin[/(.+)-.+$/, 1])) unless @colors[plugin]
-    return fallback_color unless instance
-    return color_for(opts.merge(:instance => instance[/(.+)-.+$/, 1])) unless @colors[plugin][instance]
-    return @colors[plugin][instance][metric] if @colors[plugin][instance]
-    return fallback_color
-  end
-
-  def fallback_color
-    fallbacks = @fallback_colors.to_a.sort_by {|pair| pair[1]['fallback_order'] }
-    fallback = fallbacks.find { |color| !@used_fallbacks.include?(color) }
-    unless fallback
-      @used_fallbacks = []
-      fallback = fallbacks.find { |color| !@used_fallbacks.include?(color) }
-    end
-    @used_fallbacks << fallback
-    fallback[1]['color'] || "#000"
   end
 
   class << self

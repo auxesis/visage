@@ -27,8 +27,6 @@ module Visage
       Visage::Config.use do |c|
         # Base configuration files.
         c['profiles']        = Visage::Config::File.load('profiles.yaml', :create => true, :ignore_bundled => true)
-        c['plugin_colors']   = Visage::Config::File.load('plugin-colors.yaml')
-        c['fallback_colors'] = Visage::Config::File.load('fallback-colors.yaml')
 
         # FIXME: make this configurable through file
         c['shade'] = false
@@ -96,14 +94,12 @@ module Visage
       plugin = params[:captures][1].gsub("\0", "")
       plugin_instances = params[:captures][2].gsub("\0", "")
 
-      collectd = CollectdJSON.new(:rrddir => Visage::Config.rrddir,
-                                  :fallback_colors => Visage::Config.fallback_colors)
+      collectd = CollectdJSON.new(:rrddir => Visage::Config.rrddir)
       json = collectd.json(:host => host,
                            :plugin => plugin,
                            :plugin_instances => plugin_instances,
                            :start => params[:start],
-                           :finish => params[:finish],
-                           :plugin_colors => Visage::Config.plugin_colors)
+                           :finish => params[:finish])
       # if the request is cross-domain, we need to serve JSONP
       maybe_wrap_with_callback(json)
     end
