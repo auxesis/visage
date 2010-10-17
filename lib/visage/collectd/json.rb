@@ -68,7 +68,7 @@ class CollectdJSON
         end
 
         # Sometimes the last value from the RRD is ridiculously large.
-        metric.slice!(-1)
+        metric[-1] = 0
 
         structure[data[:host]] ||= {}
         structure[data[:host]][data[:plugin]] ||= {}
