@@ -270,7 +270,13 @@ div#profiles div#sort {
 
 div#profiles ul li {
   margin-bottom: 8px;
+  padding-left: 24px;
+  margin-left: -24px;
   list-style-type: none;
+}
+
+div#profiles ul li.active {
+  background: url("/images/active.png") no-repeat scroll 10px;
 }
 
 div#profiles ul {

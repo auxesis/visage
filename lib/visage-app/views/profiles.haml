@@ -8,9 +8,9 @@
     |
     %a{:href => link_to("/profiles?sort=created")} created
 
-  %ul
-    - @profiles.each do |prof|
-      %li
+  %ul#navigation
+    - @profiles.each_with_index do |prof,index|
+      %li{:class => index == 0 ? 'active shortcut' : 'shortcut'}
         %a{:href => link_to("/profiles/#{prof.url}")}= prof.profile_name
 
   %p.create
