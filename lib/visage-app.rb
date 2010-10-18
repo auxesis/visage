@@ -25,11 +25,7 @@ module Visage
 
     configure do
       Visage::Config.use do |c|
-        # Base configuration files.
-        c['profiles']        = Visage::Config::File.load('profiles.yaml', :create => true, :ignore_bundled => true)
-
         # FIXME: make this configurable through file
-        c['shade'] = false
         c['rrddir'] = ENV["RRDDIR"] ? Pathname.new(ENV["RRDDIR"]).expand_path : Pathname.new("/var/lib/collectd/rrd").expand_path
       end
     end

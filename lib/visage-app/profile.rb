@@ -11,15 +11,19 @@ module Visage
     attr_reader :options, :selected_hosts, :hosts, :selected_metrics, :metrics,
                 :name, :errors
 
+    def self.load
+      Visage::Config::File.load('profiles.yaml', :create => true, :ignore_bundled => true)
+    end
+
     def self.get(id)
       url = id.downcase.gsub(/[^\w]+/, "+")
-      profiles = Visage::Config.profiles || {}
+      profiles = self.load
       profiles[url] ? self.new(profiles[url]) : nil
     end
 
     def self.all(opts={})
       sort = opts[:sort]
-      profiles = Visage::Config.profiles || {}
+      profiles = self.load
       profiles = sort == "name" ? profiles.sort.map {|i| i.last } : profiles.values
       profiles.map { |prof| self.new(prof) }
     end
@@ -63,7 +67,7 @@ module Visage
                   :url => @options[:profile_name].downcase.gsub(/[^\w]+/, "+") }
 
         # Save it.
-        profiles = Visage::Config.profiles || {}
+        profiles = self.load
         profiles[attrs[:url]] = attrs
 
         Visage::Config::File.open('profiles.yaml') do |file|
