@@ -1,0 +1,41 @@
+visage-app(5) -- a web (interface | service) for viewing collectd statistics
+============================================================================
+
+## SYNOPSIS
+
+`visage-app` <start|genapache>
+
+## DESCRIPTION
+
+Visage is a web interface for viewing collectd statistics.
+
+It also provides a JSON interface onto collectd's RRD data, giving you an
+easy way to mash up the data.
+
+## OPTIONS
+
+  * `start`:
+    Start visage on `127.0.0.1:9292`
+
+  * `genapache`:
+    Generate a vhost suitable for Passenger + Apache. Will load Visage from
+    the installed gem.
+
+## ENVIRONMENT
+
+  * `CONFIG_PATH`:
+    Where to look for configuration files. Added to the beginning of config
+    load path, so files found in here take precedence over shipped config files.
+
+  * `RRDDIR`:
+    Where to look for collectd's RRDs. Must correspond with collectd's `rrdtool`
+    plugin's `DataDir` value.
+
+## AUTHOR
+
+  Lindsay Holmwood <lindsay@holmwood.id.au>
+
+## COPYRIGHT
+
+   MIT Licensed.
+
