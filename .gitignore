@@ -6,6 +6,6 @@ pkg/*
 .#*
 webrat*
 visage-app.gemspec
-lib/visage/config/profiles.yaml
+lib/visage-app/config/profiles.yaml
 _site
 features/data/config/*/*.yaml

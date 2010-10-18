@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 
 @root = Pathname.new(File.dirname(__FILE__)).parent.parent.parent.expand_path
-require @root.join('lib/visage/config')
+require @root.join('lib/visage-app/config')
 require 'yaml'
 
 module Visage
