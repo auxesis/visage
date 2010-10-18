@@ -12,7 +12,7 @@ module Visage
                 :name, :errors
 
     def self.load
-      Visage::Config::File.load('profiles.yaml', :create => true, :ignore_bundled => true)
+      Visage::Config::File.load('profiles.yaml', :create => true, :ignore_bundled => true) || {}
     end
 
     def self.get(id)
