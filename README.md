@@ -44,14 +44,14 @@ Running
 
 You can try out Visage quickly with:
 
-    $ visage start
+    $ visage-app start
 
 Then paste the URL from the output into your browser.
 
 If you get a `command not found` when running the above command (RubyGems likely
 isn't on your PATH), try this instead:
 
-    $ $(dirname $(dirname $(gem which visage-app)))/bin/visage start
+    $ $(dirname $(dirname $(gem which visage-app)))/bin/visage-app start
 
 Deploying
 ---------
@@ -62,7 +62,7 @@ Visage can be deployed on Apache with Passenger:
 
 Visage can attempt to generate an Apache vhost config for use with Passenger:
 
-    $ visage genapache
+    $ visage-app genapache
     <VirtualHost *>
       ServerName ubuntu.localdomain
       ServerAdmin root@ubuntu.localdomain
@@ -82,7 +82,7 @@ Copypasta this into your system's Apache config structure and tune to taste.
 To do this on Debian/Ubuntu:
 
     $ sudo -s
-    $ visage genapache > /etc/apache2/sites-enabled/visage
+    $ visage-app genapache > /etc/apache2/sites-enabled/visage
     $ a2dissite default
     $ service apache2 reload
 
@@ -91,17 +91,43 @@ Then head to your Apache instance and Visage will be up and running.
 Configuring
 -----------
 
-On the off chance you need to tweak Visage's configuration, it lives in several files
-under `lib/visage/config/`.
+Visage looks for two environment variables when starting up:
 
- * `plugin-colors.yaml` - colors for specific plugins/plugin instances
- * `fallback-colors.yaml` - ordered list of fallback colors
- * `init.rb` - bootstrapping code, specifies collectd's RRD directory
+  * `CONFIG_PATH`, an entry on the configuration file search path
+  * `RRDDIR`, the location of collectd's RRDs
 
-Make sure collectd's RRD directory is readable by whatever user the web server
-is running as. You can specify where collectd's rrd directory is in `init.rb`,
-with the `c['rrddir']` key.
+Visage has a configuration search path which can be used for overriding
+individual files. By default it has one entry: `$VISAGE_ROOT/lib/visage/config/`.
+You can set the `CONFIG_PATH` environment variable to add another directory to
+the config load path. This directory will be searched when loading up
+configuration files.
 
+    CONFIG_PATH=/var/lib/visage-app start
+
+This is especially useful when you want to deploy + run Visage from an installed
+gem with Passenger. e.g.
+
+    <VirtualHost *:80>
+      ServerName monitoring.example.org
+      ServerAdmin me@example.org
+
+      SetEnv CONFIG_PATH /var/lib/visage
+      SetEnv RRDDIR /opt/collectd/var/lib/collectd
+
+      DocumentRoot /var/lib/gems/1.8/gems/visage-app-0.3.0/lib/visage/public
+      <Directory />
+        Options FollowSymLinks
+        AllowOverride None
+      </Directory>
+
+      LogFormat "%h %l %u %t \"%r\" %>s %b" common
+      CustomLog /var/log/apache2/access.log common
+    </VirtualHost>
+
+Also to keep in mind when deploying with Passenger, the `CONFIG_PATH` directory
+and its files need to have the correct ownership:
+
+    chown nobody:nogroup -R /var/lib/visage
 
 Developing + testing
 --------------------
@@ -126,12 +152,3 @@ Run all cucumber features:
 
     $ rake cucumber
 
-TODO
-----
-
- * make other lines slightly opaque when hovering over labels
- * detailed point-in-time data on hover (timestamp, value)
- * give graph profile an alternate private url
- * make notes/annotations on private url
- * include table of axis mappings + default y-axis heights for rendering
- * view metrics from multiple hosts on the same graph

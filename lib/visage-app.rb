@@ -6,19 +6,19 @@ $: << @root.to_s
 
 require 'sinatra/base'
 require 'haml'
-require 'lib/visage/profile'
-require 'lib/visage/config'
-require 'lib/visage/helpers'
-require 'lib/visage/config/init'
-require 'lib/visage/collectd/rrds'
-require 'lib/visage/collectd/json'
+require 'lib/visage-app/profile'
+require 'lib/visage-app/helpers'
+require 'lib/visage-app/config'
+require 'lib/visage-app/config/file'
+require 'lib/visage-app/collectd/rrds'
+require 'lib/visage-app/collectd/json'
 require 'yajl/json_gem'
 
 module Visage
   class Application < Sinatra::Base
     @root = Pathname.new(File.dirname(__FILE__)).parent.expand_path
-    set :public, @root.join('lib/visage/public')
-    set :views,  @root.join('lib/visage/views')
+    set :public, @root.join('lib/visage-app/public')
+    set :views,  @root.join('lib/visage-app/views')
 
     helpers Sinatra::LinkToHelper
     helpers Sinatra::PageTitleHelper
@@ -77,7 +77,7 @@ module Visage
     get '/javascripts/visage.js' do
       javascript = ""
       %w{raphael-min g.raphael g.line mootools-1.2.3-core mootools-1.2.3.1-more graph}.each do |js|
-        javascript += File.read(@root.join('lib/visage/public/javascripts', "#{js}.js"))
+        javascript += File.read(@root.join('lib/visage-app/public/javascripts', "#{js}.js"))
       end
       javascript
     end

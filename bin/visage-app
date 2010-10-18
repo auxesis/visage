@@ -27,13 +27,13 @@ when "start"
   puts "Looking for RRDs in #{Visage::Config.rrddir}"
   puts
 
-  config = @root.join('lib/visage/config.ru').to_s
+  config = @root.join('lib/visage-app/config.ru').to_s
   server = Rack::Server.new(:config => config, :Port => port, :server => "webrick")
   server.start
 when "genapache"
   require 'socket'
   fqdn = Socket.gethostbyname(Socket.gethostname).first
-  public_dir = @root.join('lib/visage/public')
+  public_dir = @root.join('lib/visage-app/public')
 
   puts <<-CONFIG
 <VirtualHost *>
