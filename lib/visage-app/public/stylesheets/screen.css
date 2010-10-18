@@ -243,6 +243,7 @@ div#bottom_nav {
 }
 
 div#footer {
+  clear: both;
   font-size: 0.6em;
   color: gray;
   text-align: center;
