@@ -191,7 +191,6 @@ span.glob.example {
 }
 
 div#graphs {
-  clear: both;
   padding: 0 2em;
   border-top: 1px dashed #babdb6;
   margin-top: 2em;
@@ -199,7 +198,6 @@ div#graphs {
 
 div.graph {
   margin: 32px 0 48px;
-  clear: both;
 }
 
 h1, h2, h3, h4, h5 {
@@ -288,4 +286,33 @@ div#profiles p.create {
   padding-top: 8px;
   margin-top: 24px;
   font-size: 85%;
+}
+
+.mask {
+  position: absolute;
+  opacity: 0.7;
+  filter: alpha(opacity=90);
+  -ms-filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=90);
+  z-index: 999;
+  background: #000;
+}
+
+div#shortcuts {
+  font-family:      Bitstream Vera Sans, Helvetica Neue, sans-serif;
+  z-index:          1000;
+  width:            600px;
+  position:         absolute;
+  top:              100px;
+  left:             50%;
+  margin-left:      -300px;
+  background-color: white;
+  padding:          8px;
+}
+
+div#shortcuts table td, div#shortcuts table th {
+  padding: 4px 8px;
+}
+
+div#shortcuts table th {
+  text-align: left;
 }
