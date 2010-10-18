@@ -15,12 +15,12 @@ end
 begin
   require 'jeweler'
   Jeweler::Tasks.new do |gemspec|
-    gemspec.name = "visage-app"
-    gemspec.summary = "a web (interface | service) for viewing collectd statistics"
+    gemspec.name        = "visage-app"
+    gemspec.summary     = "a web (interface | service) for viewing collectd statistics"
     gemspec.description = "Visage is a web interface for viewing collectd statistics. It also provides a JSON interface onto collectd's RRD data, giving you an easy way to mash up the data."
-    gemspec.email = "lindsay@holmwood.id.au"
-    gemspec.homepage = "http://auxesis.github.com/visage"
-    gemspec.authors = ["Lindsay Holmwood"]
+    gemspec.email       = "lindsay@holmwood.id.au"
+    gemspec.homepage    = "http://visage-app.com/"
+    gemspec.authors     = ["Lindsay Holmwood"]
 
     gemspec.add_dependency "sinatra", "1.0"
     gemspec.add_dependency "tilt", "1.0.1"
@@ -50,7 +50,7 @@ desc "perform lintian checks on the JavaScript about to be shipped"
 task :lintian do
   require 'pathname'
   @root = Pathname.new(File.dirname(__FILE__)).expand_path
-  javascripts_path = @root.join('lib/visage/public/javascripts')
+  javascripts_path = @root.join('lib/visage-app/public/javascripts')
 
   count = `grep -c 'console.log' #{javascripts_path.join('graph.js')}`.strip.to_i
   abort("#{count} instances of console.log found in graph.js!") if count > 0
