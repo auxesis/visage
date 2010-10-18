@@ -2,7 +2,7 @@
 
 @root = Pathname.new(File.dirname(__FILE__)).parent.parent.parent.expand_path
 $: << @root.to_s
-require 'lib/visage/patches'
+require 'lib/visage-app/patches'
 require 'errand'
 require 'yajl'
 

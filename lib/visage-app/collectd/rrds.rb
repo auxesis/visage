@@ -2,7 +2,7 @@
 
 $: << File.expand_path(File.join(File.dirname(__FILE__), '..', '..', '..'))
 
-require 'lib/visage/patches'
+require 'lib/visage-app/patches'
 
 module Visage
   module Collectd
