@@ -44,14 +44,14 @@ Running
 
 You can try out Visage quickly with:
 
-    $ visage start
+    $ visage-app start
 
 Then paste the URL from the output into your browser.
 
 If you get a `command not found` when running the above command (RubyGems likely
 isn't on your PATH), try this instead:
 
-    $ $(dirname $(dirname $(gem which visage-app)))/bin/visage start
+    $ $(dirname $(dirname $(gem which visage-app)))/bin/visage-app start
 
 Deploying
 ---------
@@ -62,7 +62,7 @@ Visage can be deployed on Apache with Passenger:
 
 Visage can attempt to generate an Apache vhost config for use with Passenger:
 
-    $ visage genapache
+    $ visage-app genapache
     <VirtualHost *>
       ServerName ubuntu.localdomain
       ServerAdmin root@ubuntu.localdomain
@@ -82,7 +82,7 @@ Copypasta this into your system's Apache config structure and tune to taste.
 To do this on Debian/Ubuntu:
 
     $ sudo -s
-    $ visage genapache > /etc/apache2/sites-enabled/visage
+    $ visage-app genapache > /etc/apache2/sites-enabled/visage
     $ a2dissite default
     $ service apache2 reload
 
@@ -102,7 +102,7 @@ You can set the `CONFIG_PATH` environment variable to add another directory to
 the config load path. This directory will be searched when loading up
 configuration files.
 
-    CONFIG_PATH=/var/lib/visage visage
+    CONFIG_PATH=/var/lib/visage-app start
 
 This is especially useful when you want to deploy + run Visage from an installed
 gem with Passenger. e.g.

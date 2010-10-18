@@ -2,8 +2,8 @@
 
 root = Pathname.new(File.dirname(__FILE__)).parent.parent
 $: << root.join('lib')
-require 'lib/visage/graph'
-require 'lib/visage/patches'
+require 'lib/visage-app/graph'
+require 'lib/visage-app/patches'
 require 'digest/md5'
 
 module Visage
