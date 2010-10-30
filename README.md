@@ -152,3 +152,14 @@ Run all cucumber features:
 
     $ rake cucumber
 
+Licencing
+---------
+
+Visage is MIT licensed.
+
+Visage is distributed with Highcharts. Torstein Hønsi has kindly granted
+permission to distribute Highcharts under the GPL as part of Visage.
+
+If you ever need an excellent JavaScript charting library, please consider
+purchasing a [commercial license](http://highcharts.com/license) for
+Highcharts.
