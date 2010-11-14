@@ -67,7 +67,7 @@ module Visage
                   :url => @options[:profile_name].downcase.gsub(/[^\w]+/, "+") }
 
         # Save it.
-        profiles = self.load
+        profiles = self.class.load
         profiles[attrs[:url]] = attrs
 
         Visage::Config::File.open('profiles.yaml') do |file|
