@@ -5,13 +5,14 @@
   %h2#profile_name= profile_name
   - @profile.graphs.each do |graph|
     %div{:id => graph.id, :class => 'graph'}
-      %img{:src => "/images/loader.gif"}
+      %img{:src => link_to("/images/loader.gif")}
       :javascript
         window.addEvent('domready', function() {
           var graph = new visageGraph('#{graph.id}', '#{graph.host}', '#{graph.plugin}', {
             pluginInstance: '#{graph.instances.join(',')}',
             name: '#{graph.plugin} on #{graph.host}',
             start: '#{@start}',
+            #{ "baseurl: '" + ENV['VISAGE_APP_BASE_URL_PATH'].gsub(/^\//, '') + "'," if ENV['VISAGE_APP_BASE_URL_PATH'] }
             finish: '#{@finish}'
           });
         });
