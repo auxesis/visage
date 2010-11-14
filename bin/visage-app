@@ -51,7 +51,31 @@ when "genapache"
 
 </VirtualHost>
   CONFIG
+when "genapache-proxy"
+  puts <<-CONFIG
+  ProxyRequests Off
+  <Proxy *>
+    Order deny,allow
+    Allow from all
+  </Proxy>
+
+  ProxyPass /visage http://localhost:9292
+  ProxyPassReverse /visage http://localhost:9292
+  CONFIG
+when "upstart"
+  puts <<-CONFIG
+  description "Visage"
+  author "John Ferlito <johnf@inodes.org>"
+
+  env VISAGE_APP_BASE_URL_PATH=/visage
+  export VISAGE_APP_BASE_URL_PATH
+
+  respawn
+  respawn limit 5 120
+
+  exec /var/lib/gems/1.8/bin/visage-app start >>/var/log/visage.log 2>&1
+  CONFIG
 else
-  puts "Usage: visage <start|genapache>"
+  puts "Usage: visage <start|genapache|genapache-proxy>"
 end
 

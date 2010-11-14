@@ -9,6 +9,9 @@ module Sinatra
       case mode
       when :path_only
         base = request.script_name
+         if ENV['VISAGE_APP_BASE_URL_PATH']
+           base = "#{ENV['VISAGE_APP_BASE_URL_PATH']}#{base}"
+         end
       when :full_url
         if (request.scheme == 'http' && request.port == 80 ||
             request.scheme == 'https' && request.port == 443)

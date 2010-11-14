@@ -2,8 +2,8 @@
 %html
   %head
     %title= include_page_title
-    %link{:rel => "icon", :type => "image/gif", :href => "/favicon.gif"}
-    %link{:rel => 'stylesheet', :href => '/stylesheets/screen.css', :type => 'text/css'}
+    %link{:rel => "icon", :type => "image/gif", :href => link_to("/favicon.gif")}
+    %link{:rel => 'stylesheet', :href => link_to('/stylesheets/screen.css'), :type => 'text/css'}
     %script{:type => "text/javascript", :src => link_to("/javascripts/raphael.js")}
     %script{:type => "text/javascript", :src => link_to("/javascripts/g.raphael.js")}
     %script{:type => "text/javascript", :src => link_to("/javascripts/g.line.js")}

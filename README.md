@@ -88,6 +88,46 @@ To do this on Debian/Ubuntu:
 
 Then head to your Apache instance and Visage will be up and running.
 
+If you are not able to run Apache with Passenger, you can configure Visage
+using a proxy configuration. This example also installs Visage to a sub path of
+an existing website.
+
+    $ visage-app genapache-proxy
+    ProxyRequests Off
+    <Proxy *>
+      Order deny,allow
+      Allow from all
+    </Proxy>
+
+    ProxyPass /visage http://localhost:9292
+    ProxyPassReverse /visage http://localhost:9292
+
+You can then use Upstart or another init script to keep Visage running
+
+    $ visage-app genupstart
+    description "Visage"
+    author "John Ferlito <johnf@inodes.org>"
+
+    env VISAGE_APP_BASE_URL_PATH=/visage
+    export VISAGE_APP_BASE_URL_PATH
+
+    respawn
+    respawn limit 5 120
+
+    exec visage-app start >>/var/log/visage.log 2>&1
+
+
+To do this on Debian/Ubuntu:
+
+    $ sudo -s
+    $ visage-app genapache-proxy > /etc/apache2/conf.d/visage.conf
+    $ a2enmod proxy
+    $ a2enmod proxy_http
+    $ service apache2 restart
+    $ visage-app genupstart > /etc/init/visage.conf
+    $ initctl reload-configuration
+    $ service visage start
+
 Configuring
 -----------
 
