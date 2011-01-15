@@ -29,7 +29,7 @@ N.B: Visage must be deployed on a machine where `collectd` stores its stats in R
 
 On Ubuntu, to install dependencies run:
 
-    $ sudo apt-get install -y librrd-ruby ruby ruby-dev rubygems collectd
+    $ sudo apt-get install -y build-essential librrd-ruby ruby ruby-dev rubygems collectd
 
 On CentOS, to install dependencies run:
 
