@@ -67,7 +67,8 @@ Gem::Specification.new do |s|
      "lib/visage-app/views/profile.haml",
      "lib/visage-app/views/profiles.haml",
      "man/visage-app.5",
-     "man/visage-app.5.ronn"
+     "man/visage-app.5.ronn",
+     "visage-app.gemspec"
   ]
   s.homepage = %q{http://visage-app.com/}
   s.rdoc_options = ["--charset=UTF-8"]
