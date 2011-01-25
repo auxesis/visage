@@ -36,9 +36,9 @@ class CollectdJSON
       instance_name = parts[2].split('.').first
       rrd = Errand.new(:filename => rrdname)
 
-      data << { :plugin  => plugin_name, :instance => instance_name,
+      data << {  :plugin => plugin_name, :instance => instance_name,
                  :host   => host,
-                 :start  => opts[:start] || (Time.now - 3600).to_i,
+                 :start  => opts[:start]  || (Time.now - 3600).to_i,
                  :finish => opts[:finish] || Time.now.to_i,
                  :rrd    => rrd }
     end
@@ -54,8 +54,8 @@ class CollectdJSON
     structure = {}
     datas.each do |data|
       fetch = data[:rrd].fetch(:function => "AVERAGE",
-                                  :start => data[:start],
-                                  :finish => data[:finish])
+                               :start => data[:start],
+                               :finish => data[:finish])
       rrd_data = fetch[:data]
 
       # A single rrd can have multiple data sets (multiple metrics within
@@ -75,15 +75,22 @@ class CollectdJSON
           end
         end
 
+        # Last value is always wack. Set to 0, so the timescale isn't off by 1.
         metric[-1] = 0.0
+        host     = data[:host]
+        plugin   = data[:plugin]
+        instance = data[:instance]
+        start    = data[:start].to_i
+        finish   = data[:finish].to_i
 
-        structure[data[:host]] ||= {}
-        structure[data[:host]][data[:plugin]] ||= {}
-        structure[data[:host]][data[:plugin]][data[:instance]] ||= {}
-        structure[data[:host]][data[:plugin]][data[:instance]][source] ||= {}
-        structure[data[:host]][data[:plugin]][data[:instance]][source][:start]  ||= data[:start]
-        structure[data[:host]][data[:plugin]][data[:instance]][source][:finish] ||= data[:finish]
-        structure[data[:host]][data[:plugin]][data[:instance]][source][:data]   ||= metric
+        structure[host] ||= {}
+        structure[host][plugin] ||= {}
+        structure[host][plugin][instance] ||= {}
+        structure[host][plugin][instance][source] ||= {}
+        structure[host][plugin][instance][source][:start]  ||= start
+        structure[host][plugin][instance][source][:finish] ||= finish
+        structure[host][plugin][instance][source][:data]   ||= metric
+
       end
     end
 

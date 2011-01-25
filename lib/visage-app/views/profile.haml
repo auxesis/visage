@@ -10,10 +10,10 @@
         window.addEvent('domready', function() {
           var graph = new visageGraph('#{graph.id}', '#{graph.host}', '#{graph.plugin}', {
             pluginInstance: '#{graph.instances.join(',')}',
-            name: '#{graph.plugin} on #{graph.host}',
-            start: '#{@start}',
-            #{ "baseurl: '" + ENV['VISAGE_APP_BASE_URL_PATH'].gsub(/^\//, '') + "'," if ENV['VISAGE_APP_BASE_URL_PATH'] }
-            finish: '#{@finish}'
+            //name:           '#{graph.plugin} on #{graph.host}',
+            start:          '#{@start}',
+            finish:         '#{@finish}',
+            #{ "baseurl: '" + ENV['BASE_URL'].gsub(/^\//, '') if ENV['BASE_URL'] }
           });
         });
   - if @profile.graphs.size == 0
