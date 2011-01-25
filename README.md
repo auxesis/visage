@@ -136,21 +136,22 @@ Check out the code with:
 
     $ git clone git://github.com/auxesis/visage.git
 
-Install the development dependencies with
+Install the development dependencies with:
 
-    $ gem install shotgun rack-test rspec cucumber webrat
-
-And run the app with:
-
-    $ shotgun visage.rb
-
-Create and install a new gem from the current source tree:
-
-    $ rake install
+    $ gem install bundler
+    $ bundle install
 
 Run all cucumber features:
 
     $ rake cucumber
+
+And run the app with:
+
+    $ shotgun lib/visage-app/config.ru
+
+To create and install a new gem from the current source tree:
+
+    $ rake install
 
 Licencing
 ---------
