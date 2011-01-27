@@ -14,6 +14,7 @@ class CollectdJSON
 
   def initialize(opts={})
     @rrddir = opts[:rrddir] || CollectdJSON.rrddir
+    @types  = opts[:types]  || CollectdJSON.types
   end
 
   # Entry point.
@@ -22,10 +23,7 @@ class CollectdJSON
     plugin           = opts[:plugin]
     plugin_instances = opts[:plugin_instances][/\w.*/]
     instances        = plugin_instances.blank? ? '*' : '{' + plugin_instances.split('/').join(',') + '}'
-    @plugin_names = []
-
-    rrdglob = "#{@rrddir}/#{host}/#{plugin}/#{instances}.rrd"
-    plugin_offset = @rrddir.size + 1 + host.size + 1
+    rrdglob          = "#{@rrddir}/#{host}/#{plugin}/#{instances}.rrd"
 
     data = []
 
@@ -103,6 +101,10 @@ class CollectdJSON
 
     def rrddir
       @rrddir ||= Visage::Config.rrddir
+    end
+
+    def types
+      @types  ||= Visage::Config.types
     end
 
     def hosts
