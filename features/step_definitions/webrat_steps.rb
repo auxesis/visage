@@ -14,19 +14,19 @@ When /^I follow "(.*)"$/ do |link|
 end
 
 When /^I fill in "(.*)" with "(.*)"$/ do |field, value|
-  fill_in(field, :with => value) 
+  fill_in(field, :with => value)
 end
 
 When /^I select "(.*)" from "(.*)"$/ do |value, field|
-  select(value, :from => field) 
+  select(value, :from => field)
 end
 
 When /^I check "(.*)"$/ do |field|
-  check(field) 
+  check(field)
 end
 
 When /^I uncheck "(.*)"$/ do |field|
-  uncheck(field) 
+  uncheck(field)
 end
 
 When /^I choose "(.*)"$/ do |field|
