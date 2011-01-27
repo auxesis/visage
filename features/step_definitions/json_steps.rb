@@ -5,6 +5,8 @@ Then /^I should receive valid JSON$/ do
   }.should_not raise_error
 
   case
+  when @response.class == Array
+    next
   when @response.keys.first == "hosts"
     @response["hosts"].should respond_to(:size)
   when @response[@response.keys.first].respond_to?(:size)
@@ -121,3 +123,13 @@ Then /^the JSON should have a list of plugins$/ do
   plugins = @response[host]
   plugins.size.should > 0
 end
+
+Then /^the JSON should have a list of types$/ do
+  @response.size.should > 0
+  @response.each do |type|
+    %w(name type min max).each do |attr|
+      type[attr].should_not be_nil
+    end
+  end
+end
+
