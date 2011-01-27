@@ -127,7 +127,7 @@ end
 Then /^the JSON should have a list of types$/ do
   @response.size.should > 0
   @response.each do |type|
-    %w(name type min max).each do |attr|
+    %w(dataset datasource type min max).each do |attr|
       type[attr].should_not be_nil
     end
   end
