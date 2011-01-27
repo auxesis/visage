@@ -28,6 +28,7 @@ module Visage
       Visage::Config.use do |c|
         # FIXME: make this configurable through file
         c['rrddir'] = ENV["RRDDIR"] ? Pathname.new(ENV["RRDDIR"]).expand_path : Pathname.new("/var/lib/collectd/rrd").expand_path
+        c['types']  = Visage::Types.new(:filename => ENV["TYPES"])
       end
     end
   end
