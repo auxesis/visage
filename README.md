@@ -33,7 +33,7 @@ On Ubuntu, to install dependencies run:
 
 On CentOS, to install dependencies run:
 
-    $ sudo yum install -y ruby-rrdtool ruby rubygems collectd
+    $ sudo yum install -y ruby-RRDtool ruby rubygems collectd
 
 Then install the app with:
 
