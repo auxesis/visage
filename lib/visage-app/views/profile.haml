@@ -4,17 +4,16 @@
 %div#profile
   %h2#profile_name= profile_name
   - @profile.graphs.each do |graph|
-    id       = URI.escape(graph.id)
-    host     = URI.escape(graph.host)
-    plugin   = URI.escape(graph.plugin)
-    instance = URI.escape(graph.instances.join(','))
+    - id       = URI.escape(graph.id)
+    - host     = URI.escape(graph.host)
+    - plugin   = URI.escape(graph.plugin)
+    - instance = URI.escape(graph.instances.join(','))
     %div{:id => id, :class => 'graph'}
       %img{:src => link_to("/images/loader.gif")}
       :javascript
         window.addEvent('domready', function() {
           var graph = new visageGraph('#{id}', '#{host}', '#{plugin}', {
             pluginInstance: '#{instance}',
-            //name:           '#{plugin} on #{host}',
             start:          '#{@start}',
             finish:         '#{@finish}',
             #{ "baseurl: '" + ENV['BASE_URL'].gsub(/^\//, '') if ENV['BASE_URL'] }
