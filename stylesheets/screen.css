@@ -126,3 +126,15 @@ div#install p.alternate {
   color: #666;
   font-size: 80%;
 }
+
+
+div#lca2011-presentation {
+  margin: auto;
+  text-align: center;
+}
+
+div#lca2011-presentation div.intro {
+/*  text-align: left;*/
+  font-style: italic;
+  margin-bottom: 16px;
+}
