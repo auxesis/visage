@@ -22,11 +22,11 @@ begin
     gemspec.homepage    = "http://visage-app.com/"
     gemspec.authors     = ["Lindsay Holmwood"]
 
-    gemspec.add_dependency "sinatra", "1.0"
-    gemspec.add_dependency "tilt", "1.0.1"
+    gemspec.add_dependency "sinatra", "~> 1.1.3"
+    gemspec.add_dependency "tilt", "~> 1.2.2"
     gemspec.add_dependency "haml", "3.0.13"
     gemspec.add_dependency "errand", "0.7.2"
-    gemspec.add_dependency "yajl-ruby", "0.7.6"
+    gemspec.add_dependency "yajl-ruby", "0.8.1"
   end
 rescue LoadError
   puts "Jeweler not available. Install it with: gem install jeweler"
