@@ -35,6 +35,10 @@ On CentOS, to install dependencies run:
 
     $ sudo yum install -y ruby-RRDtool ruby rubygems collectd
 
+If you are using Ruby Enterprise Edition, instead of installing librrd-ruby or ruby-RRDtool, run
+
+    $ gem install librrd
+
 Then install the app with:
 
     $ gem install visage-app
