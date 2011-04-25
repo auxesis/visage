@@ -16,7 +16,7 @@
             pluginInstance: '#{instance}',
             start:          '#{@start}',
             finish:         '#{@finish}',
-            #{ "baseurl: '" + ENV['BASE_URL'].gsub(/^\//, '') if ENV['BASE_URL'] }
+            baseurl:        '#{link_to("/").gsub(/^\//, '')}',
           });
         });
   - if @profile.graphs.size == 0
