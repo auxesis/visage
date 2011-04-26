@@ -106,7 +106,7 @@ You can set the `CONFIG_PATH` environment variable to add another directory to
 the config load path. This directory will be searched when loading up
 configuration files.
 
-    CONFIG_PATH=/var/lib/visage-app start
+    CONFIG_PATH=/var/local/visage-app start
 
 This is especially useful when you want to deploy + run Visage from an installed
 gem with Passenger. e.g.
@@ -115,7 +115,7 @@ gem with Passenger. e.g.
       ServerName monitoring.example.org
       ServerAdmin me@example.org
 
-      SetEnv CONFIG_PATH /var/lib/visage
+      SetEnv CONFIG_PATH /var/local/visage
       SetEnv RRDDIR /opt/collectd/var/lib/collectd
 
       DocumentRoot /var/lib/gems/1.8/gems/visage-app-0.3.0/lib/visage/public
@@ -128,10 +128,30 @@ gem with Passenger. e.g.
       CustomLog /var/log/apache2/access.log common
     </VirtualHost>
 
-Also to keep in mind when deploying with Passenger, the `CONFIG_PATH` directory
-and its files need to have the correct ownership:
+If you are deploying to a sub URI, simply create a link to the visage-app public
+directory from within your document root:
 
-    chown nobody:nogroup -R /var/lib/visage
+    ln -s /var/lib/gems/1.8/gems/visage-app-0.9.4/lib/visage-app/public visage
+
+Then set the RackBaseURI, but otherwise configuration is similar:
+
+    RackBaseURI /visage
+
+    SetEnv CONFIG_PATH /var/local/visage
+
+    <Directory /var/lib/gems/1.8/gems/visage-app-0.9.4/lib/visage-app/public>
+        Options FollowSymLinks Indexes
+        AllowOverride None
+        Order allow,deny
+        Allow from all
+    </Directory>
+
+Also to keep in mind when deploying with Passenger, the `CONFIG_PATH` directory
+and its files need to have the correct ownership. Passenger defaults to running
+apps as the user they are owned by, or runs them as nobody if they are owned by
+root (you can change with PassengerDefaultUser):
+
+    chown nobody:nogroup -R /var/local/visage
 
 Developing + testing
 --------------------
