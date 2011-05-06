@@ -2,14 +2,16 @@
 
 module Visage
   class Types
+    attr_reader :types
+
     def initialize(opts={})
       @filename = opts[:filename] || "/usr/share/collectd/types.db"
       @types    = []
       build
     end
 
-    def all
-      @types
+    def to_json
+      @types.to_json
     end
 
     private
