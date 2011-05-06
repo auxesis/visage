@@ -14,6 +14,7 @@ class CollectdJSON
 
   def initialize(opts={})
     @rrddir = opts[:rrddir] || CollectdJSON.rrddir
+    @types  = opts[:types]  || CollectdJSON.types
   end
 
   # Entry point.
@@ -22,22 +23,20 @@ class CollectdJSON
     plugin           = opts[:plugin]
     plugin_instances = opts[:plugin_instances][/\w.*/]
     instances        = plugin_instances.blank? ? '*' : '{' + plugin_instances.split('/').join(',') + '}'
-    @plugin_names = []
-
-    rrdglob = "#{@rrddir}/#{host}/#{plugin}/#{instances}.rrd"
-    plugin_offset = @rrddir.size + 1 + host.size + 1
+    rrdglob          = "#{@rrddir}/#{host}/#{plugin}/#{instances}.rrd"
 
     data = []
 
     Dir.glob(rrdglob).map do |rrdname|
       parts         = rrdname.gsub(/#{@rrddir}\//, '').split('/')
-      host          = parts[0]
+      host_name     = parts[0]
       plugin_name   = parts[1]
-      instance_name = parts[2].split('.').first
+      instance_name = File.basename(parts[2], '.rrd')
       rrd = Errand.new(:filename => rrdname)
 
+
       data << {  :plugin => plugin_name, :instance => instance_name,
-                 :host   => host,
+                 :host   => host_name,
                  :start  => opts[:start]  || (Time.now - 3600).to_i,
                  :finish => opts[:finish] || Time.now.to_i,
                  :rrd    => rrd }
@@ -103,6 +102,10 @@ class CollectdJSON
 
     def rrddir
       @rrddir ||= Visage::Config.rrddir
+    end
+
+    def types
+      @types  ||= Visage::Config.types
     end
 
     def hosts
