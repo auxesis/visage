@@ -17,13 +17,13 @@ module Visage
 
     def self.get(id)
       url = id.downcase.gsub(/[^\w]+/, "+")
-      profiles = self.class.load
+      profiles = self.load
       profiles[url] ? self.new(profiles[url]) : nil
     end
 
     def self.all(opts={})
       sort = opts[:sort]
-      profiles = self.class.load
+      profiles = self.load
       profiles = sort == "name" ? profiles.sort.map {|i| i.last } : profiles.values
       profiles.map { |prof| self.new(prof) }
     end
