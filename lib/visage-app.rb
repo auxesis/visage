@@ -12,6 +12,7 @@ require 'lib/visage-app/config'
 require 'lib/visage-app/config/file'
 require 'lib/visage-app/collectd/rrds'
 require 'lib/visage-app/collectd/json'
+require 'lib/visage-app/types'
 require 'yajl/json_gem'
 
 module Visage
@@ -27,6 +28,7 @@ module Visage
       Visage::Config.use do |c|
         # FIXME: make this configurable through file
         c['rrddir'] = ENV["RRDDIR"] ? Pathname.new(ENV["RRDDIR"]).expand_path : Pathname.new("/var/lib/collectd/rrd").expand_path
+        c['types']  = Visage::Types.new(:filename => ENV["TYPES"])
       end
     end
   end
@@ -119,5 +121,11 @@ module Visage
       params[:callback] ? params[:callback] + '(' + json + ')' : json
     end
 
+  end
+
+  class Meta < Application
+    get '/meta/types' do
+      Visage::Types.all.to_json
+    end
   end
 end

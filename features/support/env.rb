@@ -32,6 +32,7 @@ class SinatraWorld
       use Visage::Profiles
       use Visage::Builder
       use Visage::JSON
+      use Visage::Meta
       run Sinatra::Application
     end
   end

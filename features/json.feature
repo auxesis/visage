@@ -36,32 +36,6 @@ Feature: Export data
     When I visit "cpu-0?callback=foobar" on the first available host
     Then I should receive JSON wrapped in a callback named "foobar"
 
-  Scenario: Retrieve multiple plugin instances without color definition
-    Given a list of hosts exist
-    When I visit "memory" on the first available host
-    Then the request should succeed
-    Then I should receive valid JSON
-    And each plugin instance should have a different color
-
-  Scenario Outline: Return only one colour per metric
-    Given a list of hosts exist
-    When I visit "<path>" on the first available host
-    Then the request should succeed
-    Then I should receive valid JSON
-    And each plugin instance should have a different color
-
-  Examples:
-    | path               |
-    | cpu-0/cpu-user     |
-    | memory/memory-used |
-
-  Scenario: Retrieve single plugin instance with a color definition
-    Given a list of hosts exist
-    When I visit "load/load" on the first available host
-    Then the request should succeed
-    Then I should receive valid JSON
-    And the plugin instance should have a color
-
   Scenario: Retrieve multiple plugins through a glob
     Given a list of hosts exist
     When I visit "disk*/disk_ops" on the first available host
