@@ -28,7 +28,7 @@ module Visage
       Visage::Config.use do |c|
         # FIXME: make this configurable through file
         c['rrddir'] = ENV["RRDDIR"] ? Pathname.new(ENV["RRDDIR"]).expand_path : Pathname.new("/var/lib/collectd/rrd").expand_path
-        c['types']  = Visage::Types.new(:filename => ENV["TYPES"])
+        c['types']  = ENV["TYPES"] ? Visage::Types.new(:filename => ENV["TYPES"]) : Visage::Types.new
       end
     end
   end
@@ -125,7 +125,7 @@ module Visage
 
   class Meta < Application
     get '/meta/types' do
-      Visage::Types.all.to_json
+      Visage::Config.types.to_json
     end
   end
 end
