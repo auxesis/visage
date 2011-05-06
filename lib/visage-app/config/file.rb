@@ -19,7 +19,7 @@ module Visage
       end
 
       def self.load(filename, opts={})
-        unless path = self.find(filename, opts)
+        if not path = self.find(filename, opts)
           if opts[:create]
             path = @@config_directories.first.join(filename)
             begin
@@ -41,7 +41,7 @@ module Visage
       end
 
       def initialize(filename, opts={})
-        unless ::File.exists?(filename)
+        if not ::File.exists?(filename)
           path = @@config_directories.first.join(filename)
           FileUtils.touch(path)
         end
