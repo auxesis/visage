@@ -30,6 +30,9 @@ module Visage
         c['rrddir'] = ENV["RRDDIR"] ? Pathname.new(ENV["RRDDIR"]).expand_path : Pathname.new("/var/lib/collectd/rrd").expand_path
         c['types']  = ENV["TYPES"] ? Visage::Types.new(:filename => ENV["TYPES"]) : Visage::Types.new
       end
+
+      # Load up the profile.yaml. Creates it if it doesn't already exist.
+      Visage::Profile.load
     end
   end
 
