@@ -25,6 +25,24 @@ class CollectdJSON
     instances        = plugin_instances.blank? ? '*' : '{' + plugin_instances.split('/').join(',') + '}'
     rrdglob          = "#{@rrddir}/#{host}/#{plugin}/#{instances}.rrd"
 
+    start = case
+    when opts[:start] && opts[:start].index('.')
+      opts[:start].split('.').first
+    when opts[:start]
+      opts[:start]
+    else
+      (Time.now - 3600).to_i
+    end
+
+    finish = case
+    when opts[:finish] && opts[:finish].index('.')
+      opts[:finish].split('.').first
+    when opts[:finish]
+      opts[:finish]
+    else
+      Time.now.to_i
+    end
+
     data = []
 
     Dir.glob(rrdglob).map do |rrdname|
@@ -37,8 +55,8 @@ class CollectdJSON
 
       data << {  :plugin => plugin_name, :instance => instance_name,
                  :host   => host_name,
-                 :start  => opts[:start]  || (Time.now - 3600).to_i,
-                 :finish => opts[:finish] || Time.now.to_i,
+                 :start  => start,
+                 :finish => finish,
                  :rrd    => rrd }
     end
 
