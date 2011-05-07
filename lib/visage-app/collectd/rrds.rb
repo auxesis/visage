@@ -31,7 +31,6 @@ module Visage
           when opts[:metrics].blank?
             glob = "*/*"
           when opts[:metrics] =~ /,/
-            puts "\n" * 4
             glob = "{" + opts[:metrics].split(/\s*,\s*/).map { |m|
               m =~ /\// ? m : ["*/#{m}", "#{m}/*"]
             }.join(',').gsub(/,$/, '') + "}"
