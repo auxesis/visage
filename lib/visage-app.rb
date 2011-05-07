@@ -43,6 +43,7 @@ module Visage
       raise Sinatra::NotFound unless @profile
       @start  = params[:start]
       @finish = params[:finish]
+      @live   = params[:live] ? true : false
       haml :profile
     end
 
