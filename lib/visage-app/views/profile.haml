@@ -16,6 +16,7 @@
             pluginInstance: '#{instance}',
             start:          '#{@start}',
             finish:         '#{@finish}',
+            live:           #{@live},
             #{ "baseurl: '" + ENV['BASE_URL'].gsub(/^\//, '') if ENV['BASE_URL'] }
           });
         });
