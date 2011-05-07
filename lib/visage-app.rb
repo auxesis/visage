@@ -86,6 +86,12 @@ module Visage
   class JSON < Application
 
     # JSON data backend
+    mime_type :json,  "application/json"
+    mime_type :jsonp, "text/javascript"
+
+    before do
+      content_type :jsonp
+    end
 
     # /data/:host/:plugin/:optional_plugin_instance
     get %r{/data/([^/]+)/([^/]+)((/[^/]+)*)} do
