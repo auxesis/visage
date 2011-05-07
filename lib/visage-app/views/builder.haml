@@ -1,7 +1,7 @@
 - page_title "Profile builder"
 
 %div#builder
-  %form{:action => "/builder", :method => :get}
+  %form{:action => link_to("/builder"), :method => :get}
 
     - if @profile.selected_hosts.size > 0 && @profile.selected_metrics.size > 0
       %div#profile-preview

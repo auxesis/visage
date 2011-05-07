@@ -35,7 +35,7 @@ module Visage
 
   class Profiles < Application
     get '/' do
-      redirect '/profiles'
+      redirect link_to('/profiles')
     end
 
     get '/profiles/:url' do
@@ -60,7 +60,7 @@ module Visage
         @profile = Visage::Profile.new(params)
 
         if @profile.save
-          redirect "/profiles/#{@profile.url}"
+          redirect link_to("/profiles/#{@profile.url}")
         else
           haml :builder
         end
