@@ -92,13 +92,15 @@ module Visage
       host = params[:captures][0].gsub("\0", "")
       plugin = params[:captures][1].gsub("\0", "")
       plugin_instances = params[:captures][2].gsub("\0", "")
+      start  = params[:start]
+      finish = params[:finish]
 
       collectd = CollectdJSON.new(:rrddir => Visage::Config.rrddir)
       json = collectd.json(:host             => host,
                            :plugin           => plugin,
                            :plugin_instances => plugin_instances,
-                           :start            => params[:start],
-                           :finish           => params[:finish])
+                           :start            => start,
+                           :finish           => finish)
       # if the request is cross-domain, we need to serve JSONP
       maybe_wrap_with_callback(json)
     end
