@@ -24,7 +24,7 @@ module Visage
     def self.all(opts={})
       sort = opts[:sort]
       profiles = self.load
-      profiles = sort == "name" ? profiles.sort.map {|i| i.last } : profiles.values
+      profiles = sort == "name" ? profiles.sort_by {|k,v| v[:profile_name]}.map {|i| i.last } : profiles.values
       profiles.map { |prof| self.new(prof) }
     end
 
