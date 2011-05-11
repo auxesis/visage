@@ -81,14 +81,10 @@ class CollectdJSON
 
         # Filter out NaNs and weirdly massive values so yajl doesn't choke
         metric.map! do |datapoint|
-          case
-          when datapoint && datapoint.nan?
-            @tripped = true
-            @last_valid
-          when @tripped
-            @last_valid
+          if datapoint && datapoint.nan?
+            nil
           else
-            @last_valid = datapoint
+            datapoint
           end
         end
 
