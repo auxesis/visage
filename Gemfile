@@ -5,6 +5,7 @@ source :rubygems
 gem "haml"
 gem "tilt"
 gem "sinatra"
+gem "rrd-ffi"
 gem "errand", "0.7.4", :git => "git://github.com/auxesis/rubyrrdtool.git", :branch => "rrd-ffi"
 gem "yajl-ruby"
 
