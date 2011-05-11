@@ -5,7 +5,7 @@ source :rubygems
 gem "haml"
 gem "tilt"
 gem "sinatra"
-gem "errand"
+gem "errand", "0.7.3"
 gem "yajl-ruby"
 
 group :development do
