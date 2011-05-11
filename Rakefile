@@ -25,7 +25,7 @@ begin
     gemspec.add_dependency "sinatra", "~> 1.1.3"
     gemspec.add_dependency "tilt", "~> 1.2.2"
     gemspec.add_dependency "haml", "~> 3.0.13"
-    gemspec.add_dependency "errand", "~> 0.7.2"
+    gemspec.add_dependency "errand", "= 0.7.3"
     gemspec.add_dependency "yajl-ruby", "~> 0.8.1"
   end
 rescue LoadError
