@@ -1,7 +1,7 @@
 - page_title "Profile builder"
 - require_js "builder-autocomplete"
 
-%div#builder
+%div#chart-builder
   %form{:action => "/builder", :method => :get}
 
     - if @profile.selected_hosts.size > 0 && @profile.selected_metrics.size > 0
@@ -17,7 +17,7 @@
 
     %div#hosts.builder
       %h2 Hosts
-      %input{:id => "hosts-search", :name => "hosts", :type => "text", :class => "text", :value => params[:hosts], :autocomplete => "off"}
+      %input{:id => "host-search", :name => "hosts", :type => "text", :class => "text", :value => params[:hosts], :autocomplete => "off"}
       %img{:src => link_to("/images/hosts.png"), :class => "icon hosts"}
       %span{:class => "glob example"} e.g. &ldquo;charlie&rdquo;, &ldquo;*.bravo*&rdquo;, &ldquo;echo, foxtrot*&rdquo;
 
@@ -25,18 +25,10 @@
 
     %div#metrics.builder
       %h2 Metrics
-      %input{:name => "metrics", :type => "text", :class => "text", :value => params[:metrics]}
-      %input{:name => "submit", :type => "submit", :class => "submit", :value => "metrics"}
+      %input{:id => "metric-search", :name => "metric-search", :type => "text", :class => "text", :value => params[:metrics], :autocomplete => "off"}
       %img{:src => link_to("/images/metrics.png"), :class => "icon metrics"}
       %span{:class => "glob example"} e.g. &ldquo;cpu*/*&rdquo;, &ldquo;disk*/*ops, disk*/*time&rdquo;
 
       %ul.selected
-        - @profile.selected_metrics.each do |name|
-          %li= name
-
-      %h5 Available
-      %ul.available
-        - @profile.metrics.each do |name|
-          %li= name
 
 
