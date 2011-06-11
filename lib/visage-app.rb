@@ -119,7 +119,7 @@ module Visage
       host = params[:captures][0].gsub("\0", "")
       metrics = Visage::Collectd::RRDs.metrics(:host => host)
 
-      json = { host => metrics }.to_json
+      json = { :metrics => metrics }.to_json
       maybe_wrap_with_callback(json)
     end
 

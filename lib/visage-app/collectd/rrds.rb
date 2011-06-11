@@ -40,9 +40,28 @@ module Visage
             glob = opts[:metrics]
           end
 
-          host_glob = (opts[:host] || "*")
+          host_glob = opts[:host] || "*"
 
-          Dir.glob("#{rrddir}/#{host_glob}/#{glob}.rrd").map {|e| e.split('/')[-2..-1].join('/').gsub(/\.rrd$/, '')}.sort.uniq
+          case
+          when opts[:host] =~ /,/
+            host_glob = "{" + opts[:host].split(/\s*,\s*/).join(',').gsub(/,$/, '') + "}"
+          when opts[:host]
+            host_glob = opts[:host]
+          else
+            host_glob = "*"
+          end
+
+          if opts[:host] =~ /,/
+            hosts = opts[:host].split(/\s*,\s*/)
+            hosts.map { |host|
+              Dir.glob("#{rrddir}/#{host}/#{glob}.rrd").map {|filename|
+                metric_path = filename[/#{rrddir}\/#{host}\/(.*)/, 1]
+                metric_path.gsub!(/\.rrd$/, '')
+              }
+            }.reduce(:&)
+          else
+            Dir.glob("#{rrddir}/#{host_glob}/#{glob}.rrd").map {|e| e.split('/')[-2..-1].join('/').gsub(/\.rrd$/, '')}.sort.uniq
+          end
         end
 
       end

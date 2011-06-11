@@ -118,6 +118,17 @@ When /^I visit the first available host$/ do
   When "I go to #{url}"
 end
 
+When /^I visit the first two available hosts$/ do
+  When 'I go to /data'
+  Then 'the request should succeed'
+  Then 'I should receive valid JSON'
+  Then 'the JSON should have a list of hosts'
+
+  host = @response["hosts"][0..1].join(',')
+  url  = "/data/#{host}"
+  When "I go to #{url}"
+end
+
 Then /^the JSON should have a list of plugins$/ do
   host    = @response.keys.first
   plugins = @response[host]
