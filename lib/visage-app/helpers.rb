@@ -33,4 +33,21 @@ module Sinatra
       @page_title ? "#{@page_title} | Visage" : "Visage"
     end
   end
+
+  module RequireJSHelper
+    def require_js(filename)
+      @js_filenames ||= []
+      @js_filenames << filename
+    end
+
+    def include_required_js
+      if @js_filenames
+        @js_filenames.map { |filename|
+          "<script type='text/javascript' src='#{link_to("/javascripts/#{filename}.js")}'></script>"
+        }.join("\n")
+      else
+        ""
+      end
+    end
+  end
 end
