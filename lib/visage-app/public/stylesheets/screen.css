@@ -124,10 +124,9 @@ background-image: -moz-linear-gradient(
 );
 }
 
-p.error {
-  color: red;
-  font-size: 80%;
-}
+/*
+ * BUILDER
+ */
 
 div.builder {
   float: left;
@@ -145,25 +144,39 @@ div.builder input.text {
   -webkit-box-shadow: 0 1px 5px rgba(0, 0, 0, 0.25);
 }
 
+div.builder div.tokenWrapper {
+  border: 1px solid #bbb;
+  font-size: 16px;
+  padding: 4px;
+  width: 350px;
+  height: 20px;
+  -moz-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.25);
+  -webkit-box-shadow: 0 1px 5px rgba(0, 0, 0, 0.25);
+}
+
+div.builder div.tokenWrapper span.token {
+  font-family: Lucida Grande, sans-serif;
+  font-size: 16px;
+}
+
+div.builder div.tokenWrapper span.token.finalized {
+  background-color: #D1E5FF;
+  color: black;
+  border: 1px solid #2F5A92;
+  padding: 1px 2px;
+}
+
+div.builder div.tokenWrapper span.token input.token {
+  border: 0;
+  font-size: 16px;
+}
+
 div.builder input.text:focus {
   border: 1px solid #666;
 }
 
-div.builder input.submit {
-  opacity: 0;
-}
-
-div.builder ul {
-  margin-top: 16px;
-}
-
 div.builder img.icon {
   float: right;
-}
-
-div.builder li {
-  list-style-type: none;
-  padding: 4px 8px;
 }
 
 div.builder h5 {
@@ -171,38 +184,40 @@ div.builder h5 {
   margin-left: 8px;
 }
 
-div.builder ul.available {
-  margin-top: 4px;
-}
-
 div.builder ul.selected {
-  background-color: #fffaba;
+  font-family: Lucida Grande, sans-serif;
+  font-size: 16px;
 }
 
-div.builder li:hover {
-  /*background-color: #fffaba;*/
+div.builder ul.selected li {
+  list-style-type: none;
+  padding:         4px 5px;
+  border-left:      1px #BBBBBB solid;
+  border-right:     1px #BBBBBB solid;
+  border-bottom:    1px #BBBBBB solid;
+  background-color: white;
+  width: 348px;
 }
 
-div.builder li td {
-  padding: 4px;
+div.builder ul.selected li.active {
+  background-color: #4C94F0;
+  color:            white;
 }
 
-div.builder li td.name {
-  width: 350px;
+div.builder ul.selected li.all {
+  color: gray;
 }
 
-div.builder li td.meta {
-  width: 80px;
-  text-align: right;
-  padding-right: 8px;
+div.builder ul.selected li.all.active {
+  background-color: #A0BD29;
+  color:            white;
 }
 
-span.glob.example {
-  display: block;
-  font-size: 80%;
-  font-style: italic;
-  margin-top: 8px;
-}
+
+
+/*
+ * GRAPHS + PROFILE VIEWER
+ */
 
 div#graphs {
   padding: 0 2em;
