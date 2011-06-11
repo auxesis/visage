@@ -23,6 +23,7 @@ module Visage
 
     helpers Sinatra::LinkToHelper
     helpers Sinatra::PageTitleHelper
+    helpers Sinatra::RequireJSHelper
 
     configure do
       Visage::Config.use do |c|
