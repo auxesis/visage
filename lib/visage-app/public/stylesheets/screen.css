@@ -12,6 +12,10 @@ a {
   text-decoration: none;
 }
 
+input:focus {
+  outline: none;
+}
+
 /* styles */
 
 a               { color: #3465a4; padding: 2px 0px; }
@@ -351,3 +355,4 @@ div#shortcuts table td, div#shortcuts table th {
 div#shortcuts table th {
   text-align: left;
 }
+
