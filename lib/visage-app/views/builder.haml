@@ -4,27 +4,18 @@
 %div#chart-builder
   %form{:action => "/builder", :method => :get}
 
-    - if @profile.selected_hosts.size > 0 && @profile.selected_metrics.size > 0
-      %div#profile-preview
-      %div#profile-meta
-        %h2 Profile name
-        %p
-          %input{:name => "profile_name", :value => params[:profile_name], :type => "text", :class => "text"}
-        %p.error
-          = @profile.errors[:profile_name]
-        %p
-          %input{:type => "submit", :value => "create", :class => "create", :name => "submit"}
-
     %div#hosts.builder
       %h2 Hosts
       %img{:src => link_to("/images/hosts.png"), :class => "icon hosts"}
-      %div.tokenWrapper
-      %ul.results
+      %div.search
+        %div.tokenWrapper
+        %ul.results
 
     %div#metrics.builder
       %h2 Metrics
       %img{:src => link_to("/images/metrics.png"), :class => "icon metrics"}
-      %input{:id => "metric-search", :name => "metric-search", :type => "text", :class => "text", :value => params[:metrics], :autocomplete => "off"}
-      %ul.results
+-#      %div.search
+-#        %div.tokenWrapper
+-#        %ul.results
 
 
