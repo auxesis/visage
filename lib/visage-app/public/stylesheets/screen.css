@@ -189,12 +189,12 @@ div.builder h5 {
   margin-left: 8px;
 }
 
-div.builder ul.selected {
+div.builder ul.results {
   font-family: Lucida Grande, sans-serif;
   font-size: 16px;
 }
 
-div.builder ul.selected li {
+div.builder ul.results li {
   list-style-type: none;
   padding:         4px 5px;
   border-left:      1px #BBBBBB solid;
@@ -204,16 +204,16 @@ div.builder ul.selected li {
   width: 348px;
 }
 
-div.builder ul.selected li.active {
+div.builder ul.results li.active {
   background-color: #4C94F0;
   color:            white;
 }
 
-div.builder ul.selected li.all {
+div.builder ul.results li.all {
   color: gray;
 }
 
-div.builder ul.selected li.all.active {
+div.builder ul.results li.all.active {
   background-color: #A0BD29;
   color:            white;
 }
