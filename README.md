@@ -37,6 +37,8 @@ On CentOS, to install dependencies run:
 
 If you are using Ruby Enterprise Edition, instead of installing librrd-ruby or ruby-RRDtool, run
 
+    $ sudo apt-get install librrd-dev
+
     $ gem install librrd
 
 Then install the app with:
