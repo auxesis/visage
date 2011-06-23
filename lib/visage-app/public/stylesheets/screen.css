@@ -174,6 +174,11 @@ div.builder div.tokenWrapper div.token.finalized {
   font-size: 14px;
 }
 
+div.builder div.tokenWrapper div.token.finalized.selected {
+  background-color: #2F5A92;
+  color: white;
+}
+
 div.builder div.tokenWrapper div.token input.token {
   border: 0;
   font-size: 16px;
@@ -356,3 +361,23 @@ div#shortcuts table th {
   text-align: left;
 }
 
+
+.button {
+  -moz-border-radius: 5px 5px 5px 5px;
+  -moz-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+  background-color: #637020;
+  background-repeat: repeat-x;
+  background: -moz-linear-gradient(100% 100% 90deg, #244671, #4C94F0);
+  background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#4C94F0), to(#244671));
+  border: medium none;
+  color: white;
+  cursor: pointer;
+  font-family: Lucida Grande,sans-serif;
+  font-weight: bold;
+  padding: 4px;
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.75);
+}
+
+input#show {
+  float: right;
+}
