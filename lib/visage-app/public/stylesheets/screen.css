@@ -364,7 +364,9 @@ div#shortcuts table th {
 
 .button {
   -moz-border-radius: 5px 5px 5px 5px;
+  -webkit-border-radius: 5px;
   -moz-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+  -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
   background-color: #637020;
   background-repeat: repeat-x;
   background: -moz-linear-gradient(100% 100% 90deg, #244671, #4C94F0);
