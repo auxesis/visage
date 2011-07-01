@@ -234,9 +234,10 @@ div.builder ul.results li.all.active {
  */
 
 div#graphs {
+  clear: both;
   padding: 0 2em;
   border-top: 1px dashed #babdb6;
-  margin-top: 2em;
+  margin: 16px 0;
 }
 
 div.graph {
@@ -380,10 +381,11 @@ div#shortcuts table th {
   text-shadow: 0 1px 1px rgba(0, 0, 0, 0.75);
 }
 
-.button:hover {
+.button:hover, .button:focus {
   text-shadow: 0 2px 1px rgba(255,255,255,0.1);
   background: -webkit-gradient(linear, left top, left bottom, from(#529EFF), to(#274C7A));
   background: -moz-linear-gradient(top, #529EFF, #274C7A);
+  outline:    none;
 }
 
 input#show {
@@ -391,6 +393,23 @@ input#show {
   font-size: 80%;
   padding: 4px 8px;
   font-family: 'Bitstream Vera Sans', 'Helvetica Neue', sans-serif;
+  margin-bottom: 16px;
+  margin-left:   16px;
 }
 
+input#save {
+  float: right;
+  font-size: 80%;
+  padding: 4px 8px;
+  font-family: 'Bitstream Vera Sans', 'Helvetica Neue', sans-serif;
+  margin-bottom: 16px;
+  margin-left:   16px;
+}
 
+button::-moz-focus-inner,
+input[type="reset"]::-moz-focus-inner,
+input[type="button"]::-moz-focus-inner,
+input[type="submit"]::-moz-focus-inner,
+input[type="file"] > input[type="button"]::-moz-focus-inner {
+    border: none;
+}
