@@ -265,6 +265,14 @@ h1 span.project-name {
   color: white;
 }
 
+a#edit {
+  float: right;
+}
+
+div#chart-builder-slider {
+  clear: both;
+}
+
 h2#profile_name {
   margin: 36px 0;
 }
