@@ -32,25 +32,8 @@ module Visage
       @options = opts
       @options[:url] = @options[:profile_name] ? @options[:profile_name].downcase.gsub(/[^\w]+/, "+") : nil
       @errors = {}
-
-      # FIXME: this is nasty
-      # FIXME: doesn't work if there's only one host
-      # FIXME: add regex matching option
-      if @options[:hosts].blank?
-        @selected_hosts = []
-        @hosts = Visage::Collectd::RRDs.hosts
-      else
-        @selected_hosts = Visage::Collectd::RRDs.hosts(:hosts => @options[:hosts])
-        @hosts = Visage::Collectd::RRDs.hosts - @selected_hosts
-      end
-
-      if @options[:metrics].blank?
-        @selected_metrics = []
-        @metrics = Visage::Collectd::RRDs.metrics
-      else
-        @selected_metrics = Visage::Collectd::RRDs.metrics(:metrics => @options[:metrics])
-        @metrics = Visage::Collectd::RRDs.metrics - @selected_metrics
-      end
+      @options[:hosts]   = @options[:hosts].values   if @options[:hosts].class   == Hash
+      @options[:metrics] = @options[:metrics].values if @options[:metrics].class == Hash
     end
 
     # Hashed based access to @options.
@@ -85,10 +68,10 @@ module Visage
     end
 
     def graphs
-      graphs = []
-
-      hosts = Visage::Collectd::RRDs.hosts(:hosts => @options[:hosts])
+      graphs  = []
+      hosts   = @options[:hosts]
       metrics = @options[:metrics]
+
       hosts.each do |host|
         attrs = {}
         globs = Visage::Collectd::RRDs.metrics(:host => host, :metrics => metrics)

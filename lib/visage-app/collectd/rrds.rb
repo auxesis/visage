@@ -13,55 +13,42 @@ module Visage
           @rrddir ||= Visage::Config.rrddir
         end
 
+        # Returns a list of hosts that match the supplied glob, or array of names.
         def hosts(opts={})
-          case
-          when opts[:hosts].blank?
-            glob = "*"
-          when opts[:hosts] =~ /,/
-            glob = "{#{opts[:hosts].strip.gsub(/\s*/, '').gsub(/,$/, '')}}"
+          hosts = opts[:hosts]
+          case hosts
+          when String && /,/
+            glob = "{#{hosts}}"
+          when Array
+            glob = "{#{opts[:hosts].join(',')}}"
           else
-            glob = opts[:hosts]
+            glob = "*"
           end
 
           Dir.glob("#{rrddir}/#{glob}").map {|e| e.split('/').last }.sort.uniq
         end
 
         def metrics(opts={})
-          case
-          when opts[:metrics].blank?
-            glob = "*/*"
-          when opts[:metrics] =~ /,/
-            glob = "{" + opts[:metrics].split(/\s*,\s*/).map { |m|
-              m =~ /\// ? m : ["*/#{m}", "#{m}/*"]
-            }.join(',').gsub(/,$/, '') + "}"
-          when opts[:metrics] !~ /\//
-            glob = "#{opts[:metrics]}/#{opts[:metrics]}"
+          selected_hosts = hosts(opts)
+
+          metrics = opts[:metrics]
+          case metrics
+          when String && /,/
+            metric_glob = "{#{metrics}}"
+          when Array
+            metric_glob = "{#{opts[:metrics].join(',')}}"
           else
-            glob = opts[:metrics]
+            metric_glob = "*/*"
           end
 
-          host_glob = opts[:host] || "*"
-
-          case
-          when opts[:host] =~ /,/
-            host_glob = "{" + opts[:host].split(/\s*,\s*/).join(',').gsub(/,$/, '') + "}"
-          when opts[:host]
-            host_glob = opts[:host]
-          else
-            host_glob = "*"
-          end
-
-          if opts[:host] =~ /,/
-            hosts = opts[:host].split(/\s*,\s*/)
-            hosts.map { |host|
-              Dir.glob("#{rrddir}/#{host}/#{glob}.rrd").map {|filename|
-                metric_path = filename[/#{rrddir}\/#{host}\/(.*)/, 1]
-                metric_path.gsub!(/\.rrd$/, '')
-              }
-            }.reduce(:&)
-          else
-            Dir.glob("#{rrddir}/#{host_glob}/#{glob}.rrd").map {|e| e.split('/')[-2..-1].join('/').gsub(/\.rrd$/, '')}.sort.uniq
-          end
+          selected_hosts.map { |host|
+            Dir.glob("#{rrddir}/#{host}/#{metric_glob}.rrd").map {|filename|
+              filename[/#{rrddir}\/#{host}\/(.*)\.rrd/, 1]
+            }
+          }.reduce(:&)
+          #else
+          #  Dir.glob("#{rrddir}/#{host_glob}/#{glob}.rrd").map {|e| e.split('/')[-2..-1].join('/').gsub(/\.rrd$/, '')}.sort.uniq
+          #end
         end
 
       end
