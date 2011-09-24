@@ -1,5 +1,9 @@
 - page_title "Profile builder"
 - require_js "builder-autocomplete"
+:javascript
+  window.addEvent('domready', function() {
+      new ChartBuilder('chart-builder');
+  });
 
 %div#chart-builder
   %div#hosts.builder
