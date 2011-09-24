@@ -60,6 +60,17 @@ module Visage
 
   class Builder < Application
 
+    post '/builder' do
+      @profile = Visage::Profile.new(params)
+
+      if @profile.save
+        {'status' => 'ok'}.to_json
+      else
+        status 400 # Bad Request
+        {'status' => 'error', 'errors' => @profile.errors}.to_json
+      end
+    end
+
     get "/builder" do
       if params[:submit] == "create"
         @profile = Visage::Profile.new(params)
@@ -116,8 +127,8 @@ module Visage
     end
 
     get %r{/data/([^/]+)} do
-      host = params[:captures][0].gsub("\0", "")
-      metrics = Visage::Collectd::RRDs.metrics(:host => host)
+      hosts = params[:captures][0].gsub("\0", "")
+      metrics = Visage::Collectd::RRDs.metrics(:hosts => hosts)
 
       json = { :metrics => metrics }.to_json
       maybe_wrap_with_callback(json)
