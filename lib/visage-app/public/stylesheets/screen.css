@@ -268,10 +268,13 @@ h1 span.project-name {
 
 a#edit {
   float: right;
+  display: block;
 }
 
 div#chart-builder-slider {
   clear: both;
+  overflow-x: hidden;
+  overflow-y: hidden;
 }
 
 div#profile {
