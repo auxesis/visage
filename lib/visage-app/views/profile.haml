@@ -13,21 +13,11 @@
       metrics: ['#{@profile.options[:metrics].join("','") }']
     });
 
-    /*
-    var chartBuilderSlider = new Fx.Slide('chart-builder', {
-      wrapper:     'chart-builder-slider',
-      resetHeight: true
-    });
-    chartBuilderSlider.hide()
-    */
+    $('chart-builder-slider').fade('hide').setStyle('height', '0');
 
     $('edit').addEvent('click', function(e) {
       e.stop();
-      /*
-      console.log(chartBuilderSlider)
-      chartBuilderSlider.toggle();
-      chartBuilderSlider.show();
-      */
+      $('chart-builder-slider').setStyle('height', 'auto').fade('in');
     });
   });
 
