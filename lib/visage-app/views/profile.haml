@@ -1,25 +1,33 @@
 - profile_name = @profile.options[:profile_name]
 - page_title(profile_name)
+- require_js "builder-autocomplete"
 
 %a{:href=>"#edit", :id => "edit"} edit profile
 %div#chart-builder-slider
-  = haml :builder
+  = haml :builder_form
+
 :javascript
   window.addEvent('domready', function() {
-    new ChartBuilder('chart-builder', {
+    var builder = new ChartBuilder('chart-builder', {
       hosts:   ['#{@profile.options[:hosts].join("','")   }'],
       metrics: ['#{@profile.options[:metrics].join("','") }']
     });
 
+    /*
     var chartBuilderSlider = new Fx.Slide('chart-builder', {
       wrapper:     'chart-builder-slider',
       resetHeight: true
     });
     chartBuilderSlider.hide()
+    */
 
     $('edit').addEvent('click', function(e) {
       e.stop();
+      /*
+      console.log(chartBuilderSlider)
       chartBuilderSlider.toggle();
+      chartBuilderSlider.show();
+      */
     });
   });
 
