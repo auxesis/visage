@@ -23,7 +23,7 @@
   });
 
 %div#profile
-  %h2#profile_name= profile_name
+  %h2#name= profile_name
   %div#graphs
     - @profile.graphs.each do |graph|
       - id       = URI.escape(graph.id)
