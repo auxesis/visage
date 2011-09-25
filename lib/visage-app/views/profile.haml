@@ -18,6 +18,7 @@
     $('edit').addEvent('click', function(e) {
       e.stop();
       $('chart-builder-slider').setStyle('height', 'auto').fade('in');
+      e.target.destroy();
     });
   });
 
