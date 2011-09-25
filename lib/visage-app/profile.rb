@@ -44,10 +44,10 @@ module Visage
     def save
       if valid?
         # Construct record.
-        attrs = { :hosts => @options[:hosts],
-                  :metrics => @options[:metrics],
+        attrs = { :hosts        => @options[:hosts],
+                  :metrics      => @options[:metrics],
                   :profile_name => @options[:profile_name],
-                  :url => @options[:profile_name].downcase.gsub(/[^\w]+/, "+") }
+                  :url          => @options[:profile_name].downcase.gsub(/[^\w]+/, "+") }
 
         # Save it.
         profiles = self.class.load
