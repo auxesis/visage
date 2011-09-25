@@ -54,6 +54,7 @@ module Visage
         profiles[attrs[:url]] = attrs
 
         Visage::Config::File.open('profiles.yaml') do |file|
+          file.truncate(0)
           file << profiles.to_yaml
         end
 
