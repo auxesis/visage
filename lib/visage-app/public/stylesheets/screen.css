@@ -237,7 +237,7 @@ div.builder ul.results li.all.active {
 div#graphs {
   clear: both;
   padding: 0 2em;
-  border-top: 1px dashed #babdb6;
+  /* border-top: 1px dashed #babdb6; */
   margin: 16px 0;
 }
 
@@ -428,4 +428,16 @@ input[type="button"]::-moz-focus-inner,
 input[type="submit"]::-moz-focus-inner,
 input[type="file"] > input[type="button"]::-moz-focus-inner {
     border: none;
+}
+
+input#profile_name {
+  border: 1px solid #bbb;
+  font-size: 16px;
+  padding: 4px;
+  padding-top: 0;
+  width: 200px;
+  height: 20px;
+  -moz-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.25);
+  -webkit-box-shadow: 0 1px 5px rgba(0, 0, 0, 0.25);
+  float: right;
 }
