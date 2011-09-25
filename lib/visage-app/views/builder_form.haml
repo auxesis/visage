@@ -1,0 +1,14 @@
+%div#chart-builder
+  %div#hosts.builder
+    %h2 Hosts
+    %img{:src => link_to("/images/hosts.png"), :class => "icon hosts"}
+    %div.search
+
+  %div#metrics.builder
+    %h2 Metrics
+    %img{:src => link_to("/images/metrics.png"), :class => "icon metrics"}
+    %div.search
+
+  %input#show{:value => "Show graphs", :type => "button", :class => "button"}
+
+  %div#graph
