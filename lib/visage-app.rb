@@ -32,7 +32,7 @@ module Visage
         c['types']  = ENV["TYPES"] ? Visage::Types.new(:filename => ENV["TYPES"]) : Visage::Types.new
       end
 
-      # Load up the profile.yaml. Creates it if it doesn't already exist.
+      # Load up the profiles.yaml. Creates it if it doesn't already exist.
       Visage::Profile.load
     end
   end
