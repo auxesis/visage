@@ -273,6 +273,10 @@ div#chart-builder-slider {
   clear: both;
 }
 
+div#profile {
+  clear: both;
+}
+
 h2#profile_name {
   margin: 36px 0;
 }
