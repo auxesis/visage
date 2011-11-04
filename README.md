@@ -168,3 +168,10 @@ permission to distribute Highcharts under the GPLv2 as part of Visage.
 If you ever need an excellent JavaScript charting library, please consider
 purchasing a [commercial license](http://highcharts.com/license) for
 Highcharts.
+
+TODO
+----
+
+ - add natural language support for timeframes (1 week ago)
+ - add sparklines to profile view
+ - add checkbox to enable live updates on all graphs
