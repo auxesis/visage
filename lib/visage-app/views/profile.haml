@@ -34,7 +34,7 @@
         %img{:src => link_to("/images/loader.gif")}
         :javascript
           window.addEvent('domready', function() {
-            var graph = new visageGraph('#{id}', '#{host}', '#{plugin}', {
+            var graph = new VisageGraph('#{id}', '#{host}', '#{plugin}', {
               pluginInstance: '#{instance}',
               start:          '#{@start}',
               finish:         '#{@finish}',
