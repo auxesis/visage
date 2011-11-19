@@ -202,6 +202,7 @@ div.builder ul.results {
   font-family: Lucida Grande, sans-serif;
   font-size:   16px;
   position:    absolute;
+  z-index:     10;
 }
 
 div.builder ul.results li {
