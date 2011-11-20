@@ -17,6 +17,17 @@ class CollectdJSON
     @types  = opts[:types]  || CollectdJSON.types
   end
 
+  def parse_time(time, opts={})
+    case
+    when time && time.index('.')
+      time.split('.').first
+    when time
+      time
+    else
+     opts[:default] || Time.now.to_i
+    end
+  end
+
   # Entry point.
   def json(opts={})
     host             = opts[:host]
@@ -24,26 +35,9 @@ class CollectdJSON
     plugin_instances = opts[:plugin_instances][/\w.*/]
     instances        = plugin_instances.blank? ? '*' : '{' + plugin_instances.split('/').join(',') + '}'
     rrdglob          = "#{@rrddir}/#{host}/#{plugin}/#{instances}.rrd"
-
-    start = case
-    when opts[:start] && opts[:start].index('.')
-      opts[:start].split('.').first
-    when opts[:start]
-      opts[:start]
-    else
-      (Time.now - 3600).to_i
-    end
-
-    finish = case
-    when opts[:finish] && opts[:finish].index('.')
-      opts[:finish].split('.').first
-    when opts[:finish]
-      opts[:finish]
-    else
-      Time.now.to_i
-    end
-
-    data = []
+    start            = parse_time(opts[:start],  :default => (Time.now - 3600).to_i)
+    finish           = parse_time(opts[:finish])
+    data             = []
 
     Dir.glob(rrdglob).map do |rrdname|
       parts         = rrdname.gsub(/#{@rrddir}\//, '').split('/')
