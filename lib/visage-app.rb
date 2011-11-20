@@ -113,7 +113,7 @@ module Visage
       start     = params[:start]
       finish    = params[:finish]
 
-      collectd = CollectdJSON.new(:rrddir => Visage::Config.rrddir)
+      collectd = Visage::Collectd::JSON.new(:rrddir => Visage::Config.rrddir)
       json = collectd.json(:host      => host,
                            :plugin    => plugin,
                            :instances => instances,
