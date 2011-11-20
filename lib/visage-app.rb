@@ -45,8 +45,6 @@ module Visage
     get '/profiles/:url' do
       @profile = Visage::Profile.get(params[:url])
       raise Sinatra::NotFound unless @profile
-      @start  = params[:start]
-      @finish = params[:finish]
       haml :profile
     end
 
