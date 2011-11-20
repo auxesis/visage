@@ -36,8 +36,6 @@
           window.addEvent('domready', function() {
             var graph = new VisageGraph('#{id}', '#{host}', '#{plugin}', {
               pluginInstance: '#{instance}',
-              start:          '#{@start}',
-              finish:         '#{@finish}',
               #{ "baseurl: '" + ENV['BASE_URL'].gsub(/^\//, '') if ENV['BASE_URL'] }
             });
           });
