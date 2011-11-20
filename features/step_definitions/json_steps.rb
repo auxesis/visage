@@ -144,3 +144,34 @@ Then /^the JSON should have a list of types$/ do
   end
 end
 
+
+When /^I visit "([^"]*)" on the first available host with the following query parameters:$/ do |glob, table|
+  host = @response["hosts"].first
+  url  = "/data/#{host}/#{glob}"
+
+  params = Hash[table.hashes.map { |hash| [hash["parameter"], hash["value"]] }]
+  query  = params.map{|k,v| "#{CGI.escape(k)}=#{CGI.escape(v)}"}.join("&")
+  url   += "?#{query}"
+
+  When "I go to #{url}"
+end
+
+Then /^I should see the following parameters for each plugin instance:$/ do |table|
+  params = Hash[table.hashes.map { |hash| [hash["parameter"], hash["value"]] }]
+
+  @response.should_not be_nil
+
+  @response.each_pair do |host, plugin|
+    plugin.each_pair do |instance, metric|
+      metric.each_pair do |k, series|
+        series.each_pair do |k, data|
+          params.each do |key, value|
+            data[key].should == value.to_i
+          end
+        end
+      end
+    end
+  end
+
+end
+

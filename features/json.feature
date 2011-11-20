@@ -61,3 +61,28 @@ Feature: Export data
     Then I should receive valid JSON
     And I should see multiple hosts
 
+  Scenario: Retrieve data with a defined start time
+    Given a list of hosts exist
+    When I visit "disk*/disk_ops" on the first available host with the following query parameters:
+      | parameter | value |
+      | start     | 1     |
+      | finish    | 1321773292 |
+    Then the request should succeed
+    Then I should receive valid JSON
+    And I should see the following parameters for each plugin instance:
+      | parameter | value |
+      | start     | 1     |
+      | finish    | 1321773292 |
+
+  Scenario: Retrieve data with a defined finish time
+    Given a list of hosts exist
+    When I visit "disk*/disk_ops" on the first available host with the following query parameters:
+      | parameter | value      |
+      | finish    | 1321773292 |
+    Then the request should succeed
+    Then I should receive valid JSON
+    And I should see the following parameters for each plugin instance:
+      | parameter | value      |
+      | start     | 1321769692 |
+      | finish    | 1321773292 |
+
