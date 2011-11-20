@@ -84,7 +84,7 @@ module Visage
       end
     end
 
-    # infrastructure for embedding
+    # Infrastructure for embedding.
     get '/javascripts/visage.js' do
       javascript = ""
       %w{raphael-min g.raphael g.line mootools-1.2.3-core mootools-1.2.3.1-more graph}.each do |js|
@@ -138,7 +138,7 @@ module Visage
       maybe_wrap_with_callback(json)
     end
 
-    # wraps json with a callback method that JSONP clients can call
+    # Wraps json with a callback method that JSON-P clients can call.
     def maybe_wrap_with_callback(json)
       params[:callback] ? params[:callback] + '(' + json + ')' : json
     end
