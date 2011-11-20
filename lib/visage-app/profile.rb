@@ -11,6 +11,15 @@ module Visage
     attr_reader :options, :selected_hosts, :hosts, :selected_metrics, :metrics,
                 :name, :errors
 
+    def self.old_format?
+      profiles = Visage::Config::File.load('profiles.yaml', :create => true, :ignore_bundled => true) || {}
+      profiles.each_pair do |name, attrs|
+        return true if attrs[:hosts] =~ /\*/ || attrs[:metrics] =~ /\*/
+      end
+
+      false
+    end
+
     def self.load
       Visage::Config::File.load('profiles.yaml', :create => true, :ignore_bundled => true) || {}
     end

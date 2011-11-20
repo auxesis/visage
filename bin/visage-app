@@ -6,13 +6,15 @@ require 'socket'
 fqdn = Socket.gethostbyname(Socket.gethostname).first
 port = 9292
 $stdout.sync = true
-@root = Pathname.new(File.dirname(__FILE__)).parent.expand_path
+@root = (Pathname.new(__FILE__).parent.parent + 'lib').expand_path
+$: << @root.to_s
 action = ARGV[0]
 
 case action
 when "start"
   require 'rubygems'
   require 'rack'
+  require 'visage-app'
 
   puts ' _    ___'
   puts '| |  / (_)________ _____ ____'
@@ -22,18 +24,29 @@ when "start"
   puts '                 /____/'
   puts
   puts "will be running at http://#{fqdn}:#{port}/"
+
+  if Visage::Profile.old_format?
+    puts
+    puts "The Visage profile format has changed!"
+    puts "You need to upgrade your profiles."
+    puts "Please run:"
+    puts
+    puts "  #{$0} upgrade"
+    puts
+    exit 1
+  end
+
   puts
-  require @root.join('lib/visage-app')
   puts "Looking for RRDs in #{Visage::Config.rrddir}"
   puts
 
-  config = @root.join('lib/visage-app/config.ru').to_s
+  config = (@root + 'lib/visage-app/config.ru').to_s
   server = Rack::Server.new(:config => config, :Port => port, :server => "webrick")
   server.start
 when "genapache"
   require 'socket'
   fqdn = Socket.gethostbyname(Socket.gethostname).first
-  public_dir = @root.join('lib/visage-app/public')
+  public_dir = (@root + 'lib/visage-app/public').to_s
 
   puts <<-CONFIG
 <VirtualHost *>
