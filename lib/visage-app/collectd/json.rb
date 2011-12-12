@@ -18,6 +18,7 @@ module Visage
       def initialize(opts={})
         @rrddir = opts[:rrddir] || Visage::Collectd::JSON.rrddir
         @types  = opts[:types]  || Visage::Collectd::JSON.types
+        @unixsock = opts[:unixsock] || false
       end
 
       def parse_time(time, opts={})
@@ -43,17 +44,17 @@ module Visage
         start     = parse_time(opts[:start],  :default => (finish - 3600 || (Time.now - 3600).to_i))
         data      = []
 
-        ids = ""
-        seperate_instances.each do |identifier|
-          ids = ids+" identifier=\"#{host}/#{plugin}/#{identifier}\""
-        end
+        if @unixsock then 
+          ids = ""
+          seperate_instances.each do |identifier|
+            ids = ids+" identifier=\"#{host}/#{plugin}/#{identifier}\""
+          end
 
-        socket = UNIXSocket.new("/var/run/collectd-unixsock")
-        socket.puts "FLUSH #{ids}"
-        puts "FLUSH #{ids}"
-        line = socket.gets
-        puts line
-        socket.close
+          socket = UNIXSocket.new(@unixsock)
+          socket.puts "FLUSH #{ids}"
+          line = socket.gets
+          socket.close
+        end
 
         Dir.glob(rrdglob).map do |rrdname|
           parts         = rrdname.gsub(/#{@rrddir}\//, '').split('/')
