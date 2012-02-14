@@ -44,23 +44,19 @@ module Visage
         start     = parse_time(opts[:start],  :default => (finish - 3600 || (Time.now - 3600).to_i))
         data      = []
 
-        if @unixsock then 
-          ids = ""
-          seperate_instances.each do |identifier|
-            ids = ids+" identifier=\"#{host}/#{plugin}/#{identifier}\""
-          end
-
-          socket = UNIXSocket.new(@unixsock)
-          socket.puts "FLUSH #{ids}"
-          line = socket.gets
-          socket.close
-        end
-
         Dir.glob(rrdglob).map do |rrdname|
           parts         = rrdname.gsub(/#{@rrddir}\//, '').split('/')
           host_name     = parts[0]
           plugin_name   = parts[1]
           instance_name = File.basename(parts[2], '.rrd')
+
+          if @unixsock then
+            socket = UNIXSocket.new(@unixsock)
+            socket.puts "FLUSH #{rrdname}"
+            line = socket.gets
+            socket.close
+          end
+
           rrd           = Errand.new(:filename => rrdname)
 
           data << {  :plugin => plugin_name, :instance => instance_name,
