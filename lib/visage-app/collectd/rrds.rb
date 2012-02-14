@@ -21,6 +21,8 @@ module Visage
             glob = "{#{hosts}}"
           when Array
             glob = "{#{opts[:hosts].join(',')}}"
+          when String
+            glob = "#{hosts}"
           else
             glob = "*"
           end

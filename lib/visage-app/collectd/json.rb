@@ -5,6 +5,7 @@ $: << @root.to_s
 require 'lib/visage-app/patches'
 require 'errand'
 require 'yajl'
+require 'socket'
 
 # Exposes RRDs as JSON.
 #
@@ -17,6 +18,7 @@ module Visage
       def initialize(opts={})
         @rrddir = opts[:rrddir] || Visage::Collectd::JSON.rrddir
         @types  = opts[:types]  || Visage::Collectd::JSON.types
+        @unixsock = opts[:unixsock] || false
       end
 
       def parse_time(time, opts={})
@@ -35,6 +37,7 @@ module Visage
         host      = opts[:host]
         plugin    = opts[:plugin]
         instances = opts[:instances][/\w.*/]
+        seperate_instances = instances.split(',')
         instances = instances.blank? ? '*' : '{' + instances.split('/').join(',') + '}'
         rrdglob   = "#{@rrddir}/#{host}/#{plugin}/#{instances}.rrd"
         finish    = parse_time(opts[:finish])
@@ -46,6 +49,14 @@ module Visage
           host_name     = parts[0]
           plugin_name   = parts[1]
           instance_name = File.basename(parts[2], '.rrd')
+
+          if @unixsock then
+            socket = UNIXSocket.new(@unixsock)
+            socket.puts "FLUSH #{rrdname}"
+            line = socket.gets
+            socket.close
+          end
+
           rrd           = Errand.new(:filename => rrdname)
 
           data << {  :plugin => plugin_name, :instance => instance_name,
