@@ -52,14 +52,14 @@ module Visage
           if @collectdsock then
             socket = UNIXSocket.new(@collectdsock)
             socket.puts "FLUSH \"#{host_name}/#{plugin_name}/#{instance_name}\""
-            socket.gets
+            socket.gets 
             socket.close
           end
  
           if @rrdcachedsock then
             socket = UNIXSocket.new(@rrdcachedsock)
             socket.puts "FLUSH #{rrdname}"
-            socket.gets // don't care what gets returned
+            socket.gets
             socket.close
           end
 
