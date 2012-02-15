@@ -18,7 +18,7 @@ module Visage
         @rrddir = opts[:rrddir] || Visage::Collectd::JSON.rrddir
         @types  = opts[:types]  || Visage::Collectd::JSON.types
         @collectdsock = opts[:collectdsock] || Visage::Collectd::JSON.collectdsock
-        @rrdcachesock = opts[:rrdcachedsock] || Visage::Collectd::JSON.rrdcachedsock
+        @rrdcachedsock = opts[:rrdcachedsock] || Visage::Collectd::JSON.rrdcachedsock
       end
 
       def parse_time(time, opts={})
