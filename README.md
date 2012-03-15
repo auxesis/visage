@@ -37,6 +37,8 @@ On CentOS, to install dependencies run:
 
 If you are using Ruby Enterprise Edition, instead of installing librrd-ruby or ruby-RRDtool, run
 
+    $ sudo apt-get install librrd-dev
+
     $ gem install librrd
 
 Then install the app with:
@@ -86,7 +88,8 @@ Copypasta this into your system's Apache config structure and tune to taste.
 To do this on Debian/Ubuntu:
 
     $ sudo -s
-    $ visage-app genapache > /etc/apache2/sites-enabled/visage
+    $ visage-app genapache > /etc/apache2/sites-available/visage
+    $ a2ensite visage
     $ a2dissite default
     $ service apache2 reload
 
