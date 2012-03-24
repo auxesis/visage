@@ -3,6 +3,8 @@
  - Backwards incompatible profile.yaml file format change
  - Chart performance optimisations
  - Visual improvements to chart layout + design
+ - Bump versions of dependencies
+ - Improve the installation documentation for non-Ubuntu platforms
 
 1.0.0 (e11234a) - Sat Jun 11 07:56:08 2011 +1000
 
