@@ -9,6 +9,19 @@ Cucumber::Rake::Task.new(:features) do |t|
   t.cucumber_opts = "features --format pretty"
 end
 
+desc "build gem"
+task :build do
+  build_output = `gem build visage-app.gemspec`
+  puts build_output
+
+  gem_filename = build_output[/File: (.*)/,1]
+  pkg_path = "pkg"
+  FileUtils.mkdir_p(pkg_path)
+  FileUtils.mv(gem_filename, pkg_path)
+
+  puts "Gem built in #{pkg_path}/#{gem_filename}"
+end
+
 desc "push gem"
 task :push => :lintian do
   filenames = Dir.glob("pkg/*.gem")
