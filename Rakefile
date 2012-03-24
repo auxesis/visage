@@ -1,6 +1,13 @@
 #!/usr/bin/env ruby
 
 require 'rubygems'
+require 'bundler/setup'
+require 'cucumber'
+require 'cucumber/rake/task'
+
+Cucumber::Rake::Task.new(:features) do |t|
+  t.cucumber_opts = "features --format pretty"
+end
 
 desc "push gem"
 task :push => :lintian do
