@@ -18,8 +18,8 @@ require 'yajl/json_gem'
 module Visage
   class Application < Sinatra::Base
     @root = Pathname.new(File.dirname(__FILE__)).parent.expand_path
-    set :public, @root.join('lib/visage-app/public')
-    set :views,  @root.join('lib/visage-app/views')
+    set :public_folder, @root.join('lib/visage-app/public')
+    set :views,         @root.join('lib/visage-app/views')
 
     helpers Sinatra::LinkToHelper
     helpers Sinatra::PageTitleHelper
