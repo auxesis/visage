@@ -33,19 +33,41 @@ On Ubuntu, to install dependencies run:
 sudo apt-get install -y build-essential librrd-ruby ruby ruby-dev rubygems collectd
 ```
 
-### CentOS ###
+Then install the app with:
 
-On CentOS, to install dependencies run:
+``` bash
+gem install visage-app
+```
+
+### CentOS/RHEL ###
+
+#### CentOS/RHEL 5 ####
+Visage uses [yajl-ruby](https://github.com/brianmario/yajl-ruby) to work with
+JSON, which requires Ruby >= 1.8.6. CentOS/RHEL 5 ship with Ruby 1.8.5, so you
+will need to use [Ruby Enterprise Edition](http://www.rubyenterpriseedition.com/).
+
+Endpoint provide packages for REE and a [Yum repository](https://packages.endpoint.com/)
+to ease installation.
+
+Follow the above instructions for installing REE, and then run:
+
+``` bash
+sudo yum install -y librrd-dev ruby rubygems collectd
+gem install librrd
+```
+
+Then install the app with:
+
+``` bash
+gem install visage-app
+```
+
+#### CentOS/RHEL 6+ ####
+
+On CentOS 6, to install dependencies run:
 
 ``` bash
 sudo yum install -y ruby-RRDtool ruby rubygems collectd
-```
-
-If you are using Ruby Enterprise Edition, instead of installing librrd-ruby or ruby-RRDtool, run
-
-``` bash
-sudo apt-get install librrd-dev
-gem install librrd
 ```
 
 Then install the app with:
@@ -56,8 +78,9 @@ gem install visage-app
 
 ### Mac OS X ###
 
-Visage is not supported on Mac OS X, as RRDtool is a pain in the arse. It's
-highly recommended you use Vagrant to fire up an Ubuntu box to run Visage.
+Visage is not supported on Mac OS X, as RRDtool is a pain in the arse on that
+platform. It's highly recommended you use [Vagrant](http://vagrantup.com/) to
+fire up an Ubuntu box to run Visage.
 
 
 Running
