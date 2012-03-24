@@ -5,7 +5,6 @@ pkg/*
 *~
 .#*
 webrat*
-visage-app.gemspec
 lib/visage-app/config/profiles.yaml
 _site
 features/data/config/*/*.yaml
