@@ -34,7 +34,7 @@ When /^I start the visage server helper with "([^"]*)" and the following variabl
       ENV[variable] = value
     end
   end
-  When %(I start the visage server helper with "#{cmd}")
+  step %(I start the visage server helper with "#{cmd}")
 end
 
 Then /^I should see a file at "([^"]*)"$/ do |filename|
