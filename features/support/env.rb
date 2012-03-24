@@ -10,7 +10,7 @@ require 'spec/expectations'
 require 'rack/test'
 require 'webrat'
 
-ENV['CONFIG_PATH'] = @root.join('features/data/config/default')
+ENV['CONFIG_PATH'] = @root.join('features/support/config/default')
 
 require app_file
 # Force the application name because polyglot breaks the auto-detection logic.
