@@ -209,7 +209,7 @@ bundle install
 Run all cucumber features:
 
 ``` bash
-rake cucumber
+rake features
 ```
 
 And run the app with:
