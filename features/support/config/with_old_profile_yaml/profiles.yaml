@@ -1,335 +1,116 @@
----
-cpu+on+bar+flapjack+worker01+:
-  :metrics:
-  - cpu-0/cpu-wait
-  - cpu-0/cpu-interrupt
-  - cpu-0/cpu-nice
-  - cpu-0/cpu-softirq
-  - cpu-0/cpu-steal
-  - cpu-0/cpu-system
-  - cpu-0/cpu-user
-  :hosts:
-  - bar
-  - flapjack-worker01
-  :profile_name: "cpu on bar + flapjack-worker01 "
-  :url: cpu+on+bar+flapjack+worker01+
-load+on+ubuntu+localdomain:
-  :metrics:
-  - load/load
-  :hosts:
-  - ubuntu.localdomain
-  :profile_name: load on ubuntu.localdomain
+--- 
+zend+tail+on+ubuntu: 
+  :metrics: tail*/*
+  :hosts: ubuntu.localdomain
+  :url: zend+tail+on+ubuntu
+  :profile_name: zend tail on ubuntu
+load+on+ubuntu+localdomain: 
+  :metrics: load/*
+  :hosts: ubuntu.localdomain
   :url: load+on+ubuntu+localdomain
-apache+stats+on+all+flapjack+workers:
-  :metrics:
-  - apache/apache_scoreboard-starting
-  - apache/apache_scoreboard-logging
-  - apache/apache_scoreboard-sending
-  - apache/apache_scoreboard-open
-  - apache/apache_scoreboard-closing
-  - apache/apache_scoreboard-waiting
-  - apache/apache_scoreboard-reading
-  - apache/apache_scoreboard-keepalive
-  - apache/apache_bytes
-  - apache/apache_scoreboard-dnslookup
-  - apache/apache_requests
-  - apache/apache_scoreboard-finishing
-  - apache/apache_scoreboard-idle_cleanup
-  :hosts:
-  - flapjack-worker01
-  - flapjack-worker02
-  - flapjack-worker03
-  - flapjack-worker04
-  - flapjack-worker05
-  - flapjack-worker06
-  :profile_name: apache stats on all flapjack workers
-  :url: apache+stats+on+all+flapjack+workers
-cpu+on+blah+and+foo:
-  :metrics:
-  - cpu-0/cpu-softirq
-  - cpu-0/cpu-user
-  - cpu-0/cpu-wait
-  - cpu-0/cpu-system
-  - cpu-0/cpu-nice
-  - cpu-0/cpu-steal
-  - cpu-0/cpu-interrupt
-  :hosts:
-  - blah
-  - foo
-  :profile_name: cpu on blah and foo
-  :url: cpu+on+blah+and+foo
-cpu+load+on+blah+foo:
-  :metrics:
-  - cpu-0/cpu-softirq
-  - cpu-0/cpu-idle
-  - load/load
-  - cpu-0/cpu-steal
-  - cpu-0/cpu-system
-  - cpu-0/cpu-user
-  - cpu-0/cpu-wait
-  - cpu-0/cpu-interrupt
-  - cpu-0/cpu-nice
-  :hosts:
-  - blah
-  - foo
-  :profile_name: cpu + load on blah + foo
-  :url: cpu+load+on+blah+foo
-cpu+memory+on+blah:
-  :metrics:
-  - cpu-0/cpu-steal
-  - memory/memory-used
-  - cpu-0/cpu-system
-  - memory/memory-buffered
-  - memory/memory-cached
-  - cpu-0/cpu-user
-  - cpu-0/cpu-wait
-  - cpu-0/cpu-idle
-  - cpu-0/cpu-interrupt
-  - cpu-0/cpu-nice
-  - memory/memory-free
-  - cpu-0/cpu-softirq
-  :hosts:
-  - blah
-  :profile_name: cpu + memory on blah
-  :url: cpu+memory+on+blah
-all+on+all:
-  :metrics: []
-
-  :hosts:
-  - bar
-  - baz
-  - blah
-  - doom
-  - flapjack-worker01
-  - flapjack-worker02
-  - flapjack-worker03
-  - flapjack-worker04
-  - flapjack-worker05
-  - flapjack-worker06
-  - foo
-  - spoons
-  - ubuntu.localdomain
-  :profile_name: all on all
+  :profile_name: load on ubuntu.localdomain
+apache+on+blah: 
+  :metrics: apache/*
+  :hosts: blah
+  :url: apache+on+blah
+  :profile_name: apache on blah
+interfaces+on+blah: 
+  :metrics: interface/*
+  :hosts: blah
+  :url: interfaces+on+blah
+  :profile_name: interfaces on blah
+all+on+all: 
+  :metrics: "*"
+  :hosts: "*"
   :url: all+on+all
-cpu+on+bar+worker+:
-  :metrics:
-  - cpu-0/cpu-idle
-  - cpu-0/cpu-steal
-  - cpu-0/cpu-softirq
-  - cpu-0/cpu-user
-  - cpu-0/cpu-system
-  - cpu-0/cpu-nice
-  - cpu-0/cpu-wait
-  - cpu-0/cpu-interrupt
-  :hosts:
-  - bar
-  :profile_name: cpu on bar + worker*
-  :url: cpu+on+bar+worker+
-spf+dns+queries+on+ubuntu:
-  :metrics:
-  - dns/dns_qtype-#99
-  :hosts:
-  - ubuntu.localdomain
-  :profile_name: SPF DNS queries on ubuntu
-  :url: spf+dns+queries+on+ubuntu
-foobar:
-  :metrics:
-  - cpu-0/cpu-nice
-  - cpu-0/cpu-softirq
-  - cpu-0/cpu-steal
-  - cpu-0/cpu-idle
-  - cpu-0/cpu-system
-  - cpu-0/cpu-user
-  - cpu-0/cpu-wait
-  - cpu-0/cpu-interrupt
-  :hosts:
-  - blah
-  :profile_name: foobar
-  :url: foobar
-foo:
-  :metrics:
-  - cpu-0/cpu-steal
-  - cpu-0/cpu-idle
-  - cpu-0/cpu-system
-  - cpu-0/cpu-user
-  - cpu-0/cpu-wait
-  - cpu-0/cpu-interrupt
-  - cpu-0/cpu-nice
-  - cpu-0/cpu-softirq
-  :hosts:
-  - blah
-  :profile_name: foo
-  :url: foo
-processes+on+blah:
-  :metrics:
-  - processes/ps_state-zombies
-  - processes/ps_state-running
-  - processes/ps_state-blocked
-  - processes/ps_state-stopped
-  - processes/ps_state-paging
-  - processes/ps_state-sleeping
-  :hosts:
-  - ubuntu.localdomain
-  :profile_name: processes on blah
+  :profile_name: all on all
+object+space+on+ree: 
+  :metrics: curl_json-object_space/*
+  :hosts: ubuntu*
+  :url: object+space+on+ree
+  :profile_name: Object space on REE
+disk+sda+on+ubuntu: 
+  :metrics: disk-sda/*
+  :hosts: ubuntu.localdomain
+  :url: disk+sda+on+ubuntu
+  :profile_name: disk-sda on ubuntu
+gc+on+ree: 
+  :metrics: curl_json-gc/*
+  :hosts: ubuntu*
+  :url: gc+on+ree
+  :profile_name: GC on REE
+gateway+ping+from+blah: 
+  :metrics: ping/*
+  :hosts: blah
+  :url: gateway+ping+from+blah
+  :profile_name: gateway ping from blah
+tcpconns+on+ubuntu: 
+  :metrics: tcpconns*/*
+  :hosts: ubuntu*
+  :url: tcpconns+on+ubuntu
+  :profile_name: tcpconns on ubuntu
+entropy+on+blah: 
+  :metrics: entropy/*
+  :hosts: blah
+  :url: entropy+on+blah
+  :profile_name: entropy on blah
+memory+on+ubunttu: 
+  :metrics: memory/*
+  :hosts: ubuntu*
+  :url: memory+on+ubunttu
+  :profile_name: memory on ubunttu
+processes+on+blah: 
+  :metrics: processes/*
+  :hosts: blah
   :url: processes+on+blah
-wide+variance+in+values:
-  :metrics:
-  - vmem/vmpage_number-dirty
-  :hosts:
-  - ubuntu.localdomain
-  :profile_name: wide variance in values
-  :url: wide+variance+in+values
-sda+on+ubuntu:
-  :metrics:
-  - disk-sda/disk_ops
-  - disk-sda/disk_time
-  - disk-sda/disk_merged
-  - disk-sda/disk_octets
-  :hosts:
-  - ubuntu.localdomain
-  :profile_name: sda on ubuntu
-  :url: sda+on+ubuntu
-ruby+gc+on+ubuntu+localdomain:
-  :metrics:
-  - curl_json-gc/counter--growth
-  - curl_json-gc/counter--collections
-  - curl_json-gc/counter--num_allocations
-  - curl_json-gc/counter--allocated_size
-  :hosts:
-  - ubuntu.localdomain
-  :profile_name: Ruby GC on ubuntu.localdomain
+  :profile_name: processes on blah
+ruby+gc+on+ubuntu+localdomain: 
+  :metrics: curl_json-gc/*
+  :hosts: ubuntu*
   :url: ruby+gc+on+ubuntu+localdomain
-cpu+on+ubuntu+:
-  :metrics:
-  - cpu-0/cpu-idle
-  - cpu-0/cpu-steal
-  - cpu-0/cpu-softirq
-  - cpu-0/cpu-user
-  - cpu-0/cpu-system
-  - cpu-0/cpu-nice
-  - cpu-0/cpu-wait
-  - cpu-0/cpu-interrupt
-  :hosts:
-  - ubuntu.localdomain
-  :profile_name: "cpu on ubuntu "
-  :url: cpu+on+ubuntu+
-swap+on+ubuntu:
-  :metrics:
-  - swap/swap-cached
-  - swap/swap-used
-  - swap/swap_io-out
-  - swap/swap-free
-  - swap/swap_io-in
-  :hosts:
-  - ubuntu.localdomain
-  :profile_name: swap on ubuntu
-  :url: swap+on+ubuntu
-load+on+blah+baz+bar:
-  :metrics:
-  - load/load
-  :hosts:
-  - blah
-  - bar
-  - baz
-  :profile_name: load on blah + baz + bar
-  :url: load+on+blah+baz+bar
-cpu+on+blah+doom:
-  :metrics:
-  - cpu-0/cpu-steal
-  - cpu-0/cpu-system
-  - cpu-0/cpu-user
-  - cpu-0/cpu-wait
-  - cpu-0/cpu-idle
-  - cpu-0/cpu-interrupt
-  - cpu-0/cpu-nice
-  - cpu-0/cpu-softirq
-  :hosts:
-  - blah
-  - doom
-  :profile_name: cpu on blah + doom
-  :url: cpu+on+blah+doom
-cpu+on+blah:
-  :metrics:
-  - cpu-0/cpu-system
-  - cpu-0/cpu-user
-  - cpu-0/cpu-wait
-  - cpu-0/cpu-interrupt
-  - cpu-0/cpu-nice
-  - cpu-0/cpu-softirq
-  - cpu-0/cpu-steal
-  :hosts:
-  - blah
-  :profile_name: cpu on blah
-  :url: cpu+on+blah
-df+var+run+and+df+root+on+ubuntu:
-  :metrics:
-  - df/df-root
-  - df/df-var-run
-  :hosts:
-  - ubuntu.localdomain
-  :profile_name: df-var-run and df-root on ubuntu
-  :url: df+var+run+and+df+root+on+ubuntu
-memory+and+cpu+on+ubuntu:
-  :metrics:
-  - memory/memory-buffered
-  - memory/memory-cached
-  - memory/memory-free
-  - memory/memory-used
-  - cpu-0/cpu-idle
-  - cpu-0/cpu-steal
-  - cpu-0/cpu-softirq
-  - cpu-0/cpu-user
-  - cpu-0/cpu-system
-  - cpu-0/cpu-nice
-  - cpu-0/cpu-wait
-  - cpu-0/cpu-interrupt
-  :hosts:
-  - ubuntu.localdomain
-  :profile_name: memory and cpu on ubuntu
-  :url: memory+and+cpu+on+ubuntu
-cpu+no+idle+on+blah+doom:
-  :metrics:
-  - cpu-0/cpu-interrupt
-  - cpu-0/cpu-nice
-  - cpu-0/cpu-softirq
-  - cpu-0/cpu-steal
-  - cpu-0/cpu-system
-  - cpu-0/cpu-user
-  - cpu-0/cpu-wait
-  :hosts:
-  - blah
-  - doom
-  :profile_name: cpu (no idle) on blah + doom
-  :url: cpu+no+idle+on+blah+doom
-vmem+on+blah:
-  :metrics:
-  - vmem/vmpage_number-writeback_temp
-  - vmem/vmpage_number-file_pages
-  - vmem/vmpage_number-mlock
-  - vmem/vmpage_number-unstable
-  - vmem/vmpage_number-kernel_stack
-  - vmem/vmpage_io-swap
-  - vmem/vmpage_number-free_pages
-  - vmem/vmpage_number-vmscan_write
-  - vmem/vmpage_io-memory
-  - vmem/vmpage_number-inactive_anon
-  - vmem/vmpage_faults
-  - vmem/vmpage_number-unevictable
-  - vmem/vmpage_number-slab_unreclaimable
-  - vmem/vmpage_number-mapped
-  - vmem/vmpage_number-page_table_pages
-  - vmem/vmpage_number-anon_pages
-  - vmem/vmpage_number-isolated_file
-  - vmem/vmpage_number-isolated_anon
-  - vmem/vmpage_number-inactive_file
-  - vmem/vmpage_number-active_anon
-  - vmem/vmpage_number-dirty
-  - vmem/vmpage_number-shmem
-  - vmem/vmpage_number-slab_reclaimable
-  - vmem/vmpage_number-writeback
-  - vmem/vmpage_number-bounce
-  - vmem/vmpage_number-active_file
-  :hosts:
-  - blah
-  :profile_name: vmem on blah
+  :profile_name: Ruby GC on ubuntu.localdomain
+cpu+statistics+for+ubuntu+localdomain: 
+  :metrics: cpu*/*
+  :hosts: ubuntu*
+  :url: cpu+statistics+for+ubuntu+localdomain
+  :profile_name: CPU statistics for ubuntu.localdomain
+swap+on+blah: 
+  :metrics: swap/*
+  :hosts: blah
+  :url: swap+on+blah
+  :profile_name: swap on blah
+cpu+and+load+on+ubuntu: 
+  :metrics: cpu*/*,load/*
+  :hosts: ubuntu*
+  :url: cpu+and+load+on+ubuntu
+  :profile_name: cpu and load on ubuntu
+cpu+on+flapjack+workers: 
+  :metrics: cpu*/*
+  :hosts: flapjack-*
+  :url: cpu+on+flapjack+workers
+  :profile_name: cpu on flapjack workers
+memory+on+flapjack+workers+and+blah: 
+  :metrics: memory/*
+  :hosts: flapjack-worker*,blah
+  :url: memory+on+flapjack+workers+and+blah
+  :profile_name: memory on flapjack workers and blah
+uptime+on+blah: 
+  :metrics: uptime/*
+  :hosts: blah
+  :url: uptime+on+blah
+  :profile_name: uptime on blah
+users+on+blah: 
+  :metrics: users/*
+  :hosts: blah
+  :url: users+on+blah
+  :profile_name: users on blah
+irqs+on+blah: 
+  :metrics: irq/*
+  :hosts: blah
+  :url: irqs+on+blah
+  :profile_name: irqs on blah
+vmem+on+blah: 
+  :metrics: vmem/*
+  :hosts: blah
   :url: vmem+on+blah
+  :profile_name: vmem on blah
