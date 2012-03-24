@@ -29,7 +29,7 @@ module Visage
       Visage::Config.use do |c|
         # FIXME: make this configurable through file
         c['rrddir'] = ENV["RRDDIR"] ? Pathname.new(ENV["RRDDIR"]).expand_path : Pathname.new("/var/lib/collectd/rrd").expand_path
-        c['types']  = ENV["TYPES"] ? Visage::Types.new(:filename => ENV["TYPES"]) : Visage::Types.new
+        c['types']  = ENV["TYPES"]  ? Visage::Types.new(:filename => ENV["TYPES"]) : Visage::Types.new
       end
 
       # Load up the profiles.yaml. Creates it if it doesn't already exist.
