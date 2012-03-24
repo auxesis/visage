@@ -25,11 +25,15 @@ Installing
 
 N.B: Visage must be deployed on a machine where `collectd` stores its stats in RRD.
 
+### Ubuntu ###
+
 On Ubuntu, to install dependencies run:
 
 ``` bash
 sudo apt-get install -y build-essential librrd-ruby ruby ruby-dev rubygems collectd
 ```
+
+### CentOS ###
 
 On CentOS, to install dependencies run:
 
@@ -49,6 +53,12 @@ Then install the app with:
 ``` bash
 gem install visage-app
 ```
+
+### Mac OS X ###
+
+Visage is not supported on Mac OS X, as RRDtool is a pain in the arse. It's
+highly recommended you use Vagrant to fire up an Ubuntu box to run Visage.
+
 
 Running
 -------
