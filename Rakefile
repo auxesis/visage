@@ -2,16 +2,6 @@
 
 require 'rubygems'
 
-begin
-  require 'cucumber/rake/task'
-
-  Cucumber::Rake::Task.new do |t|
-    t.binary = "bin/cucumber"
-    t.cucumber_opts = "--require features/ features/"
-  end
-rescue LoadError
-end
-
 desc "push gem"
 task :push => :lintian do
   filenames = Dir.glob("pkg/*.gem")
