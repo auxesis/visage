@@ -94,10 +94,10 @@ Then /^the JSON should have a list of hosts$/ do
 end
 
 Given /^a list of hosts exist$/ do
-  When 'I go to /data'
-  Then 'the request should succeed'
-  Then 'I should receive valid JSON'
-  Then 'the JSON should have a list of hosts'
+  step 'I go to /data'
+  step 'the request should succeed'
+  step 'I should receive valid JSON'
+  step 'the JSON should have a list of hosts'
 end
 
 When /^I visit "([^"]*)" on the first available host$/ do |glob|
@@ -108,10 +108,10 @@ end
 
 
 When /^I visit the first available host$/ do
-  When 'I go to /data'
-  Then 'the request should succeed'
-  Then 'I should receive valid JSON'
-  Then 'the JSON should have a list of hosts'
+  step 'I go to /data'
+  step 'the request should succeed'
+  step 'I should receive valid JSON'
+  step 'the JSON should have a list of hosts'
 
   host = @response["hosts"].first
   url  = "/data/#{host}"
@@ -119,10 +119,10 @@ When /^I visit the first available host$/ do
 end
 
 When /^I visit the first two available hosts$/ do
-  When 'I go to /data'
-  Then 'the request should succeed'
-  Then 'I should receive valid JSON'
-  Then 'the JSON should have a list of hosts'
+  step 'I go to /data'
+  step 'the request should succeed'
+  step 'I should receive valid JSON'
+  step 'the JSON should have a list of hosts'
 
   host = @response["hosts"][0..1].join(',')
   url  = "/data/#{host}"
@@ -153,7 +153,7 @@ When /^I visit "([^"]*)" on the first available host with the following query pa
   query  = params.map{|k,v| "#{CGI.escape(k)}=#{CGI.escape(v)}"}.join("&")
   url   += "?#{query}"
 
-  When "I go to #{url}"
+  step "I go to #{url}"
 end
 
 Then /^I should see the following parameters for each plugin instance:$/ do |table|
