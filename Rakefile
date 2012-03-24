@@ -38,7 +38,7 @@ end
 
 desc "clean up various generated files"
 task :clean do
-  [ "webrat.log", "pkg/", "visage-app-*.spec", "_site/"].each do |filename|
+  [ "webrat.log", "pkg/", "_site/"].each do |filename|
     puts "Removing #{filename}"
     FileUtils.rm_rf(filename)
   end
