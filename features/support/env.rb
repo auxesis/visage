@@ -1,12 +1,11 @@
 #!/usr/bin/env ruby
 
+require 'rubygems'
 require 'pathname'
 
 @root = Pathname.new(File.dirname(__FILE__)).parent.parent.expand_path
 app_file = @root.join('lib/visage-app')
 
-require 'rubygems'
-require 'spec/expectations'
 require 'rack/test'
 require 'webrat'
 
