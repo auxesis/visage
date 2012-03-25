@@ -10,7 +10,7 @@ Cucumber::Rake::Task.new(:features) do |t|
 end
 
 desc "build gem"
-task :build do
+task :build => :lintian do
   build_output = `gem build visage-app.gemspec`
   puts build_output
 
@@ -23,7 +23,7 @@ task :build do
 end
 
 desc "push gem"
-task :push => :lintian do
+task :push do
   filenames = Dir.glob("pkg/*.gem")
   filenames_with_times = filenames.map do |filename|
     [filename, File.mtime(filename)]
