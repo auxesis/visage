@@ -38,12 +38,22 @@ end
 
 desc "perform lintian checks on the JavaScript about to be shipped"
 task :lintian do
+  @count = 0
   require 'pathname'
   @root = Pathname.new(File.dirname(__FILE__)).expand_path
   javascripts_path = @root.join('lib/visage-app/public/javascripts')
 
-  count = `grep -c 'console.log' #{javascripts_path.join('graph.js')}`.strip.to_i
-  abort("#{count} instances of console.log found in graph.js!") if count > 0
+  javascripts = Dir.glob("#{javascripts_path + "*"}.js").reject {|f| f =~ /mootools|src\.js/ }
+  javascripts.each do |filename|
+    puts "Checking #{filename}"
+    count = `grep -c 'console.log' #{filename}`.strip.to_i
+    if count > 0
+      puts "#{count} instances of console.log found in #{File.basename(filename)}"
+      @count += 1
+    end
+  end
+
+  abort if @count > 0
 end
 
 desc "clean up various generated files"
