@@ -1,5 +1,6 @@
-2.0.1 - 2012/03/26
- - Builder bugfix for [issue 92](https://github.com/auxesis/visage/issues/92)
+2.0.2 - 2012/03/26
+ - Builder bugfix for [issue 92](https://github.com/auxesis/visage/issues/92),
+   that stopped the builder from presenting the save profile dialog.
 
 2.0.0 - 2012/03/25
  - New builder interface, optimised for metric discovery + investigatory work
