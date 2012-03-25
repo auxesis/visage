@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    visage-app (2.0.0)
+    visage-app (2.0.1)
       errand (= 0.7.3)
       haml (= 3.1.4)
       sinatra (= 1.3.2)
