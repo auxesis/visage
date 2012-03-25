@@ -79,7 +79,18 @@ namespace :verify do
     end
   end
 
-  task :all => [ :lintian, :changelog ]
+  task :uncommitted do
+    uncommitted = `git ls-files -m`.split("\n")
+    if uncommitted.size > 0
+      puts "The following files are uncommitted:".red
+      uncommitted.each do |filename|
+        puts " - #{filename}".red
+      end
+      exit 1
+    end
+  end
+
+  task :all => [ :lintian, :changelog, :uncommitted ]
 end
 
 task :verify => 'verify:all'
