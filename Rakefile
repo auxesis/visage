@@ -4,13 +4,17 @@ require 'rubygems'
 require 'bundler/setup'
 require 'cucumber'
 require 'cucumber/rake/task'
+require 'colorize'
+require 'pathname'
+$: << Pathname.new(__FILE__).join('lib').expand_path.to_s
+require 'visage-app/version'
 
 Cucumber::Rake::Task.new(:features) do |t|
   t.cucumber_opts = "features --format pretty"
 end
 
 desc "build gem"
-task :build => :lintian do
+task :build => :verify do
   build_output = `gem build visage-app.gemspec`
   puts build_output
 
@@ -19,7 +23,7 @@ task :build => :lintian do
   FileUtils.mkdir_p(pkg_path)
   FileUtils.mv(gem_filename, pkg_path)
 
-  puts "Gem built in #{pkg_path}/#{gem_filename}"
+  puts "Gem built in #{pkg_path}/#{gem_filename}".green
 end
 
 desc "push gem"
@@ -36,26 +40,6 @@ task :push do
   system(command)
 end
 
-desc "perform lintian checks on the JavaScript about to be shipped"
-task :lintian do
-  @count = 0
-  require 'pathname'
-  @root = Pathname.new(File.dirname(__FILE__)).expand_path
-  javascripts_path = @root.join('lib/visage-app/public/javascripts')
-
-  javascripts = Dir.glob("#{javascripts_path + "*"}.js").reject {|f| f =~ /mootools|src\.js/ }
-  javascripts.each do |filename|
-    puts "Checking #{filename}"
-    count = `grep -c 'console.log' #{filename}`.strip.to_i
-    if count > 0
-      puts "#{count} instances of console.log found in #{File.basename(filename)}"
-      @count += 1
-    end
-  end
-
-  abort if @count > 0
-end
-
 desc "clean up various generated files"
 task :clean do
   [ "webrat.log", "pkg/", "_site/"].each do |filename|
@@ -63,3 +47,39 @@ task :clean do
     FileUtils.rm_rf(filename)
   end
 end
+
+namespace :verify do
+  desc "perform lintian checks on the JavaScript about to be shipped"
+  task :lintian do
+    @count = 0
+    require 'pathname'
+    @root = Pathname.new(File.dirname(__FILE__)).expand_path
+    javascripts_path = @root.join('lib/visage-app/public/javascripts')
+
+    javascripts = Dir.glob("#{javascripts_path + "*"}.js").reject {|f| f =~ /mootools|src\.js/ }
+    javascripts.each do |filename|
+      puts "Checking #{filename}".green
+      count = `grep -c 'console.log' #{filename}`.strip.to_i
+      if count > 0
+        puts "#{count} instances of console.log found in #{File.basename(filename)}".red
+        @count += 1
+      end
+    end
+
+    abort if @count > 0
+  end
+
+  task :changelog do
+    changelog_filename = "CHANGELOG.md"
+    version = Visage::VERSION
+
+    if not system("grep ^#{version} #{changelog_filename} 2>&1 >/dev/null")
+      puts "#{changelog_filename} doesn't have an entry for the version you are about to build.".red
+      exit 1
+    end
+  end
+
+  task :all => [ :lintian, :changelog ]
+end
+
+task :verify => 'verify:all'
