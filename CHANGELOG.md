@@ -1,4 +1,4 @@
-2.0.3 - 2012/03/26
+2.0.4 - 2012/03/27
  - Add extra input validation in the builder, so invalid data can't be entered
    into `profiles.yaml`, per [issue 92](https://github.com/auxesis/visage/issues/92)
 
