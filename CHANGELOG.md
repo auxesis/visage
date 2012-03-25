@@ -1,3 +1,7 @@
+2.0.3 - 2012/03/26
+ - Add extra input validation in the builder, so invalid data can't be entered
+   into `profiles.yaml`, per [issue 92](https://github.com/auxesis/visage/issues/92)
+
 2.0.2 - 2012/03/26
  - Builder bugfix for [issue 92](https://github.com/auxesis/visage/issues/92),
    that stopped the builder from presenting the save profile dialog.
