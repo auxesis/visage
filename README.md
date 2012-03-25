@@ -46,7 +46,7 @@ Visage uses [yajl-ruby](https://github.com/brianmario/yajl-ruby) to work with
 JSON, which requires Ruby >= 1.8.6. CentOS/RHEL 5 ship with Ruby 1.8.5, so you
 will need to use [Ruby Enterprise Edition](http://www.rubyenterpriseedition.com/).
 
-Endpoint provide packages for REE and a [Yum repository](https://packages.endpoint.com/)
+[Endpoint](http://endpoint.com) provide packages for REE and a [Yum repository](https://packages.endpoint.com/)
 to ease installation.
 
 Follow the above instructions for installing REE, and then run:
