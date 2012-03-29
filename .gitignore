@@ -8,3 +8,5 @@ webrat*
 lib/visage-app/config/profiles.yaml
 _site
 features/data/config/*/*.yaml
+vendor
+.bundle
