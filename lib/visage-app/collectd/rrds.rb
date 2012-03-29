@@ -17,7 +17,7 @@ module Visage
         def hosts(opts={})
           hosts = opts[:hosts]
           case hosts
-          when String && /,/
+          when String
             glob = "{#{hosts}}"
           when Array
             glob = "{#{opts[:hosts].join(',')}}"
@@ -41,14 +41,22 @@ module Visage
             metric_glob = "*/*"
           end
 
-          selected_hosts.map { |host|
+          dametrics = selected_hosts.map { |host|
+            p host
             Dir.glob("#{rrddir}/#{host}/#{metric_glob}.rrd").map {|filename|
               filename[/#{rrddir}\/#{host}\/(.*)\.rrd/, 1]
             }
-          }.reduce(:&)
+          }
+          if (dametrics.length) == 1
+            dametrics.first
+          else
+            dametrics.reduce(:&)
+          end
+
           #else
           #  Dir.glob("#{rrddir}/#{host_glob}/#{glob}.rrd").map {|e| e.split('/')[-2..-1].join('/').gsub(/\.rrd$/, '')}.sort.uniq
           #end
+
         end
 
       end
