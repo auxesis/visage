@@ -42,7 +42,6 @@ module Visage
           end
 
           dametrics = selected_hosts.map { |host|
-            p host
             Dir.glob("#{rrddir}/#{host}/#{metric_glob}.rrd").map {|filename|
               filename[/#{rrddir}\/#{host}\/(.*)\.rrd/, 1]
             }
