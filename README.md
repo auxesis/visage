@@ -224,6 +224,15 @@ To create and install a new gem from the current source tree:
 rake install
 ```
 
+Releasing
+---------
+
+# Bump the version in lib/visage-app/version.rb
+# Add an entry to CHANGELOG.md
+# `git commit` everything.
+# Build the gem with `rake build`
+# Push the gem to RubyGems.org with `rake push`
+
 Licencing
 ---------
 
