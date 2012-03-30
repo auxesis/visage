@@ -32,14 +32,15 @@ module Visage
 
       # Entry point.
       def json(opts={})
-        host      = opts[:host]
-        plugin    = opts[:plugin]
-        instances = opts[:instances][/\w.*/]
-        instances = instances.blank? ? '*' : '{' + instances.split('/').join(',') + '}'
-        rrdglob   = "#{@rrddir}/#{host}/#{plugin}/#{instances}.rrd"
-        finish    = parse_time(opts[:finish])
-        start     = parse_time(opts[:start],  :default => (finish - 3600 || (Time.now - 3600).to_i))
-        data      = []
+        host        = opts[:host]
+        plugin      = opts[:plugin]
+        instances   = opts[:instances][/\w.*/]
+        instances   = instances.blank? ? '*' : '{' + instances.split('/').join(',') + '}'
+        percentiles = opts[:percentile] == "true" ? true : false
+        rrdglob     = "#{@rrddir}/#{host}/#{plugin}/#{instances}.rrd"
+        finish      = parse_time(opts[:finish])
+        start       = parse_time(opts[:start],  :default => (finish - 3600 || (Time.now - 3600).to_i))
+        data        = []
 
         Dir.glob(rrdglob).map do |rrdname|
           parts         = rrdname.gsub(/#{@rrddir}\//, '').split('/')
@@ -48,14 +49,20 @@ module Visage
           instance_name = File.basename(parts[2], '.rrd')
           rrd           = Errand.new(:filename => rrdname)
 
-          data << {  :plugin => plugin_name, :instance => instance_name,
-                     :host   => host_name,
-                     :start  => start,
-                     :finish => finish,
-                     :rrd    => rrd }
+          data << {  :plugin      => plugin_name, :instance => instance_name,
+                     :host        => host_name,
+                     :start       => start,
+                     :finish      => finish,
+                     :rrd         => rrd,
+                     :percentiles => percentiles }
+
         end
 
         encode(data)
+      end
+
+      def percentile_of_array(samples, percentage)
+        samples.sort[ (samples.length.to_f * ( percentage.to_f / 100.to_f ) ).to_i - 1 ]
       end
 
       private
@@ -69,10 +76,13 @@ module Visage
                                       :start    => data[:start],
                                       :finish   => data[:finish])
           rrd_data = fetch[:data]
+          percentiles = data[:percentiles]
 
           # A single rrd can have multiple data sets (multiple metrics within
           # the same file). Separate the metrics.
           rrd_data.each_pair do |source, metric|
+
+            p "95e for #{source}: " + percentile_of_array(metric, 95)
 
             # Filter out NaNs and weirdly massive values so yajl doesn't choke
             metric.map! do |datapoint|
@@ -99,9 +109,12 @@ module Visage
             structure[host][plugin] ||= {}
             structure[host][plugin][instance] ||= {}
             structure[host][plugin][instance][source] ||= {}
-            structure[host][plugin][instance][source][:start]  ||= start
-            structure[host][plugin][instance][source][:finish] ||= finish
-            structure[host][plugin][instance][source][:data]   ||= metric
+            structure[host][plugin][instance][source][:start]         ||= start
+            structure[host][plugin][instance][source][:finish]        ||= finish
+            structure[host][plugin][instance][source][:data]          ||= metric
+            structure[host][plugin][instance][source][:percentile_95] ||= percentile_of_array(metric, 95) if percentiles
+            structure[host][plugin][instance][source][:percentile_50] ||= percentile_of_array(metric, 50) if percentiles
+            structure[host][plugin][instance][source][:percentile_5]  ||= percentile_of_array(metric,  5) if percentiles
 
           end
         end
