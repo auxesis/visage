@@ -10,3 +10,4 @@ _site
 features/data/config/*/*.yaml
 vendor
 .bundle
+.rbenv-version
