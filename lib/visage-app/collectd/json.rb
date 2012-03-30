@@ -82,10 +82,10 @@ module Visage
           # the same file). Separate the metrics.
           rrd_data.each_pair do |source, metric|
 
-            p "95e for #{source}: " + percentile_of_array(metric, 95)
-
             # Filter out NaNs and weirdly massive values so yajl doesn't choke
-            metric.map! do |datapoint|
+            # FIXME: does this actually do anything?
+            metric = metric.map do |datapoint|
+              p datapoint
               case
               when datapoint && datapoint.nan?
                 @tripped = true
@@ -96,6 +96,14 @@ module Visage
                 @last_valid = datapoint
               end
             end
+
+            #if percentiles
+              metric_numbers_only = metric.compact
+              p "metric_numbers_only length #{metric_numbers_only.length}.to_s: "
+              p metric_numbers_only
+              p "95e for #{source}: " + percentile_of_array(metric_numbers_only, 95).to_s
+            #end
+
 
             # Last value is always wack. Set to 0, so the timescale isn't off by 1.
             metric[-1] = 0.0
@@ -112,9 +120,9 @@ module Visage
             structure[host][plugin][instance][source][:start]         ||= start
             structure[host][plugin][instance][source][:finish]        ||= finish
             structure[host][plugin][instance][source][:data]          ||= metric
-            structure[host][plugin][instance][source][:percentile_95] ||= percentile_of_array(metric, 95) if percentiles
-            structure[host][plugin][instance][source][:percentile_50] ||= percentile_of_array(metric, 50) if percentiles
-            structure[host][plugin][instance][source][:percentile_5]  ||= percentile_of_array(metric,  5) if percentiles
+            structure[host][plugin][instance][source][:percentile_95] ||= percentile_of_array(metric_numbers_only, 95) #if percentiles
+            structure[host][plugin][instance][source][:percentile_50] ||= percentile_of_array(metric_numbers_only, 50) #if percentiles
+            structure[host][plugin][instance][source][:percentile_5]  ||= percentile_of_array(metric_numbers_only,  5) #if percentiles
 
           end
         end
