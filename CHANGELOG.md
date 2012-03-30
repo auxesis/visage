@@ -1,3 +1,8 @@
+2.0.5 - 2012/03/30
+ - Fix a bug where metrics occasionally won't appear in the builder interface.
+   Thanks to Jesse Reynolds for the patch!
+ - Add documentation on how to do a release, for when I get hit by a bus.
+
 2.0.4 - 2012/03/27
  - Add extra input validation in the builder, so invalid data can't be entered
    into `profiles.yaml`, per [issue 92](https://github.com/auxesis/visage/issues/92)
