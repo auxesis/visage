@@ -39,6 +39,7 @@
               #{ "baseurl: '" + ENV['BASE_URL'].gsub(/^\//, '') if ENV['BASE_URL'] }
             });
           });
+        %p Hello!
     - if @profile.graphs.size == 0
       %div.graph
         %h4.error Oops! Looks like there aren't any graphs matching the specified patterns.
