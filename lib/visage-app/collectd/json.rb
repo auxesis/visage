@@ -85,7 +85,6 @@ module Visage
             # Filter out NaNs and weirdly massive values so yajl doesn't choke
             # FIXME: does this actually do anything?
             metric = metric.map do |datapoint|
-              p datapoint
               case
               when datapoint && datapoint.nan?
                 @tripped = true
@@ -100,7 +99,7 @@ module Visage
             p "metric length #{metric.length}.to_s: "
             #if percentiles
               metric_numbers_only = metric.compact
-              p "metric_numbers_only length #{metric_numbers_only.length}.to_s: "
+              p "metric_numbers_only length: #{metric_numbers_only.length.to_s} "
               p "95e for #{source}: " + percentile_of_array(metric_numbers_only, 95).to_s
             #end
 
