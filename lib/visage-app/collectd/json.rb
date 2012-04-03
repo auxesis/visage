@@ -96,10 +96,10 @@ module Visage
               end
             end
 
-            p "metric length #{metric.length}.to_s: "
+            p "metric length: #{metric.length.to_s}"
             #if percentiles
               metric_numbers_only = metric.compact
-              p "metric_numbers_only length: #{metric_numbers_only.length.to_s} "
+              p "metric_numbers_only length: #{metric_numbers_only.length.to_s}"
               p "95e for #{source}: " + percentile_of_array(metric_numbers_only, 95).to_s
             #end
 
