@@ -195,20 +195,22 @@ module Visage
             plugin   = data[:plugin]
             instance = data[:instance]
 
-
+            # FIXME: only calculate percentiles if requested
             #if percentiles
               timeperiod = finish.to_f - start.to_f
               interval = (timeperiod / metric.length.to_f).round
               p "timeperiod: #{timeperiod}, interval: #{interval}"
-              metric_resolution = interval
+              # FIXME: get resolution from the request (which should get it from the profile)
               resolution = 300
-              if (metric_resolution < resolution) and (resolution > 0)
-                metric = downsample_array(metric, metric_resolution, resolution)
+              if (interval < resolution) and (resolution > 0)
+                metric_for_percentiles = downsample_array(metric, interval, resolution)
+              else
+                metric_for_percentiles = metric
               end
-              p "metric length: #{metric.length.to_s}"
-              metric_no_nils = metric.compact
-              p "metric_no_nils length: #{metric_no_nils.length.to_s}"
-              p "95e for #{source}: " + percentile_of_array(metric_no_nils, 95).to_s
+              p "metric_for_percentiles length: #{metric_for_percentiles.length.to_s}"
+              metric_for_percentiles.compact!
+              p "metric_for_percentiles length after compaction: #{metric_for_percentiles.length.to_s}"
+              p "95e for #{source}: " + percentile_of_array(metric_for_percentiles, 95).round.to_s
             #end
 
             if metric.length > 2000
@@ -223,9 +225,9 @@ module Visage
             structure[host][plugin][instance][source][:start]         ||= start
             structure[host][plugin][instance][source][:finish]        ||= finish
             structure[host][plugin][instance][source][:data]          ||= metric
-            structure[host][plugin][instance][source][:percentile_95] ||= percentile_of_array(metric_no_nils, 95) #if percentiles
-            structure[host][plugin][instance][source][:percentile_50] ||= percentile_of_array(metric_no_nils, 50) #if percentiles
-            structure[host][plugin][instance][source][:percentile_5]  ||= percentile_of_array(metric_no_nils,  5) #if percentiles
+            structure[host][plugin][instance][source][:percentile_95] ||= percentile_of_array(metric_for_percentiles, 95).round #if percentiles
+            structure[host][plugin][instance][source][:percentile_50] ||= percentile_of_array(metric_for_percentiles, 50).round #if percentiles
+            structure[host][plugin][instance][source][:percentile_5]  ||= percentile_of_array(metric_for_percentiles,  5).round #if percentiles
 
           end
         end
