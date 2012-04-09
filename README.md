@@ -227,11 +227,11 @@ rake install
 Releasing
 ---------
 
-# Bump the version in lib/visage-app/version.rb
-# Add an entry to CHANGELOG.md
-# `git commit` everything.
-# Build the gem with `rake build`
-# Push the gem to RubyGems.org with `rake push`
+1. Bump the version in lib/visage-app/version.rb
+2. Add an entry to CHANGELOG.md
+3. `git commit` everything.
+4. Build the gem with `rake build`
+5. Push the gem to RubyGems.org with `rake push`
 
 Licencing
 ---------
