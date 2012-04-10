@@ -9,6 +9,7 @@ require 'digest/md5'
 module Visage
   class Profile
     attr_reader :options, :selected_hosts, :hosts, :selected_metrics, :metrics,
+                :selected_percentiles, :percentiles,
                 :name, :errors
 
     def self.old_format?
@@ -41,8 +42,9 @@ module Visage
       @options = opts
       @options[:url] = @options[:profile_name] ? @options[:profile_name].downcase.gsub(/[^\w]+/, "+") : nil
       @errors = {}
-      @options[:hosts]   = @options[:hosts].values   if @options[:hosts].class   == Hash
-      @options[:metrics] = @options[:metrics].values if @options[:metrics].class == Hash
+      @options[:hosts]       = @options[:hosts].values       if @options[:hosts].class       == Hash
+      @options[:metrics]     = @options[:metrics].values     if @options[:metrics].class     == Hash
+      @options[:percentiles] = @options[:percentiles].values if @options[:percentiles].class == Hash
     end
 
     # Hashed based access to @options.
@@ -55,6 +57,7 @@ module Visage
         # Construct record.
         attrs = { :hosts        => @options[:hosts],
                   :metrics      => @options[:metrics],
+                  :percentiles  => @options[:percentiles],
                   :profile_name => @options[:profile_name],
                   :url          => @options[:profile_name].downcase.gsub(/[^\w]+/, "+") }
 
