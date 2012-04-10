@@ -9,8 +9,9 @@
 :javascript
   window.addEvent('domready', function() {
     var builder = new ChartBuilder('chart-builder', {
-      hosts:   ['#{@profile.options[:hosts].join("','")   }'],
-      metrics: ['#{@profile.options[:metrics].join("','") }']
+      hosts:       ['#{@profile.options[:hosts].join("','")   }'],
+      metrics:     ['#{@profile.options[:metrics].join("','") }'],
+      percentiles: ['#{@profile.options[:percentiles].join("','") }']
     });
 
     $('chart-builder-slider').fade('hide').setStyle('height', '0');
