@@ -39,6 +39,7 @@ module Visage
     end
 
     def initialize(opts={})
+      p opts
       @options = opts
       @options[:url] = @options[:profile_name] ? @options[:profile_name].downcase.gsub(/[^\w]+/, "+") : nil
       @errors = {}
@@ -81,9 +82,10 @@ module Visage
     end
 
     def graphs
-      graphs  = []
-      hosts   = @options[:hosts]
-      metrics = @options[:metrics]
+      graphs      = []
+      hosts       = @options[:hosts]
+      metrics     = @options[:metrics]
+      percentiles = @options[:percentiles]
 
       hosts.each do |host|
         attrs = {}
@@ -99,7 +101,8 @@ module Visage
         attrs.each_pair do |plugin, instances|
           graphs << Visage::Graph.new(:host => host,
                                       :plugin => plugin,
-                                      :instances => instances)
+                                      :instances => instances,
+                                      :percentages => percentages)
         end
       end
 

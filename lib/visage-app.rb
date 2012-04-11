@@ -21,6 +21,8 @@ module Visage
     set :public_folder, @root.join('lib/visage-app/public')
     set :views,         @root.join('lib/visage-app/views')
 
+    enable :logging
+
     helpers Sinatra::LinkToHelper
     helpers Sinatra::PageTitleHelper
     helpers Sinatra::RequireJSHelper
@@ -34,6 +36,7 @@ module Visage
 
       # Load up the profiles.yaml. Creates it if it doesn't already exist.
       Visage::Profile.load
+
     end
   end
 
@@ -44,6 +47,8 @@ module Visage
 
     get '/profiles/:url' do
       @profile = Visage::Profile.get(params[:url])
+      p 'in get /profiles/:url...@profile:'
+      p @profile
       raise Sinatra::NotFound unless @profile
       haml :profile
     end
@@ -107,6 +112,7 @@ module Visage
 
     # /data/:host/:plugin/:optional_plugin_instance
     get %r{/data/([^/]+)/([^/]+)((/[^/]+)*)} do
+      p params
       host        = params[:captures][0].gsub("\0", "")
       plugin      = params[:captures][1].gsub("\0", "")
       instances   = params[:captures][2].gsub("\0", "")

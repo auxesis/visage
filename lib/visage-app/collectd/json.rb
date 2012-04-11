@@ -77,7 +77,9 @@ module Visage
         plugin      = opts[:plugin]
         instances   = opts[:instances][/\w.*/]
         instances   = instances.blank? ? '*' : '{' + instances.split('/').join(',') + '}'
-        percentiles = opts[:percentile] == "true" ? true : false
+        percentiles = opts[:percentiles] !~ /^$|^false$/ ? true : false
+        p opts[:percentiles]
+        p percentiles
         resolution  = opts[:resolution] || ""
         rrdglob     = "#{@rrddir}/#{host}/#{plugin}/#{instances}.rrd"
         finish      = parse_time(opts[:finish])
@@ -105,7 +107,11 @@ module Visage
       end
 
       def percentile_of_array(samples, percentage)
-        samples.sort[ (samples.length.to_f * ( percentage.to_f / 100.to_f ) ).to_i - 1 ]
+        if samples
+          samples.sort[ (samples.length.to_f * ( percentage.to_f / 100.to_f ) ).to_i - 1 ]
+        else
+          raise "I can't work out percentiles on a nil sample set"
+        end
       end
 
       def downsample_array(samples, old_resolution, new_resolution)
@@ -195,8 +201,8 @@ module Visage
             plugin   = data[:plugin]
             instance = data[:instance]
 
-            # FIXME: only calculate percentiles if requested
-            #if percentiles
+            # only calculate percentiles if requested
+            if percentiles
               timeperiod = finish.to_f - start.to_f
               interval = (timeperiod / metric.length.to_f).round
               p "timeperiod: #{timeperiod}, interval: #{interval}"
@@ -211,7 +217,7 @@ module Visage
               metric_for_percentiles.compact!
               p "metric_for_percentiles length after compaction: #{metric_for_percentiles.length.to_s}"
               p "95e for #{source}: " + percentile_of_array(metric_for_percentiles, 95).round.to_s
-            #end
+            end
 
             if metric.length > 2000
               metric = downsample_array(metric, 1, metric.length / 1000)
@@ -225,9 +231,9 @@ module Visage
             structure[host][plugin][instance][source][:start]         ||= start
             structure[host][plugin][instance][source][:finish]        ||= finish
             structure[host][plugin][instance][source][:data]          ||= metric
-            structure[host][plugin][instance][source][:percentile_95] ||= percentile_of_array(metric_for_percentiles, 95).round #if percentiles
-            structure[host][plugin][instance][source][:percentile_50] ||= percentile_of_array(metric_for_percentiles, 50).round #if percentiles
-            structure[host][plugin][instance][source][:percentile_5]  ||= percentile_of_array(metric_for_percentiles,  5).round #if percentiles
+            structure[host][plugin][instance][source][:percentile_95] ||= percentile_of_array(metric_for_percentiles, 95).round if percentiles
+            structure[host][plugin][instance][source][:percentile_50] ||= percentile_of_array(metric_for_percentiles, 50).round if percentiles
+            structure[host][plugin][instance][source][:percentile_5]  ||= percentile_of_array(metric_for_percentiles,  5).round if percentiles
 
           end
         end
