@@ -6,12 +6,17 @@
 %div#chart-builder-slider
   = haml :builder_form
 
+- if @profile.options[:percentiles]
+  - percentiles = @profile.options[:percentiles].join("','")
+- else
+  - percentiles = ''
+
 :javascript
   window.addEvent('domready', function() {
     var builder = new ChartBuilder('chart-builder', {
       hosts:       ['#{@profile.options[:hosts].join("','")   }'],
       metrics:     ['#{@profile.options[:metrics].join("','") }'],
-      percentiles: ['#{@profile.options[:percentiles].join("','") }']
+      percentiles: ['#{percentiles}']
     });
 
     $('chart-builder-slider').fade('hide').setStyle('height', '0');
@@ -26,17 +31,21 @@
 %div#profile
   %h2#name= profile_name
   %div#graphs
+    %p= p @profile
     - @profile.graphs.each do |graph|
-      - id       = URI.escape(graph.id)
-      - host     = URI.escape(graph.host)
-      - plugin   = URI.escape(graph.plugin)
-      - instance = URI.escape(graph.instances.join(','))
+      - id          = URI.escape(graph.id)
+      - host        = URI.escape(graph.host)
+      - plugin      = URI.escape(graph.plugin)
+      - instance    = URI.escape(graph.instances.join(','))
+      - percentiles = URI.escape(graph.percentiles.join(','))
+      = "percentiles in profile.haml: #{percentiles}"
       %div{:id => id, :class => 'graph'}
         %img{:src => link_to("/images/loader.gif")}
         :javascript
           window.addEvent('domready', function() {
             var graph = new VisageGraph('#{id}', '#{host}', '#{plugin}', {
               pluginInstance: '#{instance}',
+              percentiles: '#{percentiles}',
               #{ "baseurl: '" + ENV['BASE_URL'].gsub(/^\//, '') if ENV['BASE_URL'] }
             });
           });
