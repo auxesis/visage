@@ -102,7 +102,7 @@ module Visage
           graphs << Visage::Graph.new(:host => host,
                                       :plugin => plugin,
                                       :instances => instances,
-                                      :percentages => percentages)
+                                      :percentiles => percentiles)
         end
       end
 
