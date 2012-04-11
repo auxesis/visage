@@ -16,8 +16,11 @@
     %img{:src => link_to("/images/metrics.png"), :class => "icon metrics"}
     %div.search
 
-  %div#profile-options
+  %div#profile-options.builder
     %h2 Profile Options
+    %strong{:style => "font-family: sans-serif; font-size: 12px;"}
+      95th Percentile:
+    %div.percentiles
 
   %input#show{:value => "Show graphs", :type => "button", :class => "button"}
 
