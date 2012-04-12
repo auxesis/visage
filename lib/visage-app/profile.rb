@@ -34,12 +34,13 @@ module Visage
     def self.all(opts={})
       sort = opts[:sort]
       profiles = self.load
-      profiles = sort == "name" ? profiles.sort_by {|k,v| v[:profile_name]}.map {|i| i.last } : profiles.values
+      profiles = ((sort == "name") or not sort) ? profiles.sort_by {|k,v| v[:profile_name]}.map {|i| i.last } : profiles.values
+      # FIXME - to sort by created we need to save creation time on each profile
+      #profiles = sort == "created"              ? profiles.sort_by {|k,v| v[:profile_name]}.map {|i| i.last } : profiles.values
       profiles.map { |prof| self.new(prof) }
     end
 
     def initialize(opts={})
-      p opts
       @options = opts
       @options[:url] = @options[:profile_name] ? @options[:profile_name].downcase.gsub(/[^\w]+/, "+") : nil
       @errors = {}
