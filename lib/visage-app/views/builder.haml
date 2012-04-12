@@ -5,47 +5,5 @@
       new ChartBuilder('chart-builder');
   });
 
-%div#chart-builder
-  %div#hosts.builder
-    %h2 Hosts
-    %img{:src => link_to("/images/hosts.png"), :class => "icon hosts"}
-    %div.search
-
-  %div#metrics.builder
-    %h2 Metrics
-    %img{:src => link_to("/images/metrics.png"), :class => "icon metrics"}
-    %div.search
-
-  %div#profile-options.builder
-    %h2 Profile Options
-    %div.percentiles
-      %strong{:style => "font-family: sans-serif; font-size: 12px;"}
-        95th Percentile:
-
-  %input#show{:value => "Show graphs", :type => "button", :class => "button"}
-
-  %div#global-options
-    %h2 Global Options
-
-
-  %div{:style => "text-align: left; margin-left: 24px;"}
-    %strong{:style => "font-family: sans-serif; font-size: 12px;"}
-      Global Time Period (non functional placeholder):
-    <select id="timescale" class="date timescale" style="margin-bottom: 3px; border-top-width: 1px; border-right-width: 1px; border-bottom-width: 1px; border-left-width: 1px; border-top-style: solid; border-right-style: solid; border-bottom-style: solid; border-left-style: solid; border-top-color: rgb(170, 170, 170); border-right-color: rgb(170, 170, 170); border-bottom-color: rgb(170, 170, 170); border-left-color: rgb(170, 170, 170); "><option value="start=1321692809">last 1 hour</option><option value="start=1321689209">last 2 hours</option><option value="start=1321674809">last 6 hours</option><option value="start=1321653209">last 12 hours</option><option value="start=1321610009">last 1 day</option><option value="start=1321523609">last 2 days</option><option value="start=1321437209">last 3 days</option><option value="start=1321091609">last 1 week</option><option value="start=1320486809">last 2 weeks</option><option value="start=1318910009">last 1 month</option><option value="start=1290160409">last 1 year</option><option value="start=1258624409">last 2 years</option></select>
-    :javascript
-      window.addEvent('domready', function() {
-        var timescale = $('timescale');
-        timescale.addEvent('change', function(e) {
-          e.stop();
-          window.Graphs.each(function(graph) {
-            var selected = timescale.getSelected()[0]
-
-            graph.setTimePeriodTo(selected);
-          });
-
-        });
-      });
-
-  %div#graphs
-
+= haml :builder_form
 
