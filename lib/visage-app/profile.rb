@@ -35,8 +35,7 @@ module Visage
       sort = opts[:sort]
       profiles = self.load
       profiles = ((sort == "name") or not sort) ? profiles.sort_by {|k,v| v[:profile_name]}.map {|i| i.last } : profiles.values
-      # FIXME - to sort by created we need to save creation time on each profile
-      #profiles = sort == "created"              ? profiles.sort_by {|k,v| v[:profile_name]}.map {|i| i.last } : profiles.values
+      # FIXME - to sort by creation time we need to save creation time on each profile
       profiles.map { |prof| self.new(prof) }
     end
 

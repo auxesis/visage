@@ -216,7 +216,7 @@ module Visage
               p "metric_for_percentiles length: #{metric_for_percentiles.length.to_s}"
               metric_for_percentiles.compact!
               p "metric_for_percentiles length after compaction: #{metric_for_percentiles.length.to_s}"
-              p "95e for #{source}: " + percentile_of_array(metric_for_percentiles, 95).round.to_s
+              percentiles = false unless metric_for_percentiles.length > 0
             end
 
             if metric.length > 2000
