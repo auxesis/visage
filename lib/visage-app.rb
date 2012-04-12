@@ -42,7 +42,7 @@ module Visage
 
   class Profiles < Application
     get '/' do
-      redirect '/profiles?sort=name'
+      redirect '/profiles'
     end
 
     get '/profiles/:url' do
