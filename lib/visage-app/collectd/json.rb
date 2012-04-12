@@ -78,8 +78,6 @@ module Visage
         instances   = opts[:instances][/\w.*/]
         instances   = instances.blank? ? '*' : '{' + instances.split('/').join(',') + '}'
         percentiles = opts[:percentiles] !~ /^$|^false$/ ? true : false
-        p opts[:percentiles]
-        p percentiles
         resolution  = opts[:resolution] || ""
         rrdglob     = "#{@rrddir}/#{host}/#{plugin}/#{instances}.rrd"
         finish      = parse_time(opts[:finish])
@@ -116,7 +114,6 @@ module Visage
 
       def downsample_array(samples, old_resolution, new_resolution)
         timer_start = Time.now
-        p "in downsample_array(samples, old_resolution=#{old_resolution}, new_resolution=#{new_resolution}, new_resolution / old_resolution = " + (new_resolution / old_resolution).to_s
         new_samples = []
         if (new_resolution > 0) and (old_resolution > 0) and (new_resolution % old_resolution == 0)
           samples.in_groups(samples.length / (new_resolution / old_resolution), false) {|group|
@@ -126,7 +123,6 @@ module Visage
           raise "downsample_array: cowardly refusing to downsample as old_resolution (#{old_resolution.to_s}) doesn't go into new_resolution (#{new_resolution.to_s}) evenly, or new_resolution or old_resolution are zero."
         end
         timer = Time.now - timer_start
-        p "downsampled from #{samples.length.to_s} to #{new_samples.length.to_s} in #{timer.to_s}"
 
         new_samples
       end
@@ -205,23 +201,18 @@ module Visage
             if percentiles
               timeperiod = finish.to_f - start.to_f
               interval = (timeperiod / metric.length.to_f).round
-              p "timeperiod: #{timeperiod}, interval: #{interval}"
-              # FIXME: get resolution from the request (which should get it from the profile)
               resolution = 300
               if (interval < resolution) and (resolution > 0)
                 metric_for_percentiles = downsample_array(metric, interval, resolution)
               else
                 metric_for_percentiles = metric
               end
-              p "metric_for_percentiles length: #{metric_for_percentiles.length.to_s}"
               metric_for_percentiles.compact!
-              p "metric_for_percentiles length after compaction: #{metric_for_percentiles.length.to_s}"
               percentiles = false unless metric_for_percentiles.length > 0
             end
 
             if metric.length > 2000
               metric = downsample_array(metric, 1, metric.length / 1000)
-              p "metric length after downsampling for viewing: #{metric.length.to_s}"
             end
 
             structure[host] ||= {}

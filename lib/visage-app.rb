@@ -47,8 +47,6 @@ module Visage
 
     get '/profiles/:url' do
       @profile = Visage::Profile.get(params[:url])
-      p 'in get /profiles/:url...@profile:'
-      p @profile
       raise Sinatra::NotFound unless @profile
       haml :profile
     end
@@ -112,7 +110,6 @@ module Visage
 
     # /data/:host/:plugin/:optional_plugin_instance
     get %r{/data/([^/]+)/([^/]+)((/[^/]+)*)} do
-      p params
       host        = params[:captures][0].gsub("\0", "")
       plugin      = params[:captures][1].gsub("\0", "")
       instances   = params[:captures][2].gsub("\0", "")
