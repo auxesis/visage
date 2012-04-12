@@ -139,33 +139,6 @@ module Visage
           finish     = data[:finish].to_i
           resolution = data[:resolution].to_i || 0
 
-            # if resolution > 0
-            # a specific resolution has been requested, so we need to
-            # a) ensure the start and finish times are multiples of
-            # resolution, AND b) both start and finish are within the
-            # desired RRA, FFS.
-            # http://oss.oetiker.ch/rrdtool/doc/rrdfetch.en.html
-            # So, we need to inspect the RRAs to check the start and
-            # end fall within the RRA we want. so something like this:
-            #
-            # rrdinfo - extract global step, and pdp_per_row's of each data series
-            # rrdfirst & rrdlast - extract unix timestamps for first and last records in each data
-            # series
-            # work out start and finish timestamps that fall within the rrdfirst and rrdlast values
-            # for the desired rra, and that fall within the timespan requested by the visage client
-            # rrdfetch - specifying the resolution and start and finish timestamps as per above
-            #
-            # OR alternatively let RRD throw back whatever highest res data it can find for the
-            # requested time range and downsample in ruby
-
-            #xyz = data[:rrd].info.keys.grep(/^ds\[/).map { |ds| ds[3..-1].split(']').first}.uniq
-            #p "rrdinfo: "
-            #puts data[:rrd].info.inspect
-            #fetch    = data[:rrd].fetch(:function   => "AVERAGE",
-            #                            :start      => start.to_s,
-            #                            :finish     => finish.to_s,
-            #                            :resolution => resolution.to_s)
-
           fetch    = data[:rrd].fetch(:function   => "AVERAGE",
                                       :start      => start.to_s,
                                       :finish     => finish.to_s)
