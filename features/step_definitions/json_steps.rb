@@ -103,7 +103,7 @@ end
 When /^I visit "([^"]*)" on the first available host$/ do |glob|
   host = @response["hosts"].first
   url  = "/data/#{host}/#{glob}"
-  When "I go to #{url}"
+  step "I go to #{url}"
 end
 
 
@@ -115,7 +115,7 @@ When /^I visit the first available host$/ do
 
   host = @response["hosts"].first
   url  = "/data/#{host}"
-  When "I go to #{url}"
+  step "I go to #{url}"
 end
 
 When /^I visit the first two available hosts$/ do
@@ -126,7 +126,7 @@ When /^I visit the first two available hosts$/ do
 
   host = @response["hosts"][0..1].join(',')
   url  = "/data/#{host}"
-  When "I go to #{url}"
+  step "I go to #{url}"
 end
 
 Then /^the JSON should have a list of plugins$/ do
