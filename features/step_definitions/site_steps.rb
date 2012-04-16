@@ -10,7 +10,6 @@ Then /^I should see a list of graphs$/ do
     follow_redirect!
   rescue Rack::Test::Error
   end
-
   doc = Nokogiri::HTML(response_body)
   doc.search('div#profile div.graph').size.should > 0
 end

@@ -10,12 +10,6 @@ Feature: Export data
     Then I should receive valid JSON
     And the JSON should have a list of hosts
 
-  Scenario: Retreive a list of hosts
-    When I visit the first available host
-    Then the request should succeed
-    Then I should receive valid JSON
-    And the JSON should have a list of plugins
-
   Scenario: Get a list of available metrics on a host
     When I visit the first available host
     Then the request should succeed
