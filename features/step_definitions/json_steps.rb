@@ -150,6 +150,14 @@ When /^I visit "([^"]*)" on the first available host with the following query pa
   url  = "/data/#{host}/#{glob}"
 
   params = Hash[table.hashes.map { |hash| [hash["parameter"], hash["value"]] }]
+  params.each do |key, value|
+    if value == "1 hour ago"
+      params[key] = (Time.now() - 3600).to_i.to_s
+    end
+    if value == "now"
+      params[key] = Time.now().to_i.to_s
+    end
+  end
   query  = params.map{|k,v| "#{CGI.escape(k)}=#{CGI.escape(v)}"}.join("&")
   url   += "?#{query}"
 
@@ -168,6 +176,21 @@ Then /^I should see the following parameters for each plugin instance:$/ do |tab
           params.each do |key, value|
             data[key].should == value.to_i
           end
+        end
+      end
+    end
+  end
+
+end
+
+Then /^I should see a 95th percentile value for each plugin instance$/ do
+  @response.should_not be_nil
+
+  @response.each_pair do |host, plugin|
+    plugin.each_pair do |instance, metric|
+      metric.each_pair do |k, series|
+        series.each_pair do |k, data|
+          data['percentile_95'].should >= 0
         end
       end
     end
