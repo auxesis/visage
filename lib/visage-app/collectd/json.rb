@@ -8,6 +8,7 @@ require 'yajl'
 
 class Array
   def in_groups(number, fill_with = nil)
+    raise "Error - in_groups of zero doesn't make sense" unless number > 0
     # size / number gives minor group size;
     # size % number gives how many objects need extra accomodation;
     # each group hold either division or division + 1 items.
@@ -113,10 +114,13 @@ module Visage
       end
 
       def downsample_array(samples, old_resolution, new_resolution)
+        return samples unless samples.length > 0
         timer_start = Time.now
         new_samples = []
         if (new_resolution > 0) and (old_resolution > 0) and (new_resolution % old_resolution == 0)
-          samples.in_groups(samples.length / (new_resolution / old_resolution), false) {|group|
+          groups_of = samples.length / (new_resolution / old_resolution)
+          return samples unless groups_of > 0
+          samples.in_groups(groups_of, false) {|group|
             new_samples << group.compact.mean
           }
         else
