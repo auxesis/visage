@@ -6,11 +6,23 @@
 %div#chart-builder-slider
   = haml :builder_form
 
+- if @profile.options[:percentiles]
+  - percentiles = @profile.options[:percentiles]
+- else
+  - percentiles = []
+
+- if percentiles.length > 0
+  - percentiles_js = "'#{percentiles.join(',') }'"
+- else
+  - percentiles_js = ''
+
 :javascript
   window.addEvent('domready', function() {
     var builder = new ChartBuilder('chart-builder', {
-      hosts:   ['#{@profile.options[:hosts].join("','")   }'],
-      metrics: ['#{@profile.options[:metrics].join("','") }']
+      hosts:       ['#{@profile.options[:hosts].join("','")   }'],
+      metrics:     ['#{@profile.options[:metrics].join("','") }'],
+      percentiles: [#{percentiles_js}]
+
     });
 
     $('chart-builder-slider').fade('hide').setStyle('height', '0');
@@ -25,28 +37,6 @@
 %div#profile
   %h2#name= profile_name
   %div#graphs
-    - @profile.graphs.each do |graph|
-      - id       = URI.escape(graph.id)
-      - host     = URI.escape(graph.host)
-      - plugin   = URI.escape(graph.plugin)
-      - instance = URI.escape(graph.instances.join(','))
-      %div{:id => id, :class => 'graph'}
-        %img{:src => link_to("/images/loader.gif")}
-        :javascript
-          window.addEvent('domready', function() {
-            var graph = new VisageGraph('#{id}', '#{host}', '#{plugin}', {
-              pluginInstance: '#{instance}',
-              #{ "baseurl: '" + ENV['BASE_URL'].gsub(/^\//, '') if ENV['BASE_URL'] }
-            });
-          });
-    - if @profile.graphs.size == 0
-      %div.graph
-        %h4.error Oops! Looks like there aren't any graphs matching the specified patterns.
-        %p These are the patterns:
-        %pre
-          :preserve
-            Host:    #{@profile.options[:hosts]}
-            Metrics: #{@profile.options[:metrics]}
 
   %div#bottom_nav
     %a{:href => link_to("/profiles")} &larr; Back to profiles

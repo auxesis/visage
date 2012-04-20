@@ -9,6 +9,7 @@ require 'digest/md5'
 module Visage
   class Profile
     attr_reader :options, :selected_hosts, :hosts, :selected_metrics, :metrics,
+                :selected_percentiles, :percentiles,
                 :name, :errors
 
     def self.old_format?
@@ -33,7 +34,8 @@ module Visage
     def self.all(opts={})
       sort = opts[:sort]
       profiles = self.load
-      profiles = sort == "name" ? profiles.sort_by {|k,v| v[:profile_name]}.map {|i| i.last } : profiles.values
+      profiles = ((sort == "name") or not sort) ? profiles.sort_by {|k,v| v[:profile_name]}.map {|i| i.last } : profiles.values
+      # FIXME - to sort by creation time we need to save creation time on each profile
       profiles.map { |prof| self.new(prof) }
     end
 
@@ -41,8 +43,9 @@ module Visage
       @options = opts
       @options[:url] = @options[:profile_name] ? @options[:profile_name].downcase.gsub(/[^\w]+/, "+") : nil
       @errors = {}
-      @options[:hosts]   = @options[:hosts].values   if @options[:hosts].class   == Hash
-      @options[:metrics] = @options[:metrics].values if @options[:metrics].class == Hash
+      @options[:hosts]       = @options[:hosts].values       if @options[:hosts].class       == Hash
+      @options[:metrics]     = @options[:metrics].values     if @options[:metrics].class     == Hash
+      @options[:percentiles] = @options[:percentiles].values if @options[:percentiles].class == Hash
     end
 
     # Hashed based access to @options.
@@ -55,6 +58,7 @@ module Visage
         # Construct record.
         attrs = { :hosts        => @options[:hosts],
                   :metrics      => @options[:metrics],
+                  :percentiles  => @options[:percentiles],
                   :profile_name => @options[:profile_name],
                   :url          => @options[:profile_name].downcase.gsub(/[^\w]+/, "+") }
 
@@ -78,9 +82,10 @@ module Visage
     end
 
     def graphs
-      graphs  = []
-      hosts   = @options[:hosts]
-      metrics = @options[:metrics]
+      graphs      = []
+      hosts       = @options[:hosts]
+      metrics     = @options[:metrics]
+      percentiles = @options[:percentiles]
 
       hosts.each do |host|
         attrs = {}
@@ -96,7 +101,8 @@ module Visage
         attrs.each_pair do |plugin, instances|
           graphs << Visage::Graph.new(:host => host,
                                       :plugin => plugin,
-                                      :instances => instances)
+                                      :instances => instances,
+                                      :percentiles => percentiles)
         end
       end
 

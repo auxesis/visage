@@ -21,6 +21,8 @@ module Visage
     set :public_folder, @root.join('lib/visage-app/public')
     set :views,         @root.join('lib/visage-app/views')
 
+    enable :logging
+
     helpers Sinatra::LinkToHelper
     helpers Sinatra::PageTitleHelper
     helpers Sinatra::RequireJSHelper
@@ -34,6 +36,7 @@ module Visage
 
       # Load up the profiles.yaml. Creates it if it doesn't already exist.
       Visage::Profile.load
+
     end
   end
 
@@ -107,18 +110,23 @@ module Visage
 
     # /data/:host/:plugin/:optional_plugin_instance
     get %r{/data/([^/]+)/([^/]+)((/[^/]+)*)} do
-      host      = params[:captures][0].gsub("\0", "")
-      plugin    = params[:captures][1].gsub("\0", "")
-      instances = params[:captures][2].gsub("\0", "")
-      start     = params[:start]
-      finish    = params[:finish]
+      host        = params[:captures][0].gsub("\0", "")
+      plugin      = params[:captures][1].gsub("\0", "")
+      instances   = params[:captures][2].gsub("\0", "")
+      start       = params[:start]
+      finish      = params[:finish]
+      percentiles = params[:percentiles] ||= "false"
+      resolution  = params[:resolution]
 
       collectd = Visage::Collectd::JSON.new(:rrddir => Visage::Config.rrddir)
-      json = collectd.json(:host      => host,
-                           :plugin    => plugin,
-                           :instances => instances,
-                           :start     => start,
-                           :finish    => finish)
+
+      json = collectd.json(:host        => host,
+                           :plugin      => plugin,
+                           :instances   => instances,
+                           :start       => start,
+                           :finish      => finish,
+                           :percentiles => percentiles,
+                           :resolution  => resolution)
 
       # If the request is cross-domain, we need to serve JSON-P.
       maybe_wrap_with_callback(json)

@@ -2,11 +2,14 @@
 
 %div#profiles
   %h2 Profiles
-  %div#sort
-    Sort by:
-    %a{:href => link_to("/profiles?sort=name")} name
-    |
-    %a{:href => link_to("/profiles?sort=created")} created
+  / FIXME - disabling sort links as default is now sorted by profile name
+  / and there's no ability to sort by created time (until it's saved with
+  / profiles on creation)
+  /%div#sort
+  /  Sort by:
+  /  %a{:href => link_to("/profiles?sort=name")} name
+  /  |
+  /  %a{:href => link_to("/profiles?sort=created")} created
 
   %ul#navigation
     - @profiles.each_with_index do |prof,index|
