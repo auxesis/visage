@@ -7,7 +7,6 @@
   = haml :builder_form
 
 - if @profile.options[:percentiles]
-  - #percentiles = @profile.options[:percentiles].join("','")
   - percentiles = @profile.options[:percentiles]
 - else
   - percentiles = []
