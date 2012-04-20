@@ -20,7 +20,7 @@ Then /^a visage web server should be running$/ do
 end
 
 Then /^I should see "([^"]*)" on the terminal$/ do |string|
-  output = @pipe.read(350)
+  output = @pipe.read(320)
   output.should =~ /#{string}/
 end
 
@@ -42,5 +42,5 @@ Then /^I should see a file at "([^"]*)"$/ do |filename|
 end
 
 Then /^show me the output$/ do
-  puts @pipe.read(350)
+  puts @pipe.read(320)
 end
