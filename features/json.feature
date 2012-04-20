@@ -10,12 +10,6 @@ Feature: Export data
     Then I should receive valid JSON
     And the JSON should have a list of hosts
 
-  Scenario: Retreive a list of hosts
-    When I visit the first available host
-    Then the request should succeed
-    Then I should receive valid JSON
-    And the JSON should have a list of plugins
-
   Scenario: Get a list of available metrics on a host
     When I visit the first available host
     Then the request should succeed
@@ -86,3 +80,13 @@ Feature: Export data
       | start     | 1321769692 |
       | finish    | 1321773292 |
 
+  Scenario: Retrieve data for a defined period including 95th percentile calculations
+    Given a list of hosts exist
+    When I visit "disk*/disk_ops" on the first available host with the following query parameters:
+      | parameter   | value      |
+      | start       | 1 hour ago |
+      | finish      | now        |
+      | percentiles | 95         |
+    Then the request should succeed
+    Then I should receive valid JSON
+    And I should see a 95th percentile value for each plugin instance
