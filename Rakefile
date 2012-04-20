@@ -56,7 +56,7 @@ namespace :verify do
     @root = Pathname.new(File.dirname(__FILE__)).expand_path
     javascripts_path = @root.join('lib/visage-app/public/javascripts')
 
-    javascripts = Dir.glob("#{javascripts_path + "*"}.js").reject {|f| f =~ /mootools|src\.js/ }
+    javascripts = Dir.glob("#{javascripts_path + "*"}.js").reject {|f| f =~ /highcharts|mootools|src\.js/ }
     javascripts.each do |filename|
       puts "Checking #{filename}".green
       count = `grep -c 'console.log' #{filename}`.strip.to_i
