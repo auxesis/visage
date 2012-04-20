@@ -1,3 +1,7 @@
+2.1.0 - 2012/04/20
+ - Add support for drawing 95th percentile lines on graphs
+   Thanks to Jesse Reynolds for the feature addition!
+
 2.0.5 - 2012/03/30
  - Fix a bug where metrics occasionally won't appear in the builder interface.
    Thanks to Jesse Reynolds for the patch!
