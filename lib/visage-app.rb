@@ -32,8 +32,8 @@ module Visage
         # FIXME: make this configurable through file
         c['rrddir']        = ENV["RRDDIR"] ? Pathname.new(ENV["RRDDIR"]).expand_path : Pathname.new("/var/lib/collectd/rrd").expand_path
         c['types']         = ENV["TYPES"]  ? Visage::Types.new(:filename => ENV["TYPES"]) : Visage::Types.new
-        c['collectdsock']  = ENV["COLLECTDSOCK"] ? ENV["COLLECTDSOCK"] : false
-        c['rrdcachedsock'] = ENV["RRDCACHEDSOCK"] ? ENV["RRDCACHEDSOCK"] : false
+        c['collectdsock']  = ENV["COLLECTDSOCK"]
+        c['rrdcachedsock'] = ENV["RRDCACHEDSOCK"]
       end
 
       # Load up the profiles.yaml. Creates it if it doesn't already exist.
