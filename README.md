@@ -13,6 +13,7 @@ Features
  * interactive graph keys, to highlight lines and toggle line visibility
  * drop-down or mouse selection of timeframes (also rendered asynchronously)
  * JSON interface onto `collectd` RRDs
+ * Support for FLUSH using either collectd or rrdcached
 
 Here, have a graph:
 
@@ -146,10 +147,12 @@ Then head to your Apache instance and Visage will be up and running.
 Configuring
 -----------
 
-Visage looks for two environment variables when starting up:
+Visage looks for some environment variables when starting up:
 
   * `CONFIG_PATH`, an entry on the configuration file search path
   * `RRDDIR`, the location of collectd's RRDs
+  * `COLLECTDSOCK`, the location of collectd's Unix socket
+  * `RRDCACHEDSOCK`, the location of rrdcached's Unix socket
 
 Visage has a configuration search path which can be used for overriding
 individual files. By default it has one entry: `$VISAGE_ROOT/lib/visage/config/`.

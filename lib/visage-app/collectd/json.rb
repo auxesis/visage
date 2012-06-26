@@ -59,6 +59,8 @@ module Visage
       def initialize(opts={})
         @rrddir = opts[:rrddir] || Visage::Collectd::JSON.rrddir
         @types  = opts[:types]  || Visage::Collectd::JSON.types
+        @collectdsock = opts[:collectdsock] || Visage::Collectd::JSON.collectdsock
+        @rrdcachedsock = opts[:rrdcachedsock] || Visage::Collectd::JSON.rrdcachedsock
       end
 
       def parse_time(time, opts={})
@@ -90,6 +92,21 @@ module Visage
           host_name     = parts[0]
           plugin_name   = parts[1]
           instance_name = File.basename(parts[2], '.rrd')
+
+          if @collectdsock then
+            socket = UNIXSocket.new(@collectdsock)
+            socket.puts "FLUSH \"#{host_name}/#{plugin_name}/#{instance_name}\""
+            socket.gets 
+            socket.close
+          end
+ 
+          if @rrdcachedsock then
+            socket = UNIXSocket.new(@rrdcachedsock)
+            socket.puts "FLUSH #{rrdname}"
+            socket.gets
+            socket.close
+          end
+
           rrd           = Errand.new(:filename => rrdname)
 
           data << {  :plugin      => plugin_name, :instance => instance_name,
@@ -220,6 +237,14 @@ module Visage
         def types
           @types  ||= Visage::Config.types
         end
+
+        def collectdsock 
+          @collectdsock ||= Visage::Config.collectdsock
+        end
+
+        def rrdcachedsock
+          @rrdcachedsock ||= Visage::Config.rrdcachedsock
+        end 
 
         def hosts
           if @rrddir
