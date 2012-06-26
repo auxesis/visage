@@ -57,9 +57,9 @@ module Visage
     class JSON
 
       def initialize(opts={})
-        @rrddir = opts[:rrddir] || Visage::Collectd::JSON.rrddir
-        @types  = opts[:types]  || Visage::Collectd::JSON.types
-        @collectdsock = opts[:collectdsock] || Visage::Collectd::JSON.collectdsock
+        @rrddir        = opts[:rrddir] || Visage::Collectd::JSON.rrddir
+        @types         = opts[:types]  || Visage::Collectd::JSON.types
+        @collectdsock  = opts[:collectdsock] || Visage::Collectd::JSON.collectdsock
         @rrdcachedsock = opts[:rrdcachedsock] || Visage::Collectd::JSON.rrdcachedsock
       end
 
@@ -96,10 +96,10 @@ module Visage
           if @collectdsock then
             socket = UNIXSocket.new(@collectdsock)
             socket.puts "FLUSH \"#{host_name}/#{plugin_name}/#{instance_name}\""
-            socket.gets 
+            socket.gets
             socket.close
           end
- 
+
           if @rrdcachedsock then
             socket = UNIXSocket.new(@rrdcachedsock)
             socket.puts "FLUSH #{rrdname}"
@@ -238,13 +238,13 @@ module Visage
           @types  ||= Visage::Config.types
         end
 
-        def collectdsock 
+        def collectdsock
           @collectdsock ||= Visage::Config.collectdsock
         end
 
         def rrdcachedsock
           @rrdcachedsock ||= Visage::Config.rrdcachedsock
-        end 
+        end
 
         def hosts
           if @rrddir
