@@ -30,8 +30,10 @@ module Visage
     configure do
       Visage::Config.use do |c|
         # FIXME: make this configurable through file
-        c['rrddir'] = ENV["RRDDIR"] ? Pathname.new(ENV["RRDDIR"]).expand_path : Pathname.new("/var/lib/collectd/rrd").expand_path
-        c['types']  = ENV["TYPES"]  ? Visage::Types.new(:filename => ENV["TYPES"]) : Visage::Types.new
+        c['rrddir']        = ENV["RRDDIR"] ? Pathname.new(ENV["RRDDIR"]).expand_path : Pathname.new("/var/lib/collectd/rrd").expand_path
+        c['types']         = ENV["TYPES"]  ? Visage::Types.new(:filename => ENV["TYPES"]) : Visage::Types.new
+        c['collectdsock']  = ENV["COLLECTDSOCK"] ? ENV["COLLECTDSOCK"] : false
+        c['rrdcachedsock'] = ENV["RRDCACHEDSOCK"] ? ENV["RRDCACHEDSOCK"] : false
       end
 
       # Load up the profiles.yaml. Creates it if it doesn't already exist.
@@ -118,15 +120,15 @@ module Visage
       percentiles = params[:percentiles] ||= "false"
       resolution  = params[:resolution]
 
-      collectd = Visage::Collectd::JSON.new(:rrddir => Visage::Config.rrddir)
+      collectd = Visage::Collectd::JSON.new(:rrddir        => Visage::Config.rrddir,
+                                            :collectdsock  => Visage::Config.collectdsock,
+                                            :rrdcachedsock => Visage::Config.rrdcachedsock)
 
-      json = collectd.json(:host        => host,
-                           :plugin      => plugin,
-                           :instances   => instances,
-                           :start       => start,
-                           :finish      => finish,
-                           :percentiles => percentiles,
-                           :resolution  => resolution)
+      json = collectd.json(:host      => host,
+                           :plugin    => plugin,
+                           :instances => instances,
+                           :start     => start,
+                           :finish    => finish)
 
       # If the request is cross-domain, we need to serve JSON-P.
       maybe_wrap_with_callback(json)
