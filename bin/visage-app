@@ -4,7 +4,7 @@ require 'pathname'
 
 require 'socket'
 fqdn = Socket.gethostbyname(Socket.gethostname).first
-port = 9292
+port = Integer(ENV.fetch('VISAGE_PORT', 9292))
 $stdout.sync = true
 @root = (Pathname.new(__FILE__).parent.parent + 'lib').expand_path
 $: << @root.to_s
