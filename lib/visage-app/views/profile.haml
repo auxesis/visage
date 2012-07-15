@@ -21,7 +21,8 @@
     var builder = new ChartBuilder('chart-builder', {
       hosts:       ['#{@profile.options[:hosts].join("','")   }'],
       metrics:     ['#{@profile.options[:metrics].join("','") }'],
-      percentiles: [#{percentiles_js}]
+      percentiles: [#{percentiles_js}],
+      timeframe:   ['#{@profile.options[:timeframe]}']
 
     });
 

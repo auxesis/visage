@@ -59,6 +59,7 @@ module Visage
         attrs = { :hosts        => @options[:hosts],
                   :metrics      => @options[:metrics],
                   :percentiles  => @options[:percentiles],
+                  :timeframe    => @options[:timeframe],
                   :profile_name => @options[:profile_name],
                   :url          => @options[:profile_name].downcase.gsub(/[^\w]+/, "+") }
 
@@ -86,7 +87,9 @@ module Visage
       hosts       = @options[:hosts]
       metrics     = @options[:metrics]
       percentiles = @options[:percentiles]
+      timeframe   = @options[:timeframe]
 
+      timeframe   = "last 24 hours"
       hosts.each do |host|
         attrs = {}
         globs = Visage::Collectd::RRDs.metrics(:host => host, :metrics => metrics)
@@ -102,7 +105,8 @@ module Visage
           graphs << Visage::Graph.new(:host => host,
                                       :plugin => plugin,
                                       :instances => instances,
-                                      :percentiles => percentiles)
+                                      :percentiles => percentiles,
+                                      :timeframe => timeframe)
         end
       end
 
