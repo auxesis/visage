@@ -388,7 +388,7 @@ div#shortcuts table th {
   background-color: #637020;
   background-repeat: repeat-x;
   background: -moz-linear-gradient(100% 100% 90deg, #244671, #4C94F0);
-  background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#512161), to(#7B3294));
+  background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#4C94F0), to(#244671));
   border: medium none;
   color: white;
   cursor: pointer;
