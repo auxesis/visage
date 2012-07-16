@@ -124,11 +124,11 @@ module Visage
                                             :collectdsock  => Visage::Config.collectdsock,
                                             :rrdcachedsock => Visage::Config.rrdcachedsock)
 
-      json = collectd.json(:host      => host,
-                           :plugin    => plugin,
-                           :instances => instances,
-                           :start     => start,
-                           :finish    => finish,
+      json = collectd.json(:host        => host,
+                           :plugin      => plugin,
+                           :instances   => instances,
+                           :start       => start,
+                           :finish      => finish,
                            :percentiles => percentiles,
                            :resolution  => resolution)
 
