@@ -133,10 +133,29 @@ background-image: -moz-linear-gradient(
  */
 
 div.builder {
-  float: left;
   width: 450px;
   margin-left: 25px;
   margin-bottom: 24px;
+}
+
+div.builder.left {
+  float: left;
+}
+
+div.builder.right {
+  float: right;
+}
+
+div.builder.full {
+  width: 925px;
+  clear: both;
+}
+
+div#profile-options h2 {
+  font-weight: bold;
+  color: #666;
+  border-bottom: 4px solid #ccc;
+  margin-bottom: 12px;
 }
 
 div.builder input.text {

@@ -1,18 +1,16 @@
 %div#chart-builder
-  %div#hosts.builder
+  %div#hosts.builder.left
     %h2 Hosts
     %img{:src => link_to("/images/hosts.png"), :class => "icon hosts"}
     %div.search
 
-  %div#metrics.builder
+  %div#metrics.builder.right
     %h2 Metrics
     %img{:src => link_to("/images/metrics.png"), :class => "icon metrics"}
     %div.search
 
-  %div#profile-options.builder
+  %div#profile-options.builder.full
     %h2 Profile Options
-    %div.percentiles
-      95th Percentile:
 
   %input#show{:value => "Show graphs", :type => "button", :class => "button"}
 
