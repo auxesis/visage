@@ -128,7 +128,9 @@ module Visage
                            :plugin    => plugin,
                            :instances => instances,
                            :start     => start,
-                           :finish    => finish)
+                           :finish    => finish,
+                           :percentiles => percentiles,
+                           :resolution  => resolution)
 
       # If the request is cross-domain, we need to serve JSON-P.
       maybe_wrap_with_callback(json)
