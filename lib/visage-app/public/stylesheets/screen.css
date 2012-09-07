@@ -480,3 +480,12 @@ li.row input.checkbox {
   margin-right: 6px;
   cursor: pointer;
 }
+
+input.search {
+  border: 1px solid #bbb;
+  font-size: 16px;
+  padding: 4px;
+  width: 100%;
+  -moz-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.25);
+  -webkit-box-shadow: 0 1px 5px rgba(0, 0, 0, 0.25);
+}
