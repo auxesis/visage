@@ -34,7 +34,7 @@ window.addEvent('domready', () ->
       this.get('fqdn').split('.')[0]
   });
 
-  Hosts = Backbone.Collection.extend({
+  HostCollection = Backbone.Collection.extend({
     url: '/data',
     model: Host,
     parse: (response) ->
@@ -43,7 +43,7 @@ window.addEvent('domready', () ->
       )
   });
 
-  hosts = new Hosts;
+  hosts = new HostCollection;
   hosts.on('reset', (hosts) ->
     BuildDimensionSelector('host', $('hosts'), hosts)
   )
@@ -56,7 +56,7 @@ window.addEvent('domready', () ->
       this.get('id').split('/')[1]
   });
 
-  Metrics = Backbone.Collection.extend({
+  MetricCollection = Backbone.Collection.extend({
     url: '/data/*',
     model: Metric,
     parse: (response) ->
@@ -68,7 +68,7 @@ window.addEvent('domready', () ->
   });
 
 
-  metrics = new Metrics;
+  metrics = new MetricCollection;
   metrics.on('reset', (metrics) ->
     BuildDimensionSelector('metric', $('metrics'), metrics)
   )
