@@ -84,13 +84,31 @@ window.addEvent('domready', () ->
 
   DimensionCollectionView = Backbone.View.extend({
     tagName: 'ul',
-    className: 'hostcollection',
+    className: 'dimensioncollection',
+    initialize: () ->
+      that = this
+      container = $(that.options.container)
+      search = new Element('input', {
+        'type': 'text',
+        'class': 'search',
+        'autocomplete': 'off',
+        'events': {
+          'keyup': (event) ->
+            term = event.target.value
+            that.collection.filter(term)
+
+            list = that.render().el
+            container.grab(list)
+        }
+      })
+      container.grab(search)
+
     render: () ->
       that = this
       that.el.empty()
-      that.collection.each((host) ->
-        view = new DimensionView({model: host})
-        that.el.grab(view.render()) if host.get('display')
+      that.collection.each((model) ->
+        view = new DimensionView({model: model})
+        that.el.grab(view.render()) if model.get('display')
       )
       if that.el.getChildren().length == 0
         message = new Element('li', {
@@ -105,53 +123,30 @@ window.addEvent('domready', () ->
   #
   # Instantiate everything
   #
+  hostsContainer = $('hosts')
   hosts     = new HostCollection
-  hostsView = new DimensionCollectionView({collection: hosts})
+  hostsView = new DimensionCollectionView({
+    collection: hosts,
+    container: hostsContainer
+  })
   hosts.fetch({
     success: (collection) ->
       list = hostsView.render().el
-      $('hosts').grab(list)
+      hostsContainer.grab(list)
   })
-  hostSearch = new Element('input', {
-    'type': 'text',
-    'class': 'search',
-    'autocomplete': 'off',
-    'events': {
-      'keyup': (event) ->
-        term = event.target.value
-        hosts.filter(term)
-
-        list = hostsView.render().el
-        $('hosts').grab(list)
-    }
-  })
-  $('hosts').grab(hostSearch)
 
 
-
+  metricsContainer = $('metrics')
   metrics     = new MetricCollection
-  metricsView = new DimensionCollectionView({collection: metrics})
+  metricsView = new DimensionCollectionView({
+    collection: metrics,
+    container:  metricsContainer
+  })
   metrics.fetch({
     success: (collection) ->
       list = metricsView.render().el
-      $('metrics').grab(list)
+      metricsContainer.grab(list)
   })
-  metricSearch = new Element('input', {
-    'type': 'text',
-    'class': 'search',
-    'autocomplete': 'off',
-    'events': {
-      'keyup': (event) ->
-        term = event.target.value
-        metrics.filter(term)
-
-        list = metricsView.render().el
-        $('metrics').grab(list)
-    }
-  })
-  $('metrics').grab(metricSearch)
-
-
 
   #
   # Debug
