@@ -461,3 +461,17 @@ input#profile_name {
   -webkit-box-shadow: 0 1px 5px rgba(0, 0, 0, 0.25);
   float: right;
 }
+
+label.metric, label.host {
+  margin-left: 6px;
+}
+
+li.row {
+  padding: 4px;
+  list-style-type: none;
+  cursor: pointer;
+}
+
+li.row:hover {
+  background-color: #efefef;
+}
