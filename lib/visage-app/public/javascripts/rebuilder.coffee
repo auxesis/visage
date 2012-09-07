@@ -7,7 +7,7 @@ window.addEvent('domready', () ->
     defaults: {
       checked: false
     },
-  });
+  })
 
   Host   = Dimension.extend({})
   Metric = Dimension.extend({})
@@ -24,7 +24,7 @@ window.addEvent('domready', () ->
       attrs = response.hosts.map((host) ->
         { id: host }
       )
-  });
+  })
 
   MetricCollection = Backbone.Collection.extend({
     url: '/data/*',
@@ -34,7 +34,7 @@ window.addEvent('domready', () ->
         { id: metric }
       )
       _.sortBy(attrs, (attr) -> attr.id)
-  });
+  })
 
   #
   # Views
@@ -84,16 +84,18 @@ window.addEvent('domready', () ->
       return that
   })
 
+  #
+  # Instantiate everything
+  #
   hosts     = new HostCollection
   hostsView = new DimensionCollectionView({collection: hosts})
-
   hosts.fetch({
     success: (collection) ->
       list = hostsView.render().el
       $('hosts').grab(list)
   })
 
-  metrics     = new MetricCollection;
+  metrics     = new MetricCollection
   metricsView = new DimensionCollectionView({collection: metrics})
   metrics.fetch({
     success: (collection) ->
