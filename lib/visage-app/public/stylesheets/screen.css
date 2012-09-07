@@ -462,6 +462,23 @@ input#profile_name {
   float: right;
 }
 
+/*
+ * Rebuilder
+ */
+div.dimension {
+  float: left;
+  width: 250px;
+  padding-left: 50px;
+}
+
+div.dimension ul {
+  max-height: 600px;
+  overflow: auto;
+  margin-top: 4px;
+  margin-bottom: 8px;
+  width: 100%;
+}
+
 label.metric, label.host {
   cursor: pointer;
 }
