@@ -5,7 +5,8 @@ window.addEvent('domready', () ->
   #
   Dimension = Backbone.Model.extend({
     defaults: {
-      checked: false
+      checked: false,
+      display: true,
     },
   })
 
@@ -23,6 +24,11 @@ window.addEvent('domready', () ->
     parse: (response) ->
       attrs = response.hosts.map((host) ->
         { id: host }
+      )
+    filter: (term) ->
+      this.each((item) ->
+        match = !!item.get('id').match(term)
+        item.set('display', match)
       )
   })
 
@@ -76,10 +82,17 @@ window.addEvent('domready', () ->
     className: 'hostcollection',
     render: () ->
       that = this
+      that.el.empty()
       that.collection.each((host) ->
         view = new DimensionView({model: host})
-        that.el.grab(view.render())
+        that.el.grab(view.render()) if host.get('display')
       )
+      if that.el.getChildren().length == 0
+        message = new Element('li', {
+          'html': 'No matches',
+          'class': 'row',
+        })
+        that.el.grab(message)
 
       return that
   })
@@ -94,6 +107,22 @@ window.addEvent('domready', () ->
       list = hostsView.render().el
       $('hosts').grab(list)
   })
+  hostSearch = new Element('input', {
+    'type': 'text',
+    'class': 'search',
+    'autocomplete': 'off',
+    'events': {
+      'keyup': (event) ->
+        term = event.target.value
+        hosts.filter(term)
+
+        list = hostsView.render().el
+        $('hosts').grab(list)
+    }
+  })
+  $('hosts').grab(hostSearch)
+
+
 
   metrics     = new MetricCollection
   metricsView = new DimensionCollectionView({collection: metrics})
