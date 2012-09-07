@@ -110,7 +110,12 @@ window.addEvent('domready', () ->
   #
   button = new Element('input', {
     'type': 'button',
-    'value': 'Display Graphs'
+    'value': 'Show graphs',
+    'class': 'button',
+    'styles': {
+      'font-size': '80%',
+      'padding': '4px 8px',
+    },
     'events': {
       'click': (event) ->
         console.log('hosts',   hosts.where({checked: true}))
