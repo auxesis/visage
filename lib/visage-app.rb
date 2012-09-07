@@ -98,6 +98,10 @@ module Visage
       javascript
     end
 
+    get '/rebuilder' do
+      haml :rebuilder
+    end
+
   end
 
   class JSON < Application
@@ -137,6 +141,8 @@ module Visage
     end
 
     get %r{/data/([^/]+)} do
+      content_type :json if headers["Content-Type"] =~ /text/
+
       hosts = params[:captures][0].gsub("\0", "")
       metrics = Visage::Collectd::RRDs.metrics(:hosts => hosts)
 
@@ -145,6 +151,7 @@ module Visage
     end
 
     get %r{/data(/)*} do
+      content_type :json if headers["Content-Type"] =~ /text/
       hosts = Visage::Collectd::RRDs.hosts
       json = { :hosts => hosts }.to_json
       maybe_wrap_with_callback(json)
