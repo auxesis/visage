@@ -463,7 +463,7 @@ input#profile_name {
 }
 
 label.metric, label.host {
-  margin-left: 6px;
+  cursor: pointer;
 }
 
 li.row {
@@ -474,4 +474,9 @@ li.row {
 
 li.row:hover {
   background-color: #efefef;
+}
+
+li.row input.checkbox {
+  margin-right: 6px;
+  cursor: pointer;
 }

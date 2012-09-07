@@ -1,39 +1,22 @@
 window.addEvent('domready', () ->
 
-  BuildDimensionSelector = (name, element, dimensions) ->
-    container = $(element)
-    dimensions.each((dimension) ->
-      id       = dimension.id
-
-      li       = new Element('li', {
-        'class': "#{name} row"
-        'events': {
-          'click': (event) ->
-            checkbox = event.target.getElement('input.checkbox')
-            checkbox.checked = !checkbox.checked if checkbox
-        }
-      })
-      checkbox = new Element('input', {
-        'type':  'checkbox',
-        'name':  id,
-        'id':    id,
-        'class': "#{name} checkbox",
-      })
-      label    = new Element('label', {
-        'for': id,
-        'html': id,
-        'class': "#{name} label",
-      })
-      li.grab(checkbox)
-      li.grab(label)
-      container.grab(li)
-    )
-
-  Host = Backbone.Model.extend({
-    hostname: () ->
-      this.get('fqdn').split('.')[0]
+  #
+  # Models
+  #
+  Dimension = Backbone.Model.extend({
+    defaults: {
+      checked: false
+    },
   });
 
+  Host   = Dimension.extend({})
+  Metric = Dimension.extend({})
+
+
+
+  #
+  # Collections
+  #
   HostCollection = Backbone.Collection.extend({
     url: '/data',
     model: Host,
@@ -43,19 +26,6 @@ window.addEvent('domready', () ->
       )
   });
 
-  hosts = new HostCollection;
-  hosts.on('reset', (hosts) ->
-    BuildDimensionSelector('host', $('hosts'), hosts)
-  )
-  hosts.fetch();
-
-  Metric = Backbone.Model.extend({
-    plugin: () ->
-      this.get('id').split('/')[0]
-    instance: () ->
-      this.get('id').split('/')[1]
-  });
-
   MetricCollection = Backbone.Collection.extend({
     url: '/data/*',
     model: Metric,
@@ -63,15 +33,87 @@ window.addEvent('domready', () ->
       attrs = response.metrics.map((metric) ->
         { id: metric }
       )
-
       _.sortBy(attrs, (attr) -> attr.id)
   });
 
+  #
+  # Views
+  #
+  DimensionView = Backbone.View.extend({
+    tagName: 'li',
+    className: 'row',
+    render: () ->
+      that = this
+      id = name = this.model.id
+      checkbox = new Element('input', {
+        'type':  'checkbox',
+        'id':    id,
+        'class': "#{name} checkbox",
+        'checked': this.model.get('checked'),
+        'events': {
+          'change': (event) ->
+            that.model.set('checked', !that.model.get('checked'))
+        }
+      })
+      label    = new Element('label', {
+        'for': id,
+        'html': id,
+        'class': "#{name} label",
+      })
 
-  metrics = new MetricCollection;
-  metrics.on('reset', (metrics) ->
-    BuildDimensionSelector('metric', $('metrics'), metrics)
-  )
+      $(this.el).grab(checkbox)
+      $(this.el).grab(label)
+      $(this.el).addEvent('click', (event) ->
+        if event.target.tagName.toLowerCase() == 'li'
+          checkbox = event.target.getElement('input.checkbox')
+          checkbox.checked = !checkbox.checked if checkbox
+          that.model.set('checked', !that.model.get('checked'))
+      )
+  })
 
-  metrics.fetch();
+  DimensionCollectionView = Backbone.View.extend({
+    tagName: 'ul',
+    className: 'hostcollection',
+    render: () ->
+      that = this
+      that.collection.each((host) ->
+        view = new DimensionView({model: host})
+        that.el.grab(view.render())
+      )
+
+      return that
+  })
+
+  hosts     = new HostCollection
+  hostsView = new DimensionCollectionView({collection: hosts})
+
+  hosts.fetch({
+    success: (collection) ->
+      list = hostsView.render().el
+      $('hosts').grab(list)
+  })
+
+  metrics     = new MetricCollection;
+  metricsView = new DimensionCollectionView({collection: metrics})
+  metrics.fetch({
+    success: (collection) ->
+      list = metricsView.render().el
+      $('metrics').grab(list)
+  })
+
+
+
+  #
+  # Debug
+  #
+  button = new Element('input', {
+    'type': 'button',
+    'value': 'Display Graphs'
+    'events': {
+      'click': (event) ->
+        console.log('hosts',   hosts.where({checked: true}))
+        console.log('metrics', metrics.where({checked: true}))
+    }
+  })
+  $('display').grab(button)
 )
