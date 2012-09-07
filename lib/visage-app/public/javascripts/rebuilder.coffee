@@ -40,6 +40,11 @@ window.addEvent('domready', () ->
         { id: metric }
       )
       _.sortBy(attrs, (attr) -> attr.id)
+    filter: (term) ->
+      this.each((item) ->
+        match = !!item.get('id').match(term)
+        item.set('display', match)
+      )
   })
 
   #
@@ -131,6 +136,20 @@ window.addEvent('domready', () ->
       list = metricsView.render().el
       $('metrics').grab(list)
   })
+  metricSearch = new Element('input', {
+    'type': 'text',
+    'class': 'search',
+    'autocomplete': 'off',
+    'events': {
+      'keyup': (event) ->
+        term = event.target.value
+        metrics.filter(term)
+
+        list = metricsView.render().el
+        $('metrics').grab(list)
+    }
+  })
+  $('metrics').grab(metricSearch)
 
 
 
@@ -147,7 +166,7 @@ window.addEvent('domready', () ->
     },
     'events': {
       'click': (event) ->
-        console.log('hosts',   hosts.where({checked: true}))
+        console.log('hosts', hosts.where({checked: true}))
         console.log('metrics', metrics.where({checked: true}))
     }
   })
