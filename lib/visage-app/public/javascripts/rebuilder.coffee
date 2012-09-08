@@ -27,7 +27,11 @@ window.addEvent('domready', () ->
       )
     filter: (term) ->
       this.each((item) ->
-        match = !!item.get('id').match(term)
+        try
+          match = !!item.get('id').match(term)
+        catch error
+          throw error unless error.type == 'malformed_regexp'
+
         item.set('display', match)
       )
   })
