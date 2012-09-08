@@ -110,12 +110,28 @@ window.addEvent('domready', () ->
         view = new DimensionView({model: model})
         that.el.grab(view.render()) if model.get('display')
       )
-      if that.el.getChildren().length == 0
+      number_of_results = that.el.getChildren().length
+
+      if number_of_results == 0
         message = new Element('li', {
           'html': 'No matches',
           'class': 'row',
         })
         that.el.grab(message)
+      else
+        selectAll = new Element('li', {
+          'html': '&uarr; toggle all',
+          'class': 'row toggle',
+          'events': {
+            'click': (event) ->
+              checkboxes = that.el.getElements('input.checkbox')
+              checkboxes.each((element) ->
+                element.fireEvent('change')
+                element.setProperty('checked', !element.getProperty('checked'))
+              )
+          }
+        })
+        that.el.grab(selectAll)
 
       return that
   })
@@ -161,8 +177,8 @@ window.addEvent('domready', () ->
     },
     'events': {
       'click': (event) ->
-        console.log('hosts', hosts.where({checked: true}))
-        console.log('metrics', metrics.where({checked: true}))
+        console.log('hosts',   hosts, hosts.where({checked: true}))
+        console.log('metrics', metrics, metrics.where({checked: true}))
     }
   })
   $('display').grab(button)

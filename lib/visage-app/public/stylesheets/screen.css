@@ -493,6 +493,11 @@ li.row:hover {
   background-color: #efefef;
 }
 
+li.row.toggle:hover {
+  background-color: #D1E5FF;
+  /*color: #2F5A92;*/
+}
+
 li.row input.checkbox {
   margin-right: 6px;
   cursor: pointer;
