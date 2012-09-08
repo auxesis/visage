@@ -25,6 +25,7 @@ window.addEvent('domready', () ->
       attrs = response.hosts.map((host) ->
         { id: host }
       )
+    # FIXME: Refactor into common class
     filter: (term) ->
       this.each((item) ->
         try
@@ -34,6 +35,9 @@ window.addEvent('domready', () ->
 
         item.set('display', match)
       )
+    # FIXME: Refactor into common class
+    selected: () ->
+      this.models.filter((model) -> model.get('checked') == true)
   })
 
   MetricCollection = Backbone.Collection.extend({
@@ -44,11 +48,19 @@ window.addEvent('domready', () ->
         { id: metric }
       )
       _.sortBy(attrs, (attr) -> attr.id)
+    # FIXME: Refactor into common class
     filter: (term) ->
       this.each((item) ->
-        match = !!item.get('id').match(term)
+        try
+          match = !!item.get('id').match(term)
+        catch error
+          throw error unless error.type == 'malformed_regexp'
+
         item.set('display', match)
       )
+    # FIXME: Refactor into common class
+    selected: () ->
+      this.models.filter((model) -> model.get('checked') == true)
   })
 
   #
@@ -93,6 +105,7 @@ window.addEvent('domready', () ->
       that = this
       container = $(that.options.container)
 
+      # FIXME: Refactor into dedicated class
       icon = new Element('div', {
         'class': 'clear'
         'events': {
@@ -211,8 +224,8 @@ window.addEvent('domready', () ->
     },
     'events': {
       'click': (event) ->
-        console.log('hosts',   hosts, hosts.where({checked: true}))
-        console.log('metrics', metrics, metrics.where({checked: true}))
+        console.log(hosts.selected())
+        console.log(metrics.selected())
     }
   })
   $('display').grab(button)
