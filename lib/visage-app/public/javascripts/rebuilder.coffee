@@ -106,6 +106,7 @@ window.addEvent('domready', () ->
       container = $(that.options.container)
 
       # FIXME: Refactor into dedicated class
+      # http://stackoverflow.com/questions/6258521/clear-icon-inside-input-text
       icon = new Element('div', {
         'class': 'clear'
         'events': {
