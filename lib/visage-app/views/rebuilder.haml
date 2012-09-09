@@ -1,6 +1,13 @@
 - page_title 'Backbone'
-- require_js 'rebuilder'
+
+- require_js 'highcharts-mootools-adapter.src'
+- require_js 'highcharts.src'
+- require_js 'graph'
+- require_js 'mootools-more-1.4.0.1'
 - require_js 'raphael-min'
+- require_js 'rebuilder'
+
+%div#graphs
 
 %div#hosts{:class => 'dimension'}
   %h2 1. Hosts
@@ -8,4 +15,3 @@
   %h2 2. Metrics
 %div#display{:class => 'dimension'}
   %h2 3. Display
-%div#graphs

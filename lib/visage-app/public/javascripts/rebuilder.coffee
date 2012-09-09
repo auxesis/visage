@@ -1,5 +1,9 @@
 window.addEvent('domready', () ->
 
+  # Built roughly following pattern detailed here:
+  #
+  #   http://weblog.bocoup.com/backbone-live-collections/
+
   #
   # Models
   #
@@ -12,7 +16,7 @@ window.addEvent('domready', () ->
 
   Host   = Dimension.extend({})
   Metric = Dimension.extend({})
-
+  Graph  = Backbone.Model.extend({})
 
 
   #
@@ -61,6 +65,12 @@ window.addEvent('domready', () ->
     # FIXME: Refactor into common class
     selected: () ->
       this.models.filter((model) -> model.get('checked') == true)
+  })
+
+
+
+  GraphCollection = Backbone.Collection.extend({
+    model: Graph
   })
 
   #
@@ -212,6 +222,8 @@ window.addEvent('domready', () ->
       metricsContainer.grab(list)
   })
 
+  #graphs = new GraphCollection
+
   #
   # Debug
   #
@@ -225,8 +237,17 @@ window.addEvent('domready', () ->
     },
     'events': {
       'click': (event) ->
-        console.log(hosts.selected())
-        console.log(metrics.selected())
+        selected_plugins = metrics.selected().map((metric) -> metric.get('id').split('/')[0]).unique()
+        selected_hosts   = hosts.selected().map((host) -> host.get('id')).unique()
+        graphs           = $('graphs')
+
+        selected_hosts.each((host) ->
+          selected_plugins.each((plugin) ->
+            element = new Element('div', {'class': "graph #{host} #{plugin}"})
+            graphs.grab(element)
+            graph = new VisageGraph(element, host, plugin)
+          )
+        )
     }
   })
   $('display').grab(button)
