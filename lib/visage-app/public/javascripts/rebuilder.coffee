@@ -66,7 +66,7 @@ window.addEvent('domready', () ->
         return 0
       )
 
-      obj
+      return obj
   })
 
 
@@ -117,8 +117,6 @@ window.addEvent('domready', () ->
     selected: () ->
       this.models.filter((model) -> model.get('checked') == true)
   })
-
-
 
   GraphCollection = Backbone.Collection.extend({
     model: Graph
@@ -246,6 +244,236 @@ window.addEvent('domready', () ->
       return that
   })
 
+  GraphView = Backbone.View.extend({
+    tagName: 'div',
+    className: 'graph',
+    title: () ->
+      that    = this
+      plugin  = that.model.get('plugin')
+      host    = that.model.get('host')
+
+      if that.options.title
+        that.options.title
+      else
+        plugin = plugin.split('-')[1].replace(/(-|_)/, ' ') if plugin.match(/^curl_json/)
+        [ plugin, 'on', host ].join(' ')
+
+    seriesMinMax: () ->
+      that    = this
+      series  = that.model.get('series')
+
+      endpoints = series.map((set) ->
+        values = set.data.map((point) ->
+          point[1]
+        )
+
+        min = values.min()
+        max = values.max()
+        [ min, max ]
+      )
+
+      min = endpoints.map((min, max) -> min).min()
+      max = endpoints.map((min, max) -> max).max()
+
+      [ min, max ]
+
+    render: () ->
+      that    = this
+      element = that.el
+      series  = that.model.get('series')
+      title   = that.title()
+      [ min, max ] = that.seriesMinMax()
+
+      that.chart = new Highcharts.Chart({
+        series: series,
+        chart: {
+          renderTo:     element,
+          type:         'line',
+          marginRight:  0,
+          marginBottom: 60,
+          zoomType:     'xy',
+
+          resetZoomButton: {
+            theme: {
+              fill: 'white',
+              stroke: '#020508',
+              r: 0,
+              states: {
+                hover: {
+                  fill: '#020508',
+                  style: {
+                    color: 'white'
+                  }
+                }
+              }
+            }
+          },
+
+
+          width:        873,
+          height:       350,
+          plotBorderWidth: 1,
+          plotBorderColor: '#020508',
+          events: {}
+        },
+        title: {
+          text: title
+          style: {
+            'fontSize':    '18px',
+            'fontWeight':  'bold',
+            'color':       '#333333',
+            'font-family': 'Bitstream Vera Sans, Helvetica Neue, sans-serif',
+          }
+        },
+        colors: [
+          '#1F78B4',
+          '#33A02C',
+          '#E31A1C',
+          '#FF7F00',
+          '#6A3D9A',
+          '#A6CEE3',
+          '#B2DF8A',
+          '#FB9A99',
+          '#FDBF6F',
+          '#CAB2D6',
+          '#FFFF99',
+        ],
+
+        xAxis: {
+          lineWidth: 0,
+          minPadding: 0.012,
+          maxPadding: 0.012,
+          tickLength: 5,
+          tickColor: "#020508",
+          startOnTick: false,
+          endOnTick: false,
+          gridLineWidth: 0,
+
+          tickPixelInterval: 150,
+
+          labels: {
+            style: {
+              color: '#000',
+            },
+          },
+
+          title: {
+            text: null
+          },
+          type: 'datetime',
+          dateTimeLabelFormats: {
+            second: '%H:%M:%S',
+            minute: '%H:%M',
+            hour: '%H:%M',
+            day: '%d/%m',
+            week: '%d/%m',
+            month: '%m/%Y',
+            year: '%Y'
+          }
+        },
+        yAxis: {
+          lineWidth: 0,
+          minPadding: 0.05,
+          maxPadding: 0.05,
+          tickWidth: 1,
+          tickColor: '#020508',
+          startOnTick: false,
+          endOnTick: false,
+          gridLineWidth: 0,
+
+          title: {
+            text: null
+          },
+          labels: {
+            style: {
+              color: '#000',
+            },
+            formatter: () ->
+              precision = 1
+              value     = formatValue(this.value, {
+                              'precision': precision,
+                              'min':       min,
+                              'max':       max
+                          });
+          },
+        },
+        plotOptions: {
+          series: {
+            shadow: false,
+            lineWidth: 1,
+            marker: {
+              enabled: false,
+              states: {
+                hover: {
+                  enabled: true,
+                  radius: 4,
+                },
+              },
+            },
+            states: {
+              hover: {
+                enabled: true,
+                lineWidth: 1,
+              },
+            }
+          }
+        },
+        tooltip: {
+          formatter: () ->
+            tip =  '<strong>'
+            tip += formatSeriesLabel(this.series.name).trim()
+            tip += '</strong>' + ' -> '
+            tip += '<span style="font-family: monospace; font-size: 14px;">'
+            tip += formatValue(this.y, { 'precision': 2, 'min': min, 'max': max })
+            tip += '<span style="font-size: 9px; color: #777">'
+            tip += ' (' + this.y + ')'
+            tip += '</span>'
+            tip += '</span>'
+            tip += '<br/>'
+            tip += '<span style="font-family: monospace">'
+            tip += formatDate(this.x)
+            tip += '</span>'
+
+            return tip
+        },
+        legend: {
+          layout: 'horizontal',
+          align: 'center',
+          verticalAlign: 'top',
+          y: 320,
+          borderWidth: 0,
+          floating: true,
+          labelFormatter: () ->
+            formatSeriesLabel(this.name)
+          itemStyle: {
+            cursor: 'pointer',
+            color:  '#1a1a1a'
+          },
+          itemHoverStyle: {
+            color:  '#111'
+          }
+        },
+        credits: {
+          enabled: false
+        }
+      })
+
+      return element
+  })
+
+  GraphCollectionView = Backbone.View.extend({
+    tagName: 'div',
+    className: 'graph',
+    render: () ->
+      that = this
+      that.collection.each((model) ->
+        view  = new GraphView({model: model})
+        graph = view.render()
+        that.el.grab(graph)
+      )
+      return that
+  })
+
   #
   # Instantiate everything
   #
@@ -276,15 +504,10 @@ window.addEvent('domready', () ->
 
   graphsContainer = $('graphs')
   graphs          = new GraphCollection
-#  graphsView      = new GraphCollectionView({
-#    collection: graphs
-#    container:  graphsContainer
-#  })
-#  graphs.fetch({
-#    success: (collection) ->
-#      list = graphsView.render().el
-#      graphsContainer.grab(list)
-#  })
+  graphsView      = new GraphCollectionView({
+    el:         graphsContainer
+    collection: graphs
+  })
 
   #
   # Debug
@@ -310,9 +533,11 @@ window.addEvent('domready', () ->
               plugin:  plugin
             }
             graph = new Graph(attributes)
-            graph.fetch()
-            console.log(graph.attributes)
-
+            graph.fetch({
+              success: (model, response) ->
+                graphs.add(graph)
+                graphsView.render().el
+            })
           )
         )
     }
