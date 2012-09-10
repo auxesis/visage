@@ -281,7 +281,7 @@ window.addEvent('domready', () ->
       that    = this
       element = that.el
       series  = that.model.get('series')
-      title   = that.title()
+      title   = that.title() # FIXME: Refactor to make the title an editable field
       [ min, max ] = that.seriesMinMax()
 
       that.chart = new Highcharts.Chart({
@@ -467,9 +467,11 @@ window.addEvent('domready', () ->
     render: () ->
       that = this
       that.collection.each((model) ->
-        view  = new GraphView({model: model})
-        graph = view.render()
-        that.el.grab(graph)
+        if not model.get('rendered')
+          view  = new GraphView({model: model})
+          graph = view.render()
+          that.el.grab(graph)
+          model.set('rendered', true)
       )
       return that
   })
