@@ -262,7 +262,7 @@ div#graphs {
 }
 
 div.graph {
-  margin: 32px 0 48px;
+  margin: 0;
 }
 
 h1, h2, h3, h4, h5 {
@@ -524,4 +524,17 @@ div.clear {
 
 div.clear svg {
   margin-top: -8px;
+}
+
+div.graph div.action {
+  display: block;
+  cursor: pointer;
+  position: relative;
+  float: right;
+  bottom: -30px;
+  z-index: 3;
+}
+
+div#builder {
+  margin-top: 64px;
 }
