@@ -116,6 +116,8 @@ module Visage
 
     # /data/:host/:plugin/:optional_plugin_instance
     get %r{/data/([^/]+)/([^/]+)((/[^/]+)*)} do
+      content_type :json if headers["Content-Type"] =~ /text/
+
       host        = params[:captures][0].gsub("\0", "")
       plugin      = params[:captures][1].gsub("\0", "")
       instances   = params[:captures][2].gsub("\0", "")

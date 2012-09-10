@@ -16,7 +16,58 @@ window.addEvent('domready', () ->
 
   Host   = Dimension.extend({})
   Metric = Dimension.extend({})
-  Graph  = Backbone.Model.extend({})
+  Graph  = Backbone.Model.extend({
+    url: () ->
+      host   = this.get('host')
+      plugin = this.get('plugin')
+      start  = this.get('start')
+      finish = this.get('finish')
+      query  = {}
+      query.start  = this.get('start')  if this.get('start')
+      query.finish = this.get('finish') if this.get('finish')
+      query = if query.length > 0 then '?' + Object.toQueryString(query) else ''
+
+      "/data/#{host}/#{plugin}#{query}"
+    parse: (response) ->
+      host   = this.get('host')
+      plugin = this.get('plugin')
+      data   = response
+      that   = this
+
+      obj = {}
+      obj.data   = data
+      obj.series = []
+
+      Object.each(data[host][plugin], (instance, instanceName) ->
+        Object.each(instance, (metric, metricName) ->
+          start    = metric.start
+          finish   = metric.finish
+          interval = (finish - start) / metric.data.length
+
+          data = metric.data.map((value, index) ->
+            x = (start + index * interval) * 1000
+            y = value
+            [ x, y ]
+          )
+
+          set = {
+            name:         [ host, plugin, instanceName, metricName ]
+            data:         data,
+            percentile95: metric.percentile_95
+          }
+
+          obj.series.push(set)
+        )
+      )
+
+      obj.series = obj.series.sort((a,b) ->
+        return -1 if a.name[2] < b.name[2]
+        return 1  if a.name[2] > b.name[2]
+        return 0
+      )
+
+      obj
+  })
 
 
   #
@@ -133,6 +184,7 @@ window.addEvent('domready', () ->
             icon.setStyle('display', 'none')
         }
       })
+      # http://raphaeljs.com/icons/
       paper = Raphael(icon, 26, 26);
       paper.path("M24.778,21.419 19.276,15.917 24.777,10.415 21.949,7.585 16.447,13.087 10.945,7.585 8.117,10.415 13.618,15.917 8.116,21.419 10.946,24.248 16.447,18.746 21.948,24.248z").attr({fill: "#aaa", stroke: "none"});
 
@@ -222,7 +274,17 @@ window.addEvent('domready', () ->
       metricsContainer.grab(list)
   })
 
-  #graphs = new GraphCollection
+  graphsContainer = $('graphs')
+  graphs          = new GraphCollection
+#  graphsView      = new GraphCollectionView({
+#    collection: graphs
+#    container:  graphsContainer
+#  })
+#  graphs.fetch({
+#    success: (collection) ->
+#      list = graphsView.render().el
+#      graphsContainer.grab(list)
+#  })
 
   #
   # Debug
@@ -239,13 +301,18 @@ window.addEvent('domready', () ->
       'click': (event) ->
         selected_plugins = metrics.selected().map((metric) -> metric.get('id').split('/')[0]).unique()
         selected_hosts   = hosts.selected().map((host) -> host.get('id')).unique()
-        graphs           = $('graphs')
 
         selected_hosts.each((host) ->
           selected_plugins.each((plugin) ->
-            element = new Element('div', {'class': "graph #{host} #{plugin}"})
-            graphs.grab(element)
-            graph = new VisageGraph(element, host, plugin)
+
+            attributes = {
+              host:    host
+              plugin:  plugin
+            }
+            graph = new Graph(attributes)
+            graph.fetch()
+            console.log(graph.attributes)
+
           )
         )
     }
