@@ -459,8 +459,11 @@ window.addEvent('domready', () ->
         }
       })
 
-      icon = new Element('div', {
+      destroy = new Element('div', {
         'class': 'action'
+        'styles': {
+          opacity: 0
+        }
         'events': {
           'click': (event) ->
             that.el.fade('out').get('tween').chain(() ->
@@ -475,11 +478,14 @@ window.addEvent('domready', () ->
         }
       })
       # http://raphaeljs.com/icons/
-      paper = Raphael(icon, 26, 26);
+      paper = Raphael(destroy, 26, 26);
       paper.path("M24.778,21.419 19.276,15.917 24.777,10.415 21.949,7.585 16.447,13.087 10.945,7.585 8.117,10.415 13.618,15.917 8.116,21.419 10.946,24.248 16.447,18.746 21.948,24.248z").attr({fill: "#aaa", stroke: "none"});
-      icon.setStyle('display', 'inline')
-      element.grab(icon, 'top')
+
+      # Insert destroy icon. Roll graph out. Hide/show the destroy icon based on mouse events.
+      element.grab(destroy, 'top')
       element.tween('height', 376)
+      element.addEvent('mouseenter', () -> destroy.tween('opacity', 1))
+      element.addEvent('mouseleave', () -> destroy.tween('opacity', 0))
 
       return element
   })
