@@ -284,6 +284,7 @@ window.addEvent('domready', () ->
       title   = that.title() # FIXME: Refactor to make the title an editable field
       [ min, max ] = that.seriesMinMax()
 
+      element.setStyle('height', 0)
       that.chart = new Highcharts.Chart({
         series: series,
         chart: {
@@ -457,6 +458,28 @@ window.addEvent('domready', () ->
           enabled: false
         }
       })
+
+      icon = new Element('div', {
+        'class': 'action'
+        'events': {
+          'click': (event) ->
+            that.el.fade('out').get('tween').chain(() ->
+              that.el.tween('height', '0').get('tween').chain(() ->
+                console.log('destroy')
+                that.chart.destroy()
+                that.el.destroy()
+                that.model.collection.remove(that.model)
+                that.model.destroy()
+              )
+            )
+        }
+      })
+      # http://raphaeljs.com/icons/
+      paper = Raphael(icon, 26, 26);
+      paper.path("M24.778,21.419 19.276,15.917 24.777,10.415 21.949,7.585 16.447,13.087 10.945,7.585 8.117,10.415 13.618,15.917 8.116,21.419 10.946,24.248 16.447,18.746 21.948,24.248z").attr({fill: "#aaa", stroke: "none"});
+      icon.setStyle('display', 'inline')
+      element.grab(icon, 'top')
+      element.tween('height', 376)
 
       return element
   })
