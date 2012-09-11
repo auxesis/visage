@@ -570,6 +570,13 @@ window.addEvent('domready', () ->
                 graphsView.render().el
             })
           )
+
+          builder = $('builder')
+          builder.tween('padding-top', 24).get('tween').chain(() ->
+            builder.setStyle('border-top', '1px dotted #aaa')
+          )
+
+
         )
     }
   })
