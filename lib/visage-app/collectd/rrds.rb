@@ -49,7 +49,7 @@ module Visage
           if (dametrics.length) == 1
             dametrics.first
           else
-            dametrics.reduce(:&)
+            dametrics.reduce(:|)
           end
 
           #else
