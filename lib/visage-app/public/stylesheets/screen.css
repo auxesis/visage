@@ -261,8 +261,9 @@ div#graphs {
   margin: 16px 0;
 }
 
-div.graph {
+li.graph {
   margin: 0;
+  list-style-type: none;
 }
 
 h1, h2, h3, h4, h5 {
@@ -307,12 +308,6 @@ h2#profile_name {
 
 h4.error {
   margin: 8px 0;
-}
-
-div.graph pre {
-  line-height: 1.6em;
-  font-size: 90%;
-  margin-top: -10px;
 }
 
 div#bottom_nav {
@@ -526,7 +521,7 @@ div.clear svg {
   margin-top: -8px;
 }
 
-div.graph div.action {
+.graph div.action {
   display: block;
   cursor: pointer;
   position: relative;
