@@ -530,6 +530,11 @@ div.clear svg {
   z-index: 3;
 }
 
+.graph div.action path {
+  fill:   #aaa;
+  stroke: none;
+}
+
 div#builder {
   margin-top: 64px;
 }
