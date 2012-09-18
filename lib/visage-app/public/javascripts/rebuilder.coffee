@@ -468,7 +468,6 @@ window.addEvent('domready', () ->
           'click': (event) ->
             that.el.fade('out').get('tween').chain(() ->
               that.el.tween('height', '0').get('tween').chain(() ->
-                console.log('destroy')
                 that.chart.destroy()
                 that.el.destroy()
                 that.model.collection.remove(that.model)
@@ -479,29 +478,17 @@ window.addEvent('domready', () ->
       })
       # http://raphaeljs.com/icons/
       destroyPaper = Raphael(destroy, 26, 26);
-      destroyPaper.path("M24.778,21.419 19.276,15.917 24.777,10.415 21.949,7.585 16.447,13.087 10.945,7.585 8.117,10.415 13.618,15.917 8.116,21.419 10.946,24.248 16.447,18.746 21.948,24.248z").attr({fill: "#aaa", stroke: "none"});
+      destroyPaper.path("M24.778,21.419 19.276,15.917 24.777,10.415 21.949,7.585 16.447,13.087 10.945,7.585 8.117,10.415 13.618,15.917 8.116,21.419 10.946,24.248 16.447,18.746 21.948,24.248z")
 
       move = new Element('div', {
         'class': 'action move'
         'styles': {
           opacity: 0
-        }
-        'events': {
-          'click': (event) ->
-            that.el.fade('out').get('tween').chain(() ->
-              that.el.tween('height', '0').get('tween').chain(() ->
-                console.log('destroy')
-                that.chart.destroy()
-                that.el.destroy()
-                that.model.collection.remove(that.model)
-                that.model.destroy()
-              )
-            )
+          cursor: 'move'
         }
       })
       movePaper = Raphael(move, 26, 26);
-      #movePaper.path("M4.082,4.083v2.999h24.835V4.083H4.082zM4.082,20.306h22.835v-2.999H4.082V20.306zM4.082,13.694h22.835v-2.999H4.082V13.694z").attr({fill: "#aaa", stroke: "none"});
-      movePaper.path("M4.082,8.083v2.999h24.835V8.083H4.082zM4.082,24.306h22.835v-2.999H4.082V20.306zM4.082,17.694h22.835v-2.999H4.082V13.694z").attr({fill: "#aaa", stroke: "none"});
+      movePaper.path("M4.082,8.083v2.999h24.835V8.083H4.082zM4.082,24.306h22.835v-2.999H4.082V20.306zM4.082,17.694h22.835v-2.999H4.082V13.694z")
 
       # Insert icons.
       element.grab(move,  'top')
@@ -529,7 +516,7 @@ window.addEvent('domready', () ->
         handle:  'div.action.move'
         opacity: 0.3
         clone:   true
-        revert:  { duration: 500, transition: 'elastic:out' }
+        revert:  { duration: 500, transition: 'back:out' }
       })
 
     render: () ->
@@ -539,8 +526,7 @@ window.addEvent('domready', () ->
           view  = new GraphView({model: model})
           graph = view.render()
           that.el.grab(graph)
-          model.set('rendered', true)
-
+          model.set('rendered', true) # So the graph isn't re-rendered every time "show" is clicked
           that.sortable.addItems(view.el)
       )
       return that
