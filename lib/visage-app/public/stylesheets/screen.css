@@ -528,7 +528,7 @@ div#timeframe-toggler:hover {
 }
 
 div#timeframe-toggler div.icon {
-
+  margin-left: 6px;
 }
 
 div#timeframe-toggler label {
