@@ -581,10 +581,15 @@ window.addEvent('domready', () ->
         label.set('html', that.model.get('label'))
 
         $('timeframes').fade('out')
+        that.el.getParent('ul').getElements('li').each((el) ->
+          el.removeClass('selected')
+        )
+        that.el.toggleClass('selected')
 
         attrs = that.model.toTimeAttributes()
-        graphs.models.each((graph) ->
+        Cookie.write('timeframe', JSON.encode(attrs)) # So new graphs have the timeframe set
 
+        graphs.models.each((graph) ->
           graph.set(attrs)
           graph.fetch(
             success: (model, response) ->
@@ -686,6 +691,9 @@ window.addEvent('domready', () ->
               host:    host
               plugin:  plugin
             }
+            timeframe  = JSON.decode(Cookie.read('timeframe'))
+            attributes = Object.merge(attributes, timeframe)
+
             graph = new Graph(attributes)
             graph.fetch({
               success: (model, response) ->
