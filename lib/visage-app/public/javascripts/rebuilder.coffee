@@ -99,6 +99,7 @@ window.addEvent('domready', () ->
         attrs.start  = that.relativeUnixTimeTo(start) if start
         attrs.finish = that.relativeUnixTimeTo(finish) if finish
 
+      attrs.label = that.get('label')
       attrs
   })
 
@@ -573,9 +574,11 @@ window.addEvent('domready', () ->
   TimeframeView = Backbone.View.extend({
     tagName:   'li',
     className: 'timeframe',
+    selected:  false,
     render: () ->
       that = this
       that.el.set('html', this.model.get('label'))
+      that.el.addClass('selected') if that.model.get('selected') # for the timeframe in the cookie
       that.el.addEvent('click', () ->
         label = $('timeframe-label')
         label.set('html', that.model.get('label'))
@@ -624,10 +627,18 @@ window.addEvent('domready', () ->
         timeframesView.el.fade('toggle')
       )
 
+      timeframe = JSON.decode(Cookie.read('timeframe'))
+      if timeframe.label
+        label = $('timeframe-label')
+        label.set('html', timeframe.label)
+
     render: () ->
+      timeframe = JSON.decode(Cookie.read('timeframe'))
+
       that = this
       that.el.empty()
       that.collection.each((model) ->
+        model.set('selected', true) if timeframe.label == model.get('label') # for the timeframe in the cookie
         view = new TimeframeView({model: model})
         that.el.grab(view.render().el)
       )
