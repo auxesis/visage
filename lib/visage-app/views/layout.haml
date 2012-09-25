@@ -15,11 +15,9 @@
     %div#wrapper
       %div#header
         %div#nav
-          %ul
-            %li
-              %a{:href => link_to("/profiles")} profiles
-            %li
-              %a{:href => link_to("/builder")} builder
+          %div#timeframe-toggler
+            %label#timeframe-label last 1 hour
+            %ul#timeframes
 
       %div#content
         = yield
