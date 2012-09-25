@@ -47,35 +47,9 @@ div#nav {
   font-family: Bitstream Vera Sans, Helvetica Neue, sans-serif;
   text-align: right;
   font-size: 16px;
+  height: 36px;
+  padding-top: 4px;
 }
-
-div#nav ul {
-  padding: 8px 0px;
-}
-
-div#nav ul li {
-  display: inline;
-  padding: 8px 0px;
-}
-
-div#nav ul li a {
-  padding: 8px 16px;
-  color: white;
-  text-shadow: 0 2px 1px rgba(0,0,0,0.5);
-  font-weight: bold;
-}
-
-div#nav ul li a:hover {
-  text-shadow: 0 2px 1px rgba(255,255,255,0.1);
-  background: -webkit-gradient(linear, left top, left bottom, from(#529EFF), to(#274C7A));
-  background: -moz-linear-gradient(top, #529EFF, #274C7A);
-  text-decoration: none;
-}
-
-div#nav span.title {
-  font-weight: bold;
-}
-
 
 div#content, div#nav {
   width: 950px;
@@ -537,4 +511,72 @@ div.clear svg {
 
 div#builder {
   margin-top: 64px;
+}
+
+div#timeframe-toggler {
+  color: white;
+  cursor: pointer;
+  text-shadow: 0 2px 1px rgba(0,0,0,0.5);
+  font-weight: bold;
+  float: right;
+  width: 200px;
+  text-align: left;
+}
+
+div#timeframe-toggler:hover {
+  text-decoration: none;
+}
+
+div#timeframe-toggler div.icon {
+
+}
+
+div#timeframe-toggler label {
+  cursor: pointer;
+  margin-left: 6px;
+  margin-top: 7px;
+  position: absolute;
+}
+
+
+div.icon {
+  display: inline;
+  width:   32px;
+  height:  32px;
+}
+
+div.icon path {
+  fill:   #efefef;
+  stroke: none;
+}
+
+ul#timeframes {
+  list-style:none;
+  font-weight:bold;
+  position:absolute;
+  z-index:5;
+  right:150px;
+  border: 4px solid #244671;
+  border-top: none;
+  visibility: hidden;
+  margin-top: 4px;
+  opacity: 0;
+}
+
+ul#timeframes li {
+  float: left;
+  position: relative;
+  clear: both;
+  cursor: pointer;
+  width: 200px;
+  text-align: left;
+  padding: 8px 4px;
+  overflow-x: hidden;
+  overflow-y: hidden;
+  background-color: #244671;
+  color: #eee;
+}
+
+ul#timeframes li:hover {
+  background-color: #3465A4;
 }
