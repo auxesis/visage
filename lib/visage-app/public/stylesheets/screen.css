@@ -580,3 +580,7 @@ ul#timeframes li {
 ul#timeframes li:hover {
   background-color: #3465A4;
 }
+
+ul#timeframes li.selected {
+  background-color: #3465A4;
+}
