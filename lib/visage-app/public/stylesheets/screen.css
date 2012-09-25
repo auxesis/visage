@@ -561,6 +561,10 @@ ul#timeframes {
   visibility: hidden;
   margin-top: 4px;
   opacity: 0;
+  -moz-border-bottom-left-radius: 8px;
+  -webkit-border-bottom-left-radius: 8px;
+  -moz-border-bottom-right-radius: 8px;
+  -webkit-border-bottom-right-radius: 8px;
 }
 
 ul#timeframes li {
