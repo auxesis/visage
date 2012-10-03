@@ -1,5 +1,5 @@
-visage-app(5) -- a web (interface | service) for viewing collectd statistics
-============================================================================
+visage-app(5) -- Run a standalone instance of Visage
+====================================================
 
 ## SYNOPSIS
 
