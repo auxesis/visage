@@ -18,10 +18,11 @@ window.addEvent('domready', () ->
   Metric = Dimension.extend({})
   Graph  = Backbone.Model.extend({
     url: () ->
-      host   = this.get('host')
-      plugin = this.get('plugin')
-      start  = this.get('start')
-      finish = this.get('finish')
+      that   = this
+      host   = that.get('host')
+      plugin = that.get('plugin')
+      start  = that.get('start')
+      finish = that.get('finish')
       query  = {}
       query.start  = start  if start
       query.finish = finish if finish
@@ -29,10 +30,10 @@ window.addEvent('domready', () ->
 
       "/data/#{host}/#{plugin}#{query}"
     parse: (response) ->
-      host   = this.get('host')
-      plugin = this.get('plugin')
-      data   = response
       that   = this
+      host   = response.host   || that.get('host')
+      plugin = response.plugin || that.get('plugin')
+      data   = response
 
       obj = {}
       obj.data   = data
@@ -101,6 +102,12 @@ window.addEvent('domready', () ->
 
       attrs.label = that.get('label')
       attrs
+  })
+
+  Profile = Backbone.Model.extend({
+    url:   () ->
+      id = document.location.pathname.split('/')[2]
+      "/profiles/#{id}.json"
   })
 
   #
@@ -182,6 +189,7 @@ window.addEvent('domready', () ->
         'for': id,
         'html': id,
         'class': "#{name} label",
+        'title': "#{name}",
       })
 
       $(this.el).grab(checkbox)
@@ -557,6 +565,29 @@ window.addEvent('domready', () ->
         revert:  { duration: 500, transition: 'back:out' }
       })
 
+      # Toggler for sharing a link to the graph profile
+      shareToggler = $('share-toggler')
+      icon = new Element('div', {
+        class: 'icon',
+      })
+      paper = Raphael(icon, 32, 32);
+      paper.path("M16.45,18.085l-2.47,2.471c0.054,1.023-0.297,2.062-1.078,2.846c-1.465,1.459-3.837,1.459-5.302-0.002c-1.461-1.465-1.46-3.836-0.001-5.301c0.783-0.781,1.824-1.131,2.847-1.078l2.469-2.469c-2.463-1.057-5.425-0.586-7.438,1.426c-2.634,2.637-2.636,6.907,0,9.545c2.638,2.637,6.909,2.635,9.545,0l0.001,0.002C17.033,23.511,17.506,20.548,16.45,18.085zM14.552,12.915l2.467-2.469c-0.053-1.023,0.297-2.062,1.078-2.848C19.564,6.139,21.934,6.137,23.4,7.6c1.462,1.465,1.462,3.837,0,5.301c-0.783,0.783-1.822,1.132-2.846,1.079l-2.469,2.468c2.463,1.057,5.424,0.584,7.438-1.424c2.634-2.639,2.633-6.91,0-9.546c-2.639-2.636-6.91-2.637-9.545-0.001C13.967,7.489,13.495,10.451,14.552,12.915zM18.152,10.727l-7.424,7.426c-0.585,0.584-0.587,1.535,0,2.121c0.585,0.584,1.536,0.584,2.121-0.002l7.425-7.424c0.584-0.586,0.584-1.535,0-2.121C19.687,10.141,18.736,10.142,18.152,10.727z")
+
+      shareToggler.grab(icon, 'top')
+      shareToggler.addEvent('click', () ->
+        graphAttributes = graphs.toJSON().map((attrs) ->
+          Object.subset(attrs , ['host', 'plugin', 'start', 'finish'])
+        )
+        profile = new Profile({
+          graphs:    graphAttributes
+          anonymous: true
+        })
+        profile.save({}, {
+          error: (model, response) ->
+            console.log(response, model)
+        })
+      )
+
     render: () ->
       that = this
       that.collection.each((model) ->
@@ -628,7 +659,7 @@ window.addEvent('domready', () ->
       )
 
       timeframe = JSON.decode(Cookie.read('timeframe'))
-      if timeframe.label
+      if timeframe and timeframe.label
         label = $('timeframe-label')
         label.set('html', timeframe.label)
 
@@ -638,7 +669,7 @@ window.addEvent('domready', () ->
       that = this
       that.el.empty()
       that.collection.each((model) ->
-        model.set('selected', true) if timeframe.label == model.get('label') # for the timeframe in the cookie
+        model.set('selected', true) if timeframe and timeframe.label == model.get('label') # for the timeframe in the cookie
         view = new TimeframeView({model: model})
         that.el.grab(view.render().el)
       )
@@ -677,6 +708,23 @@ window.addEvent('domready', () ->
   graphsView      = new GraphCollectionView({
     el:         graphsContainer
     collection: graphs
+  })
+
+  profile = new Profile()
+  profile.fetch({
+    success: (model) ->
+      console.log('model', model)
+      console.log('model attributes', model.attributes)
+
+      model.get('graphs').each((attributes) ->
+        console.log('attributes', attributes)
+        graph = new Graph(attributes)
+        graph.fetch({
+          success: (model, response) ->
+            graphs.add(graph)
+            graphsView.render().el
+        })
+      )
   })
 
   #
