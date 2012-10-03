@@ -15,9 +15,11 @@
     %div#wrapper
       %div#header
         %div#nav
-          %div#timeframe-toggler
+          %div#timeframe-toggler.toggler
             %label#timeframe-label last 1 hour
             %ul#timeframes
+          %div#share-toggler.toggler
+            %label#share-label Share
 
       %div#content
         = yield
