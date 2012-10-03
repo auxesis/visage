@@ -24,18 +24,6 @@ when "start"
   puts '                 /____/'
   puts
   puts "will be running at http://#{fqdn}:#{port}/"
-
-  if Visage::Profile.old_format?
-    puts
-    puts "The Visage profile format has changed!"
-    puts "You need to upgrade your profiles."
-    puts "Please run:"
-    puts
-    puts "  #{$0} upgrade"
-    puts
-    exit 1
-  end
-
   puts
   puts "Looking for RRDs in #{Visage::Config.rrddir}"
   puts
