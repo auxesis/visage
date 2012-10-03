@@ -8,18 +8,7 @@ require 'digest/md5'
 
 module Visage
   class Profile
-    attr_reader :options, :selected_hosts, :hosts, :selected_metrics, :metrics,
-                :selected_percentiles, :percentiles,
-                :name, :errors
-
-    def self.old_format?
-      profiles = Visage::Config::File.load('profiles.yaml', :create => true, :ignore_bundled => true) || {}
-      profiles.each_pair do |name, attrs|
-        return true if attrs[:hosts] =~ /\*/ || attrs[:metrics] =~ /\*/
-      end
-
-      false
-    end
+    attr_reader :options, :errors
 
     def self.load
       Visage::Config::File.load('profiles.yaml', :create => true, :ignore_bundled => true) || {}
@@ -41,27 +30,31 @@ module Visage
 
     def initialize(opts={})
       @options = opts
-      @options[:url] = @options[:profile_name] ? @options[:profile_name].downcase.gsub(/[^\w]+/, "+") : nil
-      @errors = {}
-      @options[:hosts]       = @options[:hosts].values       if @options[:hosts].class       == Hash
-      @options[:metrics]     = @options[:metrics].values     if @options[:metrics].class     == Hash
-      @options[:percentiles] = @options[:percentiles].values if @options[:percentiles].class == Hash
+      @errors  = {}
     end
 
     # Hashed based access to @options.
     def method_missing(method)
-      @options[method]
+      @options[method] || @options[method.to_s]
     end
 
     def save
       if valid?
         # Construct record.
-        attrs = { :hosts        => @options[:hosts],
-                  :metrics      => @options[:metrics],
-                  :percentiles  => @options[:percentiles],
-                  :timeframe    => @options[:timeframe],
-                  :profile_name => @options[:profile_name],
-                  :url          => @options[:profile_name].downcase.gsub(/[^\w]+/, "+") }
+        if anonymous
+          attrs = {
+            :graphs       => graphs,
+            :timeframe    => timeframe,
+            :url          => SecureRandom.hex
+          }
+        else
+          attrs = {
+            :graphs       => graphs,
+            :timeframe    => timeframe,
+            :profile_name => profile_name,
+            :url          => profile_name.downcase.gsub(/[^\w]+/, "+")
+          }
+        end
 
         # Save it.
         profiles = self.class.load
@@ -79,42 +72,15 @@ module Visage
     end
 
     def valid?
-      valid_profile_name?
-    end
-
-    def graphs
-      graphs      = []
-      hosts       = @options[:hosts]
-      metrics     = @options[:metrics]
-      percentiles = @options[:percentiles]
-      timeframe   = @options[:timeframe]
-
-      timeframe   = "last 24 hours"
-      hosts.each do |host|
-        attrs = {}
-        globs = Visage::Collectd::RRDs.metrics(:host => host, :metrics => metrics)
-        globs.each do |n|
-          parts    = n.split('/')
-          plugin   = parts[0]
-          instance = parts[1]
-          attrs[plugin] ||= []
-          attrs[plugin] << instance
-        end
-
-        attrs.each_pair do |plugin, instances|
-          graphs << Visage::Graph.new(:host => host,
-                                      :plugin => plugin,
-                                      :instances => instances,
-                                      :percentiles => percentiles,
-                                      :timeframe => timeframe)
-        end
+      if anonymous
+        true
+      else
+        valid_profile_name?
       end
-
-      graphs
     end
 
-    def private_id
-      Digest::MD5.hexdigest("#{@options[:url]}\n")
+    def to_json
+      @options.to_json
     end
 
     private
