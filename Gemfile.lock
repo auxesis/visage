@@ -24,13 +24,20 @@ GEM
     gherkin (2.9.1)
       json (>= 1.4.6)
     haml (3.1.4)
+    hpricot (0.8.6)
     json (1.6.5)
+    mustache (0.99.4)
     nokogiri (1.5.2)
     rack (1.4.1)
     rack-protection (1.2.0)
       rack
     rack-test (0.6.1)
       rack (>= 1.0)
+    rdiscount (1.6.8)
+    ronn (0.7.3)
+      hpricot (>= 0.8.2)
+      mustache (>= 0.7.0)
+      rdiscount (>= 1.5.8)
     rspec (2.9.0)
       rspec-core (~> 2.9.0)
       rspec-expectations (~> 2.9.0)
@@ -60,6 +67,7 @@ DEPENDENCIES
   colorize
   cucumber
   rack-test
+  ronn
   rspec
   shotgun
   visage-app!
