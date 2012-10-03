@@ -47,23 +47,28 @@ module Visage
       redirect '/profiles'
     end
 
-    get '/profiles/:url' do
-      @profile = Visage::Profile.get(params[:url])
+    get %r{/profiles/([^/\.]+).?([^/]+)?} do
+      url    = params[:captures][0]
+      format = params[:captures][1]
+
+      @profile = Visage::Profile.get(url)
       raise Sinatra::NotFound unless @profile
-      haml :profile
+
+      if format == 'json'
+        @profile.to_json
+      else
+        haml :rebuilder
+      end
     end
 
     get '/profiles' do
       @profiles = Visage::Profile.all(:sort => params[:sort])
       haml :profiles
     end
-  end
 
-
-  class Builder < Application
-
-    post '/builder' do
-      @profile = Visage::Profile.new(params)
+    post '/profiles' do
+      attrs = ::JSON.parse(request.body.read)
+      @profile = Visage::Profile.new(attrs)
 
       if @profile.save
         {'status' => 'ok'}.to_json
@@ -72,31 +77,10 @@ module Visage
         {'status' => 'error', 'errors' => @profile.errors}.to_json
       end
     end
+  end
 
-    get "/builder" do
-      if params[:submit] == "create"
-        @profile = Visage::Profile.new(params)
 
-        if @profile.save
-          redirect "/profiles/#{@profile.url}"
-        else
-          haml :builder
-        end
-      else
-        @profile = Visage::Profile.new(params)
-
-        haml :builder
-      end
-    end
-
-    # Infrastructure for embedding.
-    get '/javascripts/visage.js' do
-      javascript = ""
-      %w{raphael-min g.raphael g.line mootools-1.2.3-core mootools-1.2.3.1-more graph}.each do |js|
-        javascript += File.read(@root.join('lib/visage-app/public/javascripts', "#{js}.js"))
-      end
-      javascript
-    end
+  class Builder < Application
 
     get '/rebuilder' do
       haml :rebuilder
