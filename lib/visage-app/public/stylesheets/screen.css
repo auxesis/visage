@@ -284,13 +284,6 @@ h4.error {
   margin: 8px 0;
 }
 
-div#bottom_nav {
-  margin: 32px 0;
-  border-top: 1px dotted #aaa;
-  padding-top: 12px;
-  font-size: 85%;
-}
-
 div#footer {
   clear: both;
   font-size: 0.6em;
@@ -298,11 +291,6 @@ div#footer {
   text-align: center;
   margin-bottom: 2em;
 }
-
-div#nothing {
-  margin-top: 1em;
-}
-
 
 div#profiles {
   float: left;
@@ -453,9 +441,11 @@ label.metric, label.host {
 }
 
 li.row {
-  padding: 4px;
+  padding: 4px 2px;
   list-style-type: none;
   cursor: pointer;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 li.row:hover {
@@ -469,6 +459,13 @@ li.row.toggle:hover {
 li.row input.checkbox {
   margin-right: 6px;
   cursor: pointer;
+  float: left;
+  margin-top: 6px;
+}
+
+li.row label {
+  cursor: pointer;
+  white-space: nowrap;
 }
 
 input.search {
@@ -513,7 +510,7 @@ div#builder {
   margin-top: 64px;
 }
 
-div#timeframe-toggler {
+div.toggler {
   color: white;
   cursor: pointer;
   text-shadow: 0 2px 1px rgba(0,0,0,0.5);
@@ -523,32 +520,30 @@ div#timeframe-toggler {
   text-align: left;
 }
 
-div#timeframe-toggler:hover {
+div.toggler :hover {
   text-decoration: none;
 }
 
-div#timeframe-toggler div.icon {
+div.toggler div.icon {
   margin-left: 6px;
-}
-
-div#timeframe-toggler label {
-  cursor: pointer;
-  margin-left: 6px;
-  margin-top: 7px;
-  position: absolute;
-}
-
-
-div.icon {
   display: inline;
   width:   32px;
   height:  32px;
 }
 
-div.icon path {
-  fill:   #efefef;
+div.toggler div.icon path {
+  fill:   #fff;
   stroke: none;
 }
+
+div.toggler label {
+  cursor: pointer;
+  margin-left: 6px;
+  margin-top: 6px;
+  position: absolute;
+}
+
+
 
 ul#timeframes {
   list-style:none;
