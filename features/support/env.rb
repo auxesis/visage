@@ -9,7 +9,7 @@ app_file = @root.join('lib/visage-app')
 require 'rack/test'
 require 'webrat'
 
-ENV['CONFIG_PATH'] = @root.join('features/support/config/default')
+ENV['CONFIG_PATH'] = @root.join('features/support/config/default').to_s
 
 require app_file
 # Force the application name because polyglot breaks the auto-detection logic.
