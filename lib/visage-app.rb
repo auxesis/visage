@@ -47,6 +47,10 @@ module Visage
       redirect '/profiles'
     end
 
+    get '/profiles/new' do
+      haml :profile
+    end
+
     get %r{/profiles/([^/\.]+).?([^/]+)?} do
       url    = params[:captures][0]
       format = params[:captures][1]
@@ -82,9 +86,6 @@ module Visage
 
   class Builder < Application
 
-    get '/rebuilder' do
-      haml :rebuilder
-    end
 
   end
 

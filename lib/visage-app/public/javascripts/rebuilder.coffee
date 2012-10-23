@@ -107,7 +107,10 @@ window.addEvent('domready', () ->
   Profile = Backbone.Model.extend({
     url:   () ->
       id = document.location.pathname.split('/')[2]
-      "/profiles/#{id}.json"
+      if id == 'new'
+        '/profiles'
+      else
+        "/profiles/#{id}.json"
   })
 
   #
@@ -710,22 +713,20 @@ window.addEvent('domready', () ->
     collection: graphs
   })
 
-  profile = new Profile()
-  profile.fetch({
-    success: (model) ->
-      console.log('model', model)
-      console.log('model attributes', model.attributes)
+  if document.location.pathname.split('/')[2] != 'new'
+    profile = new Profile()
+    profile.fetch({
+      success: (model) ->
+        model.get('graphs').each((attributes) ->
+          graph = new Graph(attributes)
+          graph.fetch({
+            success: (model, response) ->
+              graphs.add(graph)
+              graphsView.render().el
+          })
+        )
+    })
 
-      model.get('graphs').each((attributes) ->
-        console.log('attributes', attributes)
-        graph = new Graph(attributes)
-        graph.fetch({
-          success: (model, response) ->
-            graphs.add(graph)
-            graphsView.render().el
-        })
-      )
-  })
 
   #
   # Debug
