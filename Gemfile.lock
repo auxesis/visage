@@ -4,6 +4,7 @@ PATH
     visage-app (2.1.0)
       errand (= 0.7.3)
       haml (= 3.1.4)
+      rrd-ffi (= 0.2.12)
       sinatra (= 1.3.2)
       tilt (= 1.3.3)
       yajl-ruby (= 1.1.0)
@@ -11,6 +12,9 @@ PATH
 GEM
   remote: http://rubygems.org/
   specs:
+    activesupport (3.2.8)
+      i18n (~> 0.6)
+      multi_json (~> 1.0)
     builder (3.0.0)
     colorize (0.5.8)
     cucumber (1.1.9)
@@ -21,16 +25,22 @@ GEM
       term-ansicolor (>= 1.0.6)
     diff-lcs (1.1.3)
     errand (0.7.3)
+    ffi (1.1.5)
     gherkin (2.9.1)
       json (>= 1.4.6)
     haml (3.1.4)
+    i18n (0.6.1)
     json (1.6.5)
+    multi_json (1.3.6)
     nokogiri (1.5.2)
     rack (1.4.1)
     rack-protection (1.2.0)
       rack
     rack-test (0.6.1)
       rack (>= 1.0)
+    rrd-ffi (0.2.12)
+      activesupport
+      ffi
     rspec (2.9.0)
       rspec-core (~> 2.9.0)
       rspec-expectations (~> 2.9.0)
