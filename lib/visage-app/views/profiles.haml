@@ -11,11 +11,36 @@
   /  |
   /  %a{:href => link_to("/profiles?sort=created")} created
 
-  %ul#navigation
+  %ul
     - @profiles.each_with_index do |prof,index|
-      %li{:class => index == 0 ? 'active shortcut' : 'shortcut'}
+      %li
         %a{:href => link_to("/profiles/#{prof.url}")}= prof.profile_name
 
   %p.create
-    %a{:href => link_to("/builder")} Create a profile
+    %a{:href => link_to("/profiles/new")} Create a profile
+
+%div#profiles
+  %h2 Recently shared
+
+  - if @anonymous.size > 0
+    %ul
+      - @anonymous.each_with_index do |profile,index|
+        %li
+          %a{:href => link_to("/profiles/#{profile.url}")}
+            - description = profile.graphs.map {|prof| "#{prof['plugin']} on #{prof['host']}" }.join(', ')
+            - count       = profile.graphs.size
+            = "#{count} graphs (#{truncate(description, :length => 46)})"
+          %p.time{:title => "Shared at #{profile.created_at.strftime("%Y-%m-%d %H:%M")}"}
+            = distance_of_time_in_words(profile.created_at)
+
+    %p.create
+      %a{:href => link_to("/profiles/new")} Create a profile
+
+  - else
+    %p
+      No activity.
+    %p
+      Why not
+      %a{:href => link_to("/profiles/new")} create a profile?
+
 

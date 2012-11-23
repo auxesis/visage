@@ -319,6 +319,11 @@ div#profiles ul {
   margin-bottom: 16px;
 }
 
+div#profiles ul p.time {
+  color: gray;
+  font-size: 80%;
+}
+
 div#profiles p.create {
   border-top: 1px dotted #aaa;
   padding-top: 8px;

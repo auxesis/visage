@@ -21,11 +21,16 @@ module Visage
     end
 
     def self.all(opts={})
-      sort = opts[:sort]
-      profiles = self.load
-      profiles = ((sort == "name") or not sort) ? profiles.sort_by {|k,v| v[:profile_name]}.map {|i| i.last } : profiles.values
+      sort      = opts.delete(:sort)
+      anonymous = opts.delete(:anonymous)
+      all       = self.load
+
+      profiles = all.find_all { |id, attrs| attrs[:anonymous] == anonymous }
+      profiles = profiles.sort_by {|id, attrs| attrs[:created_at] }
+      profiles.reverse! if sort == 'ascending'
+
       # FIXME - to sort by creation time we need to save creation time on each profile
-      profiles.map { |prof| self.new(prof) }
+      profiles.map { |id, attrs| self.new(attrs) }
     end
 
     def initialize(opts={})
@@ -45,14 +50,18 @@ module Visage
           attrs = {
             :graphs       => graphs,
             :timeframe    => timeframe,
-            :url          => SecureRandom.hex
+            :url          => SecureRandom.hex,
+            :created_at   => Time.now,
+            :anonymous    => true
           }
         else
           attrs = {
             :graphs       => graphs,
             :timeframe    => timeframe,
             :profile_name => profile_name,
-            :url          => profile_name.downcase.gsub(/[^\w]+/, "+")
+            :url          => profile_name.downcase.gsub(/[^\w]+/, "+"),
+            :created_at   => Time.now,
+            :anonymous    => false
           }
         end
 
