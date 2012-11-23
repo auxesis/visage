@@ -26,6 +26,7 @@ module Visage
     helpers Sinatra::LinkToHelper
     helpers Sinatra::PageTitleHelper
     helpers Sinatra::RequireJSHelper
+    helpers Sinatra::FormatHelper
 
     configure do
       Visage::Config.use do |c|
@@ -61,12 +62,17 @@ module Visage
       if format == 'json'
         @profile.to_json
       else
-        haml :rebuilder
+        haml :profile
       end
     end
 
     get '/profiles' do
-      @profiles = Visage::Profile.all(:sort => params[:sort])
+      options = {
+        :anonymous => false,
+        :sort      => params[:sort],
+      }
+      @profiles  = Visage::Profile.all(options)
+      @anonymous = Visage::Profile.all(:anonymous => true, :sort => 'ascending')
       haml :profiles
     end
 
@@ -75,12 +81,13 @@ module Visage
       @profile = Visage::Profile.new(attrs)
 
       if @profile.save
-        {'status' => 'ok'}.to_json
+        {'status' => 'ok', 'id' => @profile.url}.to_json
       else
         status 400 # Bad Request
         {'status' => 'error', 'errors' => @profile.errors}.to_json
       end
     end
+
   end
 
 
