@@ -206,7 +206,7 @@ Install the development dependencies with:
 
 ``` bash
 gem install bundler
-bundle install
+bundle
 ```
 
 Run all cucumber features:
