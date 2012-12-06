@@ -666,13 +666,28 @@ window.addEvent('domready', () ->
         label = $('timeframe-label')
         label.set('html', timeframe.label)
 
+    default_timeframe: () ->
+      that = this
+      that.collection.find((model) -> model.get('default'))
+
     render: () ->
       timeframe = JSON.decode(Cookie.read('timeframe'))
 
       that = this
       that.el.empty()
+
       that.collection.each((model) ->
-        model.set('selected', true) if timeframe and timeframe.label == model.get('label') # for the timeframe in the cookie
+
+        if model == that.default_timeframe()
+          model.set('selected', true)
+          label = $('timeframe-label')
+          label.set('html', timeframe.label)
+
+          console.log(label)
+        # for the timeframe in the cookie
+        if timeframe and timeframe.label == model.get('label') and not that.default_timeframe()
+          model.set('selected', true)
+
         view = new TimeframeView({model: model})
         that.el.grab(view.render().el)
       )
@@ -794,6 +809,14 @@ window.addEvent('domready', () ->
     { label: 'two months ago',   start: -2, finish: -1, unit: 'months' }
     { label: 'three months ago', start: -3, finish: -2, unit: 'months' }
   ])
+
+  if profile
+    timeframes.add({
+      label:   'As specified by profile',
+      default: true
+    }, {at: 0})
+
+
 
   timeframesView = new TimeframeCollectionView({
     collection: timeframes,

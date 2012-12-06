@@ -51,6 +51,23 @@ module Sinatra
     end
   end
 
+  module RequireCSSHelper
+    def require_css(filename)
+      @css_filenames ||= []
+      @css_filenames << filename
+    end
+
+    def include_required_css
+      if @css_filenames
+        @css_filenames.map { |filename|
+          %(<link href="#{link_to("/stylesheets/#{filename}.css")}" rel="stylesheet" type="text/css">)
+        }.join("\n")
+      else
+        ""
+      end
+    end
+  end
+
   module FormatHelper
     def distance_of_time_in_words(from_time, to_time = Time.now.to_i, include_seconds = false)
       from_time = from_time.to_i
