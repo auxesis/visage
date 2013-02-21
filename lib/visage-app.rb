@@ -26,6 +26,7 @@ module Visage
     helpers Sinatra::LinkToHelper
     helpers Sinatra::PageTitleHelper
     helpers Sinatra::RequireJSHelper
+    helpers Sinatra::RequireCSSHelper
     helpers Sinatra::FormatHelper
 
     configure do
@@ -52,6 +53,13 @@ module Visage
       haml :profile
     end
 
+    get '/profiles/share/:id' do
+      @profile = Visage::Profile.get(params[:id])
+      raise Sinatra::NotFound unless @profile
+
+      haml :share, :layout => false
+    end
+
     get %r{/profiles/([^/\.]+).?([^/]+)?} do
       url    = params[:captures][0]
       format = params[:captures][1]
@@ -66,7 +74,7 @@ module Visage
       end
     end
 
-    get '/profiles' do
+    get %r{/profiles/*} do
       options = {
         :anonymous => false,
         :sort      => params[:sort],
@@ -88,6 +96,23 @@ module Visage
       end
     end
 
+    post %r{/profiles/([^/\.]+).?([^/]+)?} do
+      url    = params[:captures][0]
+      format = params[:captures][1]
+
+      attrs = ::JSON.parse(request.body.read)
+      @profile = Visage::Profile.new(attrs)
+
+      @profile = Visage::Profile.get(url)
+      raise Sinatra::NotFound unless @profile
+
+      if @profile.save
+        {'status' => 'ok', 'id' => @profile.url}.to_json
+      else
+        status 400 # Bad Request
+        {'status' => 'error', 'errors' => @profile.errors}.to_json
+      end
+    end
   end
 
 
