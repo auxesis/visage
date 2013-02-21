@@ -412,18 +412,6 @@ input[type="file"] > input[type="button"]::-moz-focus-inner {
     border: none;
 }
 
-input#profile_name {
-  border: 1px solid #bbb;
-  font-size: 16px;
-  padding: 4px;
-  padding-top: 0;
-  width: 200px;
-  height: 20px;
-  -moz-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.25);
-  -webkit-box-shadow: 0 1px 5px rgba(0, 0, 0, 0.25);
-  float: right;
-}
-
 /*
  * Rebuilder
  */
@@ -588,3 +576,45 @@ ul#timeframes li:hover {
 ul#timeframes li.selected {
   background-color: #3465A4;
 }
+
+form.share div.row {
+  margin-bottom: 8px;
+}
+
+form.share div.row.permalink {
+  font-weight: bold;
+  text-align: center;
+  padding: 8px;
+  margin-bottom: 8px;
+}
+
+form.share div.row.permalink a {
+  padding: 8px;
+  font-size: 14px;
+}
+
+form.share div.row label {
+  display: block;
+  margin-bottom: 4px;
+  font-size: 14px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+form.share div.row label span.tip {
+  font-weight: normal;
+  font-style:  italic;
+  font-size:   90%;
+  font-family: serif;
+}
+
+form.share input.text {
+  border: 1px solid #bbb;
+  font-size: 16px;
+  padding: 2px 4px;
+  width: 400px;
+  height: 20px;
+  -moz-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.25);
+  -webkit-box-shadow: 0 1px 5px rgba(0, 0, 0, 0.25);
+}
+

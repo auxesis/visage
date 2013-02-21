@@ -1,0 +1,257 @@
+.lightface {
+  margin: 0;
+  padding: 0;
+  border-collapse: collapse;
+  position: absolute;
+  top: -9000px;
+  left: -9000px;
+}
+
+.lightface:focus {
+  outline: none;
+}
+
+.lightface td {
+  padding: 0;
+  margin: 0;
+  background-color: transparent;
+  vertical-align: top;
+  font-family: 'Verdana';
+  font-size: 11px;
+}
+
+.lightface .centerLeft, .lightface .centerRight {
+  width: 10px;
+  height: auto;
+  background-image: url(../images/LightFace/b.png);
+  background-repeat: repeat-y;
+}
+
+.lightface .topLeft, .lightface .topRight, .lightface .bottomLeft, .lightface .bottomRight {
+  width: 10px;
+  height: 10px;
+  background-repeat: no-repeat;
+}
+
+.lightface .topLeft {
+  background-image: url(../images/LightFace/tl.png);
+  background-position: top left;
+}
+
+.lightface .topRight {
+  background-image: url(../images/LightFace/tr.png);
+  background-position: top right;
+}
+
+.lightface .bottomLeft {
+  background-image: url(../images/LightFace/bl.png);
+  background-position: bottom left;
+}
+
+.lightface .bottomRight {
+  background-image: url(../images/LightFace/br.png);
+  background-position: bottom right;
+}
+
+.lightface .topCenter, .lightface .bottomCenter {
+  width: auto;
+  height: 10px;
+  background-image: url(../images/LightFace/b.png);
+  background-repeat: repeat-x;
+}
+
+.lightface .lightfaceContent {
+  background-color: #fff;
+  border: 1px solid #555;
+  position: relative;
+}
+
+.lightface .loading {
+  display: block;
+  margin: 10px auto;
+}
+
+.lightface .lightfaceContent .lightfaceTitle {
+  font-size: 14px;
+  color: #fff;
+  //*background-color: #6d84b4;*/
+  background: -moz-linear-gradient(100% 100% 90deg, #244671, #4C94F0);
+  background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#4C94F0), to(#244671));
+  border: 1px solid #3b5998;
+  font-weight: bold;
+  margin: -1px;
+  margin-bottom: 0;
+  padding: 5px 10px;
+}
+
+.lightface .lightfaceContent .lightfaceDraggable {
+  cursor:move;
+}
+
+.lightface .lightfaceContent .lightfaceMessage {
+  overflow: auto;
+  margin: 0;
+  position: relative;
+  padding: 5px 10px;
+  border: 1px solid #fff;
+}
+
+.lightface .lightfaceContent .lightfaceMessage h3,
+.lightface .lightfaceContent .lightfaceMessage h4,
+.lightface .lightfaceContent .lightfaceMessage h5,
+.lightface .lightfaceContent .lightfaceMessage h6 {
+  margin-top: 6px;
+}
+
+.lightface .lightfaceContent .lightfaceFooter {
+  background-color: #f2f2f2;
+  border-top: 1px solid #ccc;
+  padding: 6px 10px;
+  text-align: right;
+}
+/*
+.lightface .lightfaceFooter input[type='button'] {
+  border: 1px solid #666;
+  border-top-color: #e7e7e7;
+  border-left-color: #e7e7e7;
+  background-color: #f0f0f0;
+  padding: 1px 0 2px;
+  line-height: 16px;
+  vertical-align: middle;
+  margin-left: 5px;
+  cursor: pointer;
+  font-size: 13px;
+  display: inline-block;
+  font-family: 'Lucida Grande', Tahoma, Verdana, Arial, sans-serif;
+  font-weight: bold;
+  white-space: nowrap;
+  border:2px outset buttonface;
+  border-style: inset;
+  text-align:center;
+}
+
+.lightface .lightfaceFooter input[type='button'].lightfaceBlue {
+  border-color: #0e1f5b;
+  border-top-color: #d9dfea;
+  border-left-color: #d9dfea;
+  background-color: #3b598a;
+  color: #fff;
+}
+*/
+
+.lightface .lightfaceFooter label {
+  font-size: 13px;
+  border-style: solid;
+  background-image:url(../images/LightFace/button.png);
+  cursor:pointer;
+  font-weight:bold;
+  padding:2px 6px 2px 6px;
+  text-align:center;
+  vertical-align:top;
+  white-space:nowrap;
+  border-width:1px;
+  margin-left:3px;
+  background-position:0 0;
+  border-color:#999;
+  line-height:normal !important;
+  display:inline-block;
+}
+
+.lightface .lightfaceFooter label input {
+  background:none;
+  border:0 !important;
+  cursor:pointer;
+  font-family: 'Lucida Grande', Tahoma, Verdana, Arial, sans-serif;
+  font-weight:bold;
+  margin:0;
+  padding:1px 0 2px;
+  white-space:nowrap;
+  text-align:center;
+  color:#fff;
+  font-size:13px;
+  border: 2px outset buttonface;
+  text-indent:0;
+  text-shadow:none;
+  display:inline-block;
+  color:#444;
+  font-size:13px;
+}
+/* ie6 hacks */
+* html .lightface .lightfaceFooter label input { border:0; }
+
+.lightface .lightfaceFooter label.lightfaceblue {
+  background-position:0 -48px;
+  outline: none;
+
+  -moz-border-radius: 5px;
+  -webkit-border-radius: 5px;
+  -moz-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+  -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+  background-color: #637020;
+  background-repeat: repeat-x;
+  background: -moz-linear-gradient(100% 100% 90deg, #244671, #4C94F0);
+  background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#4C94F0), to(#244671));
+  border: medium none;
+  color: white;
+  cursor: pointer;
+  font-family: Lucida Grande,sans-serif;
+  font-weight: bold;
+  padding: 4px;
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.75);
+}
+
+.lightface .lightfaceFooter label.lightfaceblue:hover {
+  text-shadow: 0 2px 1px rgba(255, 255, 255, 0.1);
+  background: -webkit-gradient(linear, left top, left bottom, from(#529EFF), to(#274C7A));
+  background: -moz-linear-gradient(top, #529EFF, #274C7A);
+}
+
+.lightface .lightfaceFooter label.lightfaceblue.lightfacefocusblue { background-color: #5b74a8; background-image:none; }
+
+.lightface .lightfaceFooter label.lightfacegreen {
+  border-color: #3B6E22 #3B6E22 #2C5115;
+  background-position:0 -96px;
+}
+.lightface .lightfaceFooter label.lightfacegreen.lightfacefocusgreen { background-color: #69A74E; background-image:none; }
+
+.lightface .lightfaceFooter label.lightfaceblue input,
+.lightface .lightfaceFooter label.lightfacegreen input {
+  color:#fff;
+}
+
+
+.lightface .hiddenButton {
+  visibility: hidden;
+}
+
+.lightface .lightfaceOverlay {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  /*
+  background-image: url(../images/LightFace/fbloader.gif);
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-color: #fff;
+  */
+  background:url(../images/LightFace/fbloader.gif) center center no-repeat #fff;
+}
+
+.lightface .lightfaceMessageBox  {
+  overflow: auto;
+  padding: 10px 10px;
+  min-height: 20px;
+  position:relative;
+}
+
+.lightface .lightFaceMessageBoxImage {
+  overflow: hidden;
+  padding: 0;
+  background:url(../images/LightFace/fbloader.gif) center center no-repeat #fff;
+}
+
+.lightface .lightFaceMessageBoxImage img {
+  display: block;
+}

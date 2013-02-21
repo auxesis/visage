@@ -74,6 +74,8 @@ module Visage
           file << profiles.to_yaml
         end
 
+        @options = attrs # load up saved attributes
+
         true
       else
         false
