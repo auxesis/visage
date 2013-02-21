@@ -610,24 +610,42 @@ window.addEvent('domready', () ->
       shareToggler.addEvent('click', () ->
         modal.open()
 
-        graphAttributes = graphs.toJSON().map((attrs) ->
-          Object.subset(attrs , ['host', 'plugin', 'start', 'finish'])
-        )
+        current = Backbone.history.fragment.toString()
 
-        profile = new Profile({
-          graphs:    graphAttributes
-          anonymous: true
-          timeframe: true
-        })
+        # If we're saving a new profile (/profiles/new):
+        #
+        #  - Collect up all the graphs
+        #  - Construct a new profile
+        #  - Save the profile
+        #  - Navigate to the permalink
+        #  - Pop up a share dialog (to provide more customisation)
+        #
+        # If we're on an existing profile:
+        #
+        #  - Pop up a share dialog (to provide more customisation)
+        #
+        if current.test(/new$/)
+          graphAttributes = graphs.toJSON().map((attrs) ->
+            Object.subset(attrs , ['host', 'plugin', 'start', 'finish'])
+          )
 
-        profile.save({}, {
-          success: (model, response, options) ->
-            Application.navigate("profiles/#{model.id}", {trigger: true})
-            modal.load("/profiles/share/#{model.id}", "Share profile")
+          profile = new Profile({
+            graphs:    graphAttributes
+            anonymous: true
+            timeframe: true
+          })
 
-          error: (model, xhr, options) ->
-            console.log(response, model)
-        })
+          profile.save({}, {
+            success: (profile, response, options) ->
+              Application.navigate("profiles/#{profile.id}", {trigger: true})
+              modal.load("/profiles/share/#{profile.id}", "Share profile")
+
+            error: (model, xhr, options) ->
+              console.log(response, model)
+          })
+        else
+          id = current.split('/')[1]
+          modal.load("/profiles/share/#{id}", "Share profile")
       )
 
     render: () ->

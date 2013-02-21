@@ -1,17 +1,13 @@
 %form.share
   %div.row.permalink
     - url = request.base_url + "/profiles/#{@profile.url}"
-    %a{:href => url}= url
+    %a{:href => url, :target => "_profile_#{@profile.id}"}= url
   %div.row
     %label{:for  => 'profile_name'} Profile name
     %input{:name => 'profile[name]', :id => 'profile_name', :class => 'text', :type => 'text', :value => @profile.name}
   %div.row
     %label{:for  => 'profile_timeframe'} Use current timeframe
     %input{:name => 'profile[timeframe]', :id => 'profile_timeframe', :checked => @profile.timeframe, :class => 'checkbox', :type => 'checkbox'}
-    %script{:type => 'text/javascript'}
-      alert('blah')
-    :javascript
-      alert('blah')
   %div.row
     %label{:for  => 'profile_tags'}
       Tags
