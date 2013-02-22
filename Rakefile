@@ -94,3 +94,5 @@ namespace :verify do
 end
 
 task :verify => 'verify:all'
+
+task :default => :features
