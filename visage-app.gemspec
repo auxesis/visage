@@ -35,4 +35,5 @@ Gem::Specification.new do |s|
   s.add_development_dependency "webrat",    ">= 0"
   s.add_development_dependency "colorize",  ">= 0"
   s.add_development_dependency "ronn",      ">= 0"
+  s.add_development_dependency "poltergeist", ">= 0"
 end
