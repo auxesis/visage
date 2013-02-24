@@ -172,13 +172,8 @@ module Visage
           rrd_data.each_pair do |source, metric|
 
             # Filter out NaNs and weirdly massive values so yajl doesn't choke
-            # FIXME: does this actually do anything?
             metric = metric.map do |datapoint|
-              case
-              when datapoint && datapoint.nan?
-                @tripped = true
-                @last_valid
-              when @tripped
+              if datapoint && datapoint.nan?
                 @last_valid
               else
                 @last_valid = datapoint
