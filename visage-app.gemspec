@@ -26,7 +26,7 @@ Gem::Specification.new do |s|
   s.add_runtime_dependency     "haml",        "= 3.1.4"
   s.add_runtime_dependency     "tilt",        "= 1.3.3"
   s.add_runtime_dependency     "sinatra",     "= 1.3.2"
-  s.add_runtime_dependency     "errand",      "= 0.7.4"
+  s.add_runtime_dependency     "errand",      "= 0.8.0"
   s.add_runtime_dependency     "yajl-ruby",   "= 1.1.0"
   s.add_development_dependency "rake",        ">= 0"
   s.add_development_dependency "shotgun",     ">= 0"

@@ -1,4 +1,7 @@
 #!/usr/bin/env ruby
 
-source :rubygems
+source 'http://rubygems.org'
+
+gem 'errand', :path => '../errand'
+
 gemspec
