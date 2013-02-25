@@ -1,40 +1,44 @@
 #!/usr/bin/env ruby
 
-require 'rubygems'
 require 'pathname'
 
-@root = Pathname.new(File.dirname(__FILE__)).parent.parent.expand_path
-app_file = @root.join('lib/visage-app')
+require 'rspec'
+#require 'rack/test'
+require 'capybara'
+require 'capybara/cucumber'
+require 'capybara/poltergeist'
 
-require 'rack/test'
-require 'webrat'
+# Application setup
 
-ENV['CONFIG_PATH'] = @root.join('features/support/config/default').to_s
+root     = Pathname.new(File.dirname(__FILE__)).parent.parent.expand_path
+app_file = root.join('lib/visage-app').to_s
+require(app_file)
+ENV['CONFIG_PATH'] = root.join('features/support/config/default').to_s
 
-require app_file
-# Force the application name because polyglot breaks the auto-detection logic.
-Sinatra::Application.app_file = app_file
+# http://opensoul.org/blog/archives/2010/05/11/capybaras-eating-cucumbers/
+Capybara.app = Rack::Builder.new do
+  use Visage::Profiles
+  use Visage::Builder
+  use Visage::JSON
+  use Visage::Meta
 
-Webrat.configure do |config|
-  config.mode = :rack
+  run Sinatra::Application
+end.to_app
+
+Capybara.javascript_driver = :poltergeist
+
+Capybara.register_driver :poltergeist do |app|
+  options = {
+    #:debug => true
+    :js_errors => false
+  }
+  Capybara::Poltergeist::Driver.new(app, options)
 end
 
+# Cucumber setup
 class SinatraWorld
-  include Rack::Test::Methods
-  include Webrat::Methods
-  include Webrat::Matchers
-
-  Webrat::Methods.delegate_to_session :response_code, :response_body, :response_headers, :response
-
-  def app
-    Rack::Builder.new do
-      use Visage::Profiles
-      use Visage::Builder
-      use Visage::JSON
-      use Visage::Meta
-      run Sinatra::Application
-    end
-  end
+  #include Rack::Test::Methods
+  include Capybara::DSL
 end
 
 World do

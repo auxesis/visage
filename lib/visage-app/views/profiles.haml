@@ -1,7 +1,7 @@
 - page_title 'Profiles'
 - require_css 'profiles'
 
-%div#profiles
+%div#named_profiles.profile_column
   %h2 Profiles
   / FIXME - disabling sort links as default is now sorted by profile name
   / and there's no ability to sort by created time (until it's saved with
@@ -20,7 +20,7 @@
   %p.create
     %a{:href => link_to("/profiles/new")} Create a profile
 
-%div#profiles
+%div#recent_profiles.profile_column
   %h2 Recently shared
 
   - if @anonymous.size > 0

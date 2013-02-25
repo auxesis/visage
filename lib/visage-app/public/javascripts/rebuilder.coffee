@@ -646,6 +646,8 @@ window.addEvent('domready', () ->
         else
           id = current.split('/')[1]
           modal.load("/profiles/share/#{id}", "Share profile")
+
+          # modal.
       )
 
     render: () ->
@@ -784,6 +786,8 @@ window.addEvent('domready', () ->
     collection: graphs
   })
 
+  # If we're working with an existing profile, fetch the details and render
+  # the graphs
   if document.location.pathname.split('/')[2] != 'new'
     profile = new Profile()
     profile.fetch({
