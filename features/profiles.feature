@@ -18,10 +18,10 @@ Feature: Visit site
     Then I should see a collection of graphs
     And I should see "Back to profiles"
 
+  @javascript
   Scenario: Navigate profiles
     When I go to /profiles
     And I visit the first recent profile
-    Then I should see a profile heading
-    When I follow "back to profiles"
-    Then I should see a list of profiles sorted alphabetically
-
+    Then I should see a collection of graphs
+    When I follow "Back to profiles"
+    Then I should see a list of recently shared profiles

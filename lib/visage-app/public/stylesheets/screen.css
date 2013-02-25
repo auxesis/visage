@@ -614,3 +614,7 @@ form.share input.text {
   -webkit-box-shadow: 0 1px 5px rgba(0, 0, 0, 0.25);
 }
 
+div#bottom_nav {
+  padding: 16px 48px;
+  clear: both;
+}
