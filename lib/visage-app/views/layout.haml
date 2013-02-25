@@ -5,24 +5,22 @@
     %link{:rel => "icon", :type => "image/gif", :href => "/favicon.gif"}
     %link{:rel => 'stylesheet', :href => '/stylesheets/screen.css', :type => 'text/css'}
     %link{:rel => 'stylesheet', :href => '/stylesheets/message.css', :type => 'text/css'}
-    %script{:type => "text/javascript", :src => link_to("/javascripts/mootools-core-1.4.0-full-compat.js")}
-    %script{:type => "text/javascript", :src => link_to("/javascripts/mootools-more-1.4.0.1.js")}
-    %script{:type => "text/javascript", :src => link_to("/javascripts/highcharts-mootools-adapter.js")}
-    %script{:type => "text/javascript", :src => link_to("/javascripts/highcharts.js")}
-    %script{:type => "text/javascript", :src => link_to("/javascripts/graph.js")}
-    %script{:type => "text/javascript", :src => link_to("/javascripts/keyboard.js")}
-    %script{:type => "text/javascript", :src => link_to("/javascripts/message.js")}
+    = include_required_css
+    %script{:type => "text/javascript", :src => link_to("/javascripts/mootools-core-1.4.5.js")}
+    %script{:type => "text/javascript", :src => link_to("/javascripts/MooToolsAdapter.js")}
+    %script{:type => "text/javascript", :src => link_to("/javascripts/underscore-1.3.1.js")}
+    %script{:type => "text/javascript", :src => link_to("/javascripts/backbone.js")}
     = include_required_js
 
   %body
     %div#wrapper
       %div#header
         %div#nav
-          %ul
-            %li
-              %a{:href => link_to("/profiles")} profiles
-            %li
-              %a{:href => link_to("/builder")} builder
+          %div#timeframe-toggler.toggler
+            %label#timeframe-label last 1 hour
+            %ul#timeframes
+          %div#share-toggler.toggler
+            %label#share-label Share
 
       %div#content
         = yield
@@ -30,8 +28,8 @@
       %div#footer
         Visage
         |
-        %a{:href => link_to("/profiles")} Profiles
+        %a{:href => link_to("/profiles/new")} Explore
         |
-        %a{:href => link_to("/builder")} Builder
+        %a{:href => link_to("/profiles")} Profiles
 
 

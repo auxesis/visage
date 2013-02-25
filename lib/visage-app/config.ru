@@ -8,7 +8,6 @@ $0 = "visage"
 
 require 'lib/visage-app'
 use Visage::Profiles
-use Visage::Builder
 use Visage::JSON
 use Visage::Meta
 run Sinatra::Base

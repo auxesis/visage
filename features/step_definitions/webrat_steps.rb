@@ -38,5 +38,7 @@ When /^I attach the file at "(.*)" to "(.*)" $/ do |path, field|
 end
 
 Then /^show me the page$/ do
-  save_and_open_page
+  # save_and_open_page
+  #puts page.body
+  #page.driver.render('/home/auxesis/visage/file.png')
 end

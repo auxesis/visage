@@ -26,6 +26,8 @@ module Visage
     helpers Sinatra::LinkToHelper
     helpers Sinatra::PageTitleHelper
     helpers Sinatra::RequireJSHelper
+    helpers Sinatra::RequireCSSHelper
+    helpers Sinatra::FormatHelper
 
     configure do
       Visage::Config.use do |c|
@@ -47,56 +49,75 @@ module Visage
       redirect '/profiles'
     end
 
-    get '/profiles/:url' do
-      @profile = Visage::Profile.get(params[:url])
-      raise Sinatra::NotFound unless @profile
+    get '/profiles/new' do
       haml :profile
     end
 
-    get '/profiles' do
-      @profiles = Visage::Profile.all(:sort => params[:sort])
+    get '/profiles/share/:id' do
+      @profile = Visage::Profile.get(params[:id])
+      raise Sinatra::NotFound unless @profile
+
+      haml :share, :layout => false
+    end
+
+    get %r{/profiles/([^/\.]+).?([^/]+)?} do
+      url    = params[:captures][0]
+      format = params[:captures][1]
+
+      @profile = Visage::Profile.get(url)
+      raise Sinatra::NotFound unless @profile
+
+      if format == 'json'
+        @profile.to_json
+      else
+        haml :profile
+      end
+    end
+
+    get %r{/profiles/*} do
+      options = {
+        :anonymous => false,
+        :sort      => params[:sort],
+      }
+      @profiles  = Visage::Profile.all(options)
+      @anonymous = Visage::Profile.all(:anonymous => true, :sort => 'ascending')
       haml :profiles
     end
-  end
 
-
-  class Builder < Application
-
-    post '/builder' do
-      @profile = Visage::Profile.new(params)
+    post '/profiles' do
+      attrs = ::JSON.parse(request.body.read)
+      @profile = Visage::Profile.new(attrs)
 
       if @profile.save
-        {'status' => 'ok'}.to_json
+        {'status' => 'ok', 'id' => @profile.url}.to_json
       else
         status 400 # Bad Request
         {'status' => 'error', 'errors' => @profile.errors}.to_json
       end
     end
 
-    get "/builder" do
-      if params[:submit] == "create"
-        @profile = Visage::Profile.new(params)
+    post %r{/profiles/([^/\.]+).?([^/]+)?} do
+      url    = params[:captures][0]
+      format = params[:captures][1]
 
-        if @profile.save
-          redirect "/profiles/#{@profile.url}"
-        else
-          haml :builder
-        end
+      attrs = ::JSON.parse(request.body.read)
+      @profile = Visage::Profile.new(attrs)
+
+      @profile = Visage::Profile.get(url)
+      raise Sinatra::NotFound unless @profile
+
+      if @profile.save
+        {'status' => 'ok', 'id' => @profile.url}.to_json
       else
-        @profile = Visage::Profile.new(params)
-
-        haml :builder
+        status 400 # Bad Request
+        {'status' => 'error', 'errors' => @profile.errors}.to_json
       end
     end
+  end
 
-    # Infrastructure for embedding.
-    get '/javascripts/visage.js' do
-      javascript = ""
-      %w{raphael-min g.raphael g.line mootools-1.2.3-core mootools-1.2.3.1-more graph}.each do |js|
-        javascript += File.read(@root.join('lib/visage-app/public/javascripts', "#{js}.js"))
-      end
-      javascript
-    end
+
+  class Builder < Application
+
 
   end
 
@@ -112,6 +133,8 @@ module Visage
 
     # /data/:host/:plugin/:optional_plugin_instance
     get %r{/data/([^/]+)/([^/]+)((/[^/]+)*)} do
+      content_type :json if headers["Content-Type"] =~ /text/
+
       host        = params[:captures][0].gsub("\0", "")
       plugin      = params[:captures][1].gsub("\0", "")
       instances   = params[:captures][2].gsub("\0", "")
@@ -137,6 +160,8 @@ module Visage
     end
 
     get %r{/data/([^/]+)} do
+      content_type :json if headers["Content-Type"] =~ /text/
+
       hosts = params[:captures][0].gsub("\0", "")
       metrics = Visage::Collectd::RRDs.metrics(:hosts => hosts)
 
@@ -145,6 +170,7 @@ module Visage
     end
 
     get %r{/data(/)*} do
+      content_type :json if headers["Content-Type"] =~ /text/
       hosts = Visage::Collectd::RRDs.hosts
       json = { :hosts => hosts }.to_json
       maybe_wrap_with_callback(json)
