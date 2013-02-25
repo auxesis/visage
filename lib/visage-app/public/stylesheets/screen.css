@@ -272,10 +272,6 @@ div#chart-builder-slider {
   overflow-y: hidden;
 }
 
-div#profile {
-  clear: both;
-}
-
 h2#profile_name {
   margin: 36px 0;
 }
@@ -292,39 +288,39 @@ div#footer {
   margin-bottom: 2em;
 }
 
-div#profiles {
+div.profile_column {
   float: left;
   margin-left: 25px;
   width: 450px;
 }
 
-div#profiles div#sort {
+div.profile_column div#sort {
   text-align: right;
   font-size: 85%;
   color: #888;
 }
 
-div#profiles ul li {
+div.profile_column ul li {
   margin-bottom: 8px;
   padding-left: 24px;
   margin-left: -24px;
   list-style-type: none;
 }
 
-div#profiles ul li.active {
+div.profile_column ul li.active {
   background: url("/images/active.png") no-repeat scroll 10px;
 }
 
-div#profiles ul {
+div.profile_column ul {
   margin-bottom: 16px;
 }
 
-div#profiles ul p.time {
+div.profile_column ul p.time {
   color: gray;
   font-size: 80%;
 }
 
-div#profiles p.create {
+div.profile_column p.create {
   border-top: 1px dotted #aaa;
   padding-top: 8px;
   margin-top: 24px;
