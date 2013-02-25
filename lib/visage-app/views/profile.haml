@@ -1,46 +1,24 @@
-- profile_name = @profile.options[:profile_name]
-- page_title(profile_name)
-- require_js "builder"
+- page_title 'Explore Metrics'
 
-%a{:href=>"#edit", :id => "edit"} edit profile
-%div#chart-builder-slider
-  = haml :builder_form
+- require_js 'highcharts-mootools-adapter.src'
+- require_js 'highcharts.src'
+- require_js 'graph'
+- require_js 'mootools-more-1.4.0.1'
+- require_js 'raphael-min'
+- require_js 'rebuilder'
+- require_js 'LightFace'
+- require_js 'LightFace.Request'
+- require_css 'LightFace'
 
-- if @profile.options[:percentiles]
-  - percentiles = @profile.options[:percentiles]
-- else
-  - percentiles = []
+%div#graphs
 
-- if percentiles.length > 0
-  - percentiles_js = "'#{percentiles.join(',') }'"
-- else
-  - percentiles_js = ''
+%div#builder
+  %div#hosts{:class => 'dimension'}
+    %h2 1. Hosts
+  %div#metrics{:class => 'dimension'}
+    %h2 2. Metrics
+  %div#display{:class => 'dimension'}
+    %h2 3. Display
 
-:javascript
-  window.addEvent('domready', function() {
-    var builder = new ChartBuilder('chart-builder', {
-      hosts:       ['#{@profile.options[:hosts].join("','")   }'],
-      metrics:     ['#{@profile.options[:metrics].join("','") }'],
-      percentiles: [#{percentiles_js}],
-      timeframe:   ['#{@profile.options[:timeframe]}']
-
-    });
-
-    $('chart-builder-slider').fade('hide').setStyle('height', '0');
-
-    $('edit').addEvent('click', function(e) {
-      e.stop();
-      $('chart-builder-slider').setStyle('height', 'auto').fade('in');
-      e.target.destroy();
-    });
-  });
-
-%div#profile
-  %h2#name= profile_name
-  %div#graphs
-
-  %div#bottom_nav
-    %a{:href => link_to("/profiles")} &larr; Back to profiles
-
-
-
+%div#bottom_nav
+  %a{:href => link_to("/profiles")} &larr; Back to profiles
