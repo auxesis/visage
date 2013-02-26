@@ -73,6 +73,7 @@ module Visage
         encode(data)
       end
 
+      private
       def percentile_of_array(samples, percentage)
         if samples
           samples.sort[ (samples.length.to_f * ( percentage.to_f / 100.to_f ) ).to_i - 1 ]
@@ -99,7 +100,6 @@ module Visage
         new_samples
       end
 
-      private
       # Attempt to structure the JSON reasonably sanely, so the consumer (i.e. a
       # browser) doesn't have to do a lot of computationally expensive work.
       def encode(datas)

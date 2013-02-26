@@ -41,6 +41,12 @@ module Visage
       # Uses method documented at http://ithaca.arpinum.org/2010/07/29/ruby-dynamic-includes.html
       module_name = Visage::Data.const_get(backend)
       self.send(:include, module_name)
+
+      self.backend
+    end
+
+    def self.backend
+      self.included_modules.find {|m| m.to_s =~ /^Visage::Data/}
     end
   end # class JSON
 end # module Visage
