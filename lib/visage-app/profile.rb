@@ -1,9 +1,9 @@
 #!/usr/bin/env ruby
 
 root = Pathname.new(File.dirname(__FILE__)).parent.parent
-$: << root.join('lib')
-require 'lib/visage-app/graph'
-require 'lib/visage-app/patches'
+$: << root.join('lib').to_s
+require 'visage-app/graph'
+require 'visage-app/patches'
 require 'digest/md5'
 
 module Visage
