@@ -10,8 +10,7 @@ require 'lib/visage-app/profile'
 require 'lib/visage-app/helpers'
 require 'lib/visage-app/config'
 require 'lib/visage-app/config/file'
-require 'lib/visage-app/collectd/rrds'
-require 'lib/visage-app/collectd/json'
+require 'lib/visage-app/data'
 require 'lib/visage-app/types'
 require 'yajl/json_gem'
 
@@ -117,8 +116,6 @@ module Visage
 
 
   class Builder < Application
-
-
   end
 
   class JSON < Application
@@ -143,9 +140,9 @@ module Visage
       percentiles = params[:percentiles] ||= "false"
       resolution  = params[:resolution]
 
-      collectd = Visage::Collectd::JSON.new(:rrddir        => Visage::Config.rrddir,
-                                            :collectdsock  => Visage::Config.collectdsock,
-                                            :rrdcachedsock => Visage::Config.rrdcachedsock)
+      collectd = Visage::Data.new(:rrddir        => Visage::Config.rrddir,
+                                  :collectdsock  => Visage::Config.collectdsock,
+                                  :rrdcachedsock => Visage::Config.rrdcachedsock)
 
       json = collectd.json(:host        => host,
                            :plugin      => plugin,
@@ -163,7 +160,7 @@ module Visage
       content_type :json if headers["Content-Type"] =~ /text/
 
       hosts = params[:captures][0].gsub("\0", "")
-      metrics = Visage::Collectd::RRDs.metrics(:hosts => hosts)
+      metrics = Visage::Data.metrics(:hosts => hosts)
 
       json = { :metrics => metrics }.to_json
       maybe_wrap_with_callback(json)
@@ -171,7 +168,7 @@ module Visage
 
     get %r{/data(/)*} do
       content_type :json if headers["Content-Type"] =~ /text/
-      hosts = Visage::Collectd::RRDs.hosts
+      hosts = Visage::Data.hosts
       json = { :hosts => hosts }.to_json
       maybe_wrap_with_callback(json)
     end
