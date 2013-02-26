@@ -140,17 +140,23 @@ module Visage
       percentiles = params[:percentiles] ||= "false"
       resolution  = params[:resolution]
 
-      collectd = Visage::Data.new(:rrddir        => Visage::Config.rrddir,
-                                  :collectdsock  => Visage::Config.collectdsock,
-                                  :rrdcachedsock => Visage::Config.rrdcachedsock)
+      options = {
+        :rrddir        => Visage::Config.rrddir,
+        :collectdsock  => Visage::Config.collectdsock,
+        :rrdcachedsock => Visage::Config.rrdcachedsock
+      }
+      data = Visage::Data.new(options)
 
-      json = collectd.json(:host        => host,
-                           :plugin      => plugin,
-                           :instances   => instances,
-                           :start       => start,
-                           :finish      => finish,
-                           :percentiles => percentiles,
-                           :resolution  => resolution)
+      query = {
+        :host        => host,
+        :plugin      => plugin,
+        :instances   => instances,
+        :start       => start,
+        :finish      => finish,
+        :percentiles => percentiles,
+        :resolution  => resolution,
+      }
+      json = data.json(query)
 
       # If the request is cross-domain, we need to serve JSON-P.
       maybe_wrap_with_callback(json)
@@ -159,17 +165,21 @@ module Visage
     get %r{/data/([^/]+)} do
       content_type :json if headers["Content-Type"] =~ /text/
 
-      hosts = params[:captures][0].gsub("\0", "")
-      metrics = Visage::Data.metrics(:hosts => hosts)
-
+      query = {
+        :hosts => params[:captures][0].gsub("\0", "")
+      }
+      metrics = Visage::Data.metrics(query)
       json = { :metrics => metrics }.to_json
+
       maybe_wrap_with_callback(json)
     end
 
     get %r{/data(/)*} do
       content_type :json if headers["Content-Type"] =~ /text/
+
       hosts = Visage::Data.hosts
-      json = { :hosts => hosts }.to_json
+      json  = { :hosts => hosts }.to_json
+
       maybe_wrap_with_callback(json)
     end
 
