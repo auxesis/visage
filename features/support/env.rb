@@ -3,7 +3,6 @@
 require 'pathname'
 
 require 'rspec'
-#require 'rack/test'
 require 'capybara'
 require 'capybara/cucumber'
 require 'capybara/poltergeist'
@@ -37,7 +36,6 @@ end
 
 # Cucumber setup
 class SinatraWorld
-  #include Rack::Test::Methods
   include Capybara::DSL
 end
 
