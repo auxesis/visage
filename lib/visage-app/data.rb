@@ -32,9 +32,10 @@ module Visage
     #
     # Currently supported backends are RRD and Mock.
     def self.backend=(backend)
-      # Dynamically load up all the backends we know about.
-      backends = Dir.glob(File.join(File.dirname(__FILE__), 'data', '*.rb'))
-      backends.each { |b| require(b) }
+      # Require the backend.
+      # FIXME: test if the file exists.
+      backend_filename = File.join(File.dirname(__FILE__), 'data', "#{backend.downcase}")
+      require(backend_filename)
 
       # Determine the module name, and include it into Visage::Data.
       #
