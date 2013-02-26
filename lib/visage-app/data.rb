@@ -1,11 +1,5 @@
 #!/usr/bin/env ruby
 
-@root = Pathname.new(File.dirname(__FILE__)).parent.parent.expand_path
-$: << @root.to_s
-require 'visage-app/patches'
-require 'errand'
-require 'yajl'
-
 # Proxy for the various Visage data backends.
 #
 # Mixes in a backend when you call `Visage::Data.backend`.
