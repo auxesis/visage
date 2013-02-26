@@ -1,7 +1,7 @@
 Then /^I should receive valid JSON$/ do
   yajl = Yajl::Parser.new
   lambda {
-    @response = yajl.parse(response_body)
+    @response = yajl.parse(page.body)
   }.should_not raise_error
 
   case
