@@ -1,17 +1,17 @@
 #!/usr/bin/env ruby
 
 require 'pathname'
-@root = Pathname.new(File.dirname(__FILE__)).parent.expand_path
+@root = Pathname.new(File.dirname(__FILE__)).expand_path
 $: << @root.to_s
 
 require 'sinatra/base'
 require 'haml'
-require 'lib/visage-app/profile'
-require 'lib/visage-app/helpers'
-require 'lib/visage-app/config'
-require 'lib/visage-app/config/file'
-require 'lib/visage-app/data'
-require 'lib/visage-app/types'
+require 'visage-app/profile'
+require 'visage-app/helpers'
+require 'visage-app/config'
+require 'visage-app/config/file'
+require 'visage-app/data'
+require 'visage-app/types'
 require 'yajl/json_gem'
 
 module Visage
@@ -31,15 +31,20 @@ module Visage
     configure do
       Visage::Config.use do |c|
         # FIXME: make this configurable through file
-        c['rrddir']        = ENV["RRDDIR"] ? Pathname.new(ENV["RRDDIR"]).expand_path : Pathname.new("/var/lib/collectd/rrd").expand_path
         c['types']         = ENV["TYPES"]  ? Visage::Types.new(:filename => ENV["TYPES"]) : Visage::Types.new
+
+        c['rrddir']        = ENV["RRDDIR"] ? Pathname.new(ENV["RRDDIR"]).expand_path : Pathname.new("/var/lib/collectd/rrd").expand_path
         c['collectdsock']  = ENV["COLLECTDSOCK"]
         c['rrdcachedsock'] = ENV["RRDCACHEDSOCK"]
+
+        c['data_backend']  = ENV['VISAGE_DATA_BACKEND'] || 'RRD'
       end
 
       # Load up the profiles.yaml. Creates it if it doesn't already exist.
       Visage::Profile.load
 
+      # Set the data backend to use in Visage::JSON
+      Visage::Data.backend = Visage::Config.data_backend
     end
   end
 
