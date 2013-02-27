@@ -20,13 +20,14 @@ module Visage
 
       def json(opts={})
         # setup variables
-        hosts     = opts[:host].split(',')
-        plugins   = opts[:plugin].split(',')
-        instances = opts[:instances][1..-1] && opts[:instances][1..-1].split(',') || '*'
+        hosts     = build_host_list(opts[:host])
+        plugins   = build_plugin_list(opts[:plugin])
+        instances = build_instances_list(opts[:instances])
         source    = 'value'
 
-        start     = (opts[:start] || (Time.now - 3600).to_i).to_i
-        finish    = (opts[:finish] || (Time.now).to_i).to_i
+        finish    = parse_time(opts[:finish])
+        start     = parse_time(opts[:start],  :default => (finish - 3600 || (Time.now - 3600).to_i))
+
         structure = {}
         functions = [:sin, :cos, :cbrt,] * 10
 
@@ -53,6 +54,43 @@ module Visage
 
         encoder = Yajl::Encoder.new
         encoder.encode(structure)
+      end
+
+      private
+
+      def build_host_list(hosts)
+        hosts.split(',').map! do |host|
+          if host =~ /\*/
+            DATA[:hosts].find_all {|k| k =~ /#{host.gsub('*', '.*')}/ }
+          else
+            host
+          end
+        end.flatten
+      end
+
+      def build_plugin_list(plugins)
+        plugins.split(',').map! do |plugin|
+          if plugin =~ /\*/
+            DATA[:metrics].keys.find_all {|k| k =~ /#{plugin.gsub('*', '.*')}/ }
+          else
+            plugin
+          end
+        end.flatten
+      end
+
+      def build_instances_list(instances)
+        instances[1..-1] && instances[1..-1].split(',') || '*'
+      end
+
+      def parse_time(time, opts={})
+        case
+        when time && time.index('.')
+          time.split('.').first.to_i
+        when time
+          time.to_i
+        else
+         opts[:default] || Time.now.to_i
+        end
       end
 
       module ClassMethods

@@ -44,7 +44,7 @@ Feature: Export data
 
   Scenario: Retrieve multiple plugins through a glob
     Given a list of hosts exist
-    When I visit "disk*/disk_ops" on the first available host
+    When I visit "cpu*/cpu-user" on the first available host
     Then the request should succeed
     Then I should receive valid JSON
     And I should see multiple plugins
@@ -57,7 +57,7 @@ Feature: Export data
 
   Scenario: Retrieve data with a defined start time
     Given a list of hosts exist
-    When I visit "disk*/disk_ops" on the first available host with the following query parameters:
+    When I visit "cpu*/cpu-user" on the first available host with the following query parameters:
       | parameter | value      |
       | start     | 1321769692 |
       | finish    | 1321773292 |
@@ -70,7 +70,7 @@ Feature: Export data
 
   Scenario: Retrieve data with a defined finish time
     Given a list of hosts exist
-    When I visit "disk*/disk_ops" on the first available host with the following query parameters:
+    When I visit "cpu*/cpu-system" on the first available host with the following query parameters:
       | parameter | value      |
       | finish    | 1321773292 |
     Then the request should succeed
@@ -82,7 +82,7 @@ Feature: Export data
 
   Scenario: Retrieve data for a defined period including 95th percentile calculations
     Given a list of hosts exist
-    When I visit "disk*/disk_ops" on the first available host with the following query parameters:
+    When I visit "cpu*/cpu-idle" on the first available host with the following query parameters:
       | parameter   | value      |
       | start       | 1 hour ago |
       | finish      | now        |
