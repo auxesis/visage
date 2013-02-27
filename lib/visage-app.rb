@@ -11,7 +11,6 @@ require 'visage-app/helpers'
 require 'visage-app/config'
 require 'visage-app/config/file'
 require 'visage-app/data'
-require 'visage-app/types'
 require 'yajl/json_gem'
 
 module Visage
@@ -193,11 +192,5 @@ module Visage
       params[:callback] ? params[:callback] + '(' + json + ')' : json
     end
 
-  end
-
-  class Meta < Application
-    get '/meta/types' do
-      Visage::Config.types.to_json
-    end
   end
 end
