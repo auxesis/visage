@@ -48,6 +48,9 @@ module Visage
               structure[host][plugin][instance][source][:start]  ||= start
               structure[host][plugin][instance][source][:finish] ||= finish
               structure[host][plugin][instance][source][:data]   ||= metric
+              structure[host][plugin][instance][source][:percentile_95]  ||= 95
+              structure[host][plugin][instance][source][:percentile_50]  ||= 50
+              structure[host][plugin][instance][source][:percentile_5]  ||= 5
             end
           end
         end
