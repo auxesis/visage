@@ -30,14 +30,14 @@ module Visage
 
     configure do
       Visage::Config.use do |c|
-        # FIXME: make this configurable through file
-        c['types']         = ENV["TYPES"]  ? Visage::Types.new(:filename => ENV["TYPES"]) : Visage::Types.new
+        # FIXME: make this configurable through a YAML config file
+        c['data_backend']  = ENV['VISAGE_DATA_BACKEND'] || 'RRD'
 
+        # RRD specific config options
+        # FIXME: make this configurable through a YAML config file
         c['rrddir']        = ENV["RRDDIR"] ? Pathname.new(ENV["RRDDIR"]).expand_path : Pathname.new("/var/lib/collectd/rrd").expand_path
         c['collectdsock']  = ENV["COLLECTDSOCK"]
         c['rrdcachedsock'] = ENV["RRDCACHEDSOCK"]
-
-        c['data_backend']  = ENV['VISAGE_DATA_BACKEND'] || 'RRD'
       end
 
       # Load up the profiles.yaml. Creates it if it doesn't already exist.
