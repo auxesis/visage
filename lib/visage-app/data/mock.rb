@@ -82,17 +82,6 @@ module Visage
         instances[1..-1] && instances[1..-1].split(',') || '*'
       end
 
-      def parse_time(time, opts={})
-        case
-        when time && time.index('.')
-          time.split('.').first.to_i
-        when time
-          time.to_i
-        else
-         opts[:default] || Time.now.to_i
-        end
-      end
-
       module ClassMethods
         def hosts(opts={})
           DATA[:hosts]
