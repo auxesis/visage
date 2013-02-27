@@ -20,7 +20,6 @@ Capybara.app = Rack::Builder.new do
   use Visage::Profiles
   use Visage::Builder
   use Visage::JSON
-  use Visage::Meta
 
   run Sinatra::Application
 end.to_app
