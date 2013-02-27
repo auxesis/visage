@@ -43,5 +43,17 @@ module Visage
     def self.backend
       self.included_modules.find {|m| m.to_s =~ /^Visage::Data/}
     end
+
+    private
+    def parse_time(time, opts={})
+      case
+      when time && time.index('.')
+        time.split('.').first.to_i
+      when time
+        time.to_i
+      else
+       opts[:default] || Time.now.to_i
+      end
+    end
   end # class JSON
 end # module Visage

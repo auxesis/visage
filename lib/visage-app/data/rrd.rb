@@ -14,17 +14,6 @@ module Visage
         base.extend(ClassMethods)
       end
 
-      def parse_time(time, opts={})
-        case
-        when time && time.index('.')
-          time.split('.').first.to_i
-        when time
-          time.to_i
-        else
-         opts[:default] || Time.now.to_i
-        end
-      end
-
       # Entry point.
       def json(opts={})
         host        = opts[:host]
