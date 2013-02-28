@@ -64,7 +64,7 @@ end
 #
 # http://weblog.jamisbuck.org/assets/2006/9/25/gdb.rb
 def read_until_timeout(pipe, timeout=1, verbose=false)
-  output = []
+  @output ||= []
   line    = ""
   while data = IO.select([pipe], nil, nil, timeout) do
     next if data.empty?
@@ -74,12 +74,12 @@ def read_until_timeout(pipe, timeout=1, verbose=false)
     line << char
     if line[-1] == ?\n
       puts line if verbose
-      output << line
+      @output << line
       line = ""
     end
   end
 
-  output
+  @output
 end
 
 at_exit do
