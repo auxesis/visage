@@ -1,0 +1,1260 @@
+---
+b3+esx+disk_usage:
+  :metrics:
+  - disk_usage/gauge-bytesPerSecond
+  :url: b3+esx+disk_usage
+  :profile_name: b3*esx disk_usage
+  :percentiles:
+  :hosts:
+  - bp-pmdh-b3esx-12.inf.bulletproof.net
+  - bp-pmdh-b3esx-13.inf.bulletproof.net
+  - bp-pmdh-b3esx-14.inf.bulletproof.net
+  - bp-pmdh-b3aesx-01.inf.bulletproof.net
+  - bp-pmdh-b3aesx-02.inf.bulletproof.net
+  - bp-pmdh-b3aesx-03.inf.bulletproof.net
+  - bp-pmdh-b3aesx-04.inf.bulletproof.net
+  - bp-pmdh-b3aesx-05.inf.bulletproof.net
+  - bp-pmdh-b3besx-01.inf.bulletproof.net
+  - bp-pmdh-b3besx-02.inf.bulletproof.net
+  - bp-pmdh-b3besx-03.inf.bulletproof.net
+  - bp-pmdh-b3besx-04.inf.bulletproof.net
+  - bp-pmdh-b3esx-01.inf.bulletproof.net
+  - bp-pmdh-b3esx-02.inf.bulletproof.net
+  - bp-pmdh-b3esx-03.inf.bulletproof.net
+  - bp-pmdh-b3esx-04.inf.bulletproof.net
+  - bp-pmdh-b3esx-05.inf.bulletproof.net
+  - bp-pmdh-b3esx-06.inf.bulletproof.net
+  - bp-pmdh-b3esx-07.inf.bulletproof.net
+  - bp-pmdh-b3esx-08.inf.bulletproof.net
+  - bp-pmdh-b3esx-09.inf.bulletproof.net
+  - bp-pmdh-b3esx-10.inf.bulletproof.net
+  - bp-pmdh-b3esx-11.inf.bulletproof.net
+collectd+01+disk+ops:
+  :metrics:
+  - disk-dm-0/disk_ops
+  - disk-dm-1/disk_ops
+  - disk-sda/disk_ops
+  - disk-sda1/disk_ops
+  - disk-sdb/disk_ops
+  :url: collectd+01+disk+ops
+  :profile_name: collectd-01 disk ops
+  :percentiles:
+  :hosts:
+  - bp-dvmh-collectd-01.inf.bulletproof.net
+rt+tickets+per+user+101:
+  :metrics:
+  - rt_user_tickets-101/records-anthony
+  - rt_user_tickets-101/records-arthurb
+  - rt_user_tickets-101/records-brendan
+  - rt_user_tickets-101/records-brendon
+  - rt_user_tickets-101/records-davidm
+  - rt_user_tickets-101/records-doug
+  - rt_user_tickets-101/records-garym
+  - rt_user_tickets-101/records-ghassan
+  - rt_user_tickets-101/records-harman
+  - rt_user_tickets-101/records-mattn
+  - rt_user_tickets-101/records-michael
+  - rt_user_tickets-101/records-mick
+  - rt_user_tickets-101/records-paul
+  - rt_user_tickets-101/records-rabbie
+  - rt_user_tickets-101/records-sean
+  - rt_user_tickets-101/records-simone
+  - rt_user_tickets-101/records-stefan
+  - rt_user_tickets-101/records-steve
+  - rt_user_tickets-101/records-timc
+  - rt_user_tickets-101/records-james
+  - rt_user_tickets-101/records-jamie
+  - rt_user_tickets-101/records-jdub
+  - rt_user_tickets-101/records-jesse
+  - rt_user_tickets-101/records-johnf
+  - rt_user_tickets-101/records-justaan
+  - rt_user_tickets-101/records-kim
+  - rt_user_tickets-101/records-kylie
+  - rt_user_tickets-101/records-lindsay
+  - rt_user_tickets-101/records-lorenzo
+  :url: rt+tickets+per+user+101
+  :profile_name: RT Tickets per User 101
+  :percentiles:
+  :hosts:
+  - rt.bulletproof.net
+pages+from+notifyd+on+nol:
+  :metrics:
+  - tail-notifyd_pages/counter-ESC
+  - tail-notifyd_pages/counter-GRP
+  - tail-notifyd_pages/counter-Primary
+  :url: pages+from+notifyd+on+nol
+  :profile_name: Pages from Notifyd on nol
+  :percentiles:
+  :hosts:
+  - oldlace.bulletproof.net.au
+vocus+evpl+syd07+to+sjc01:
+  :metrics:
+  - snmp/if_octets-Port-channel1.7
+  :url: vocus+evpl+syd07+to+sjc01
+  :profile_name: Vocus EVPL syd07 to sjc01
+  :percentiles:
+  :hosts:
+  - vpn06.syd07.aunsw.bltprf.net
+b2fw02:
+  :metrics:
+  - cpu-2/cpu-interrupt
+  - vmem/vmpage_number-vmscan_write
+  - vmem/vmpage_number-slab_reclaimable
+  - vmem/vmpage_number-dirty
+  - vmem/vmpage_number-inactive_file
+  - interface/if_octets-eth1
+  - processes/ps_state-running
+  - vmem/vmpage_io-swap
+  - interface/if_errors-vlan79
+  - irq/irq-8
+  - swap/swap_io-in
+  - interface/if_errors-vlan4
+  - irq/irq-73
+  - interface/if_errors-vlan43
+  - irq/irq-76
+  - interface/if_errors-lo
+  - irq/irq-69
+  - disk-sda3/disk_time
+  - irq/irq-60
+  - interface/if_packets-vlan41
+  - interface/if_errors-bond0
+  - irq/irq-66
+  - irq/irq-57
+  - interface/if_packets-vlan39
+  - disk-sda5/disk_ops
+  - irq/irq-63
+  - disk-sda1/disk_ops
+  - irq/irq-18
+  - interface/if_octets-vlan79
+  - disk-sda3/disk_merged
+  - disk-sda/disk_time
+  - irq/irq-15
+  - interface/if_octets-vlan43
+  - disk-sda2/disk_octets
+  - irq/irq-54
+  - cpu-7/cpu-wait
+  - interface/if_packets-eth1
+  - disk-sda/disk_merged
+  - irq/irq-0
+  - interface/if_octets-vlan4
+  - cpu-1/cpu-nice
+  - cpu-7/cpu-interrupt
+  - cpu-5/cpu-nice
+  - cpu-0/cpu-wait
+  - cpu-6/cpu-softirq
+  - cpu-4/cpu-wait
+  - cpu-0/cpu-interrupt
+  - cpu-6/cpu-idle
+  - cpu-3/cpu-softirq
+  - cpu-4/cpu-interrupt
+  - cpu-3/cpu-idle
+  - cpu-2/cpu-nice
+  - vmem/vmpage_number-writeback
+  - vmem/vmpage_number-file_pages
+  - vmem/vmpage_number-slab_unreclaimable
+  - vmem/vmpage_number-active_anon
+  - vmem/vmpage_number-isolated_anon
+  - interface/if_octets-lo
+  - processes/ps_state-sleeping
+  - swap/swap_io-out
+  - interface/if_octets-bond0
+  - irq/irq-9
+  - interface/if_errors-usb0
+  - irq/irq-71
+  - interface/if_errors-vlan44
+  - irq/irq-77
+  - interface/if_errors-vlan40
+  - irq/irq-74
+  - disk-sda5/disk_merged
+  - irq/irq-61
+  - interface/if_packets-vlan43
+  - interface/if_errors-eth0
+  - irq/irq-67
+  - disk-sda3/disk_octets
+  - irq/irq-58
+  - interface/if_packets-vlan4
+  - disk-sda5/disk_time
+  - irq/irq-64
+  - disk-sda1/disk_time
+  - irq/irq-19
+  - interface/if_packets-bond0
+  - disk-sda2/disk_ops
+  - irq/irq-55
+  - interface/if_packets-lo
+  - disk-sda1/disk_merged
+  - irq/irq-16
+  - interface/if_octets-vlan44
+  - cpu-1/cpu-softirq
+  - cpu-7/cpu-nice
+  - disk-sda/disk_octets
+  - irq/irq-1
+  - interface/if_octets-vlan40
+  - cpu-1/cpu-idle
+  - cpu-6/cpu-wait
+  - df/df-lib-init-rw
+  - cpu-5/cpu-softirq
+  - interface/if_packets-vlan45
+  - interface/if_octets-usb0
+  - cpu-3/cpu-wait
+  - cpu-5/cpu-idle
+  - cpu-0/cpu-nice
+  - cpu-6/cpu-interrupt
+  - cpu-4/cpu-nice
+  - cpu-3/cpu-interrupt
+  - cpu-2/cpu-softirq
+  - vmem/vmpage_number-unevictable
+  - vmem/vmpage_number-inactive_anon
+  - cpu-2/cpu-idle
+  - vmem/vmpage_number-isolated_file
+  - vmem/vmpage_number-active_file
+  - processes/ps_state-paging
+  - vmem/vmpage_io-memory
+  - interface/if_octets-eth0
+  - interface/if_errors-vlan45
+  - interface/if_errors-vlan39
+  - irq/irq-72
+  - irq/irq-78
+  - processes/ps_state-zombies
+  - interface/if_packets-vlan44
+  - disk-sda5/disk_octets
+  - interface/if_errors-vlan41
+  - interface/if_errors-eth1
+  - irq/irq-62
+  - irq/irq-68
+  - irq/irq-75
+  - interface/if_packets-vlan40
+  - disk-sda3/disk_ops
+  - dns/dns_rcode-YXDOMAIN
+  - irq/irq-59
+  - irq/irq-65
+  - interface/if_packets-usb0
+  - irq/irq-56
+  - disk-sda2/disk_time
+  - interface/if_octets-vlan45
+  - irq/irq-17
+  - disk-sda1/disk_octets
+  - interface/if_packets-eth0
+  - irq/irq-21
+  - cpu-7/cpu-softirq
+  - cpu-1/cpu-wait
+  - disk-sda2/disk_merged
+  - interface/if_octets-vlan41
+  - irq/irq-14
+  - disk-sda/disk_ops
+  - interface/if_packets-vlan79
+  - cpu-5/cpu-wait
+  - df/df-var-lib-ureadahead-debugfs
+  - cpu-7/cpu-idle
+  - cpu-1/cpu-interrupt
+  - interface/if_octets-vlan39
+  - cpu-5/cpu-interrupt
+  - cpu-6/cpu-nice
+  - cpu-0/cpu-softirq
+  - cpu-4/cpu-softirq
+  - cpu-3/cpu-nice
+  - cpu-0/cpu-idle
+  - cpu-4/cpu-idle
+  - cpu-2/cpu-wait
+  :url: b2fw02
+  :profile_name: b2fw02
+  :percentiles:
+  :hosts:
+  - bp-pmdh-b2fw-02.inf.bulletproof.net
+collectd+01+memory:
+  :metrics:
+  - memory/memory-buffered
+  - memory/memory-cached
+  - memory/memory-free
+  - memory/memory-used
+  - vmem/vmpage_io-memory
+  :url: collectd+01+memory
+  :profile_name: collectd-01 memory
+  :percentiles:
+  :hosts:
+  - bp-dvmh-collectd-01.inf.bulletproof.net
+rt+support+and+internal+current+totals:
+  :metrics:
+  - rt_queue_stats-Support/records-new
+  - rt_queue_stats-Support/records-open
+  - rt_queue_stats-Support/records-stalled
+  - rt_queue_stats-Internal/records-new
+  - rt_queue_stats-Internal/records-open
+  - rt_queue_stats-Internal/records-stalled
+  :url: rt+support+and+internal+current+totals
+  :profile_name: RT Support and Internal - Current Totals
+  :percentiles:
+  :hosts:
+  - rt.bulletproof.net
+tvic+pmdh+esx+03:
+  :metrics:
+  - cpu_usage/gauge-percent
+  - cpu_usagemhz/gauge-hertz
+  - disk_maxTotalLatency/gauge-millisecond
+  - disk_usage/gauge-bytesPerSecond
+  - mem_consumed/gauge-bytes
+  - mem_overhead/gauge-bytes
+  - mem_swapinRate/gauge-bytesPerSecond
+  - mem_swapoutRate/gauge-bytesPerSecond
+  - mem_swapused/gauge-bytes
+  - mem_usage/gauge-percent
+  - mem_vmmemctl/gauge-bytes
+  - sys_diskUsage/gauge-percent
+  - sys_uptime/gauge-second
+  :url: tvic+pmdh+esx+03
+  :profile_name: tvic-pmdh-esx-03
+  :percentiles:
+  :hosts:
+  - tvic-pmdh-esx-03.cust.bulletproof.net
+b0esx+basics:
+  :metrics:
+  - cpu_usage/gauge-percent
+  - disk_maxTotalLatency/gauge-millisecond
+  - mem_consumed/gauge-bytes
+  - sys_uptime/gauge-second
+  :url: b0esx+basics
+  :profile_name: b0esx basics
+  :percentiles:
+  :hosts:
+  - bp-pmdh-b0esx-01.inf.bulletproof.net
+  - bp-pmdh-b0esx-02.inf.bulletproof.net
+  - bp-pmdh-b0esx-03.inf.bulletproof.net
+links+vocus+and+pacnet+links+on+bdr01:
+  :metrics:
+  - snmp/if_octets-GigabitEthernet0_0_3.692
+  - snmp/if_octets-GigabitEthernet0_0_1
+  :url: links+vocus+and+pacnet+links+on+bdr01
+  :profile_name: Links - Vocus and PacNet Links on bdr01
+  :percentiles:
+  :hosts:
+  - bdr01.syd07.aunsw.bltprf.net
+rawideas+dvmh+app+cpu+0+idle:
+  :metrics:
+  - cpu-0/cpu-idle
+  :url: rawideas+dvmh+app+cpu+0+idle
+  :profile_name: rawideas-dvmh-app cpu-0 idle
+  :percentiles:
+  :hosts:
+  - rawideas-dvmh-app-01.cust.bulletproof.net
+  - rawideas-dvmh-app-02.cust.bulletproof.net
+  - rawideas-dvmh-app-05.cust.bulletproof.net
+  - rawideas-dvmh-app-06.cust.bulletproof.net
+  - rawideas-dvmh-app-07.cust.bulletproof.net
+  - rawideas-dvmh-app-08.cust.bulletproof.net
+  - rawideas-dvmh-app-09.cust.bulletproof.net
+  - rawideas-dvmh-app-10.cust.bulletproof.net
+link+vocus+primary+on+bdr01:
+  :metrics:
+  - snmp/if_octets-GigabitEthernet0_0_3.692
+  :url: link+vocus+primary+on+bdr01
+  :profile_name: Link - Vocus Primary on bdr01
+  :percentiles:
+  - "95"
+  :hosts:
+  - bdr01.syd07.aunsw.bltprf.net
+link+verizon+primary+on+bdr02:
+  :metrics:
+  - snmp/if_octets-GigabitEthernet0_0_2
+  :url: link+verizon+primary+on+bdr02
+  :profile_name: Link - Verizon Primary on bdr02
+  :percentiles:
+  - "95"
+  :hosts:
+  - bdr02.syd07.aunsw.bltprf.net
+webpagetest+dvmh+app+01:
+  :metrics:
+  - cpu-_Total/cpu-system
+  - cpu-_Total/cpu-user
+  - interface/if_octets-vmxnet3 Ethernet Adapter
+  - interface/if_packets-vmxnet3 Ethernet Adapter
+  - cpu-0/cpu-idle
+  - cpu-0/cpu-interrupt
+  - cpu-0/cpu-system
+  - cpu-0/cpu-user
+  - cpu-1/cpu-idle
+  - cpu-1/cpu-interrupt
+  - cpu-1/cpu-system
+  - cpu-1/cpu-user
+  - cpu-_Total/cpu-idle
+  - cpu-_Total/cpu-interrupt
+  :url: webpagetest+dvmh+app+01
+  :profile_name: webpagetest-dvmh-app-01
+  :percentiles:
+  :hosts:
+  - webpagetest-dvmh-app-01
+collectd+01+cpu+idle:
+  :metrics:
+  - cpu-0/cpu-idle
+  - cpu-1/cpu-idle
+  - cpu-2/cpu-idle
+  - cpu-3/cpu-idle
+  :url: collectd+01+cpu+idle
+  :profile_name: collectd-01 cpu-idle
+  :percentiles:
+  :hosts:
+  - bp-dvmh-collectd-01.inf.bulletproof.net
+collectd+01+disk+dm+0+and+load:
+  :metrics:
+  - load/load
+  - disk-dm-0/disk_ops
+  :url: collectd+01+disk+dm+0+and+load
+  :profile_name: collectd-01 disk-dm-0 and load
+  :percentiles:
+  :hosts:
+  - bp-dvmh-collectd-01.inf.bulletproof.net
+rt+support+and+internal+tickets+per+day:
+  :metrics:
+  - rt_queue_stats_since_1_day_ago-Internal/records-created
+  - rt_queue_stats_since_1_day_ago-Support/records-created
+  - rt_queue_stats_since_1_day_ago-Internal/records-resolved
+  - rt_queue_stats_since_1_day_ago-Support/records-resolved
+  :url: rt+support+and+internal+tickets+per+day
+  :profile_name: RT Support and Internal - Tickets per Day
+  :percentiles:
+  :hosts:
+  - rt.bulletproof.net
+rt+telstra+tickets+per+day:
+  :metrics:
+  - rt_queue_stats_since_1_day_ago-Telstra/records-created
+  - rt_queue_stats_since_1_day_ago-Telstra/records-resolved
+  :url: rt+telstra+tickets+per+day
+  :profile_name: RT Telstra - Tickets per Day
+  :percentiles:
+  :hosts:
+  - rt.bulletproof.net
+b0esx+disk_usage:
+  :metrics:
+  - disk_usage/gauge-bytesPerSecond
+  :url: b0esx+disk_usage
+  :profile_name: b0esx disk_usage
+  :percentiles:
+  :hosts:
+  - bp-pmdh-b0esx-01.inf.bulletproof.net
+  - bp-pmdh-b0esx-02.inf.bulletproof.net
+  - bp-pmdh-b0esx-03.inf.bulletproof.net
+rt+support+queue:
+  :metrics:
+  - rt_queue_stats-Support/records-new
+  - rt_queue_stats-Support/records-open
+  - rt_queue_stats-Support/records-stalled
+  :url: rt+support+queue
+  :profile_name: RT Support Queue
+  :percentiles:
+  :hosts:
+  - rt.bulletproof.net
+rt+telstra+queue:
+  :metrics:
+  - rt_queue_stats-Telstra/records-new
+  - rt_queue_stats-Telstra/records-open
+  - rt_queue_stats-Telstra/records-stalled
+  :url: rt+telstra+queue
+  :profile_name: RT Telstra Queue
+  :percentiles:
+  :hosts:
+  - rt.bulletproof.net
+mortgage+choice+uat+web:
+  :metrics:
+  - cpu-_Total/cpu-idle
+  - cpu-_Total/cpu-interrupt
+  - cpu-_Total/cpu-system
+  - cpu-_Total/cpu-user
+  - interface/if_octets-RedHat PV NIC Driver
+  - interface/if_packets-RedHat PV NIC Driver
+  :url: mortgage+choice+uat+web
+  :profile_name: Mortgage Choice UAT WEB
+  :percentiles:
+  :hosts:
+  - mchoice-avmh-uweb-01
+  - mchoice-avmh-uweb-02
+bp+dvmh+ci+01+memory+jenkins+:
+  :metrics:
+  - vmem/vmpage_number-page_table_pages
+  - vmem/vmpage_number-shmem
+  - vmem/vmpage_number-slab_reclaimable
+  - vmem/vmpage_number-slab_unreclaimable
+  - vmem/vmpage_number-unevictable
+  - vmem/vmpage_number-unstable
+  - vmem/vmpage_number-vmscan_write
+  - vmem/vmpage_number-writeback
+  - vmem/vmpage_number-writeback_temp
+  - memory/memory-cached
+  - memory/memory-free
+  - memory/memory-used
+  - memory/memory-buffered
+  - vmem/vmpage_faults
+  - vmem/vmpage_io-memory
+  - vmem/vmpage_io-swap
+  - vmem/vmpage_number-active_anon
+  - vmem/vmpage_number-active_file
+  - vmem/vmpage_number-anon_pages
+  - vmem/vmpage_number-bounce
+  - vmem/vmpage_number-dirty
+  - vmem/vmpage_number-file_pages
+  - vmem/vmpage_number-free_pages
+  - vmem/vmpage_number-inactive_anon
+  - vmem/vmpage_number-inactive_file
+  - vmem/vmpage_number-isolated_anon
+  - vmem/vmpage_number-isolated_file
+  - vmem/vmpage_number-kernel_stack
+  - vmem/vmpage_number-mapped
+  - vmem/vmpage_number-mlock
+  :url: bp+dvmh+ci+01+memory+jenkins+
+  :profile_name: bp-dvmh-ci-01 memory (jenkins)
+  :percentiles:
+  :hosts:
+  - bp-dvmh-ci-01.inf.bulletproof.net
+links+verizon+and+pipe+links+on+bdr02:
+  :metrics:
+  - snmp/if_octets-GigabitEthernet0_0_2
+  - snmp/if_octets-GigabitEthernet0_0_3
+  :url: links+verizon+and+pipe+links+on+bdr02
+  :profile_name: Links - Verizon and PIPE Links on bdr02
+  :percentiles:
+  :hosts:
+  - bdr02.syd07.aunsw.bltprf.net
+rt+tickets+per+user:
+  :metrics:
+  - rt_user_tickets-unresolved/records-anthony
+  - rt_user_tickets-unresolved/records-arthurb
+  - rt_user_tickets-unresolved/records-brendan
+  - rt_user_tickets-unresolved/records-brendon
+  - rt_user_tickets-unresolved/records-davidm
+  - rt_user_tickets-unresolved/records-doug
+  - rt_user_tickets-unresolved/records-garym
+  - rt_user_tickets-unresolved/records-ghassan
+  - rt_user_tickets-unresolved/records-harman
+  - rt_user_tickets-unresolved/records-mattn
+  - rt_user_tickets-unresolved/records-michael
+  - rt_user_tickets-unresolved/records-mick
+  - rt_user_tickets-unresolved/records-paul
+  - rt_user_tickets-unresolved/records-rabbie
+  - rt_user_tickets-unresolved/records-sean
+  - rt_user_tickets-unresolved/records-simone
+  - rt_user_tickets-unresolved/records-stefan
+  - rt_user_tickets-unresolved/records-steve
+  - rt_user_tickets-unresolved/records-timc
+  - rt_user_tickets-unresolved/records-james
+  - rt_user_tickets-unresolved/records-jamie
+  - rt_user_tickets-unresolved/records-jdub
+  - rt_user_tickets-unresolved/records-jesse
+  - rt_user_tickets-unresolved/records-johnf
+  - rt_user_tickets-unresolved/records-justaan
+  - rt_user_tickets-unresolved/records-kim
+  - rt_user_tickets-unresolved/records-kylie
+  - rt_user_tickets-unresolved/records-lindsay
+  - rt_user_tickets-unresolved/records-lorenzo
+  :url: rt+tickets+per+user
+  :profile_name: RT Tickets per User
+  :percentiles:
+  :hosts:
+  - rt.bulletproof.net
+bp+pmdh+b0esx+03:
+  :metrics:
+  - cpu_usage/gauge-percent
+  - cpu_usagemhz/gauge-hertz
+  - disk_maxTotalLatency/gauge-millisecond
+  - disk_usage/gauge-bytesPerSecond
+  - mem_consumed/gauge-bytes
+  - mem_overhead/gauge-bytes
+  - mem_swapinRate/gauge-bytesPerSecond
+  - mem_swapoutRate/gauge-bytesPerSecond
+  - mem_swapused/gauge-bytes
+  - mem_usage/gauge-percent
+  - mem_vmmemctl/gauge-bytes
+  - sys_uptime/gauge-second
+  :url: bp+pmdh+b0esx+03
+  :profile_name: bp-pmdh-b0esx-03
+  :percentiles:
+  :hosts:
+  - bp-pmdh-b0esx-03.inf.bulletproof.net
+latency:
+  :metrics:
+  - disk_maxTotalLatency/gauge-millisecond
+  :url: latency
+  :profile_name: latency
+  :percentiles:
+  :hosts:
+  - bp-pmdh-b3aesx-01.inf.bulletproof.net
+  - bp-pmdh-b4aesx-01.inf.bulletproof.net
+  - bp-pmdh-b0esx-01.inf.bulletproof.net
+  - bp-pmdh-b3esx-06.inf.bulletproof.net
+  - bp-pmdh-b3aesx-02.inf.bulletproof.net
+  - bp-pmdh-b3aesx-03.inf.bulletproof.net
+  - bp-pmdh-b3aesx-04.inf.bulletproof.net
+  - bp-pmdh-b3aesx-05.inf.bulletproof.net
+collectd+01+root+filesystem:
+  :metrics:
+  - df/df-root
+  :url: collectd+01+root+filesystem
+  :profile_name: collectd-01 root filesystem
+  :percentiles:
+  :hosts:
+  - bp-dvmh-collectd-01.inf.bulletproof.net
+collectd+01+disk+time:
+  :metrics:
+  - disk-dm-0/disk_time
+  - disk-dm-1/disk_time
+  - disk-sda/disk_time
+  - disk-sda1/disk_time
+  - disk-sdb/disk_time
+  :url: collectd+01+disk+time
+  :profile_name: collectd-01 disk time
+  :percentiles:
+  :hosts:
+  - bp-dvmh-collectd-01.inf.bulletproof.net
+link+pacnet+primary+on+bdr01:
+  :metrics:
+  - snmp/if_octets-GigabitEthernet0_0_1
+  :url: link+pacnet+primary+on+bdr01
+  :profile_name: Link - PacNet Primary on bdr01
+  :percentiles:
+  - "95"
+  :hosts:
+  - bdr01.syd07.aunsw.bltprf.net
+moprodau+esx+basics:
+  :metrics:
+  - sys_uptime/gauge-second
+  - cpu_usagemhz/gauge-hertz
+  - mem_consumed/gauge-bytes
+  - disk_maxTotalLatency/gauge-millisecond
+  :url: moprodau+esx+basics
+  :profile_name: moprodau esx basics
+  :percentiles:
+  :hosts:
+  - moprodau-pmdh-esx-01.cust.bulletproof.net
+  - moprodau-pmdh-esx-02.cust.bulletproof.net
+  - moprodau-pmdh-esx-03.cust.bulletproof.net
+  - moprodau-pmdh-esx-04.cust.bulletproof.net
+  - moprodau-pmdh-esx-05.cust.bulletproof.net
+  - moprodau-pmdh-esx-06.cust.bulletproof.net
+b3esx_disk_milliseconds:
+  :metrics:
+  - disk_maxTotalLatency/gauge-millisecond
+  :url: b3esx_disk_milliseconds
+  :profile_name: b3esx_disk_milliseconds
+  :percentiles:
+  :hosts:
+  - bp-pmdh-b3esx-11.inf.bulletproof.net
+  - bp-pmdh-b3esx-12.inf.bulletproof.net
+  - bp-pmdh-b3esx-13.inf.bulletproof.net
+  - bp-pmdh-b3esx-14.inf.bulletproof.net
+  - bp-pmdh-b3esx-05.inf.bulletproof.net
+  - bp-pmdh-b3esx-02.inf.bulletproof.net
+  - bp-pmdh-b3esx-01.inf.bulletproof.net
+  - bp-pmdh-b3esx-03.inf.bulletproof.net
+  - bp-pmdh-b3esx-04.inf.bulletproof.net
+  - bp-pmdh-b3esx-06.inf.bulletproof.net
+  - bp-pmdh-b3esx-07.inf.bulletproof.net
+  - bp-pmdh-b3esx-08.inf.bulletproof.net
+  - bp-pmdh-b3esx-09.inf.bulletproof.net
+  - bp-pmdh-b3esx-10.inf.bulletproof.net
+rt+tickets+per+user+101+:
+  :metrics:
+  - rt_user_tickets-101/records-anthony
+  - rt_user_tickets-101/records-arthurb
+  - rt_user_tickets-101/records-brendan
+  - rt_user_tickets-101/records-brendon
+  - rt_user_tickets-101/records-davidm
+  - rt_user_tickets-101/records-doug
+  - rt_user_tickets-101/records-garym
+  - rt_user_tickets-101/records-ghassan
+  - rt_user_tickets-101/records-harman
+  - rt_user_tickets-101/records-mattn
+  - rt_user_tickets-101/records-michael
+  - rt_user_tickets-101/records-mick
+  - rt_user_tickets-101/records-paul
+  - rt_user_tickets-101/records-rabbie
+  - rt_user_tickets-101/records-sean
+  - rt_user_tickets-101/records-simone
+  - rt_user_tickets-101/records-stefan
+  - rt_user_tickets-101/records-steve
+  - rt_user_tickets-101/records-timc
+  - rt_user_tickets-101/records-james
+  - rt_user_tickets-101/records-jamie
+  - rt_user_tickets-101/records-jdub
+  - rt_user_tickets-101/records-jesse
+  - rt_user_tickets-101/records-johnf
+  - rt_user_tickets-101/records-justaan
+  - rt_user_tickets-101/records-kim
+  - rt_user_tickets-101/records-kylie
+  - rt_user_tickets-101/records-lindsay
+  - rt_user_tickets-101/records-lorenzo
+  :url: rt+tickets+per+user+101+
+  :profile_name: RT Tickets per User (101)
+  :percentiles:
+  :hosts:
+  - rt.bulletproof.net
+nagios+on+infmon:
+  :metrics:
+  - nagios-service_check_execution_time/response_time-max
+  - nagios-service_check_execution_time/response_time-min
+  - nagios-service_check_latency/response_time-25e
+  - nagios-service_check_latency/response_time-75e
+  - nagios-service_check_latency/response_time-max
+  - nagios-service_check_latency/response_time-min
+  - nagios-num_hosts/gauge
+  - nagios-num_services/gauge
+  - nagios-service_check_execution_time/response_time-95e
+  - nagios-service_check_latency/response_time-95e
+  - nagios-service_check_execution_time/response_time-5e
+  - nagios-service_check_execution_time/response_time-median
+  - nagios-service_check_latency/response_time-5e
+  - nagios-service_check_latency/response_time-median
+  - nagios-service_check_execution_time/response_time-25e
+  - nagios-service_check_execution_time/response_time-75e
+  :url: nagios+on+infmon
+  :profile_name: nagios on infmon
+  :percentiles:
+  :hosts:
+  - bpmon-pmdh-inf-01.inf.bulletproof.net
+vocus+shadow:
+  :metrics:
+  - snmp/if_octets-GigabitEthernet0_0_4.693
+  :url: vocus+shadow
+  :profile_name: Vocus Shadow
+  :percentiles:
+  - "95"
+  :hosts:
+  - bdr02.syd07.aunsw.bltprf.net
+collectd+01+disk:
+  :metrics:
+  - disk-sda/disk_ops
+  - disk-sda/disk_time
+  - disk-sda1/disk_merged
+  - disk-sda1/disk_octets
+  - disk-sda1/disk_ops
+  - disk-sda1/disk_time
+  - disk-sdb/disk_merged
+  - disk-sdb/disk_octets
+  - disk-sdb/disk_ops
+  - disk-sdb/disk_time
+  - disk-dm-0/disk_merged
+  - disk-dm-0/disk_octets
+  - disk-dm-0/disk_ops
+  - disk-dm-0/disk_time
+  - disk-dm-1/disk_merged
+  - disk-dm-1/disk_octets
+  - disk-dm-1/disk_ops
+  - disk-dm-1/disk_time
+  - disk-sda/disk_merged
+  - disk-sda/disk_octets
+  :url: collectd+01+disk
+  :profile_name: collectd-01 disk
+  :percentiles:
+  :hosts:
+  - bp-dvmh-collectd-01.inf.bulletproof.net
+b0esx+03:
+  :metrics:
+  - cpu_usage/gauge-percent
+  - cpu_usagemhz/gauge-hertz
+  - disk_maxTotalLatency/gauge-millisecond
+  - disk_usage/gauge-bytesPerSecond
+  - mem_consumed/gauge-bytes
+  - mem_overhead/gauge-bytes
+  - mem_swapinRate/gauge-bytesPerSecond
+  - mem_swapoutRate/gauge-bytesPerSecond
+  - mem_swapused/gauge-bytes
+  - mem_usage/gauge-percent
+  - mem_vmmemctl/gauge-bytes
+  - sys_uptime/gauge-second
+  :url: b0esx+03
+  :profile_name: b0esx-03
+  :percentiles:
+  :hosts:
+  - bp-pmdh-b0esx-03.inf.bulletproof.net
+nagios+on+custmon:
+  :metrics:
+  - nagios-service_check_latency/response_time-5e
+  - nagios-service_check_latency/response_time-75e
+  - nagios-service_check_latency/response_time-95e
+  - nagios-service_check_latency/response_time-max
+  - nagios-service_check_latency/response_time-median
+  - nagios-service_check_latency/response_time-min
+  - nagios-num_hosts/gauge
+  - nagios-num_services/gauge
+  - nagios-service_check_execution_time/response_time-25e
+  - nagios-service_check_execution_time/response_time-5e
+  - nagios-service_check_execution_time/response_time-75e
+  - nagios-service_check_execution_time/response_time-95e
+  - nagios-service_check_execution_time/response_time-max
+  - nagios-service_check_execution_time/response_time-median
+  - nagios-service_check_execution_time/response_time-min
+  - nagios-service_check_latency/response_time-25e
+  :url: nagios+on+custmon
+  :profile_name: nagios on custmon
+  :percentiles:
+  :hosts:
+  - bpmon-pmdh-cust-01.inf.bulletproof.net
+uptime+of+esx+hosts:
+  :metrics:
+  - sys_uptime/gauge-second
+  :url: uptime+of+esx+hosts
+  :profile_name: uptime of esx hosts
+  :percentiles:
+  :hosts:
+  - bp-pmdh-b4aesx-03.inf.bulletproof.net
+  - bp-pmdh-b4esx-01.inf.bulletproof.net
+  - bp-pmdh-b4esx-02.inf.bulletproof.net
+  - bp-pmdh-b4esx-03.inf.bulletproof.net
+  - bp-pmdh-b4esx-04.inf.bulletproof.net
+  - moprodau-pmdh-esx-01.cust.bulletproof.net
+  - moprodau-pmdh-esx-02.cust.bulletproof.net
+  - moprodau-pmdh-esx-03.cust.bulletproof.net
+  - moprodau-pmdh-esx-04.cust.bulletproof.net
+  - moprodau-pmdh-esx-05.cust.bulletproof.net
+  - bp-pmdh-b2esx-09.inf.bulletproof.net
+  - bp-pmdh-b2esx-10.inf.bulletproof.net
+  - bp-pmdh-b2esx-11.inf.bulletproof.net
+  - bp-pmdh-b2esx-12.inf.bulletproof.net
+  - bp-pmdh-b2esx-13.inf.bulletproof.net
+  - bp-pmdh-b2esx-14.inf.bulletproof.net
+  - bp-pmdh-b3aesx-01.inf.bulletproof.net
+  - bp-pmdh-b3aesx-02.inf.bulletproof.net
+  - bp-pmdh-b3aesx-03.inf.bulletproof.net
+  - bp-pmdh-b3aesx-04.inf.bulletproof.net
+  - bp-pmdh-b3esx-07.inf.bulletproof.net
+  - bp-pmdh-b3esx-08.inf.bulletproof.net
+  - bp-pmdh-b3esx-09.inf.bulletproof.net
+  - bp-pmdh-b3esx-10.inf.bulletproof.net
+  - bp-pmdh-b3esx-11.inf.bulletproof.net
+  - bp-pmdh-b3esx-12.inf.bulletproof.net
+  - bp-pmdh-b3esx-13.inf.bulletproof.net
+  - bp-pmdh-b3esx-14.inf.bulletproof.net
+  - bp-pmdh-b4aesx-01.inf.bulletproof.net
+  - bp-pmdh-b4aesx-02.inf.bulletproof.net
+  - bp-pmdh-b0esx-01.inf.bulletproof.net
+  - bp-pmdh-b0esx-02.inf.bulletproof.net
+  - bp-pmdh-b0esx-03.inf.bulletproof.net
+  - bp-pmdh-b2aesx-01.inf.bulletproof.net
+  - bp-pmdh-b2aesx-02.inf.bulletproof.net
+  - bp-pmdh-b2aesx-03.inf.bulletproof.net
+  - bp-pmdh-b2aesx-04.inf.bulletproof.net
+  - bp-pmdh-b2aesx-05.inf.bulletproof.net
+  - bp-pmdh-b2aesx-06.inf.bulletproof.net
+  - bp-pmdh-b2aesx-07.inf.bulletproof.net
+  - bp-pmdh-b2aesx-08.inf.bulletproof.net
+  - bp-pmdh-b2aesx-09.inf.bulletproof.net
+  - bp-pmdh-b2esx-01.inf.bulletproof.net
+  - bp-pmdh-b2esx-02.inf.bulletproof.net
+  - bp-pmdh-b2esx-03.inf.bulletproof.net
+  - bp-pmdh-b2esx-04.inf.bulletproof.net
+  - bp-pmdh-b2esx-05.inf.bulletproof.net
+  - bp-pmdh-b2esx-06.inf.bulletproof.net
+  - bp-pmdh-b2esx-07.inf.bulletproof.net
+  - bp-pmdh-b2esx-08.inf.bulletproof.net
+  - moprodau-pmdh-esx-06.cust.bulletproof.net
+  - tvic-pmdh-esx-01.cust.bulletproof.net
+  - tvic-pmdh-esx-02.cust.bulletproof.net
+  - tvic-pmdh-esx-03.cust.bulletproof.net
+  - bp-pmdh-b3aesx-05.inf.bulletproof.net
+  - bp-pmdh-b3besx-02.inf.bulletproof.net
+  - bp-pmdh-b3besx-03.inf.bulletproof.net
+  - bp-pmdh-b3besx-04.inf.bulletproof.net
+  - bp-pmdh-b3esx-01.inf.bulletproof.net
+  - bp-pmdh-b3esx-02.inf.bulletproof.net
+  - bp-pmdh-b3esx-03.inf.bulletproof.net
+  - bp-pmdh-b3esx-04.inf.bulletproof.net
+  - bp-pmdh-b3esx-05.inf.bulletproof.net
+  - bp-pmdh-b3esx-06.inf.bulletproof.net
+f5+config+sync+on+syd07+dvbs:
+  :metrics:
+  - snmp/gauge-sysCmSyncStatusId
+  :url: f5+config+sync+on+syd07+dvbs
+  :profile_name: F5 Config Sync on syd07 dvbs
+  :percentiles:
+  :hosts:
+  - bp-dvb-01.syd07.aunsw.bltprf.net
+  - bp-dvb-02.syd07.aunsw.bltprf.net
+  - bp-dvb-03.syd07.aunsw.bltprf.net
+  - bp-dvb-04.syd07.aunsw.bltprf.net
+  - bp-dvb-05.syd07.aunsw.bltprf.net
+  - bp-dvb-06.syd07.aunsw.bltprf.net
+  - bp-dvb-07.syd07.aunsw.bltprf.net
+  - bp-dvb-08.syd07.aunsw.bltprf.net
+bp+dvmh+provnfs+01:
+  :metrics:
+  - disk-sdb/disk_merged
+  - disk-sdb/disk_octets
+  - disk-sdb/disk_ops
+  - disk-sdb/disk_time
+  - cpu-0/cpu-idle
+  - cpu-0/cpu-interrupt
+  - cpu-0/cpu-nice
+  - cpu-0/cpu-softirq
+  - cpu-0/cpu-steal
+  - cpu-0/cpu-system
+  - cpu-3/cpu-nice
+  - cpu-3/cpu-softirq
+  - cpu-3/cpu-steal
+  - cpu-3/cpu-system
+  - cpu-3/cpu-user
+  - cpu-3/cpu-wait
+  - cpu-2/cpu-idle
+  - cpu-2/cpu-interrupt
+  - cpu-2/cpu-nice
+  - cpu-2/cpu-softirq
+  - cpu-2/cpu-steal
+  - cpu-2/cpu-system
+  - cpu-2/cpu-user
+  - cpu-2/cpu-wait
+  - cpu-3/cpu-idle
+  - cpu-3/cpu-interrupt
+  - cpu-0/cpu-user
+  - cpu-0/cpu-wait
+  - cpu-1/cpu-idle
+  - cpu-1/cpu-interrupt
+  - cpu-1/cpu-nice
+  - cpu-1/cpu-softirq
+  - cpu-1/cpu-steal
+  - cpu-1/cpu-system
+  - cpu-1/cpu-user
+  - cpu-1/cpu-wait
+  :url: bp+dvmh+provnfs+01
+  :profile_name: bp-dvmh-provnfs-01
+  :percentiles:
+  :hosts:
+  - bp-dvmh-provnfs-01.inf.bulletproof.net
+pridns01+authoritive:
+  :metrics:
+  - cpu-3/cpu-user
+  - dns/dns_rcode-REFUSED
+  - cpu-0/cpu-wait
+  - swap/swap-free
+  - processes/ps_state-paging
+  - memory/memory-used
+  - cpu-2/cpu-interrupt
+  - cpu-0/cpu-nice
+  - cpu-3/cpu-softirq
+  - dns/dns_qtype-AAAA
+  - dns/dns_qtype-TXT
+  - cpu-0/cpu-steal
+  - cpu-1/cpu-steal
+  - interface/if_packets-eth1
+  - memory/memory-buffered
+  - cpu-1/cpu-user
+  - df/df-root
+  - cpu-3/cpu-idle
+  - dns/dns_qtype-#99
+  - dns/dns_qtype-PTR
+  - cpu-2/cpu-user
+  - interface/if_errors-eth0
+  - cpu-1/cpu-interrupt
+  - interface/if_octets-eth0
+  - swap/swap_io-in
+  - processes/ps_state-sleeping
+  - dns/dns_opcode-Notify
+  - dns/dns_qtype-MX
+  - cpu-2/cpu-softirq
+  - cpu-3/cpu-system
+  - dns/dns_qtype-CNAME
+  - dns/dns_rcode-NXDOMAIN
+  - cpu-0/cpu-user
+  - swap/swap-cached
+  - processes/ps_state-blocked
+  - memory/memory-free
+  - cpu-2/cpu-idle
+  - cpu-0/cpu-interrupt
+  - cpu-3/cpu-nice
+  - dns/dns_qtype-A6
+  - dns/dns_qtype-SRV
+  - cpu-0/cpu-softirq
+  - cpu-1/cpu-softirq
+  - interface/if_packets-eth0
+  - load/load
+  - cpu-1/cpu-system
+  - processes/ps_state-zombies
+  - cpu-2/cpu-wait
+  - dns/dns_opcode-Update
+  - dns/dns_qtype-NS
+  - cpu-2/cpu-system
+  - cpu-3/cpu-wait
+  - cpu-1/cpu-idle
+  - interface/if_errors-eth1
+  - swap/swap-used
+  - processes/ps_state-running
+  - dns/dns_octets
+  - cpu-2/cpu-nice
+  - cpu-3/cpu-steal
+  - dns/dns_qtype-ANY
+  - dns/dns_rcode-NOERROR
+  - cpu-0/cpu-system
+  - memory/memory-cached
+  - cpu-1/cpu-wait
+  - dns/dns_qtype-SOA
+  - dns/dns_qtype-A
+  - cpu-0/cpu-idle
+  - cpu-3/cpu-interrupt
+  - swap/swap_io-out
+  - cpu-1/cpu-nice
+  - interface/if_octets-eth1
+  - cpu-2/cpu-steal
+  - dns/dns_qtype-NAPTR
+  - dns/dns_opcode-Query
+  - processes/ps_state-stopped
+  :url: pridns01+authoritive
+  :profile_name: pridns01-authoritive
+  :percentiles:
+  :hosts:
+  - bp-dvmh-pridns-01.inf.bulletproof.net
+dnsr+01+02:
+  :metrics:
+  - interface/if_octets-eth0
+  - interface/if_octets-eth1
+  - load/load
+  - powerdns-recursor/cache_result-hit
+  - powerdns-recursor/cache_result-miss
+  - powerdns-recursor/cache_size
+  - powerdns-recursor/cpu-system
+  - powerdns-recursor/cpu-user
+  - powerdns-recursor/dns_rcode-NOERROR
+  - powerdns-recursor/dns_rcode-NXDOMAIN
+  - powerdns-recursor/dns_rcode-SERVFAIL
+  - powerdns-recursor/latency
+  :url: dnsr+01+02
+  :profile_name: dnsr-01/02
+  :percentiles:
+  :hosts:
+  - bp-dvmh-dnsr-01.inf.bulletproof.net
+  - bp-dvmh-dnsr-02.inf.bulletproof.net
+link+vocus+bdr02+syd07:
+  :metrics:
+  - snmp/if_octets-GigabitEthernet0_0_4.693
+  :url: link+vocus+bdr02+syd07
+  :profile_name: Link - Vocus bdr02.syd07
+  :percentiles:
+  - "95"
+  :hosts:
+  - bdr02.syd07.aunsw.bltprf.net
+tvic+dvmh+app+01+vm+cpu+and+memory:
+  :metrics:
+  - vm_memory/memory-MemSwappedMB
+  - vm_memory/memory-MemUsedMB
+  - vm_cpu-_Total/cpu-CpuStolenMs
+  - vm_cpu-_Total/cpu-CpuTimePercents
+  - vm_memory/memory-MemActiveMB
+  - vm_memory/memory-MemBalloonedMB
+  - vm_cpu-_Total/virt_vcpu-EffectiveVMSpeedMHz
+  :url: tvic+dvmh+app+01+vm+cpu+and+memory
+  :profile_name: tvic-dvmh-app-01 - vm cpu and memory
+  :percentiles:
+  :hosts:
+  - tvic-dvmh-app-01.cust.bulletproof.net
+moprodau+pmdh+esx+disk_usage:
+  :metrics:
+  - disk_usage/gauge-bytesPerSecond
+  :url: moprodau+pmdh+esx+disk_usage
+  :profile_name: moprodau-pmdh-esx disk_usage
+  :percentiles:
+  :hosts:
+  - moprodau-pmdh-esx-01.cust.bulletproof.net
+  - moprodau-pmdh-esx-02.cust.bulletproof.net
+  - moprodau-pmdh-esx-03.cust.bulletproof.net
+  - moprodau-pmdh-esx-04.cust.bulletproof.net
+  - moprodau-pmdh-esx-05.cust.bulletproof.net
+  - moprodau-pmdh-esx-06.cust.bulletproof.net
+link+pipe+networks+peering+on+bdr02:
+  :metrics:
+  - snmp/if_octets-GigabitEthernet0_0_3
+  :url: link+pipe+networks+peering+on+bdr02
+  :profile_name: Link - PIPE Networks Peering on bdr02
+  :percentiles:
+  - "95"
+  :hosts:
+  - bdr02.syd07.aunsw.bltprf.net
+infad02:
+  :metrics:
+  - cpu-0/cpu-idle
+  - cpu-0/cpu-interrupt
+  - cpu-0/cpu-system
+  - cpu-0/cpu-user
+  - cpu-1/cpu-idle
+  - cpu-1/cpu-interrupt
+  - cpu-1/cpu-system
+  - cpu-1/cpu-user
+  - cpu-2/cpu-idle
+  - cpu-2/cpu-interrupt
+  - cpu-2/cpu-system
+  - cpu-2/cpu-user
+  - cpu-3/cpu-idle
+  - cpu-3/cpu-interrupt
+  - cpu-3/cpu-system
+  - cpu-3/cpu-user
+  - cpu-_Total/cpu-idle
+  - cpu-_Total/cpu-interrupt
+  - cpu-_Total/cpu-system
+  - cpu-_Total/cpu-user
+  - interface/if_octets-Local Area Connection* 11
+  - interface/if_octets-isatap.{AB174357-5655-4877-ADDE-FB48FFC73B2F}
+  - interface/if_octets-vmxnet3 Ethernet Adapter
+  - interface/if_packets-Local Area Connection* 11
+  - interface/if_packets-isatap.{AB174357-5655-4877-ADDE-FB48FFC73B2F}
+  - interface/if_packets-vmxnet3 Ethernet Adapter
+  :url: infad02
+  :profile_name: infad02
+  :percentiles:
+  :hosts:
+  - bp-dvmh-infad-02.inf.bulletproof.net
+rt+support+and+internal+tickets+per+hour:
+  :metrics:
+  - rt_queue_stats_since_1_hour_ago-Internal/records-created
+  - rt_queue_stats_since_1_hour_ago-Internal/records-resolved
+  - rt_queue_stats_since_1_hour_ago-Support/records-created
+  - rt_queue_stats_since_1_hour_ago-Support/records-resolved
+  :url: rt+support+and+internal+tickets+per+hour
+  :profile_name: RT Support and Internal - Tickets per Hour
+  :percentiles:
+  :hosts:
+  - rt.bulletproof.net
+custmon+load+and+cpu:
+  :metrics:
+  - cpu-0/cpu-user
+  - cpu-5/cpu-wait
+  - cpu-6/cpu-wait
+  - cpu-7/cpu-wait
+  - cpu-1/cpu-nice
+  - cpu-0/cpu-nice
+  - cpu-2/cpu-nice
+  - cpu-3/cpu-nice
+  - cpu-4/cpu-nice
+  - cpu-5/cpu-nice
+  - cpu-6/cpu-nice
+  - cpu-3/cpu-system
+  - cpu-4/cpu-system
+  - cpu-5/cpu-system
+  - cpu-6/cpu-system
+  - cpu-7/cpu-system
+  - cpu-0/cpu-wait
+  - cpu-1/cpu-wait
+  - cpu-2/cpu-wait
+  - cpu-3/cpu-wait
+  - cpu-2/cpu-system
+  - memory/memory-buffered
+  - memory/memory-cached
+  - memory/memory-free
+  - memory/memory-used
+  - vmem/vmpage_io-memory
+  - cpu-7/cpu-nice
+  - load/load
+  - cpu-0/cpu-idle
+  - cpu-1/cpu-idle
+  - cpu-2/cpu-idle
+  - cpu-3/cpu-idle
+  - cpu-4/cpu-idle
+  - cpu-5/cpu-idle
+  - cpu-6/cpu-idle
+  - cpu-7/cpu-idle
+  - cpu-4/cpu-wait
+  - cpu-1/cpu-user
+  - cpu-2/cpu-user
+  - cpu-3/cpu-user
+  - cpu-4/cpu-user
+  - cpu-5/cpu-user
+  - cpu-6/cpu-user
+  - cpu-7/cpu-user
+  - cpu-0/cpu-system
+  - cpu-1/cpu-system
+  :url: custmon+load+and+cpu
+  :profile_name: custmon load and cpu
+  :percentiles:
+  :hosts:
+  - bpmon-pmdh-cust-01.inf.bulletproof.net
+b2aesx+disk+max+total+latency:
+  :metrics:
+  - disk_maxTotalLatency/gauge-millisecond
+  :url: b2aesx+disk+max+total+latency
+  :profile_name: b2aesx disk max total latency
+  :percentiles:
+  :hosts:
+  - bp-pmdh-b2aesx-01.inf.bulletproof.net
+  - bp-pmdh-b2aesx-02.inf.bulletproof.net
+  - bp-pmdh-b2aesx-03.inf.bulletproof.net
+  - bp-pmdh-b2aesx-04.inf.bulletproof.net
+rt+tickets+per+user+support+team:
+  :metrics:
+  - rt_user_tickets-unresolved/records-brendon
+  - rt_user_tickets-unresolved/records-davidm
+  - rt_user_tickets-unresolved/records-rabbie
+  - rt_user_tickets-unresolved/records-sean
+  - rt_user_tickets-unresolved/records-stefan
+  - rt_user_tickets-unresolved/records-timc
+  :url: rt+tickets+per+user+support+team
+  :profile_name: RT Tickets per User - Support Team
+  :percentiles:
+  :hosts:
+  - rt.bulletproof.net
+b2+b2aesx+disk:
+  :metrics:
+  - disk_usage/gauge-bytesPerSecond
+  :url: b2+b2aesx+disk
+  :profile_name: b2/b2aesx disk
+  :percentiles:
+  :hosts:
+  - bp-pmdh-b2aesx-07.inf.bulletproof.net
+  - bp-pmdh-b2aesx-08.inf.bulletproof.net
+  - bp-pmdh-b2aesx-09.inf.bulletproof.net
+  - bp-pmdh-b2esx-01.inf.bulletproof.net
+  - bp-pmdh-b2esx-02.inf.bulletproof.net
+  - bp-pmdh-b2esx-03.inf.bulletproof.net
+  - bp-pmdh-b2esx-04.inf.bulletproof.net
+  - bp-pmdh-b2esx-05.inf.bulletproof.net
+  - bp-pmdh-b2esx-06.inf.bulletproof.net
+  - bp-pmdh-b2esx-07.inf.bulletproof.net
+  - bp-pmdh-b2esx-08.inf.bulletproof.net
+  - bp-pmdh-b2esx-09.inf.bulletproof.net
+  - bp-pmdh-b2esx-10.inf.bulletproof.net
+  - bp-pmdh-b2esx-11.inf.bulletproof.net
+  - bp-pmdh-b2esx-12.inf.bulletproof.net
+  - bp-pmdh-b2esx-13.inf.bulletproof.net
+  - bp-pmdh-b2esx-14.inf.bulletproof.net
+  - bp-pmdh-b2aesx-01.inf.bulletproof.net
+  - bp-pmdh-b2aesx-02.inf.bulletproof.net
+  - bp-pmdh-b2aesx-03.inf.bulletproof.net
+  - bp-pmdh-b2aesx-04.inf.bulletproof.net
+  - bp-pmdh-b2aesx-05.inf.bulletproof.net
+  - bp-pmdh-b2aesx-06.inf.bulletproof.net
+dns:
+  :metrics:
+  - powerdns-recursor/cache_size
+  - powerdns-recursor/cpu-system
+  - powerdns-recursor/cpu-user
+  - powerdns-recursor/dns_rcode-NOERROR
+  - powerdns-recursor/dns_rcode-NXDOMAIN
+  - powerdns-recursor/dns_rcode-SERVFAIL
+  - powerdns-recursor/latency
+  - interface/if_errors-eth0
+  - interface/if_errors-eth1
+  - interface/if_errors-lo
+  - interface/if_octets-eth0
+  - interface/if_octets-eth1
+  - interface/if_octets-lo
+  - interface/if_packets-eth0
+  - interface/if_packets-eth1
+  - interface/if_packets-lo
+  - powerdns-bp-dvmh-dnsr-02.inf.bulletproof.net/cache_result-hit
+  - powerdns-bp-dvmh-dnsr-02.inf.bulletproof.net/cache_result-miss
+  - powerdns-bp-dvmh-dnsr-02.inf.bulletproof.net/cache_size
+  - powerdns-bp-dvmh-dnsr-02.inf.bulletproof.net/cpu-system
+  - powerdns-bp-dvmh-dnsr-02.inf.bulletproof.net/cpu-user
+  - powerdns-bp-dvmh-dnsr-02.inf.bulletproof.net/dns_rcode-NOERROR
+  - powerdns-bp-dvmh-dnsr-02.inf.bulletproof.net/dns_rcode-NXDOMAIN
+  - powerdns-bp-dvmh-dnsr-02.inf.bulletproof.net/dns_rcode-SERVFAIL
+  - powerdns-bp-dvmh-dnsr-02.inf.bulletproof.net/latency
+  - powerdns-recursor/cache_result-hit
+  - powerdns-recursor/cache_result-miss
+  :url: dns
+  :profile_name: DNS
+  :percentiles:
+  :hosts:
+  - bp-dvmh-dnsr-02.inf.bulletproof.net
+  - bp-dvmh-dnsr-01.inf.bulletproof.net
+  - bp-dvmh-pridns-01.inf.bulletproof.net
+rt+support+and+internal+tickets+per+week:
+  :metrics:
+  - rt_queue_stats_since_1_week_ago-Internal/records-created
+  - rt_queue_stats_since_1_week_ago-Internal/records-resolved
+  - rt_queue_stats_since_1_week_ago-Support/records-created
+  - rt_queue_stats_since_1_week_ago-Support/records-resolved
+  :url: rt+support+and+internal+tickets+per+week
+  :profile_name: RT Support and Internal - Tickets per Week
+  :percentiles:
+  :hosts:
+  - rt.bulletproof.net
