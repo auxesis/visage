@@ -41,7 +41,8 @@ module Visage
             instances = DATA[:metrics][plugin] if instances == '*'
             instances.each_with_index do |instance, index|
               function = functions[index]
-              metric = opts[:metric] || (0..360).to_a.map {|i| Math.send(function, i) * 10 * index }[index ** 2..-1]
+              metric = (0..360).step(20).to_a.map {|i| Math.send(function, i) * 10 * index }[index ** 2..-1]
+              metric = metric * ((finish - start) / 3600.0)
 
               structure[host][plugin][instance] ||= {}
               structure[host][plugin][instance][source] ||= {}
