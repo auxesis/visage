@@ -25,7 +25,7 @@ Feature: command line utility
   @daemon
   Scenario: Config upgrader
     When I start the visage server helper with "visage-app start" and the following variables:
-      | CONFIG_PATH                           |
-      | features/support/config/with_old_profile_yaml |
+      | CONFIG_PATH                                   |
+      | features/support/config/with_2.0_profile_yaml |
     Then I should see "The Visage profile format has changed" on the terminal
-    And I should see "visage-app upgrade" on the terminal
+    And I should see "Upgrading profile format from 2.0.0 to 3.0.0...success!" on the terminal
