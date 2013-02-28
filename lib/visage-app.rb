@@ -41,6 +41,8 @@ module Visage
 
       # Load up the profiles.yaml. Creates it if it doesn't already exist.
       Visage::Profile.load
+      # Upgrade the profile if we're running an older version
+      Visage::Profile.upgrade if Visage::Profile.version != "3.0.0"
 
       # Set the data backend to use in Visage::JSON
       Visage::Data.backend = Visage::Config.data_backend
