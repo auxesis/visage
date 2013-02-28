@@ -10,7 +10,7 @@ Then /^a visage web server should be running$/ do
 end
 
 Then /^I should see "([^"]*)" on the terminal$/ do |string|
-  output = @pipe.read(350)
+  output = read_until_timeout(@pipe).join('')
   output.should =~ /#{string}/
 end
 
