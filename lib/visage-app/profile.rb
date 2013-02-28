@@ -33,6 +33,70 @@ module Visage
       profiles.map { |id, attrs| self.new(attrs) }
     end
 
+    def self.version
+      data = self.load
+      case
+      when data[:meta]
+        version = data[:meta][:version]
+      when
+        version = data.find_all {|profile, attrs| attrs.key?(:percentiles)} ? "2.0.0" : "1.0.0"
+      else
+        version = "3.0.0"
+      end
+
+      return version
+    end
+
+    def self.upgrade
+      puts "The Visage profile format has changed!"
+      print "Upgrading profile format from #{self.version} to 3.0.0..."
+
+      data = self.load
+      data.each_pair do |url, attrs|
+        graphs = []
+
+        @plugins = {}
+        attrs[:metrics].each do |m|
+          plugin, instance = m.split('/')
+          @plugins[plugin] ||= []
+          @plugins[plugin] << instance
+        end
+
+        plugins = @plugins.map {|plugin, instances| "#{plugin}/#{instances.join(',')}"}
+        plugins = @plugins.map {|plugin, instances| "#{plugin}"}
+
+        attrs[:hosts].each do |host|
+          plugins.each do |plugin|
+            graphs << {
+              :host        => host,
+              :plugin      => plugin,
+              :percentiles => attrs[:percentiles],
+            }
+          end
+        end
+
+        profile = {
+          :graphs       => graphs,
+          :profile_name => attrs[:profile_name]
+        }
+
+        @profile = Visage::Profile.new(profile)
+        @profile.save
+      end
+
+      print "success!\n"
+
+      # Save it.
+      profiles = self.load
+      profiles[:meta] = {}
+      profiles[:meta][:version] = "3.0.0"
+
+      Visage::Config::File.open('profiles.yaml') do |file|
+        file.truncate(0)
+        file << profiles.to_yaml
+      end
+    end
+
     def initialize(opts={})
       @options = opts
       @errors  = {}
