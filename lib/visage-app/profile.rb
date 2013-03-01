@@ -39,7 +39,7 @@ module Visage
       when data[:meta]
         version = data[:meta][:version]
       when
-        version = data.find_all {|profile, attrs| attrs.key?(:percentiles)} ? "2.0.0" : "1.0.0"
+        version = data.find_all {|profile, attrs| attrs.key?(:percentiles)}.empty? ? "1.0.0" : "2.0.0"
       else
         version = "3.0.0"
       end
