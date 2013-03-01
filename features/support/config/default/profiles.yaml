@@ -1391,3 +1391,5 @@ e6e8fc50119132d92e66c3fd1c8921e9:
   - plugin: memory
     start: 1354835994
     host: baz
+:meta:
+  :version: 3.0.0
