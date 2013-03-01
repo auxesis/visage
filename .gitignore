@@ -11,3 +11,4 @@ features/data/config/*/*.yaml
 vendor
 .bundle
 .rbenv-version
+lib/visage-app/public/images/screenshot.png
