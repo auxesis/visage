@@ -80,12 +80,20 @@ module Visage
     end
 
     get %r{/profiles/*} do
-      options = {
+      named_options = {
         :anonymous => false,
-        :sort      => params[:sort],
+        :order     => params[:order],
+        :sort      => params[:sort] || :profile_name,
       }
-      @profiles  = Visage::Profile.all(options)
-      @anonymous = Visage::Profile.all(:anonymous => true, :sort => 'ascending')
+      @profiles  = Visage::Profile.all(named_options)
+
+      anonymous_options = {
+        :anonymous => true,
+        :sort      => :created_at,
+        :order     => 'ascending',
+      }
+      @anonymous = Visage::Profile.all(anonymous_options)
+
       haml :profiles
     end
 

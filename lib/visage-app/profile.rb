@@ -21,13 +21,14 @@ module Visage
     end
 
     def self.all(opts={})
-      sort      = opts.delete(:sort)
+      order     = opts.delete(:order)
+      sort      = opts.delete(:sort).to_sym
       anonymous = opts.delete(:anonymous)
       all       = self.load
 
       profiles = all.find_all { |id, attrs| attrs[:anonymous] == anonymous }
-      profiles = profiles.sort_by {|id, attrs| attrs[:created_at] }
-      profiles.reverse! if sort == 'ascending'
+      profiles = profiles.sort_by {|id, attrs| attrs[sort] }
+      profiles.reverse! if order == :ascending
 
       # FIXME - to sort by creation time we need to save creation time on each profile
       profiles.map { |id, attrs| self.new(attrs) }
