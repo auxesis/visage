@@ -34,3 +34,10 @@ end
 Then /^show me the output$/ do
   puts @pipe.read(350)
 end
+
+Given /^I am using a temporary profile based on "(.*?)"$/ do |directory|
+  root        = Pathname.new(__FILE__).parent.parent.join('support/config')
+  source      = root.join(directory).join('profiles.yaml')
+  destination = root.join('tmp').join('profiles.yaml')
+  FileUtils.cp(source, destination)
+end
