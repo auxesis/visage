@@ -24,6 +24,9 @@ module Visage
             path = @@config_directories.first.join(filename)
             begin
               FileUtils.touch(path)
+              ::File.open(path, 'w') do |f|
+                f << { :meta => {:version => "3.0.0"}}.to_yaml
+              end
             rescue Errno::EACCES => e
               raise Errno::EACCES, "Couldn't write #{path}. Do you have CONFIG_PATH set?"
             end
