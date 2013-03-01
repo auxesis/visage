@@ -1391,5 +1391,49 @@ e6e8fc50119132d92e66c3fd1c8921e9:
   - plugin: memory
     start: 1354835994
     host: baz
+collectd+01+disk+dm+0+and+load:
+  :graphs:
+  - :host: collectd-01
+    :plugin: load
+    :percentiles:
+  - :host: collectd-01
+    :plugin: disk-dm-0
+    :percentiles:
+  :timeframe:
+  :profile_name: collectd-01 disk-dm-0 and load
+  :url: collectd+01+disk+dm+0+and+load
+  :created_at: 2013-03-01 21:56:58.623201153 +11:00
+  :anonymous: false
+rawideas+dvmh+app+cpu+0+idle:
+  :graphs:
+  - :host: rawideas-dvmh-app-01.cust.bulletproof.net
+    :plugin: cpu-0
+    :percentiles:
+  - :host: rawideas-dvmh-app-02.cust.bulletproof.net
+    :plugin: cpu-0
+    :percentiles:
+  - :host: rawideas-dvmh-app-05.cust.bulletproof.net
+    :plugin: cpu-0
+    :percentiles:
+  - :host: rawideas-dvmh-app-06.cust.bulletproof.net
+    :plugin: cpu-0
+    :percentiles:
+  - :host: rawideas-dvmh-app-07.cust.bulletproof.net
+    :plugin: cpu-0
+    :percentiles:
+  - :host: rawideas-dvmh-app-08.cust.bulletproof.net
+    :plugin: cpu-0
+    :percentiles:
+  - :host: rawideas-dvmh-app-09.cust.bulletproof.net
+    :plugin: cpu-0
+    :percentiles:
+  - :host: rawideas-dvmh-app-10.cust.bulletproof.net
+    :plugin: cpu-0
+    :percentiles:
+  :timeframe:
+  :profile_name: rawideas-dvmh-app cpu-0 idle
+  :url: rawideas+dvmh+app+cpu+0+idle
+  :created_at: 2013-03-01 21:56:58.163310497 +11:00
+  :anonymous: false
 :meta:
   :version: 3.0.0
