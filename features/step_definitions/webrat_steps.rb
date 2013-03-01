@@ -39,6 +39,9 @@ end
 
 Then /^show me the page$/ do
   # save_and_open_page
-  #puts page.body
-  #page.driver.render('/home/auxesis/visage/file.png')
+  # puts page.body
+
+  root     = Pathname.new(__FILE__).parent.parent.parent
+  filename = root.join('lib/visage-app/public/images/screenshot.png')
+  page.driver.render(filename.to_s)
 end
