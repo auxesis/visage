@@ -35,9 +35,29 @@ Then /^show me the output$/ do
   puts @pipe.read(350)
 end
 
-Given /^I am using a temporary profile based on "(.*?)"$/ do |directory|
+Given /^I am using a profile based on "(.*?)"$/ do |directory|
   root        = Pathname.new(__FILE__).parent.parent.join('support/config')
   source      = root.join(directory).join('profiles.yaml')
   destination = root.join('tmp').join('profiles.yaml')
-  FileUtils.cp(source, destination)
+
+  source.exist?.should be_true
+  FileUtils.rm(destination)
+  FileUtils.cp(source.to_s, destination.to_s)
+
+  ENV['CONFIG_PATH'] = destination.parent.to_s
+end
+
+Given /^a profile file doesn't exist$/ do
+  root        = Pathname.new(__FILE__).parent.parent.join('support/config')
+  destination = root.join('tmp').join('profiles.yaml')
+
+  FileUtils.rm(destination)
+  ENV['CONFIG_PATH'] = destination.parent.to_s
+end
+
+Then /^I should see a profile file has been created$/ do
+  root        = Pathname.new(__FILE__).parent.parent.join('support/config')
+  destination = root.join('tmp').join('profiles.yaml')
+
+  destination.exist?.should be_true
 end
