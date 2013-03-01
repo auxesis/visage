@@ -26,7 +26,7 @@ end
 
 Then /^I should see a list of profiles sorted alphabetically$/ do
   doc = Nokogiri::HTML(page.body)
-  profiles = doc.search('div#profiles ul li')
+  profiles = doc.search('div#named_profiles ul li')
   profiles.size.should > 1
 
   unsorted = profiles.map { |p| p.text.strip }
