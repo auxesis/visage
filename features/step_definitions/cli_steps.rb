@@ -41,7 +41,7 @@ Given /^I am using a profile based on "(.*?)"$/ do |directory|
   destination = root.join('tmp').join('profiles.yaml')
 
   source.exist?.should be_true
-  FileUtils.rm(destination)
+  FileUtils.rm(destination) if destination.exist?
   FileUtils.cp(source.to_s, destination.to_s)
 
   ENV['CONFIG_PATH'] = destination.parent.to_s
@@ -51,7 +51,7 @@ Given /^a profile file doesn't exist$/ do
   root        = Pathname.new(__FILE__).parent.parent.join('support/config')
   destination = root.join('tmp').join('profiles.yaml')
 
-  FileUtils.rm(destination)
+  FileUtils.rm(destination) if destination.exist?
   ENV['CONFIG_PATH'] = destination.parent.to_s
 end
 

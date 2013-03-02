@@ -43,3 +43,8 @@ World do
   SinatraWorld.new
 end
 
+Before do
+  root        = Pathname.new(__FILE__).parent.parent.join('support/config')
+  destination = root.join('tmp').join('profiles.yaml')
+  FileUtils.rm(destination) if destination.exist?
+end
