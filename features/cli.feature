@@ -27,4 +27,5 @@ Feature: command line utility
     Given I am using a profile based on "2.0_profile_yaml"
     When I start the visage server helper with "visage-app start"
     Then I should see "The Visage profile format has changed" on the terminal
-    And I should see "Upgrading profile format from 2.0.0 to 3.0.0...success!" on the terminal
+    And I should see "Upgrading profile format from 2.0.0 to 3.0.0" on the terminal
+    And I should see "Success!" on the terminal
