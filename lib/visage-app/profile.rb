@@ -50,7 +50,7 @@ module Visage
 
     def self.upgrade
       puts "The Visage profile format has changed!"
-      print "Upgrading profile format from #{self.version} to 3.0.0..."
+      puts "Upgrading profile format from #{self.version} to 3.0.0:"
 
       data = self.load
       data.each_pair do |url, attrs|
@@ -81,11 +81,13 @@ module Visage
           :profile_name => attrs[:profile_name]
         }
 
+        print '.'
+
         @profile = Visage::Profile.new(profile)
         @profile.save
       end
 
-      print "success!\n"
+      puts "Success!"
 
       # Save it.
       profiles = self.load
