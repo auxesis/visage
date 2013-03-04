@@ -9,17 +9,15 @@ giving you an easy way to mash up the data.
 Features
 --------
 
- * renders graphs in the browser, and retrieves data asynchronously
- * interactive graph keys, to highlight lines and toggle line visibility
- * drop-down or mouse selection of timeframes (also rendered asynchronously)
+ * Renders graphs in the browser, and retrieves data asynchronously
+ * Interactive graph keys, to highlight lines and toggle line visibility
+ * Drop-down or mouse selection of timeframes (also rendered asynchronously)
  * JSON interface onto `collectd` RRDs
  * Support for FLUSH using either collectd or rrdcached
 
 Here, have a graph:
 
-![Something I prepared earlier.](http://farm2.static.flickr.com/1020/4730994504_c8c6fc9c18_z.jpg)
-
-Or check out [a live demo](http://visage.unstated.net/nadia/cpu+load).
+![Something I prepared earlier. Visage 3.0 graph.](http://farm9.staticflickr.com/8234/8526570663_1d2479407f_c.jpg)
 
 Installing
 ----------
