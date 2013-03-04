@@ -250,3 +250,10 @@ permission to distribute Highcharts under the GPLv2 as part of Visage.
 If you ever need an excellent JavaScript charting library, please consider
 purchasing a [commercial license](http://highcharts.com/license) for
 Highcharts.
+
+Support
+-------
+
+ * Post to [the mailing list](https://groups.google.com/forum/?fromgroups=#!forum/visage-app).
+ * Ping [@auxesis](https://twitter.com/auxesis) on Twitter.
+ * Check [issues on GitHub](https://github.com/auxesis/visage/issues).
