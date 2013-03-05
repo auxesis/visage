@@ -13,12 +13,12 @@ Features
  * Easy interface for building, ordering, and sharing collections of graphs
  * Interactive graph elements - toggle line visibility, inspect exact point-in-time data
  * Drop-down or mouse selection of timeframes
- * JSON interface onto `collectd` RRDs
- * Support for FLUSH using either collectd or rrdcached
+ * JSON interface onto collectd RRDs
+ * Support for FLUSH using either collectd's rrdtool plugin, or rrdcached
 
 Here, have a graph:
 
-![Something I prepared earlier. Visage 3.0 graph.](http://farm9.staticflickr.com/8234/8526570663_1d2479407f_c.jpg)
+![Something I prepared earlier - Visage 3.0 graph.](http://farm9.staticflickr.com/8234/8526570663_1d2479407f_c.jpg)
 
 Installing
 ----------
