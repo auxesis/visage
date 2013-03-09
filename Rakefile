@@ -13,8 +13,16 @@ Cucumber::Rake::Task.new(:features) do |t|
   t.cucumber_opts = "features --format pretty"
 end
 
+desc "build man pages"
+task :man do
+  man_glob = Pathname.new(__FILE__).parent.join('man').join('*.ronn').to_s
+  Dir.glob(man_glob) do |man_page|
+    sh "ronn --roff #{man_page}"
+  end
+end
+
 desc "build gem"
-task :build => :verify do
+task :build => [:man, :verify] do
   build_output = `gem build visage-app.gemspec`
   puts build_output
 
