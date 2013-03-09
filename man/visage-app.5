@@ -1,7 +1,7 @@
 .\" generated with Ronn/v0.7.3
 .\" http://github.com/rtomayko/ronn/tree/0.7.3
 .
-.TH "VISAGE\-APP" "5" "September 2012" "" ""
+.TH "VISAGE\-APP" "5" "March 2013" "" ""
 .
 .SH "NAME"
 \fBvisage\-app\fR \- Run a standalone instance of Visage
@@ -25,6 +25,10 @@ Start visage on \fB127\.0\.0\.1:9292\fR
 \fBgenapache\fR
 Generate a vhost suitable for Passenger + Apache\. Will load Visage from the installed gem\.
 .
+.TP
+\fBhelp\fR
+Display this man page\.
+.
 .SH "ENVIRONMENT"
 .
 .TP
@@ -34,6 +38,18 @@ Where to look for configuration files\. Added to the beginning of config load pa
 .TP
 \fBRRDDIR\fR
 Where to look for collectd\'s RRDs\. Must correspond with collectd\'s \fBrrdtool\fR plugin\'s \fBDataDir\fR value\.
+.
+.TP
+\fBCOLLECTDSOCK\fR
+Where to look for collectd\'s Unix socket\. Used by Visage to issue \fBFLUSH\fR command to collectd to present more up to date statistics\.
+.
+.TP
+\fBRRDCACHEDSOCK\fR
+Where to look for rrdcached\'s Unix socket\. Used by Visage to issue \fBFLUSH\fR command to rrdcached to present more up to date statistics\.
+.
+.TP
+\fBVISAGE_DATA_BACKEND\fR
+Specify which data backend Visage should use to retrieve statistics\. An up to date list of backends can be found by looking in \fBlib/visage\-app/data\fR\. At the time of writing, the shipped backends are RRD and Mock\.
 .
 .SH "AUTHOR"
 Lindsay Holmwood \fIlindsay@holmwood\.id\.au\fR

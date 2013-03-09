@@ -21,6 +21,9 @@ easy way to mash up the data.
     Generate a vhost suitable for Passenger + Apache. Will load Visage from
     the installed gem.
 
+  * `help`:
+    Display this man page.
+
 ## ENVIRONMENT
 
   * `CONFIG_PATH`:
@@ -30,6 +33,19 @@ easy way to mash up the data.
   * `RRDDIR`:
     Where to look for collectd's RRDs. Must correspond with collectd's `rrdtool`
     plugin's `DataDir` value.
+
+  * `COLLECTDSOCK`:
+    Where to look for collectd's Unix socket. Used by Visage to issue `FLUSH`
+    command to collectd to present more up to date statistics.
+
+  * `RRDCACHEDSOCK`:
+    Where to look for rrdcached's Unix socket. Used by Visage to issue `FLUSH`
+    command to rrdcached to present more up to date statistics.
+
+  * `VISAGE_DATA_BACKEND`:
+    Specify which data backend Visage should use to retrieve statistics. An up
+    to date list of backends can be found by looking in `lib/visage-app/data`.
+    At the time of writing, the shipped backends are RRD and Mock.
 
 ## AUTHOR
 
