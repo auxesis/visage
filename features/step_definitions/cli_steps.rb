@@ -1,3 +1,12 @@
+Given /^the visage server helper is not running$/ do
+  require 'socket'
+
+  lambda {
+    fqdn   = Socket.gethostbyname(Socket.gethostname).first
+    socket = TCPSocket.new(fqdn, 9292)
+  }.should raise_error(Errno::ECONNREFUSED)
+end
+
 When /^I start the visage server helper with "([^"]*)"$/ do |cmd|
   @root = Pathname.new(File.dirname(__FILE__)).parent.parent.expand_path
   command = "#{@root.join('bin')}/#{cmd}"

@@ -4,6 +4,9 @@ Feature: command line utility
   I want to get Visage up and running
   With the least hassle possible
 
+  Background:
+    Given the visage server helper is not running
+
   @daemon
   Scenario: Booting the command line tool
     Given I am using a profile based on "default"
