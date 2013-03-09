@@ -151,6 +151,7 @@ Visage looks for some environment variables when starting up:
   * `RRDDIR`, the location of collectd's RRDs
   * `COLLECTDSOCK`, the location of collectd's Unix socket
   * `RRDCACHEDSOCK`, the location of rrdcached's Unix socket
+  * `VISAGE_DATA_BACKEND`, which backend Visage should source metrics from
 
 Visage has a configuration search path which can be used for overriding
 individual files. By default it has one entry: `$VISAGE_ROOT/lib/visage/config/`.
