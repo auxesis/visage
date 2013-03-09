@@ -32,3 +32,19 @@ Feature: command line utility
     Then I should see "The Visage profile format has changed" on the terminal
     And I should see "Upgrading profile format from 2.0.0 to 3.0.0" on the terminal
     And I should see "Success!" on the terminal
+
+  @help
+  Scenario Outline: Displaying the man page
+    Given I am using a profile based on "default"
+    When I start the visage server helper with "visage-app <argument>"
+    Then I should see a man page
+    And a visage web server should not be running
+
+  Examples:
+    | argument      |
+    | help          |
+    | --help        |
+    | start help    |
+    | help start    |
+    | --help start  |
+    | start --help  |

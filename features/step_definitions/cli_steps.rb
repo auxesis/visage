@@ -18,6 +18,20 @@ Then /^a visage web server should be running$/ do
   `ps -eo cmd |grep ^visage`.size.should > 0
 end
 
+Then /^a visage web server should not be running$/ do
+  `ps -eo cmd |grep ^visage`.size.should == 0
+end
+
+Then /^I should see a man page$/ do
+  output = read_until_timeout(@pipe)
+
+  headings = %w(VISAGE-APP NAME DESCRIPTION SYNOPSIS COPYRIGHT)
+
+  headings.each do |heading|
+    output.find {|line| line =~ /^#{heading}/}.should_not be_nil
+  end
+end
+
 Then /^I should see "([^"]*)" on the terminal$/ do |string|
   output = read_until_timeout(@pipe).join('')
   output.should =~ /#{string}/

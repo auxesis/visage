@@ -10,6 +10,17 @@ $stdout.sync = true
 $: << @root.to_s
 action = ARGV[0]
 
+def display_man_page
+  man_path    = @root.parent.join('man').join('visage-app.5')
+  man_command = "man #{man_path}"
+  exec(man_command) # replaces current process with invocation of man
+end
+
+# Display the man page if [--]help is specified anyhere in the arguments
+if ARGV.find {|arg| arg =~ /^(--)*help$/}
+  display_man_page
+end
+
 case action
 when "start"
   require 'rubygems'
@@ -33,7 +44,6 @@ when "start"
   server.start
 when "genapache"
   require 'socket'
-  fqdn = Socket.gethostbyname(Socket.gethostname).first
   public_dir = (@root + 'lib/visage-app/public').to_s
 
   puts <<-CONFIG
@@ -53,6 +63,6 @@ when "genapache"
 </VirtualHost>
   CONFIG
 else
-  puts "Usage: visage <start|genapache>"
+  puts "Usage: visage <start|genapache|[--]help>"
 end
 
