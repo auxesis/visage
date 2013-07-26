@@ -9,15 +9,16 @@ giving you an easy way to mash up the data.
 Features
 --------
 
- * Renders graphs in the browser, and retrieves data asynchronously
- * Interactive graph keys, to highlight lines and toggle line visibility
- * Drop-down or mouse selection of timeframes (also rendered asynchronously)
- * JSON interface onto `collectd` RRDs
- * Support for FLUSH using either collectd or rrdcached
+ * Renders graphs in the browser with SVG, and retrieves data asynchronously
+ * Easy interface for building, ordering, and sharing collections of graphs
+ * Interactive graph elements - toggle line visibility, inspect exact point-in-time data
+ * Drop-down or mouse selection of timeframes
+ * JSON interface onto collectd RRDs
+ * Support for FLUSH using either collectd's rrdtool plugin, or rrdcached
 
 Here, have a graph:
 
-![Something I prepared earlier. Visage 3.0 graph.](http://farm9.staticflickr.com/8234/8526570663_1d2479407f_c.jpg)
+![Something I prepared earlier - Visage 3.0 graph.](http://farm9.staticflickr.com/8234/8526570663_1d2479407f_c.jpg)
 
 Installing
 ----------
@@ -103,7 +104,7 @@ $(dirname $(dirname $(gem which visage-app)))/bin/visage-app start
 Deploying
 ---------
 
-Visage can be deployed on Apache with Passenger:
+Visage can be deployed easily on Apache with Passenger:
 
 ``` bash
 sudo apt-get install libapache2-mod-passenger
@@ -112,7 +113,7 @@ sudo apt-get install libapache2-mod-passenger
 Visage can attempt to generate an Apache vhost config for use with Passenger:
 
 ``` bash
-visage-app genapache
+$ visage-app genapache
 <VirtualHost *>
   ServerName ubuntu.localdomain
   ServerAdmin root@ubuntu.localdomain
@@ -140,18 +141,18 @@ a2dissite default
 service apache2 reload
 ```
 
-Then head to your Apache instance and Visage will be up and running.
+Then visit your Apache instance in a browser, and Visage will be up and running.
 
 Configuring
 -----------
 
 Visage looks for some environment variables when starting up:
 
-  * `CONFIG_PATH`, an entry on the configuration file search path
-  * `RRDDIR`, the location of collectd's RRDs
-  * `COLLECTDSOCK`, the location of collectd's Unix socket
-  * `RRDCACHEDSOCK`, the location of rrdcached's Unix socket
-  * `VISAGE_DATA_BACKEND`, which backend Visage should source metrics from
+  * `CONFIG_PATH`, an entry on the configuration file search path.
+  * `RRDDIR`, the location of collectd's RRDs.
+  * `COLLECTDSOCK`, the location of collectd's Unix socket.
+  * `RRDCACHEDSOCK`, the location of rrdcached's Unix socket.
+  * `VISAGE_DATA_BACKEND`, which storage backend to retrieve data from.
 
 Visage has a configuration search path which can be used for overriding
 individual files. By default it has one entry: `$VISAGE_ROOT/lib/visage/config/`.
@@ -159,7 +160,7 @@ You can set the `CONFIG_PATH` environment variable to add another directory to
 the config load path. This directory will be searched when loading up
 configuration files:
 
-```
+``` bash
 CONFIG_PATH=/var/lib/visage visage-app start
 ```
 
@@ -195,42 +196,45 @@ chown nobody:nogroup -R /var/lib/visage
 Developing + testing
 --------------------
 
-Check out the code with:
+Check out the code:
 
 ``` bash
 git clone git://github.com/auxesis/visage.git
 ```
 
-Install the development dependencies with:
+Install the development dependencies:
 
 ``` bash
-gem install bundler
 bundle
 ```
 
-Run all cucumber features:
+Run all the cukes:
 
 ``` bash
-rake features
+rake
 ```
 
-And run the app with:
+Visage tests should pass every time. [Travis](https://travis-ci.org/auxesis/visage) says the current Visage is ![build status](https://travis-ci.org/auxesis/visage.png?branch=master).
+
+Run the app with:
 
 ``` bash
-shotgun lib/visage-app/config.ru
+VISAGE_DATA_BACKEND=Mock bundle exec shotgun lib/visage-app/config.ru -p 9292 -o 0.0.0.0 --server thin
 ```
+
+Visage ships a Mock data backend, so you can test without needing a real instance of collectd writing data with the RRDtool plugin. Per the above example, you can enable it by specifying the `VISAGE_DATA_BACKEND=Mock` environment variable on the command line.
 
 To create and install a new gem from the current source tree:
 
 ``` bash
-rake install
+rake build
 ```
 
 Releasing
 ---------
 
-1. Bump the version in lib/visage-app/version.rb
-2. Add an entry to CHANGELOG.md
+1. Bump the version in `lib/visage-app/version.rb`
+2. Add an entry to `CHANGELOG.md`
 3. `git commit` everything.
 4. Build the gem with `rake build`
 5. Push the gem to RubyGems.org with `rake push`
@@ -247,9 +251,9 @@ If you ever need an excellent JavaScript charting library, please consider
 purchasing a [commercial license](http://highcharts.com/license) for
 Highcharts.
 
-TODO
-----
+Support
+-------
 
- - add natural language support for timeframes (default view: 1 week ago)
- - add sparklines to profile view
- - add checkbox to enable live updates on all graphs
+ * Post to [the mailing list](https://groups.google.com/forum/?fromgroups=#!forum/visage-app).
+ * Ping [@auxesis](https://twitter.com/auxesis) on Twitter.
+ * Check [issues on GitHub](https://github.com/auxesis/visage/issues).

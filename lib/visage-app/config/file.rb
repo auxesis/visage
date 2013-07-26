@@ -4,6 +4,8 @@
 require @root.join('lib/visage-app/config')
 require 'yaml'
 
+YAML::ENGINE.yamler = 'syck'
+
 module Visage
   class Config
     class File

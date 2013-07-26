@@ -151,9 +151,11 @@ module Visage
             structure[host][plugin][instance][source][:start]         ||= start
             structure[host][plugin][instance][source][:finish]        ||= finish
             structure[host][plugin][instance][source][:data]          ||= metric
-            structure[host][plugin][instance][source][:percentile_95] ||= percentile_of_array(metric_for_percentiles, 95).round if percentiles
-            structure[host][plugin][instance][source][:percentile_50] ||= percentile_of_array(metric_for_percentiles, 50).round if percentiles
-            structure[host][plugin][instance][source][:percentile_5]  ||= percentile_of_array(metric_for_percentiles,  5).round if percentiles
+            if percentiles
+              structure[host][plugin][instance][source][:percentile_95] ||= percentile_of_array(metric_for_percentiles, 95).round
+              structure[host][plugin][instance][source][:percentile_50] ||= percentile_of_array(metric_for_percentiles, 50).round
+              structure[host][plugin][instance][source][:percentile_5]  ||= percentile_of_array(metric_for_percentiles,  5).round
+            end
 
           end
         end
