@@ -15,6 +15,14 @@ class Profile
 
   # Class methods
   class << self
+    # Retrieve previously saved profiles.
+    #
+    # Provides filters for common tasks, such as:
+    #
+    #   - Returning anonymous or named profiles
+    #   - Sorting by a particular key
+    #   - Ordering the results
+    #
     def all(opts={})
       anonymous = opts[:anonymous]
       sort      = opts[:sort]
@@ -36,7 +44,7 @@ class Profile
   attr_accessor :attributes
 
   attribute_method_suffix  '=' # attr_writers
-#    attribute_method_suffix  ''  # attr_readers, raises DEPRECATION warnings now
+#  attribute_method_suffix  ''  # attr_readers, raises DEPRECATION warnings now
   define_attribute_methods [ :id, :name, :graphs, :anonymous, :created_at]
 
   validates_presence_of :id, :name, :graphs
@@ -49,6 +57,7 @@ class Profile
     @attributes = default_attributes.merge(attributes)
   end
 
+  # Persist the Profile record.
   def save
     if new_record?
       self.id         = SecureRandom.hex
@@ -72,22 +81,26 @@ class Profile
   ]
 
   private
+  # Determine if the record we are operating on is newly created.
+  #
+  # Useful for adding additional data to records when they're being created.
   def new_record?
     !self.id
   end
 
   # http://stackoverflow.com/questions/7613574/activemodel-fields-not-mapped-to-accessors
   #
-  # simulate attribute writers from method_missing
+  # Simulate attribute writers from method_missing
   def attribute=(attr, value)
     @attributes[attr.to_sym] = value
   end
 
-  # simulate attribute readers from method_missing
+  # Simulate attribute readers from method_missing
   def attribute(attr)
     @attributes[attr.to_sym]
   end
 
+  # Used by ActiveModel to lookup attributes during validations.
   def read_attribute_for_validation(attr)
     @attributes[attr]
   end
