@@ -92,11 +92,18 @@ describe "Profile" do
   end
 
   describe "validations and callbacks" do
-    it "should confirm presence of name" do
+    it "should confirm presence of name when not anonymous" do
+      # Anonymous profiles should not validate the presence of a name
       attributes = {}
       profile = Profile.new(attributes)
       profile.save.should_not be_true
-      profile.errors.should_not be_nil
+      profile.errors.keys.should_not include(:name)
+
+      # Named profiles should validate the presence of a name
+      attributes = {:anonymous => false}
+      profile = Profile.new(attributes)
+      profile.save.should_not be_true
+      profile.errors.keys.should include(:name)
     end
 
     it "should confirm presence of graphs" do
