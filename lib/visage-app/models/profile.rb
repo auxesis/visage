@@ -6,21 +6,12 @@ require 'visage-app/graph'
 require 'visage-app/patches'
 require 'digest/md5'
 require 'active_model'
-require 'ostruct'
 
 class Profile
   include ActiveModel::AttributeMethods
   include ActiveModel::Serializers::JSON
   include ActiveModel::Validations
   include ActiveModel::Dirty
-
-  # Stub records, for getting the tests to pass
-  RECORDS = [
-    OpenStruct.new({:anonymous => true,  :id => 'zzz', :name => 'Dan',   :created_at => Time.now - 90}),
-    OpenStruct.new({:anonymous => true,  :id => 'aaa', :name => 'Alice', :created_at => Time.now - 10}),
-    OpenStruct.new({:anonymous => false, :id => 'yyy', :name => 'Carol', :created_at => Time.now - 80}),
-    OpenStruct.new({:anonymous => false, :id => 'bbb', :name => 'Bob',   :created_at => Time.now - 20}),
-  ]
 
   # Class methods
   class << self
@@ -65,12 +56,20 @@ class Profile
     end
 
     if valid?
-      RECORDS << OpenStruct.new(@attributes)
+      RECORDS << self.class.new(@attributes)
       true
     else
       false
     end
   end
+
+  # Stub records, for getting the tests to pass
+  RECORDS = [
+    self.new({:anonymous => true,  :id => 'zzz', :name => 'Dan',   :created_at => Time.now - 90}),
+    self.new({:anonymous => true,  :id => 'aaa', :name => 'Alice', :created_at => Time.now - 10}),
+    self.new({:anonymous => false, :id => 'yyy', :name => 'Carol', :created_at => Time.now - 80}),
+    self.new({:anonymous => false, :id => 'bbb', :name => 'Bob',   :created_at => Time.now - 20}),
+  ]
 
   private
   def new_record?
