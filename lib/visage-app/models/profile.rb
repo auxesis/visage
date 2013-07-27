@@ -24,9 +24,11 @@ class Profile
     #   - Ordering the results
     #
     def all(opts={})
-      anonymous = opts[:anonymous]
       sort      = opts[:sort]
       order     = opts[:order]
+      # Anonymous profiles don't have names, so if we see the sort key is the
+      # profile name, we automatically filter out anonymous profiles.
+      anonymous = sort == :name ? false : opts[:anonymous]
       result    = RECORDS
 
       result = result.find_all {|r| r.anonymous == anonymous} unless anonymous.nil?
