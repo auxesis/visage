@@ -15,9 +15,9 @@ require 'yajl/json_gem'
 
 module Visage
   class Application < Sinatra::Base
-    @root = Pathname.new(File.dirname(__FILE__)).parent.expand_path
-    set :public_folder, @root.join('lib/visage-app/public')
-    set :views,         @root.join('lib/visage-app/views')
+    @root = Pathname.new(File.dirname(__FILE__)).expand_path
+    set :public_folder, @root.join('visage-app/public')
+    set :views,         @root.join('visage-app/views')
 
     enable :logging
 
