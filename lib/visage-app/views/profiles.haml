@@ -13,9 +13,9 @@
   /  %a{:href => link_to("/profiles?sort=created")} created
 
   %ul
-    - @profiles.each_with_index do |prof,index|
+    - @profiles.each_with_index do |profile,index|
       %li
-        %a{:href => link_to("/profiles/#{prof.url}")}= prof.profile_name
+        %a{:href => link_to("/profiles/#{profile.id}")}= profile.name
 
   %p.create
     %a{:href => link_to("/profiles/new")} Create a profile
@@ -27,7 +27,7 @@
     %ul
       - @anonymous.each_with_index do |profile,index|
         %li
-          %a{:href => link_to("/profiles/#{profile.url}")}
+          %a{:href => link_to("/profiles/#{profile.id}")}
             - description = profile.graphs.map {|prof| "#{prof['plugin']} on #{prof['host']}" }.join(', ')
             - count       = profile.graphs.size
             = "#{count} graphs (#{truncate(description, :length => 46)})"
