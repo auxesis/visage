@@ -36,10 +36,7 @@ describe "Profile" do
 
     it "should allow sorting on created_at" do
       default_sorting = Visage::Profile.all
-      p default_sorting
-
       custom_sorting = Visage::Profile.all(:sort => :created_at)
-      p custom_sorting
 
       default_sorting.should_not == custom_sorting
     end
@@ -117,6 +114,9 @@ describe "Profile" do
     end
   end
 
-  it "should represent a single profile as JSON"
+  it "should represent a single profile as JSON" do
+    profile = Visage::Profile.all.first
+    profile.to_json.should_not be_nil
+  end
 
 end

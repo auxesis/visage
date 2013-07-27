@@ -11,7 +11,7 @@ require 'ostruct'
 module Visage
   class Profile
     include ActiveModel::AttributeMethods
-    include ActiveModel::Serialization
+    include ActiveModel::Serializers::JSON
     include ActiveModel::Validations
     include ActiveModel::Dirty
 
@@ -23,6 +23,7 @@ module Visage
       OpenStruct.new({:anonymous => false, :id => 'bbb', :name => 'Bob',   :created_at => Time.now - 20}),
     ]
 
+    # Class methods
     class << self
       def all(opts={})
         anonymous = opts[:anonymous]
@@ -42,14 +43,15 @@ module Visage
       end
     end
 
+    attr_accessor :attributes
+
     attribute_method_suffix  '=' # attr_writers
 #    attribute_method_suffix  ''  # attr_readers, raises DEPRECATION warnings now
     define_attribute_methods [ :id, :name, :graphs, :anonymous, :created_at]
 
-    attr_accessor :attributes
-
     validates_presence_of :id, :name, :graphs
 
+    # Instance methods
     def initialize(attributes)
       default_attributes = {
         :anonymous => true
@@ -58,7 +60,10 @@ module Visage
     end
 
     def save
-      self.id ||= SecureRandom.hex
+      if new_record?
+        self.id         = SecureRandom.hex
+        self.created_at = Time.now
+      end
 
       if valid?
         RECORDS << OpenStruct.new(@attributes)
@@ -69,8 +74,12 @@ module Visage
     end
 
     private
-    # http://stackoverflow.com/questions/7613574/activemodel-fields-not-mapped-to-accessors
+    def new_record?
+      !self.id
+    end
 
+    # http://stackoverflow.com/questions/7613574/activemodel-fields-not-mapped-to-accessors
+    #
     # simulate attribute writers from method_missing
     def attribute=(attr, value)
       @attributes[attr.to_sym] = value
