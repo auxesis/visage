@@ -47,7 +47,8 @@ class Profile
 #  attribute_method_suffix  ''  # attr_readers, raises DEPRECATION warnings now
   define_attribute_methods [ :id, :name, :graphs, :anonymous, :created_at]
 
-  validates_presence_of :id, :name, :graphs
+  validates_presence_of :id, :graphs
+  validate :name_validations
 
   # Instance methods
   def initialize(attributes)
@@ -73,11 +74,15 @@ class Profile
   end
 
   # Stub records, for getting the tests to pass
+  graphs = [
+    { :plugin => 'memory', :host => 'foo', :start => Time.now.to_i },
+    { :plugin => 'memory', :host => 'bar', :start => Time.now.to_i },
+  ]
   RECORDS = [
-    self.new({:anonymous => true,  :id => 'zzz', :name => 'Dan',   :created_at => Time.now - 90}),
-    self.new({:anonymous => true,  :id => 'aaa', :name => 'Alice', :created_at => Time.now - 10}),
-    self.new({:anonymous => false, :id => 'yyy', :name => 'Carol', :created_at => Time.now - 80}),
-    self.new({:anonymous => false, :id => 'bbb', :name => 'Bob',   :created_at => Time.now - 20}),
+    self.new({:anonymous => true,  :id => 'zzz', :created_at => Time.now - 90, :graphs => graphs}),
+    self.new({:anonymous => true,  :id => 'aaa', :created_at => Time.now - 10, :graphs => graphs}),
+    self.new({:anonymous => false, :id => 'yyy', :name => 'Carol', :created_at => Time.now - 80, :graphs => graphs}),
+    self.new({:anonymous => false, :id => 'bbb', :name => 'Bob',   :created_at => Time.now - 20, :graphs => graphs}),
   ]
 
   private
@@ -86,6 +91,10 @@ class Profile
   # Useful for adding additional data to records when they're being created.
   def new_record?
     !self.id
+  end
+
+  def name_validations
+    self.errors.add 'name', "can't be blank" if not anonymous and name.blank?
   end
 
   # http://stackoverflow.com/questions/7613574/activemodel-fields-not-mapped-to-accessors
