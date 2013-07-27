@@ -1,4 +1,4 @@
-Feature: Visit site
+Feature: Viewing data
   To find out how systems are performing
   A user
   Must be able to visualise the data
@@ -24,5 +24,12 @@ Feature: Visit site
     And I visit the first recent profile
     Then I should see a collection of graphs
     When I follow "Back to profiles"
-    #Then show me the page
     Then I should see a list of recently shared profiles
+
+  @javascript
+  Scenario: Create an anonymous profile
+    When I go to /profiles/new
+    And I show a graph for a host
+    And I share the profile
+    Then I should see a permalink for the profile
+    Then show me the page
