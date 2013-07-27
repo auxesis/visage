@@ -5,8 +5,9 @@ require 'pathname'
 $: << @root.to_s
 
 require 'sinatra/base'
+require 'sinatra/reloader'
 require 'haml'
-require 'visage-app/profile'
+require 'visage-app/models/profile'
 require 'visage-app/helpers'
 require 'visage-app/config'
 require 'visage-app/config/file'
@@ -39,13 +40,15 @@ module Visage
         c['rrdcachedsock'] = ENV["RRDCACHEDSOCK"]
       end
 
-      # Load up the profiles.yaml. Creates it if it doesn't already exist.
-      Visage::Profile.load
-      # Upgrade the profile if we're running an older version
-      Visage::Profile.upgrade if Visage::Profile.version != "3.0.0"
+#      # Upgrade the profile if we're running an older version
+#      Visage::Profile.upgrade if Profile.version != "3.0.0"
 
       # Set the data backend to use in Visage::JSON
       Visage::Data.backend = Visage::Config.data_backend
+    end
+
+    configure :development do
+      register Sinatra::Reloader
     end
   end
 
@@ -59,7 +62,10 @@ module Visage
     end
 
     get '/profiles/share/:id' do
-      @profile = Visage::Profile.get(params[:id])
+      Profile.all(:sort => :created_at, :anonymous => true)
+      Profile.all(:sort => :created_at)
+
+      @profile = Profile.get(params[:id])
       raise Sinatra::NotFound unless @profile
 
       haml :share, :layout => false
@@ -69,7 +75,7 @@ module Visage
       url    = params[:captures][0]
       format = params[:captures][1]
 
-      @profile = Visage::Profile.get(url)
+      @profile = Profile.get(url)
       raise Sinatra::NotFound unless @profile
 
       if format == 'json'
@@ -83,26 +89,26 @@ module Visage
       named_options = {
         :anonymous => false,
         :order     => params[:order],
-        :sort      => params[:sort] || :profile_name,
+        :sort      => params[:sort] || :name,
       }
-      @profiles  = Visage::Profile.all(named_options)
+      @profiles  = Profile.all(named_options)
 
       anonymous_options = {
         :anonymous => true,
         :sort      => :created_at,
         :order     => 'ascending',
       }
-      @anonymous = Visage::Profile.all(anonymous_options)
+      @anonymous = Profile.all(anonymous_options)
 
       haml :profiles
     end
 
     post '/profiles' do
-      attrs = ::JSON.parse(request.body.read)
-      @profile = Visage::Profile.new(attrs)
+      attributes = ::JSON.parse(request.body.read).symbolize_keys
+      @profile = Profile.new(attributes)
 
       if @profile.save
-        {'status' => 'ok', 'id' => @profile.url}.to_json
+        {'status' => 'ok', 'id' => @profile.id}.to_json
       else
         status 400 # Bad Request
         {'status' => 'error', 'errors' => @profile.errors}.to_json
@@ -114,9 +120,9 @@ module Visage
       format = params[:captures][1]
 
       attrs = ::JSON.parse(request.body.read)
-      @profile = Visage::Profile.new(attrs)
+      @profile = Profile.new(attrs)
 
-      @profile = Visage::Profile.get(url)
+      @profile = Profile.get(url)
       raise Sinatra::NotFound unless @profile
 
       if @profile.save
