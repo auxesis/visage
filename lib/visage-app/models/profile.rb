@@ -47,7 +47,7 @@ class Profile
 
   attribute_method_suffix  '=' # attr_writers
 #  attribute_method_suffix  ''  # attr_readers, raises DEPRECATION warnings now
-  define_attribute_methods [ :id, :name, :graphs, :anonymous, :created_at]
+  define_attribute_methods [ :id, :name, :graphs, :anonymous, :created_at, :timeframe, :tags ]
 
   validates_presence_of :id, :graphs
   validate :name_validations
