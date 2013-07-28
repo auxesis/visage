@@ -8,6 +8,8 @@ require 'capybara/cucumber'
 require 'capybara/poltergeist'
 
 # Application setup
+ENV['RACK_ENV'] = 'test'
+
 root     = Pathname.new(File.dirname(__FILE__)).parent.parent.expand_path
 app_file = root.join('lib/visage-app').to_s
 ENV['CONFIG_PATH']         = root.join('features/support/config/default').to_s

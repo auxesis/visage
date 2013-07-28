@@ -50,6 +50,10 @@ module Visage
     configure :development do
       register Sinatra::Reloader
     end
+
+    configure :test do
+      disable :logging
+    end
   end
 
   class Profiles < Application

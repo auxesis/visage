@@ -5,6 +5,8 @@ require 'pathname'
 $: << Pathname.new(__FILE__).parent.parent.join('lib').to_s
 #require 'visage-app'
 
+ENV['RACK_ENV'] = 'test'
+
 RSpec.configure do |config|
   # Use color in STDOUT
   config.color_enabled = true
