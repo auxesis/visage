@@ -1,8 +1,12 @@
 When /^I visit the first recent profile$/ do
-  doc = Nokogiri::HTML(page.body)
-  link_text = doc.search('div#recent_profiles ul a').first['href']
+  visit "/profiles"
 
-  visit(link_text)
+  doc     = Nokogiri::HTML(page.body)
+  profile = doc.search('div#recent_profiles ul a').first
+  profile.should_not be_nil
+  href    = profile['href']
+
+  visit(href)
 end
 
 Then /^I should see a list of graphs$/ do

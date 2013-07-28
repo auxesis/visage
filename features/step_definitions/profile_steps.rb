@@ -1,4 +1,4 @@
-When /^I show a graph for a host$/ do
+When /^I add a graph$/ do
   script = <<-SCRIPT
     $$('div#hosts input.checkbox')[0].click();
     $$('div#metrics input.checkbox')[0].click();
@@ -23,4 +23,19 @@ Then /^I should see a permalink for the profile$/ do
   page.current_path.should match(/\/profiles\/[0-9a-f]+$/)
 end
 
+When(/^I create an anonymous profile$/) do
+  step "I go to /profiles/new"
+  step "I add a graph"
+  step "I share the profile"
+  step "I should see a permalink for the profile"
+  @anonymous_profile_url = page.current_path
+end
 
+When(/^I visit that anonymous profile$/) do
+  step "I visit the first recent profile"
+  step "I should see a collection of graphs"
+end
+
+Then(/^I should see a new permalink for the profile$/) do
+  page.current_path.should_not == @anonymous_profile_url
+end

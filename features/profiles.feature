@@ -29,6 +29,15 @@ Feature: Viewing data
   @javascript
   Scenario: Create an anonymous profile
     When I go to /profiles/new
-    And I show a graph for a host
+    And I add a graph
     And I share the profile
     Then I should see a permalink for the profile
+
+  @javascript
+  Scenario: Update an anonymous profile
+    When I create an anonymous profile
+    And I visit that anonymous profile
+    And I add a graph
+    And I share the profile
+    Then I should see a new permalink for the profile
+

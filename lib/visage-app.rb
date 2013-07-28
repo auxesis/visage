@@ -100,7 +100,7 @@ module Visage
       anonymous_options = {
         :anonymous => true,
         :sort      => :created_at,
-        :order     => 'ascending',
+        :order     => :descending,
       }
       @anonymous = Profile.all(anonymous_options)
 
