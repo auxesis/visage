@@ -72,10 +72,10 @@ module Visage
     end
 
     get %r{/profiles/([^/\.]+).?([^/]+)?} do
-      url    = params[:captures][0]
+      id     = params[:captures][0]
       format = params[:captures][1]
 
-      @profile = Profile.get(url)
+      @profile = Profile.get(id)
       raise Sinatra::NotFound unless @profile
 
       if format == 'json'
@@ -116,17 +116,17 @@ module Visage
     end
 
     post %r{/profiles/([^/\.]+).?([^/]+)?} do
-      url    = params[:captures][0]
+      id     = params[:captures][0]
       format = params[:captures][1]
 
       attrs = ::JSON.parse(request.body.read)
       @profile = Profile.new(attrs)
 
-      @profile = Profile.get(url)
+      @profile = Profile.get(id)
       raise Sinatra::NotFound unless @profile
 
       if @profile.save
-        {'status' => 'ok', 'id' => @profile.url}.to_json
+        {'status' => 'ok', 'id' => @profile.id}.to_json
       else
         status 400 # Bad Request
         {'status' => 'error', 'errors' => @profile.errors}.to_json
