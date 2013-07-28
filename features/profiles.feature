@@ -32,4 +32,3 @@ Feature: Viewing data
     And I show a graph for a host
     And I share the profile
     Then I should see a permalink for the profile
-    Then show me the page
