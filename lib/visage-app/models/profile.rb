@@ -13,6 +13,14 @@ class Profile
   include ActiveModel::Validations
   include ActiveModel::Dirty
 
+  # Don't emit a single root node named after the object type with all the
+  # attributes under that - make the JSON representation of the profile just
+  # the attributes.
+  #
+  # http://api.rubyonrails.org/classes/ActiveModel/Serializers/JSON.html#method-i-as_json
+  #
+  self.include_root_in_json = false
+
   # Class methods
   class << self
     # Retrieve previously saved profiles.

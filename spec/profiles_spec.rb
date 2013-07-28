@@ -88,6 +88,10 @@ describe "Profile" do
     it "should be representable as JSON" do
       profile = Profile.all.first
       profile.to_json.should_not be_nil
+
+      keys = profile.as_json.keys
+      keys.size.should_not be(1)
+      keys.should_not include('profile')
     end
   end
 
