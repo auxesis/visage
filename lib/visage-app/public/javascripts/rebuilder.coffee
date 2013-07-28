@@ -246,6 +246,7 @@ window.addEvent('domready', () ->
             icon.setStyle('display', 'none')
         }
       })
+
       # http://raphaeljs.com/icons/
       paper = Raphael(icon, 26, 26);
       paper.path("M24.778,21.419 19.276,15.917 24.777,10.415 21.949,7.585 16.447,13.087 10.945,7.585 8.117,10.415 13.618,15.917 8.116,21.419 10.946,24.248 16.447,18.746 21.948,24.248z").attr({fill: "#aaa", stroke: "none"});
@@ -641,7 +642,7 @@ window.addEvent('domready', () ->
               modal.load("/profiles/share/#{profile.id}", "Share profile")
 
             error: (model, xhr, options) ->
-              console.log(response, model)
+              console.log(model, xhr, options)
           })
         else
           id = current.split('/')[1]
@@ -802,10 +803,6 @@ window.addEvent('domready', () ->
         )
     })
 
-
-  #
-  # Debug
-  #
   button = new Element('input', {
     'type': 'button',
     'value': 'Show graphs',
@@ -816,24 +813,26 @@ window.addEvent('domready', () ->
     },
     'events': {
       'click': (event) ->
-        selected_plugins = metrics.selected().map((metric) -> metric.get('id').split('/')[0]).unique()
         selected_hosts   = hosts.selected().map((host) -> host.get('id')).unique()
+        selected_metrics = metrics.selected().map((metric) -> metric.get('id').split('/')[0]).unique()
 
         selected_hosts.each((host) ->
-          selected_plugins.each((plugin) ->
+          selected_metrics.each((metric) ->
 
             attributes = {
-              host:    host
-              plugin:  plugin
+              host:   host
+              plugin: metric
             }
             timeframe  = JSON.decode(Cookie.read('timeframe'))
             attributes = Object.merge(attributes, timeframe)
 
             graph = new Graph(attributes)
             graph.fetch({
-              success: (model, response) ->
+              success: (model, response, options) ->
                 graphs.add(graph)
                 graphsView.render().el
+              error: (model, response, options) ->
+                console.log('error', model, response, options)
             })
           )
 
