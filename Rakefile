@@ -4,6 +4,7 @@ require 'rubygems'
 require 'bundler/setup'
 require 'cucumber'
 require 'cucumber/rake/task'
+require 'rspec/core/rake_task'
 require 'colorize'
 require 'pathname'
 $: << Pathname.new(__FILE__).join('lib').expand_path.to_s
@@ -12,6 +13,8 @@ require 'visage-app/version'
 Cucumber::Rake::Task.new(:features) do |t|
   t.cucumber_opts = "features --format pretty"
 end
+
+RSpec::Core::RakeTask.new(:spec)
 
 desc "build man pages"
 task :man do
@@ -103,4 +106,4 @@ end
 
 task :verify => 'verify:all'
 
-task :default => :features
+task :default => [:spec,:features]
