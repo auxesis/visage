@@ -1,0 +1,93 @@
+.\" generated with Ronn/v0.7.3
+.\" http://github.com/rtomayko/ronn/tree/0.7.3
+.
+.TH "VISAGE\-API" "5" "July 2013" "" ""
+.
+.SH "NAME"
+\fBvisage\-api\fR \- Reference documentation for the Visage JSON API
+.
+.SH "DESCRIPTION"
+Visage is a web interface for viewing collectd statistics\.
+.
+.P
+It also provides a JSON interface onto collectd\'s RRD data, giving you an easy way to mash up the data\.
+.
+.P
+This man page documents the different ways you can call the API\.
+.
+.SH "API methods"
+Calls to the API follow the \fB/data/<hostnames>/<plugins>/<instances>\fR pattern\.
+.
+.IP "\(bu" 4
+\fB/data\fR
+.
+.IP
+Display all the hosts metrics are available for\.
+.
+.IP "\(bu" 4
+\fB/data/<hostname>[,hostname][,\.\.\.][,hostname]\fR
+.
+.IP
+Display all metrics available for the specified hostnames\.
+.
+.IP
+\fIExample: Single hostname:\fR
+.
+.IP
+\fB/data/localhost\.localdomain\fR
+.
+.IP
+\fIExample: Multiple hostnames:\fR
+.
+.IP
+\fB/data/localhost\.localdomain,foo\-01\.example\.org,bar\-23\.example\.org\fR
+.
+.IP "\(bu" 4
+\fB/data/<hostnames>/<plugin>[,plugin][,\.\.\.][,plugin]\fR
+.
+.IP
+Fetch all plugin data for the specified hostnames\.
+.
+.IP
+\fIExample: Single host, single plugin:\fR
+.
+.IP
+\fB/data/localhost\.localdomain/load\fR
+.
+.IP
+\fIExample: Multiple hosts, single plugin:\fR
+.
+.IP
+\fB/data/localhost\.localdomain,foo\-01\.example\.org,bar\-23\.example\.org/swap\fR
+.
+.IP
+\fIExample: Multiple hosts, multiple plugins:\fR
+.
+.IP
+\fB/data/localhost\.localdomain,foo\-01\.example\.org,bar\-23\.example\.org/swap,df\fR
+.
+.IP "\(bu" 4
+\fB/data/<hostnames>/<plugins>/<instance>[,instance][,\.\.\.][,instance]\fR
+.
+.IP
+Fetch data for the specific plugin instance, for the specified hostnames\.
+.
+.IP
+\fIExample: Single host, single instance\fR
+.
+.IP
+`/data/localhost\.localdomain/memory/memory\-free
+.
+.IP
+\fIExample: Multiple hosts, multiple instances\fR
+.
+.IP
+\fB/data/foo\-01\.example\.org,bar\-23\.example\.org/memory/memory\-free,memory\-used\fR
+.
+.IP "" 0
+.
+.SH "AUTHOR"
+Lindsay Holmwood \fIlindsay@holmwood\.id\.au\fR
+.
+.SH "COPYRIGHT"
+MIT Licensed\.

@@ -1,0 +1,68 @@
+visage-api(5) -- Reference documentation for the Visage JSON API
+================================================================
+
+## DESCRIPTION
+
+Visage is a web interface for viewing collectd statistics.
+
+It also provides a JSON interface onto collectd's RRD data, giving you an
+easy way to mash up the data.
+
+This man page documents the different ways you can call the API.
+
+## API methods
+
+Calls to the API follow the `/data/<hostnames>/<plugins>/<instances>` pattern.
+
+  * `/data`
+
+    Display all the hosts metrics are available for.
+
+  * `/data/<hostname>[,hostname][,...][,hostname]`
+
+    Display all metrics available for the specified hostnames.
+
+    *Example: Single hostname:*
+
+    `/data/localhost.localdomain`
+
+    *Example: Multiple hostnames:*
+
+    `/data/localhost.localdomain,foo-01.example.org,bar-23.example.org`
+
+  * `/data/<hostnames>/<plugin>[,plugin][,...][,plugin]`
+
+    Fetch all plugin data for the specified hostnames.
+
+    *Example: Single host, single plugin:*
+
+    `/data/localhost.localdomain/load`
+
+    *Example: Multiple hosts, single plugin:*
+
+    `/data/localhost.localdomain,foo-01.example.org,bar-23.example.org/swap`
+
+    *Example: Multiple hosts, multiple plugins:*
+
+    `/data/localhost.localdomain,foo-01.example.org,bar-23.example.org/swap,df`
+
+  * `/data/<hostnames>/<plugins>/<instance>[,instance][,...][,instance]`
+
+    Fetch data for the specific plugin instance, for the specified hostnames.
+
+    *Example: Single host, single instance*
+
+    `/data/localhost.localdomain/memory/memory-free
+
+    *Example: Multiple hosts, multiple instances*
+
+    `/data/foo-01.example.org,bar-23.example.org/memory/memory-free,memory-used`
+
+## AUTHOR
+
+  Lindsay Holmwood <lindsay@holmwood.id.au>
+
+## COPYRIGHT
+
+   MIT Licensed.
+

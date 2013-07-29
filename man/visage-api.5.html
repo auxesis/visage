@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv='content-type' value='text/html;charset=utf8'>
+  <meta name='generator' value='Ronn/v0.7.3 (http://github.com/rtomayko/ronn/tree/0.7.3)'>
+  <title>visage-api(5) - Reference documentation for the Visage JSON API</title>
+  <style type='text/css' media='all'>
+  /* style: man */
+  body#manpage {margin:0}
+  .mp {max-width:100ex;padding:0 9ex 1ex 4ex}
+  .mp p,.mp pre,.mp ul,.mp ol,.mp dl {margin:0 0 20px 0}
+  .mp h2 {margin:10px 0 0 0}
+  .mp > p,.mp > pre,.mp > ul,.mp > ol,.mp > dl {margin-left:8ex}
+  .mp h3 {margin:0 0 0 4ex}
+  .mp dt {margin:0;clear:left}
+  .mp dt.flush {float:left;width:8ex}
+  .mp dd {margin:0 0 0 9ex}
+  .mp h1,.mp h2,.mp h3,.mp h4 {clear:left}
+  .mp pre {margin-bottom:20px}
+  .mp pre+h2,.mp pre+h3 {margin-top:22px}
+  .mp h2+pre,.mp h3+pre {margin-top:5px}
+  .mp img {display:block;margin:auto}
+  .mp h1.man-title {display:none}
+  .mp,.mp code,.mp pre,.mp tt,.mp kbd,.mp samp,.mp h3,.mp h4 {font-family:monospace;font-size:14px;line-height:1.42857142857143}
+  .mp h2 {font-size:16px;line-height:1.25}
+  .mp h1 {font-size:20px;line-height:2}
+  .mp {text-align:justify;background:#fff}
+  .mp,.mp code,.mp pre,.mp pre code,.mp tt,.mp kbd,.mp samp {color:#131211}
+  .mp h1,.mp h2,.mp h3,.mp h4 {color:#030201}
+  .mp u {text-decoration:underline}
+  .mp code,.mp strong,.mp b {font-weight:bold;color:#131211}
+  .mp em,.mp var {font-style:italic;color:#232221;text-decoration:none}
+  .mp a,.mp a:link,.mp a:hover,.mp a code,.mp a pre,.mp a tt,.mp a kbd,.mp a samp {color:#0000ff}
+  .mp b.man-ref {font-weight:normal;color:#434241}
+  .mp pre {padding:0 4ex}
+  .mp pre code {font-weight:normal;color:#434241}
+  .mp h2+pre,h3+pre {padding-left:0}
+  ol.man-decor,ol.man-decor li {margin:3px 0 10px 0;padding:0;float:left;width:33%;list-style-type:none;text-transform:uppercase;color:#999;letter-spacing:1px}
+  ol.man-decor {width:100%}
+  ol.man-decor li.tl {text-align:left}
+  ol.man-decor li.tc {text-align:center;letter-spacing:4px}
+  ol.man-decor li.tr {text-align:right;float:right}
+  </style>
+</head>
+<!--
+  The following styles are deprecated and will be removed at some point:
+  div#man, div#man ol.man, div#man ol.head, div#man ol.man.
+
+  The .man-page, .man-decor, .man-head, .man-foot, .man-title, and
+  .man-navigation should be used instead.
+-->
+<body id='manpage'>
+  <div class='mp' id='man'>
+
+  <div class='man-navigation' style='display:none'>
+    <a href="#NAME">NAME</a>
+    <a href="#DESCRIPTION">DESCRIPTION</a>
+    <a href="#API-methods">API methods</a>
+    <a href="#AUTHOR">AUTHOR</a>
+    <a href="#COPYRIGHT">COPYRIGHT</a>
+  </div>
+
+  <ol class='man-decor man-head man head'>
+    <li class='tl'>visage-api(5)</li>
+    <li class='tc'></li>
+    <li class='tr'>visage-api(5)</li>
+  </ol>
+
+  <h2 id="NAME">NAME</h2>
+<p class="man-name">
+  <code>visage-api</code> - <span class="man-whatis">Reference documentation for the Visage JSON API</span>
+</p>
+
+<h2 id="DESCRIPTION">DESCRIPTION</h2>
+
+<p>Visage is a web interface for viewing collectd statistics.</p>
+
+<p>It also provides a JSON interface onto collectd's RRD data, giving you an
+easy way to mash up the data.</p>
+
+<p>This man page documents the different ways you can call the API.</p>
+
+<h2 id="API-methods">API methods</h2>
+
+<p>Calls to the API follow the <code>/data/&lt;hostnames>/&lt;plugins>/&lt;instances></code> pattern.</p>
+
+<ul>
+<li><p><code>/data</code></p>
+
+<p>Display all the hosts metrics are available for.</p></li>
+<li><p><code>/data/&lt;hostname>[,hostname][,...][,hostname]</code></p>
+
+<p>Display all metrics available for the specified hostnames.</p>
+
+<p><em>Example: Single hostname:</em></p>
+
+<p><code>/data/localhost.localdomain</code></p>
+
+<p><em>Example: Multiple hostnames:</em></p>
+
+<p><code>/data/localhost.localdomain,foo-01.example.org,bar-23.example.org</code></p></li>
+<li><p><code>/data/&lt;hostnames>/&lt;plugin>[,plugin][,...][,plugin]</code></p>
+
+<p>Fetch all plugin data for the specified hostnames.</p>
+
+<p><em>Example: Single host, single plugin:</em></p>
+
+<p><code>/data/localhost.localdomain/load</code></p>
+
+<p><em>Example: Multiple hosts, single plugin:</em></p>
+
+<p><code>/data/localhost.localdomain,foo-01.example.org,bar-23.example.org/swap</code></p>
+
+<p><em>Example: Multiple hosts, multiple plugins:</em></p>
+
+<p><code>/data/localhost.localdomain,foo-01.example.org,bar-23.example.org/swap,df</code></p></li>
+<li><p><code>/data/&lt;hostnames>/&lt;plugins>/&lt;instance>[,instance][,...][,instance]</code></p>
+
+<p>Fetch data for the specific plugin instance, for the specified hostnames.</p>
+
+<p><em>Example: Single host, single instance</em></p>
+
+<p>`/data/localhost.localdomain/memory/memory-free</p>
+
+<p><em>Example: Multiple hosts, multiple instances</em></p>
+
+<p><code>/data/foo-01.example.org,bar-23.example.org/memory/memory-free,memory-used</code></p></li>
+</ul>
+
+
+<h2 id="AUTHOR">AUTHOR</h2>
+
+<p>  Lindsay Holmwood <a href="&#109;&#x61;&#x69;&#108;&#x74;&#x6f;&#x3a;&#108;&#x69;&#x6e;&#x64;&#115;&#97;&#x79;&#x40;&#104;&#111;&#x6c;&#x6d;&#119;&#111;&#111;&#100;&#46;&#105;&#100;&#46;&#97;&#117;" data-bare-link="true">&#x6c;&#x69;&#110;&#100;&#115;&#x61;&#121;&#x40;&#104;&#111;&#108;&#x6d;&#119;&#111;&#x6f;&#x64;&#x2e;&#x69;&#x64;&#x2e;&#x61;&#x75;</a></p>
+
+<h2 id="COPYRIGHT">COPYRIGHT</h2>
+
+<p>   MIT Licensed.</p>
+
+
+  <ol class='man-decor man-foot man foot'>
+    <li class='tl'></li>
+    <li class='tc'>July 2013</li>
+    <li class='tr'>visage-api(5)</li>
+  </ol>
+
+  </div>
+</body>
+</html>
