@@ -10,7 +10,8 @@ window.addEvent('domready', () ->
       console.log('foo')
       console.log(id)
   });
-  Application = new Workspace()
+  # FIXME(auxesis): use of global variable window - is this the best pattern?
+  window.Application = new Workspace()
 
   Backbone.history.start({pushState: true})
 
@@ -41,11 +42,12 @@ window.addEvent('domready', () ->
       metricsContainer.grab(list)
   })
 
-  graphsContainer = $('graphs')
-  graphs          = new GraphCollection
-  graphsView      = new GraphCollectionView({
-    el:         graphsContainer
-    collection: graphs
+  # FIXME(auxesis): use of global variable window - is this the best pattern?
+  window.graphsContainer = $('graphs')
+  window.graphs   = new GraphCollection
+  window.graphsView      = new GraphCollectionView({
+    el:         window.graphsContainer
+    collection: window.graphs
   })
 
   # If we're working with an existing profile, fetch the details and render
@@ -58,15 +60,16 @@ window.addEvent('domready', () ->
           graph = new Graph(attributes)
           graph.fetch({
             success: (model, response) ->
-              graphs.add(graph)
-              graphsView.render().el
+              # FIXME(auxesis): use of global variable window - is this the best pattern?
+              window.graphs.add(graph)
+              window.graphsView.render().el
           })
         )
     })
 
   button = new Element('input', {
     'type': 'button',
-    'value': 'Show graphs',
+    'value': 'Add graphs',
     'class': 'button',
     'styles': {
       'font-size': '80%',
@@ -90,8 +93,9 @@ window.addEvent('domready', () ->
             graph = new Graph(attributes)
             graph.fetch({
               success: (model, response, options) ->
-                graphs.add(graph)
-                graphsView.render().el
+                # FIXME(auxesis): use of global variable window - is this the best pattern?
+                window.graphs.add(graph)
+                window.graphsView.render().el
               error: (model, response, options) ->
                 console.log('error', model, response, options)
             })

@@ -439,7 +439,8 @@ GraphCollectionView = Backbone.View.extend({
       #  - Pop up a share dialog (to provide more customisation)
       #
       if current.test(/new$/)
-        graphAttributes = graphs.toJSON().map((attrs) ->
+        # FIXME(auxesis): use of global variable window - is this the best pattern?
+        graphAttributes = window.graphs.toJSON().map((attrs) ->
           Object.subset(attrs , ['host', 'plugin', 'start', 'finish'])
         )
 
@@ -451,7 +452,8 @@ GraphCollectionView = Backbone.View.extend({
 
         profile.save({}, {
           success: (profile, response, options) ->
-            Application.navigate("profiles/#{profile.id}", {trigger: true})
+            # FIXME(auxesis): use of global variable window - is this the best pattern?
+            window.Application.navigate("profiles/#{profile.id}", {trigger: true})
             modal.load("/profiles/share/#{profile.id}", "Share profile")
 
           error: (model, xhr, options) ->
@@ -499,11 +501,13 @@ TimeframeView = Backbone.View.extend({
       attrs = that.model.toTimeAttributes()
       Cookie.write('timeframe', JSON.encode(attrs)) # So new graphs have the timeframe set
 
-      graphs.models.each((graph) ->
+      # FIXME(auxesis): use of global variable window - is this the best pattern?
+      window.graphs.models.each((graph) ->
         graph.set(attrs)
         graph.fetch(
           success: (model, response) ->
-            graphsView.views.each((view) ->
+            # FIXME(auxesis): use of global variable window - is this the best pattern?
+            window.graphsView.views.each((view) ->
               view.model.get('series').each((series, index) ->
                 view.chart.series[index].setData(series.data, false)
               )
@@ -531,7 +535,7 @@ TimeframeCollectionView = Backbone.View.extend({
     toggler = $('timeframe-toggler')
     toggler.grab(icon, 'top')
     toggler.addEvent('click', () ->
-      timeframesView.el.fade('toggle')
+      that.el.fade('toggle')
     )
 
     timeframe = JSON.decode(Cookie.read('timeframe'))
