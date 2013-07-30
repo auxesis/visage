@@ -1,4 +1,4 @@
-Feature: Export data
+Feature: JSON API
   To perform analysis
   A user
   Must be able to extract data
