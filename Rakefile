@@ -115,6 +115,7 @@ namespace :coffee do
     cmd << "--output lib/visage-app/public/javascripts/"
     cmd << "--join"
 
+    # TODO(auxesis): add ability to pull in other arbitrary coffeescript
     %w(application models collections views profiles).each do |filename|
       cmd << "lib/visage-app/assets/coffeescripts/#{filename}.coffee"
     end
