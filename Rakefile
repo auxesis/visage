@@ -107,3 +107,20 @@ end
 task :verify => 'verify:all'
 
 task :default => [:spec,:features]
+
+
+namespace :coffee do
+  task :compile do
+    cmd = %w(coffee)
+    cmd << "--output lib/visage-app/public/javascripts/"
+    cmd << "--join"
+
+    %w(application models collections views profiles).each do |filename|
+      cmd << "lib/visage-app/public/javascripts/#{filename}.coffee"
+    end
+
+    command = cmd.join(' ')
+
+    sh(command)
+  end
+end

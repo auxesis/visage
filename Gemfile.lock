@@ -58,6 +58,9 @@ GEM
       guard (~> 1.1)
       rb-fsevent (>= 0.3.9)
       spoon (~> 0.0.1)
+    guard-rake (0.0.9)
+      guard
+      rake
     guard-ronn (1.0)
       guard (~> 1.8)
       ronn (~> 0.7)
@@ -148,6 +151,7 @@ DEPENDENCIES
   cucumber
   guard
   guard-rack
+  guard-rake
   guard-ronn
   poltergeist
   puma

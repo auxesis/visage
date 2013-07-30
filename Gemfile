@@ -17,4 +17,5 @@ group :development do
   gem 'guard'
   gem 'guard-rack'
   gem 'guard-ronn'
+  gem 'guard-rake'
 end
