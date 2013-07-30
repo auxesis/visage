@@ -4,4 +4,17 @@ source 'http://rubygems.org'
 
 gemspec
 
-gem 'activemodel'
+group :development do
+  gem 'rake'
+  gem 'rack-test'
+  gem 'rspec'
+  gem 'cucumber'
+  gem 'capybara'
+  gem 'colorize'
+  gem 'ronn'
+  gem 'poltergeist'
+  gem 'puma'
+  gem 'guard'
+  gem 'guard-rack'
+  gem 'guard-ronn'
+end
