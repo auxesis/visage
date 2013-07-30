@@ -116,7 +116,7 @@ namespace :coffee do
     cmd << "--join"
 
     %w(application models collections views profiles).each do |filename|
-      cmd << "lib/visage-app/public/javascripts/#{filename}.coffee"
+      cmd << "lib/visage-app/assets/coffeescripts/#{filename}.coffee"
     end
 
     command = cmd.join(' ')

@@ -15,5 +15,5 @@ end
 
 # Recompile the coffeescript
 guard 'rake', :task => 'coffee:compile' do
-  watch(%r{lib/visage-app/public/javascripts/(.+\.coffee)})
+  watch(%r{lib/visage-app/assets/coffeescripts/(.+\.coffee)})
 end
