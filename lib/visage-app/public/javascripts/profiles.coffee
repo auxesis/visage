@@ -94,6 +94,7 @@ window.addEvent('domready', () ->
             graph.fetch({
               success: (model, response, options) ->
                 # FIXME(auxesis): use of global variable window - is this the best pattern?
+                # FIXME(auxesis): this displays graphs in the reverse order of how they're stored in the data structure
                 window.graphs.add(graph)
                 window.graphsView.render().el
               error: (model, response, options) ->
