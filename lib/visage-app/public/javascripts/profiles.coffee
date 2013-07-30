@@ -1,4 +1,4 @@
-  window.addEvent('domready', () ->
+window.addEvent('domready', () ->
 
   Workspace = Backbone.Router.extend({
     routes: {
@@ -141,4 +141,4 @@
     el:         $('timeframes')
   })
   timeframesView.render()
-  )
+)
