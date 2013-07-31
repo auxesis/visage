@@ -59,15 +59,16 @@ Then /^show me the output$/ do
 end
 
 Given /^I am using a profile based on "(.*?)"$/ do |directory|
-  root        = Pathname.new(__FILE__).parent.parent.join('support/config')
-  source      = root.join(directory).join('profiles.yaml')
-  destination = root.join('tmp').join('profiles.yaml')
+  root        = Pathname.new(__FILE__).parent.parent.join('support').join('config')
+  source      = root.join(directory).to_s
+  destination = root.join('tmp').to_s
 
-  source.exist?.should be_true
-  FileUtils.rm(destination) if destination.exist?
-  FileUtils.cp(source.to_s, destination.to_s)
+  File.directory?(source).should be_true
 
-  ENV['CONFIG_PATH'] = destination.parent.to_s
+  FileUtils.mkdir_p(destination)
+  FileUtils.cp_r(Dir.glob("#{source}/*.yaml"), destination)
+
+  ENV['CONFIG_PATH'] = destination
 end
 
 Given /^a profile file doesn't exist$/ do
