@@ -1,0 +1,9 @@
+--- 
+:anonymous: true
+:graphs: 
+- host: localhost.localdomain
+  plugin: cpu-0
+  start: 1375268235
+:timeframe: true
+:id: d281d80f3d8ce4fcaedd20eb4f88fa05
+:created_at: 2013-07-31 23:39:00.256278 +10:00
