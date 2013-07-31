@@ -13,3 +13,4 @@ vendor
 .rbenv-version
 lib/visage-app/public/images/screenshot.png
 features/support/config/tmp/*
+config/
