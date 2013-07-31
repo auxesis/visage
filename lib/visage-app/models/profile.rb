@@ -38,8 +38,12 @@ class Profile
       # Anonymous profiles don't have names, so if we see the sort key is the
       # profile name, we automatically filter out anonymous profiles.
       anonymous = sort == :name ? false : opts[:anonymous]
-      result    = Dir.glob(File.join(self.config_path, '*.yaml')).map {|r| self.get(File.basename(r, '.yaml'))}
 
+      # Load up all profiles
+      result = Dir.glob(File.join(self.config_path, '*.yaml'))
+      result = result.map {|r| self.get(File.basename(r, '.yaml'))}
+
+      # Filter profiles based on options
       result = result.find_all {|r| r.anonymous == anonymous} unless anonymous.nil?
       result = result.sort_by {|r| r.send(sort)} if sort
       result = result.reverse if order == :descending
@@ -108,18 +112,6 @@ class Profile
   def ==(other)
     self.attributes == other.attributes
   end
-
-  # Stub records, for getting the tests to pass
-  graphs = [
-    { :plugin => 'memory', :host => 'foo', :start => Time.now.to_i },
-    { :plugin => 'memory', :host => 'bar', :start => Time.now.to_i },
-  ]
-  RECORDS = [
-    self.new({:anonymous => true,  :id => 'zzz', :created_at => Time.now - 90, :graphs => graphs}),
-    self.new({:anonymous => true,  :id => 'aaa', :created_at => Time.now - 10, :graphs => graphs}),
-    self.new({:anonymous => false, :id => 'yyy', :name => 'Carol', :created_at => Time.now - 80, :graphs => graphs}),
-    self.new({:anonymous => false, :id => 'bbb', :name => 'Bob',   :created_at => Time.now - 20, :graphs => graphs}),
-  ]
 
   private
   # Determine if the record we are operating on is newly created.
