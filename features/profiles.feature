@@ -3,6 +3,9 @@ Feature: Viewing data
   A user
   Must be able to visualise the data
 
+  Background:
+    Given I am using a profile based on "stub"
+
   Scenario: List named profiles
     When I go to /profiles
     Then I should see a list of profiles sorted alphabetically
