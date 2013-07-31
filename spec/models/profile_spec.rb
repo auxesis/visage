@@ -20,7 +20,7 @@ describe "Profile" do
       {:anonymous => false, :id => 'yyy', :name => 'Carol', :created_at => Time.now - 80, :graphs => graphs},
       {:anonymous => false, :id => 'bbb', :name => 'Bob',   :created_at => Time.now - 20, :graphs => graphs},
     ].each do |attributes|
-      filename = File.join(Profile.config_path, "#{attributes.delete(:id)}.yaml")
+      filename = File.join(Profile.config_path, "#{attributes[:id]}.yaml")
       File.open(filename, 'w') {|f| f << attributes.to_yaml}
     end
   end
