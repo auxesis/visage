@@ -169,7 +169,7 @@ describe "Profile" do
         ]
       }
 
-      # Save the file without using the Profile class"
+      # Save the file without using the Profile class
       filename = File.join(Profile.config_path, "#{Time.now.to_i}.yaml")
       File.open(filename, 'w') {|f| f << attributes.to_yaml}
 
@@ -177,6 +177,7 @@ describe "Profile" do
       id = File.basename(filename, '.yaml')
       profile = Profile.get(id)
       profile.name.should == 'externally created profile'
+      profile.created_at.should be_nil
     end
   end
 end
