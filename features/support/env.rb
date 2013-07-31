@@ -11,10 +11,13 @@ require 'capybara/poltergeist'
 ENV['RACK_ENV'] = 'test'
 
 root     = Pathname.new(File.dirname(__FILE__)).parent.parent.expand_path
-app_file = root.join('lib/visage-app').to_s
-ENV['CONFIG_PATH']         = root.join('features/support/config/default').to_s
+
+default_config_path = root.join('features/support/config/default')
+ENV['CONFIG_PATH']  = default_config_path.to_s
 # use a Mock backend, so tests don't depend on any specific backend (e.g. RRD)
 ENV['VISAGE_DATA_BACKEND'] = 'Mock'
+
+app_file = root.join('lib/visage-app').to_s
 require(app_file)
 
 # http://opensoul.org/blog/archives/2010/05/11/capybaras-eating-cucumbers/
@@ -48,5 +51,10 @@ end
 Before do
   root        = Pathname.new(__FILE__).parent.parent.join('support/config')
   destination = root.join('tmp').join('profiles.yaml')
-  FileUtils.rm(destination) if destination.exist?
+  FileUtils.rm_f(destination)
+end
+
+Before do
+  profiles = Pathname.glob(File.join(default_config_path, '*.yaml'))
+  profiles.each {|profile| profile.delete }
 end
