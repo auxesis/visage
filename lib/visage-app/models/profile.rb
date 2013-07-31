@@ -38,7 +38,7 @@ class Profile
       # Anonymous profiles don't have names, so if we see the sort key is the
       # profile name, we automatically filter out anonymous profiles.
       anonymous = sort == :name ? false : opts[:anonymous]
-      result    = RECORDS
+      result    = Dir.glob(File.join(self.config_path, '*.yaml')).map {|r| self.get(File.basename(r, '.yaml'))}
 
       result = result.find_all {|r| r.anonymous == anonymous} unless anonymous.nil?
       result = result.sort_by {|r| r.send(sort)} if sort
@@ -48,10 +48,14 @@ class Profile
     end
 
     def get(id)
-      path       = File.join(self.config_path, "#{id}.yaml")
-      contents   = File.open(path, 'r')
-      attributes = YAML::load(contents)
-      self.new(attributes)
+      path = File.join(self.config_path, "#{id}.yaml")
+      if File.exists?(path)
+        contents   = File.open(path, 'r')
+        attributes = YAML::load(contents)
+        self.new(attributes)
+      else
+        nil
+      end
     end
 
     def config_path

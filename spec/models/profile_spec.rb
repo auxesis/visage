@@ -4,6 +4,10 @@ require 'tmpdir'
 
 describe "Profile" do
 
+  before(:each) do
+    Profile.config_path = Dir.mktmpdir
+  end
+
   describe "lookup" do
     it "should provide filtering for anonymous profiles" do
       profiles = Profile.all(:anonymous => true)
@@ -52,11 +56,6 @@ describe "Profile" do
   end
 
   describe "records" do
-    it "should be fetchable by id" do
-      profile = Profile.get('aaa')
-      profile.should_not be_nil
-    end
-
     it "should be saveable" do
       attributes = {
         :anonymous => true,
@@ -69,6 +68,22 @@ describe "Profile" do
 
       profile = Profile.new(attributes)
       profile.save.should be_true
+    end
+
+    it "should be fetchable by id" do
+      attributes = {
+        :anonymous => true,
+        :name      => 'An example profile',
+        :graphs    => [
+          { :plugin => 'memory', :host => 'foo', :start => Time.now.to_i },
+          { :plugin => 'memory', :host => 'bar', :start => Time.now.to_i },
+        ]
+      }
+      profile = Profile.new(attributes)
+      profile.save.should be_true
+
+      profile = Profile.get(profile.id)
+      profile.should_not be_nil
     end
 
     it "should automatically generate an id for a profile on save" do
@@ -136,8 +151,6 @@ describe "Profile" do
 
   describe "serialisation" do
     it "should save each profile in a separate file" do
-      Profile.config_path = Dir.mktmpdir
-
       attributes = {
         :anonymous => true,
         :name      => 'Another example profile',
@@ -158,8 +171,6 @@ describe "Profile" do
     end
 
     it "should read a profile from a file" do
-      Profile.config_path = Dir.mktmpdir
-
       attributes = {
         :anonymous => true,
         :name      => 'externally created profile',
@@ -178,6 +189,11 @@ describe "Profile" do
       profile = Profile.get(id)
       profile.name.should == 'externally created profile'
       profile.created_at.should be_nil
+    end
+
+    it "should return nil if the profile doesn't exist" do
+      profile = Profile.get(Time.now.to_i)
+      profile.should be_nil
     end
   end
 end
