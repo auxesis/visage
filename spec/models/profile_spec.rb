@@ -5,7 +5,24 @@ require 'tmpdir'
 describe "Profile" do
 
   before(:each) do
+    # Create a temporary profile data directory
     Profile.config_path = Dir.mktmpdir
+
+    # Create stub graphs
+    graphs = [
+      { :plugin => 'memory', :host => 'foo', :start => Time.now.to_i },
+      { :plugin => 'memory', :host => 'bar', :start => Time.now.to_i },
+    ]
+    # Create stub profiles
+    [
+      {:anonymous => true,  :id => 'zzz', :created_at => Time.now - 90, :graphs => graphs},
+      {:anonymous => true,  :id => 'aaa', :created_at => Time.now - 10, :graphs => graphs},
+      {:anonymous => false, :id => 'yyy', :name => 'Carol', :created_at => Time.now - 80, :graphs => graphs},
+      {:anonymous => false, :id => 'bbb', :name => 'Bob',   :created_at => Time.now - 20, :graphs => graphs},
+    ].each do |attributes|
+      filename = File.join(Profile.config_path, "#{attributes.delete(:id)}.yaml")
+      File.open(filename, 'w') {|f| f << attributes.to_yaml}
+    end
   end
 
   describe "lookup" do
