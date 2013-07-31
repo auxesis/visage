@@ -6,6 +6,7 @@ require 'visage-app/graph'
 require 'visage-app/patches'
 require 'digest/md5'
 require 'active_model'
+require 'active_support/core_ext/file/atomic'
 
 class Profile
   include ActiveModel::AttributeMethods
@@ -47,14 +48,25 @@ class Profile
     end
 
     def get(id)
-      RECORDS.find {|r| r.id == id}
+      path       = File.join(self.config_path, "#{id}.yaml")
+      contents   = File.open(path, 'r')
+      attributes = YAML::load(contents)
+      self.new(attributes)
     end
+
+    def config_path
+      @config_path
+    end
+
+    def config_path=(path)
+      @config_path = path
+    end
+
   end
 
   attr_accessor :attributes
 
   attribute_method_suffix  '=' # attr_writers
-#  attribute_method_suffix  ''  # attr_readers, raises DEPRECATION warnings now
   define_attribute_methods [ :id, :name, :graphs, :anonymous, :created_at, :timeframe, :tags ]
 
   validates_presence_of :id, :graphs
@@ -76,11 +88,21 @@ class Profile
     end
 
     if valid?
-      RECORDS << self.class.new(@attributes)
+      File.atomic_write(self.path) do |file|
+        file.write(@attributes.to_yaml)
+      end
       true
     else
       false
     end
+  end
+
+  def path
+    File.join(self.class.config_path, "#{self.id}.yaml")
+  end
+
+  def ==(other)
+    self.attributes == other.attributes
   end
 
   # Stub records, for getting the tests to pass

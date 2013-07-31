@@ -1,5 +1,6 @@
 require 'spec_helper'
 require 'visage-app/models/profile'
+require 'tmpdir'
 
 describe "Profile" do
 
@@ -130,6 +131,52 @@ describe "Profile" do
       profile = Profile.new(attributes)
       profile.save.should be_true
       profile.created_at.should_not be_nil
+    end
+  end
+
+  describe "serialisation" do
+    it "should save each profile in a separate file" do
+      Profile.config_path = Dir.mktmpdir
+
+      attributes = {
+        :anonymous => true,
+        :name      => 'Another example profile',
+        :graphs => [
+          { :plugin => 'memory', :host => 'foo', :start => Time.now.to_i },
+          { :plugin => 'memory', :host => 'bar', :start => Time.now.to_i },
+        ]
+      }
+
+      profile = Profile.new(attributes)
+      profile.save.should be_true
+
+      profile.path.should == "#{Profile.config_path}/#{profile.id}.yaml"
+      File.exists?(profile.path).should be_true
+
+      loaded_profile = Profile.get(profile.id)
+      loaded_profile.should == profile
+    end
+
+    it "should read a profile from a file" do
+      Profile.config_path = Dir.mktmpdir
+
+      attributes = {
+        :anonymous => true,
+        :name      => 'externally created profile',
+        :graphs => [
+          { :plugin => 'memory', :host => 'foo', :start => Time.now.to_i },
+          { :plugin => 'memory', :host => 'bar', :start => Time.now.to_i },
+        ]
+      }
+
+      # Save the file without using the Profile class"
+      filename = File.join(Profile.config_path, "#{Time.now.to_i}.yaml")
+      File.open(filename, 'w') {|f| f << attributes.to_yaml}
+
+      # Read the profile using the Profile class
+      id = File.basename(filename, '.yaml')
+      profile = Profile.get(id)
+      profile.name.should == 'externally created profile'
     end
   end
 end
