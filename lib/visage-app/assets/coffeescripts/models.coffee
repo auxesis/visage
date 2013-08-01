@@ -132,5 +132,8 @@ Profile = Backbone.Model.extend({
     else
       # Set the object id
       this.set('id', id)
+  sync: (method, model, options) ->
+    console.log(method, model, options)
+    Backbone.sync.apply(this, [method, model, options]);
 })
 
