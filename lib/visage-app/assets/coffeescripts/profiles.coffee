@@ -5,10 +5,6 @@ window.addEvent('domready', () ->
       'profile/new': 'profile',
       'profile/:id': 'profile'
     },
-
-    profile: (id) ->
-      console.log('foo')
-      console.log(id)
   });
   # FIXME(auxesis): use of global variable window - is this the best pattern?
   window.Application = new Workspace()
@@ -52,9 +48,9 @@ window.addEvent('domready', () ->
 
   # If we're working with an existing profile, fetch the details and render
   # the graphs
-  if document.location.pathname.split('/')[2] != 'new'
-    profile = new Profile()
-    profile.fetch({
+  window.profile = new Profile()
+  if not window.profile.isNew()
+    window.profile.fetch({
       success: (model) ->
         model.get('graphs').each((attributes) ->
           graph = new Graph(attributes)
@@ -95,6 +91,10 @@ window.addEvent('domready', () ->
               success: (model, response, options) ->
                 # FIXME(auxesis): use of global variable window - is this the best pattern?
                 # FIXME(auxesis): this displays graphs in the reverse order of how they're stored in the data structure
+                graphs = JSON.parse(JSON.stringify(window.profile.get('graphs')))
+                graphs.push(graph.attributes)
+                window.profile.set('graphs', graphs)
+
                 window.graphs.add(graph)
                 window.graphsView.render().el
               error: (model, response, options) ->
@@ -135,7 +135,7 @@ window.addEvent('domready', () ->
     { label: 'three months ago', start: -3, finish: -2, unit: 'months' }
   ])
 
-  if profile
+  if window.profile
     timeframes.add({
       label:   'As specified by profile',
       default: true
