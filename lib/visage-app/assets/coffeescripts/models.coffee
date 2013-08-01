@@ -103,11 +103,34 @@ Timeframe = Backbone.Model.extend({
 })
 
 Profile = Backbone.Model.extend({
-  url:   () ->
+  url: () ->
+    id = this.id
+    if id
+      "/profiles/#{id}.json"
+    else
+      '/profiles'
+
+  change: (event) ->
+    # Ignore change events triggered by fetch()
+    if !event.success and !event.error
+      # Mark the profile as dirty if graphs have been updated
+      this.dirty(true) if event.changes.graphs
+
+  # Dirty means out of sync with the server.
+  #
+  # This is used for determining if we need to create a new profile when a user
+  # re-shares an existing profile.
+  dirty: (status) ->
+    this.is_dirty = status if status
+    !!this.is_dirty
+
+  initialize: () ->
     id = document.location.pathname.split('/')[2]
     if id == 'new'
-      '/profiles'
+      # Stub out the graphs if this is truly a new profile
+      this.set('graphs', [])
     else
-      "/profiles/#{id}.json"
+      # Set the object id
+      this.set('id', id)
 })
 
