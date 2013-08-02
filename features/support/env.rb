@@ -47,14 +47,3 @@ end
 World do
   SinatraWorld.new
 end
-
-Before do
-  root        = Pathname.new(__FILE__).parent.parent.join('support/config')
-  destination = root.join('tmp').join('profiles.yaml')
-  FileUtils.rm_f(destination)
-end
-
-Before do
-  profiles = Pathname.glob(File.join(default_config_path, '*.yaml'))
-  profiles.each {|profile| profile.delete }
-end
