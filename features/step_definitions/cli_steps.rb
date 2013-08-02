@@ -65,6 +65,7 @@ Given /^I am using a profile based on "(.*?)"$/ do |directory|
 
   File.directory?(source).should be_true
 
+  FileUtils.rm_rf(destination)
   FileUtils.mkdir_p(destination)
   FileUtils.cp_r(Dir.glob("#{source}/*.yaml"), destination)
 
