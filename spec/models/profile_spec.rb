@@ -126,6 +126,24 @@ describe "Profile" do
       keys.size.should_not be(1)
       keys.should_not include('profile')
     end
+
+    it "should be updateable" do
+      attributes = {
+        :name   => 'Foo bar baz',
+        :graphs => [
+          { :plugin => 'memory', :host => 'bar', :start => Time.now.to_i },
+        ]
+      }
+
+      profile = Profile.all.first
+      id      = profile.id
+
+      profile.update_attributes(attributes).should be_true
+
+      profile = Profile.get(id)
+      profile.name.should == attributes[:name]
+      profile.graphs.should == attributes[:graphs]
+    end
   end
 
   describe "validations and callbacks" do

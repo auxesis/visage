@@ -111,6 +111,11 @@ class Profile
     end
   end
 
+  def update_attributes(attributes)
+    @attributes.merge!(attributes)
+    save
+  end
+
   def path
     File.join(self.class.config_path, "#{self.id}.yaml")
   end
