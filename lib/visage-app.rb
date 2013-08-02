@@ -123,7 +123,6 @@ module Visage
       @profile = Profile.get(id)
       raise Sinatra::NotFound unless @profile
 
-      p @profile
       attrs = ::JSON.parse(request.body.read).symbolize_keys
       if @profile.update_attributes(attrs)
         {'status' => 'ok', 'id' => @profile.id}.to_json
