@@ -132,8 +132,21 @@ Profile = Backbone.Model.extend({
     else
       # Set the object id
       this.set('id', id)
-  sync: (method, model, options) ->
-    console.log(method, model, options)
+
+  sync: (method, original_model, options) ->
+    #console.log(method, original_model, options)
+    if ['create', 'update'].contains(method)
+      # Strip the graph attributes
+      model     = original_model.clone()
+      graphs    = JSON.parse(JSON.stringify(original_model.get('graphs')))
+      if graphs.length > 0
+        simplified_graphs = graphs.map((attrs) ->
+          Object.subset(attrs , ['host', 'plugin', 'start', 'finish'])
+        )
+        model.set('graphs', simplified_graphs)
+    else
+      model = original_model
+
     Backbone.sync.apply(this, [method, model, options]);
 })
 
