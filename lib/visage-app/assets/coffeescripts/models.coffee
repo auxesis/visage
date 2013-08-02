@@ -134,12 +134,14 @@ Profile = Backbone.Model.extend({
       this.set('id', id)
 
   sync: (method, original_model, options) ->
+    # http://stackoverflow.com/questions/5096549/how-to-override-backbone-sync
     #console.log(method, original_model, options)
+
+    # If we're updating the profile, strip down the graphs we're sending
     if ['create', 'update'].contains(method)
-      # Strip the graph attributes
       model     = original_model.clone()
-      graphs    = JSON.parse(JSON.stringify(original_model.get('graphs')))
-      if graphs.length > 0
+      graphs    = JSON.parse(JSON.stringify(original_model.get('graphs'))) # deep clone
+      if graphs.length > 0 # FIXME(auxesis): we can probably remove this after putting in some validations
         simplified_graphs = graphs.map((attrs) ->
           Object.subset(attrs , ['host', 'plugin', 'start', 'finish'])
         )
