@@ -66,9 +66,6 @@ module Visage
     end
 
     get '/profiles/share/:id' do
-      Profile.all(:sort => :created_at, :anonymous => true)
-      Profile.all(:sort => :created_at)
-
       @profile = Profile.get(params[:id])
       raise Sinatra::NotFound unless @profile
 
@@ -123,13 +120,12 @@ module Visage
       id     = params[:captures][0]
       format = params[:captures][1]
 
-      attrs = ::JSON.parse(request.body.read)
-      @profile = Profile.new(attrs)
-
       @profile = Profile.get(id)
       raise Sinatra::NotFound unless @profile
 
-      if @profile.save
+      p @profile
+      attrs = ::JSON.parse(request.body.read).symbolize_keys
+      if @profile.update_attributes(attrs)
         {'status' => 'ok', 'id' => @profile.id}.to_json
       else
         status 400 # Bad Request
