@@ -439,31 +439,11 @@ GraphCollectionView = Backbone.View.extend({
       #
       #  - Pop up a share dialog (to provide more customisation)
       #
-      # FIXME(auxesis): we can probably just do a call on window.profile.isNew()
       if profile.isNew() or profile.dirty()
         profile.set({
           anonymous: true,
           timeframe: true,
         })
-
-        console.log(profile.get('graphs'))
-
-#        graphAttributes = profile.get('graphs').map((attrs) ->
-#          Object.subset(attrs , ['host', 'plugin', 'start', 'finish'])
-#        )
-#
-#        console.log('graphAttributes', graphAttributes)
-#        console.log('profile', profile)
-#        console.log('attributes', profile.attributes)
-#
-#        profile = new Profile({
-#          graphs:    graphAttributes
-#          anonymous: true
-#          timeframe: true
-#        })
-
-        #console.log(profile)
-        #console.log(profile.attributes)
 
         profile.save({}, {
           success: (profile, response, options) ->
@@ -475,8 +455,7 @@ GraphCollectionView = Backbone.View.extend({
             console.log(model, xhr, options)
         })
       else
-        id = current.split('/')[1]
-        modal.load("/profiles/share/#{id}", "Share profile")
+        modal.load("/profiles/share/#{profile.id}", "Share profile")
         # modal.
 
 #        profile = new Profile()
