@@ -439,30 +439,47 @@ GraphCollectionView = Backbone.View.extend({
       #
       #  - Pop up a share dialog (to provide more customisation)
       #
-      if profile.isNew() or profile.dirty()
-        profile.set({
-          anonymous: true,
-          timeframe: true,
-        })
 
-        profile.save({}, {
-          success: (profile, response, options) ->
-            # FIXME(auxesis): use of global variable window - is this the best pattern?
-            window.Application.navigate("profiles/#{profile.id}", {trigger: true})
-            modal.load("/profiles/share/#{profile.id}", "Share profile")
+      console.log('dirty', profile.dirty())
+      console.log('isNew', profile.isNew())
 
-          error: (model, xhr, options) ->
-            console.log(model, xhr, options)
-        })
-      else
-        modal.load("/profiles/share/#{profile.id}", "Share profile")
-        # modal.
+      switch
+        when profile.isNew()
+          profile.set({
+            anonymous: true,
+            timeframe: true,
+          })
 
-#        profile = new Profile()
-#        profile.fetch({
-#          success: (model) ->
-#            console.log('hello', model.attributes)
-#        })
+          profile.save({}, {
+            success: (profile, response, options) ->
+              # FIXME(auxesis): use of global variable window - is this the best pattern?
+              window.Application.navigate("profiles/#{profile.id}", {trigger: true})
+              modal.load("/profiles/share/#{profile.id}", "Share profile")
+
+            error: (model, xhr, options) ->
+              console.log(model, xhr, options)
+          })
+        when profile.dirty()
+          profile.unset('id')
+          console.log(profile.url(), console.id)
+          profile.save({}, {
+            success: (profile, response, options) ->
+              # FIXME(auxesis): use of global variable window - is this the best pattern?
+              window.Application.navigate("profiles/#{profile.id}", {trigger: true})
+              modal.load("/profiles/share/#{profile.id}", "Share profile")
+
+            error: (model, xhr, options) ->
+              console.log(model, xhr, options)
+          })
+        else
+          modal.load("/profiles/share/#{profile.id}", "Share profile")
+          # modal.
+
+  #        profile = new Profile()
+  #        profile.fetch({
+  #          success: (model) ->
+  #            console.log('hello', model.attributes)
+  #        })
     )
 
   render: () ->
