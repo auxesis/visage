@@ -26,7 +26,7 @@ Feature: Viewing data
     When I go to /profiles
     And I visit the first recent profile
     Then I should see a collection of graphs
-    When I follow "Back to profiles"
+    When I go to /profiles
     Then I should see a list of recently shared profiles
 
   @javascript
