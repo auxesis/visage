@@ -39,7 +39,7 @@ when "start"
   puts "Looking for RRDs in #{Visage::Config.rrddir}"
   puts
 
-  config = (@root + 'lib/visage-app/config.ru').to_s
+  config = (@root + 'visage-app/config.ru').to_s
   server = Rack::Server.new(:config => config, :Port => port, :server => "webrick")
   server.start
 when "genapache"
