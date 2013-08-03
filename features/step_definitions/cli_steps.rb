@@ -4,7 +4,7 @@ Given /^the visage server helper is not running$/ do
   lambda {
     fqdn   = Socket.gethostbyname(Socket.gethostname).first
     socket = TCPSocket.new(fqdn, 9292)
-  }.should raise_error
+  }.should raise_error, 'Visage server is running on 9292'
 end
 
 When /^I start the visage server helper with "([^"]*)"$/ do |cmd|
