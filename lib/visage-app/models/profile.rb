@@ -64,11 +64,10 @@ class Profile
     end
 
     def config_path
-      if not @config_path
-        @config_path = ENV['CONFIG_PATH']
-        @config_path ||= File.expand_path(File.join(__FILE__, '..', '..', '..', '..', 'config'))
-        FileUtils.mkdir_p(@config_path)
-      end
+      # FIXME(auxesis): look at not doing this lookup + mkdir every time
+      @config_path = ENV['CONFIG_PATH']
+      @config_path ||= File.expand_path(File.join(__FILE__, '..', '..', '..', '..', 'config'))
+      FileUtils.mkdir_p(@config_path)
 
       @config_path
     end
