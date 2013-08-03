@@ -21,11 +21,10 @@ Feature: command line utility
 
   @daemon
   Scenario: Upgrading config from 2.0 to 3.0
-    Given I am using a profile based on "2.0_profile_yaml"
+    Given I am using a profile based on "profiles.yaml.2"
     When I start the visage server helper with "visage-app start"
-    Then I should see "The Visage profile format has changed" on the terminal
-    And I should see "Upgrading profile format from 2.0.0 to 3.0.0" on the terminal
-    And I should see "Success!" on the terminal
+    Then I should see "The Visage profile storage format has changed" on the terminal
+    And I should see "Upgraded profile storage format from version 2 to 3" on the terminal
 
   @help
   Scenario Outline: Displaying the man page

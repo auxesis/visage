@@ -41,7 +41,13 @@ module Visage
       end
 
       # Upgrade the profile if we're running an older version
-      Visage::Upgrade.run
+      if Visage::Upgrade.pending?
+        puts "The Visage profile storage format has changed."
+        upgrades = Visage::Upgrade.run
+        first    = upgrades.first.version - 1
+        last     = upgrades.last.version
+        puts "Upgraded profile storage format from version #{first} to #{last}"
+      end
 
       # Set the data backend to use in Visage::JSON
       Visage::Data.backend = Visage::Config.data_backend
