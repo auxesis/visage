@@ -72,6 +72,7 @@ module Visage
       haml :share, :layout => false
     end
 
+    # Viewing a single profile
     get %r{/profiles/([^/\.]+).?([^/]+)?} do
       id     = params[:captures][0]
       format = params[:captures][1]
@@ -86,6 +87,7 @@ module Visage
       end
     end
 
+    # Viewing all profiles
     get %r{/profiles/*} do
       named_options = {
         :anonymous => false,
@@ -104,6 +106,7 @@ module Visage
       haml :profiles
     end
 
+    # Creating a new profile
     post '/profiles' do
       attributes = ::JSON.parse(request.body.read).symbolize_keys
       @profile = Profile.new(attributes)
@@ -116,6 +119,7 @@ module Visage
       end
     end
 
+    # Updating an existing profile
     post %r{/profiles/([^/\.]+).?([^/]+)?} do
       id     = params[:captures][0]
       format = params[:captures][1]
