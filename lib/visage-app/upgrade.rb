@@ -5,18 +5,11 @@ module Visage
   class Upgrade
     class << self
       def run
-        # Build a list of upgrades that can be run
-        upgrades      = []
-        upgrade_files = Dir.glob(File.join(File.dirname(__FILE__), 'upgrade', '*'))
-        upgrade_files.each do |f|
-          require(f)
-          upgrades << Visage::Upgrade::const_get(File.basename(f).split('.').first.upcase)
+        if pending?
+          apply
+        else
+          []
         end
-
-        # Skip upgrades that have been run
-        to_run = upgrades.reject {|u| u.version <= version}
-        # Run the remaining upgrades
-        to_run.each {|u| u.run}
       end
 
       # Determine the current profile storage format version
@@ -34,6 +27,25 @@ module Visage
         else
           3
         end
+      end
+
+      def pending?
+        # Build a list of upgrades that can be run
+        upgrades      = []
+        upgrade_files = Dir.glob(File.join(File.dirname(__FILE__), 'upgrade', '*'))
+        upgrade_files.each do |f|
+          require(f)
+          upgrades << Visage::Upgrade::const_get(File.basename(f).split('.').first.upcase)
+        end
+
+        # Filter out upgrades that have been run
+        @to_run = upgrades.reject {|u| u.version <= version}
+        @to_run.size > 0
+      end
+
+      def apply
+        # Run the remaining upgrades
+        @to_run.each {|u| u.run}
       end
     end
   end

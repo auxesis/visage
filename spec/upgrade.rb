@@ -10,7 +10,17 @@ describe "Upgrade" do
     Profile.config_path = Dir.mktmpdir
   end
 
-  it "should run migrations idempotently" do
+  it "should indicate if there are upgrades to apply" do
+    # Move a v2 profile.yaml in place
+    source      = File.join(File.dirname(__FILE__), 'data', 'profiles.yaml.2')
+    destination = File.join(Profile.config_path, 'profiles.yaml')
+    FileUtils.cp(source, destination)
+
+    # Test
+    Visage::Upgrade.pending?.should be_true
+  end
+
+  it "should run upgrades idempotently" do
     # Move a v2 profile.yaml in place
     source      = File.join(File.dirname(__FILE__), 'data', 'profiles.yaml.2')
     destination = File.join(Profile.config_path, 'profiles.yaml')
