@@ -7,12 +7,12 @@ $: << @root.to_s
 require 'sinatra/base'
 require 'sinatra/reloader'
 require 'haml'
+require 'yajl/json_gem'
 require 'visage-app/models/profile'
 require 'visage-app/helpers'
 require 'visage-app/config'
-require 'visage-app/config/file'
 require 'visage-app/data'
-require 'yajl/json_gem'
+require 'visage-app/upgrade'
 
 module Visage
   class Application < Sinatra::Base
@@ -40,8 +40,8 @@ module Visage
         c['rrdcachedsock'] = ENV["RRDCACHEDSOCK"]
       end
 
-#      # Upgrade the profile if we're running an older version
-#      Visage::Profile.upgrade if Profile.version != "3.0.0"
+      # Upgrade the profile if we're running an older version
+      Visage::Upgrade.run
 
       # Set the data backend to use in Visage::JSON
       Visage::Data.backend = Visage::Config.data_backend
