@@ -59,7 +59,7 @@ describe "Profile" do
 
     it "should allow sorting on created_at" do
       default_sorting = Profile.all
-      custom_sorting = Profile.all(:sort => :created_at)
+      custom_sorting  = Profile.all(:sort => :created_at)
 
       default_sorting.should_not == custom_sorting
     end
