@@ -440,9 +440,6 @@ GraphCollectionView = Backbone.View.extend({
       #  - Pop up a share dialog (to provide more customisation)
       #
 
-      console.log('dirty', profile.dirty())
-      console.log('isNew', profile.isNew())
-
       switch
         when profile.isNew()
           profile.set({
@@ -460,11 +457,12 @@ GraphCollectionView = Backbone.View.extend({
               console.log(model, xhr, options)
           })
         when profile.dirty()
+          window.profile = profile = profile.clone()
+
           profile.unset('id')
-          console.log(profile.url(), console.id)
+
           profile.save({}, {
             success: (profile, response, options) ->
-              # FIXME(auxesis): use of global variable window - is this the best pattern?
               window.Application.navigate("profiles/#{profile.id}", {trigger: true})
               modal.load("/profiles/share/#{profile.id}", "Share profile")
 
