@@ -7,6 +7,7 @@ require 'visage-app/patches'
 require 'digest/md5'
 require 'active_model'
 require 'active_support/core_ext/file/atomic'
+require 'active_support/core_ext/string/conversions'
 
 class Profile
   include ActiveModel::AttributeMethods
@@ -99,6 +100,11 @@ class Profile
     if new_record?
       self.id         = SecureRandom.hex
       self.created_at = Time.now
+    else
+      # created_at in submitted JSON is converted to a String. Convert to Time.
+      if @attributes[:created_at].class == String
+        @attributes[:created_at] = @attributes[:created_at].to_time(:local)
+      end
     end
 
     if valid?
