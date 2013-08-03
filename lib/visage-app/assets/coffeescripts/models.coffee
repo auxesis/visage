@@ -135,11 +135,19 @@ Profile = Backbone.Model.extend({
 
   sync: (method, original_model, options) ->
     # http://stackoverflow.com/questions/5096549/how-to-override-backbone-sync
-    #console.log(method, original_model, options)
+    # console.log('arguments', method, original_model, options)
 
     # If we're updating the profile, strip down the graphs we're sending
     if ['create', 'update'].contains(method)
-      model     = original_model.clone()
+      # Backbone's clone() copies the id attribute of the, which mucks up the
+      # url() method, causing the existing profile to be updated - the opposite
+      # of what we're trying to acheive here.
+      #
+      # Instead, use MooTools' Object.clone.
+      model     = Object.clone(original_model)
+
+      # FIXME(auxesis): I don't think we need this super dodgy
+      # JSON.parse/stringify now we're using MooTools' Object.clone.
       graphs    = JSON.parse(JSON.stringify(original_model.get('graphs'))) # deep clone
       if graphs.length > 0 # FIXME(auxesis): we can probably remove this after putting in some validations
         simplified_graphs = graphs.map((attrs) ->
