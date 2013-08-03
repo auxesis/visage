@@ -64,8 +64,15 @@ class Profile
     end
 
     def config_path
+      # FIXME(auxesis): this is an enormous hack
+      #
+      # Invalidate @config_path if the CONFIG_PATH environment variable changes.
+      if @env_config_path != ENV['CONFIG_PATH']
+        @env_config_path = ENV['CONFIG_PATH']
+        @config_path     = ENV['CONFIG_PATH']
+      end
+
       # FIXME(auxesis): look at not doing this lookup + mkdir every time
-      @config_path = ENV['CONFIG_PATH']
       @config_path ||= File.expand_path(File.join(__FILE__, '..', '..', '..', '..', 'config'))
       FileUtils.mkdir_p(@config_path)
 
