@@ -441,6 +441,7 @@ GraphCollectionView = Backbone.View.extend({
       #
 
       switch
+        # Save the profile if it is new.
         when profile.isNew()
           profile.set({
             anonymous: true,
@@ -456,6 +457,7 @@ GraphCollectionView = Backbone.View.extend({
             error: (model, xhr, options) ->
               console.log(model, xhr, options)
           })
+        # Create a new profile when updating.
         when profile.dirty()
           window.profile = profile = profile.clone()
 
