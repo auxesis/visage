@@ -97,8 +97,7 @@ module Visage
     get %r{/profiles/*} do
       named_options = {
         :anonymous => false,
-        :order     => params[:order],
-        :sort      => params[:sort] || :name,
+        :sort      => :name,
       }
       @profiles  = Profile.all(named_options)
 
