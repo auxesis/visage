@@ -1,0 +1,542 @@
+---
+nagios+on+custmon:
+  :metrics:
+  - nagios-service_check_latency/response_time-5e
+  - nagios-service_check_latency/response_time-75e
+  - nagios-service_check_latency/response_time-95e
+  - nagios-service_check_latency/response_time-max
+  - nagios-service_check_latency/response_time-median
+  - nagios-service_check_latency/response_time-min
+  - nagios-num_hosts/gauge
+  - nagios-num_services/gauge
+  - nagios-service_check_execution_time/response_time-25e
+  - nagios-service_check_execution_time/response_time-5e
+  - nagios-service_check_execution_time/response_time-75e
+  - nagios-service_check_execution_time/response_time-95e
+  - nagios-service_check_execution_time/response_time-max
+  - nagios-service_check_execution_time/response_time-median
+  - nagios-service_check_execution_time/response_time-min
+  - nagios-service_check_latency/response_time-25e
+  :url: nagios+on+custmon
+  :profile_name: nagios on custmon
+  :percentiles:
+  :hosts:
+  - mon-cust-01.example.org
+collectd+01+disk:
+  :metrics:
+  - disk-sda/disk_ops
+  - disk-sda/disk_time
+  - disk-sda1/disk_merged
+  - disk-sda1/disk_octets
+  - disk-sda1/disk_ops
+  - disk-sda1/disk_time
+  - disk-sdb/disk_merged
+  - disk-sdb/disk_octets
+  - disk-sdb/disk_ops
+  - disk-sdb/disk_time
+  - disk-dm-0/disk_merged
+  - disk-dm-0/disk_octets
+  - disk-dm-0/disk_ops
+  - disk-dm-0/disk_time
+  - disk-dm-1/disk_merged
+  - disk-dm-1/disk_octets
+  - disk-dm-1/disk_ops
+  - disk-dm-1/disk_time
+  - disk-sda/disk_merged
+  - disk-sda/disk_octets
+  :url: collectd+01+disk
+  :profile_name: collectd-01 disk
+  :percentiles:
+  :hosts:
+  - collectd-01.example.org
+collectd+01+disk+time:
+  :metrics:
+  - disk-dm-0/disk_time
+  - disk-dm-1/disk_time
+  - disk-sda/disk_time
+  - disk-sda1/disk_time
+  - disk-sdb/disk_time
+  :url: collectd+01+disk+time
+  :profile_name: collectd-01 disk time
+  :percentiles:
+  :hosts:
+  - collectd-01.example.org
+custmon+load+and+cpu:
+  :metrics:
+  - cpu-0/cpu-user
+  - cpu-5/cpu-wait
+  - cpu-6/cpu-wait
+  - cpu-7/cpu-wait
+  - cpu-1/cpu-nice
+  - cpu-0/cpu-nice
+  - cpu-2/cpu-nice
+  - cpu-3/cpu-nice
+  - cpu-4/cpu-nice
+  - cpu-5/cpu-nice
+  - cpu-6/cpu-nice
+  - cpu-3/cpu-system
+  - cpu-4/cpu-system
+  - cpu-5/cpu-system
+  - cpu-6/cpu-system
+  - cpu-7/cpu-system
+  - cpu-0/cpu-wait
+  - cpu-1/cpu-wait
+  - cpu-2/cpu-wait
+  - cpu-3/cpu-wait
+  - cpu-2/cpu-system
+  - memory/memory-buffered
+  - memory/memory-cached
+  - memory/memory-free
+  - memory/memory-used
+  - vmem/vmpage_io-memory
+  - cpu-7/cpu-nice
+  - load/load
+  - cpu-0/cpu-idle
+  - cpu-1/cpu-idle
+  - cpu-2/cpu-idle
+  - cpu-3/cpu-idle
+  - cpu-4/cpu-idle
+  - cpu-5/cpu-idle
+  - cpu-6/cpu-idle
+  - cpu-7/cpu-idle
+  - cpu-4/cpu-wait
+  - cpu-1/cpu-user
+  - cpu-2/cpu-user
+  - cpu-3/cpu-user
+  - cpu-4/cpu-user
+  - cpu-5/cpu-user
+  - cpu-6/cpu-user
+  - cpu-7/cpu-user
+  - cpu-0/cpu-system
+  - cpu-1/cpu-system
+  :url: custmon+load+and+cpu
+  :profile_name: custmon load and cpu
+  :percentiles:
+  :hosts:
+  - mon-cust-01.example.org
+collectd+01+disk+dm+0+and+load:
+  :metrics:
+  - load/load
+  - disk-dm-0/disk_ops
+  :url: collectd+01+disk+dm+0+and+load
+  :profile_name: collectd-01 disk-dm-0 and load
+  :percentiles:
+  :hosts:
+  - collectd-01.example.org
+collectd+01+memory:
+  :metrics:
+  - memory/memory-buffered
+  - memory/memory-cached
+  - memory/memory-free
+  - memory/memory-used
+  - vmem/vmpage_io-memory
+  :url: collectd+01+memory
+  :profile_name: collectd-01 memory
+  :percentiles:
+  :hosts:
+  - collectd-01.example.org
+collectd+01+root+filesystem:
+  :metrics:
+  - df/df-root
+  :url: collectd+01+root+filesystem
+  :profile_name: collectd-01 root filesystem
+  :percentiles:
+  :hosts:
+  - collectd-01.example.org
+fw02:
+  :metrics:
+  - cpu-2/cpu-interrupt
+  - vmem/vmpage_number-vmscan_write
+  - vmem/vmpage_number-slab_reclaimable
+  - vmem/vmpage_number-dirty
+  - vmem/vmpage_number-inactive_file
+  - interface/if_octets-eth1
+  - processes/ps_state-running
+  - vmem/vmpage_io-swap
+  - interface/if_errors-vlan79
+  - irq/irq-8
+  - swap/swap_io-in
+  - interface/if_errors-vlan4
+  - irq/irq-73
+  - interface/if_errors-vlan43
+  - irq/irq-76
+  - interface/if_errors-lo
+  - irq/irq-69
+  - disk-sda3/disk_time
+  - irq/irq-60
+  - interface/if_packets-vlan41
+  - interface/if_errors-bond0
+  - irq/irq-66
+  - irq/irq-57
+  - interface/if_packets-vlan39
+  - disk-sda5/disk_ops
+  - irq/irq-63
+  - disk-sda1/disk_ops
+  - irq/irq-18
+  - interface/if_octets-vlan79
+  - disk-sda3/disk_merged
+  - disk-sda/disk_time
+  - irq/irq-15
+  - interface/if_octets-vlan43
+  - disk-sda2/disk_octets
+  - irq/irq-54
+  - cpu-7/cpu-wait
+  - interface/if_packets-eth1
+  - disk-sda/disk_merged
+  - irq/irq-0
+  - interface/if_octets-vlan4
+  - cpu-1/cpu-nice
+  - cpu-7/cpu-interrupt
+  - cpu-5/cpu-nice
+  - cpu-0/cpu-wait
+  - cpu-6/cpu-softirq
+  - cpu-4/cpu-wait
+  - cpu-0/cpu-interrupt
+  - cpu-6/cpu-idle
+  - cpu-3/cpu-softirq
+  - cpu-4/cpu-interrupt
+  - cpu-3/cpu-idle
+  - cpu-2/cpu-nice
+  - vmem/vmpage_number-writeback
+  - vmem/vmpage_number-file_pages
+  - vmem/vmpage_number-slab_unreclaimable
+  - vmem/vmpage_number-active_anon
+  - vmem/vmpage_number-isolated_anon
+  - interface/if_octets-lo
+  - processes/ps_state-sleeping
+  - swap/swap_io-out
+  - interface/if_octets-bond0
+  - irq/irq-9
+  - interface/if_errors-us
+  - irq/irq-71
+  - interface/if_errors-vlan44
+  - irq/irq-77
+  - interface/if_errors-vlan40
+  - irq/irq-74
+  - disk-sda5/disk_merged
+  - irq/irq-61
+  - interface/if_packets-vlan43
+  - interface/if_errors-eth0
+  - irq/irq-67
+  - disk-sda3/disk_octets
+  - irq/irq-58
+  - interface/if_packets-vlan4
+  - disk-sda5/disk_time
+  - irq/irq-64
+  - disk-sda1/disk_time
+  - irq/irq-19
+  - interface/if_packets-bond0
+  - disk-sda2/disk_ops
+  - irq/irq-55
+  - interface/if_packets-lo
+  - disk-sda1/disk_merged
+  - irq/irq-16
+  - interface/if_octets-vlan44
+  - cpu-1/cpu-softirq
+  - cpu-7/cpu-nice
+  - disk-sda/disk_octets
+  - irq/irq-1
+  - interface/if_octets-vlan40
+  - cpu-1/cpu-idle
+  - cpu-6/cpu-wait
+  - df/df-lib-init-rw
+  - cpu-5/cpu-softirq
+  - interface/if_packets-vlan45
+  - interface/if_octets-us
+  - cpu-3/cpu-wait
+  - cpu-5/cpu-idle
+  - cpu-0/cpu-nice
+  - cpu-6/cpu-interrupt
+  - cpu-4/cpu-nice
+  - cpu-3/cpu-interrupt
+  - cpu-2/cpu-softirq
+  - vmem/vmpage_number-unevictable
+  - vmem/vmpage_number-inactive_anon
+  - cpu-2/cpu-idle
+  - vmem/vmpage_number-isolated_file
+  - vmem/vmpage_number-active_file
+  - processes/ps_state-paging
+  - vmem/vmpage_io-memory
+  - interface/if_octets-eth0
+  - interface/if_errors-vlan45
+  - interface/if_errors-vlan39
+  - irq/irq-72
+  - irq/irq-78
+  - processes/ps_state-zombies
+  - interface/if_packets-vlan44
+  - disk-sda5/disk_octets
+  - interface/if_errors-vlan41
+  - interface/if_errors-eth1
+  - irq/irq-62
+  - irq/irq-68
+  - irq/irq-75
+  - interface/if_packets-vlan40
+  - disk-sda3/disk_ops
+  - dns/dns_rcode-YXDOMAIN
+  - irq/irq-59
+  - irq/irq-65
+  - interface/if_packets-us
+  - irq/irq-56
+  - disk-sda2/disk_time
+  - interface/if_octets-vlan45
+  - irq/irq-17
+  - disk-sda1/disk_octets
+  - interface/if_packets-eth0
+  - irq/irq-21
+  - cpu-7/cpu-softirq
+  - cpu-1/cpu-wait
+  - disk-sda2/disk_merged
+  - interface/if_octets-vlan41
+  - irq/irq-14
+  - disk-sda/disk_ops
+  - interface/if_packets-vlan79
+  - cpu-5/cpu-wait
+  - df/df-var-lib-ureadahead-debugfs
+  - cpu-7/cpu-idle
+  - cpu-1/cpu-interrupt
+  - interface/if_octets-vlan39
+  - cpu-5/cpu-interrupt
+  - cpu-6/cpu-nice
+  - cpu-0/cpu-softirq
+  - cpu-4/cpu-softirq
+  - cpu-3/cpu-nice
+  - cpu-0/cpu-idle
+  - cpu-4/cpu-idle
+  - cpu-2/cpu-wait
+  :url: fw02
+  :profile_name: fw02
+  :percentiles:
+  :hosts:
+  - fw-02.example.org
+nagios+on+infmon:
+  :metrics:
+  - nagios-service_check_execution_time/response_time-max
+  - nagios-service_check_execution_time/response_time-min
+  - nagios-service_check_latency/response_time-25e
+  - nagios-service_check_latency/response_time-75e
+  - nagios-service_check_latency/response_time-max
+  - nagios-service_check_latency/response_time-min
+  - nagios-num_hosts/gauge
+  - nagios-num_services/gauge
+  - nagios-service_check_execution_time/response_time-95e
+  - nagios-service_check_latency/response_time-95e
+  - nagios-service_check_execution_time/response_time-5e
+  - nagios-service_check_execution_time/response_time-median
+  - nagios-service_check_latency/response_time-5e
+  - nagios-service_check_latency/response_time-median
+  - nagios-service_check_execution_time/response_time-25e
+  - nagios-service_check_execution_time/response_time-75e
+  :url: nagios+on+infmon
+  :profile_name: nagios on infmon
+  :percentiles:
+  :hosts:
+  - mon-inf-01.example.org
+collectd+01+disk+ops:
+  :metrics:
+  - disk-dm-0/disk_ops
+  - disk-dm-1/disk_ops
+  - disk-sda/disk_ops
+  - disk-sda1/disk_ops
+  - disk-sdb/disk_ops
+  :url: collectd+01+disk+ops
+  :profile_name: collectd-01 disk ops
+  :percentiles:
+  :hosts:
+  - collectd-01.example.org
+infad02:
+  :metrics:
+  - cpu-0/cpu-idle
+  - cpu-0/cpu-interrupt
+  - cpu-0/cpu-system
+  - cpu-0/cpu-user
+  - cpu-1/cpu-idle
+  - cpu-1/cpu-interrupt
+  - cpu-1/cpu-system
+  - cpu-1/cpu-user
+  - cpu-2/cpu-idle
+  - cpu-2/cpu-interrupt
+  - cpu-2/cpu-system
+  - cpu-2/cpu-user
+  - cpu-3/cpu-idle
+  - cpu-3/cpu-interrupt
+  - cpu-3/cpu-system
+  - cpu-3/cpu-user
+  - cpu-_Total/cpu-idle
+  - cpu-_Total/cpu-interrupt
+  - cpu-_Total/cpu-system
+  - cpu-_Total/cpu-user
+  - interface/if_octets-Local Area Connection* 11
+  - interface/if_octets-isatap.{A74357-5655-4877-ADDE-F8FFC73F}
+  - interface/if_octets-vmxnet3 Ethernet Adapter
+  - interface/if_packets-Local Area Connection* 11
+  - interface/if_packets-isatap.{A74357-5655-4877-ADDE-F8FFC73F}
+  - interface/if_packets-vmxnet3 Ethernet Adapter
+  :url: infad02
+  :profile_name: infad02
+  :percentiles:
+  :hosts:
+  - infad-02.example.org
+pridns01+authoritive:
+  :metrics:
+  - cpu-3/cpu-user
+  - dns/dns_rcode-REFUSED
+  - cpu-0/cpu-wait
+  - swap/swap-free
+  - processes/ps_state-paging
+  - memory/memory-used
+  - cpu-2/cpu-interrupt
+  - cpu-0/cpu-nice
+  - cpu-3/cpu-softirq
+  - dns/dns_qtype-AAAA
+  - dns/dns_qtype-TXT
+  - cpu-0/cpu-steal
+  - cpu-1/cpu-steal
+  - interface/if_packets-eth1
+  - memory/memory-buffered
+  - cpu-1/cpu-user
+  - df/df-root
+  - cpu-3/cpu-idle
+  - dns/dns_qtype-#99
+  - dns/dns_qtype-PTR
+  - cpu-2/cpu-user
+  - interface/if_errors-eth0
+  - cpu-1/cpu-interrupt
+  - interface/if_octets-eth0
+  - swap/swap_io-in
+  - processes/ps_state-sleeping
+  - dns/dns_opcode-Notify
+  - dns/dns_qtype-MX
+  - cpu-2/cpu-softirq
+  - cpu-3/cpu-system
+  - dns/dns_qtype-CNAME
+  - dns/dns_rcode-NXDOMAIN
+  - cpu-0/cpu-user
+  - swap/swap-cached
+  - processes/ps_state-blocked
+  - memory/memory-free
+  - cpu-2/cpu-idle
+  - cpu-0/cpu-interrupt
+  - cpu-3/cpu-nice
+  - dns/dns_qtype-A6
+  - dns/dns_qtype-SRV
+  - cpu-0/cpu-softirq
+  - cpu-1/cpu-softirq
+  - interface/if_packets-eth0
+  - load/load
+  - cpu-1/cpu-system
+  - processes/ps_state-zombies
+  - cpu-2/cpu-wait
+  - dns/dns_opcode-Update
+  - dns/dns_qtype-NS
+  - cpu-2/cpu-system
+  - cpu-3/cpu-wait
+  - cpu-1/cpu-idle
+  - interface/if_errors-eth1
+  - swap/swap-used
+  - processes/ps_state-running
+  - dns/dns_octets
+  - cpu-2/cpu-nice
+  - cpu-3/cpu-steal
+  - dns/dns_qtype-ANY
+  - dns/dns_rcode-NOERROR
+  - cpu-0/cpu-system
+  - memory/memory-cached
+  - cpu-1/cpu-wait
+  - dns/dns_qtype-SOA
+  - dns/dns_qtype-A
+  - cpu-0/cpu-idle
+  - cpu-3/cpu-interrupt
+  - swap/swap_io-out
+  - cpu-1/cpu-nice
+  - interface/if_octets-eth1
+  - cpu-2/cpu-steal
+  - dns/dns_qtype-NAPTR
+  - dns/dns_opcode-Query
+  - processes/ps_state-stopped
+  :url: pridns01+authoritive
+  :profile_name: pridns01-authoritive
+  :percentiles:
+  :hosts:
+  - pridns-01.example.org
+latency:
+  :metrics:
+  - disk_maxTotalLatency/gauge-millisecond
+  :url: latency
+  :profile_name: latency
+  :percentiles:
+  :hosts:
+  - esx-01.example.org
+  - esx-01.example.org
+  - esx-01.example.org
+  - esx-06.example.org
+  - esx-02.example.org
+  - esx-03.example.org
+  - esx-04.example.org
+  - esx-05.example.org
+dns:
+  :metrics:
+  - powerdns-recursor/cache_size
+  - powerdns-recursor/cpu-system
+  - powerdns-recursor/cpu-user
+  - powerdns-recursor/dns_rcode-NOERROR
+  - powerdns-recursor/dns_rcode-NXDOMAIN
+  - powerdns-recursor/dns_rcode-SERVFAIL
+  - powerdns-recursor/latency
+  - interface/if_errors-eth0
+  - interface/if_errors-eth1
+  - interface/if_errors-lo
+  - interface/if_octets-eth0
+  - interface/if_octets-eth1
+  - interface/if_octets-lo
+  - interface/if_packets-eth0
+  - interface/if_packets-eth1
+  - interface/if_packets-lo
+  - powerdns-dnsr-02.example.org/cache_result-hit
+  - powerdns-dnsr-02.example.org/cache_result-miss
+  - powerdns-dnsr-02.example.org/cache_size
+  - powerdns-dnsr-02.example.org/cpu-system
+  - powerdns-dnsr-02.example.org/cpu-user
+  - powerdns-dnsr-02.example.org/dns_rcode-NOERROR
+  - powerdns-dnsr-02.example.org/dns_rcode-NXDOMAIN
+  - powerdns-dnsr-02.example.org/dns_rcode-SERVFAIL
+  - powerdns-dnsr-02.example.org/latency
+  - powerdns-recursor/cache_result-hit
+  - powerdns-recursor/cache_result-miss
+  :url: dns
+  :profile_name: DNS
+  :percentiles:
+  :hosts:
+  - dnsr-02.example.org
+  - dnsr-01.example.org
+  - pridns-01.example.org
+collectd+01+cpu+idle:
+  :metrics:
+  - cpu-0/cpu-idle
+  - cpu-1/cpu-idle
+  - cpu-2/cpu-idle
+  - cpu-3/cpu-idle
+  :url: collectd+01+cpu+idle
+  :profile_name: collectd-01 cpu-idle
+  :percentiles:
+  :hosts:
+  - collectd-01.example.org
+dnsr+01+02:
+  :metrics:
+  - interface/if_octets-eth0
+  - interface/if_octets-eth1
+  - load/load
+  - powerdns-recursor/cache_result-hit
+  - powerdns-recursor/cache_result-miss
+  - powerdns-recursor/cache_size
+  - powerdns-recursor/cpu-system
+  - powerdns-recursor/cpu-user
+  - powerdns-recursor/dns_rcode-NOERROR
+  - powerdns-recursor/dns_rcode-NXDOMAIN
+  - powerdns-recursor/dns_rcode-SERVFAIL
+  - powerdns-recursor/latency
+  :url: dnsr+01+02
+  :profile_name: dnsr-01/02
+  :percentiles:
+  :hosts:
+  - dnsr-01.example.org
+  - dnsr-02.example.org
