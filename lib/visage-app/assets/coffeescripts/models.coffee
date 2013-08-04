@@ -103,6 +103,11 @@ Timeframe = Backbone.Model.extend({
 })
 
 Profile = Backbone.Model.extend({
+  permalink: () ->
+    window.location.protocol + '//' +
+    window.location.host +
+    "/profiles/#{this.id}"
+
   url: () ->
     id = this.id
     if id
@@ -123,6 +128,9 @@ Profile = Backbone.Model.extend({
   dirty: (status) ->
     this.is_dirty = status if status
     !!this.is_dirty
+
+  notAnonymous: () ->
+    !this.get('anonymous')
 
   initialize: () ->
     id = document.location.pathname.split('/')[2]

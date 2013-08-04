@@ -241,7 +241,6 @@
 
 .lightface .lightfaceMessageBox  {
   overflow: auto;
-  padding: 10px 10px;
   min-height: 20px;
   position:relative;
 }

@@ -573,28 +573,50 @@ ul#timeframes li.selected {
   background-color: #3465A4;
 }
 
+.lightface .lightfaceMessageBox {
+  padding: 0;
+}
+
 form.share div.row {
-  margin-bottom: 8px;
+  padding: 10px;
 }
 
 form.share div.row.permalink {
   font-weight: bold;
-  text-align: center;
-  padding: 8px;
   margin-bottom: 8px;
 }
 
+form.share hr {
+  border: 0;
+  border-top: 1px solid #ccc;
+}
+
 form.share div.row.permalink a {
-  padding: 8px;
   font-size: 14px;
 }
 
+form.share div.row.permalink a:visited {
+  color: #3465a4;
+}
+
 form.share div.row label {
-  display: block;
+  margin-left: 4px;
   margin-bottom: 4px;
   font-size: 14px;
   font-weight: bold;
   cursor: pointer;
+}
+
+form.share div.row.text label {
+  display: block;
+  margin-left: 0px;
+}
+
+form.share div.row p {
+  margin: 0;
+  margin-top:  4px;
+  margin-left: 21px;
+  line-height: 1.5em;
 }
 
 form.share div.row label span.tip {

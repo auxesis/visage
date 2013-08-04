@@ -122,6 +122,14 @@ DimensionCollectionView = Backbone.View.extend({
     return that
 })
 
+ProfileView = Backbone.View.extend({
+  tagName:   'form'
+  className: 'profile'
+  initialize: () ->
+    that = this
+    #this.listenTo(that.model, "change", that.render)
+})
+
 GraphView = Backbone.View.extend({
   tagName: 'li',
   className: 'graph',
@@ -406,18 +414,51 @@ GraphCollectionView = Backbone.View.extend({
     paper = Raphael(icon, 32, 32);
     paper.path("M16.45,18.085l-2.47,2.471c0.054,1.023-0.297,2.062-1.078,2.846c-1.465,1.459-3.837,1.459-5.302-0.002c-1.461-1.465-1.46-3.836-0.001-5.301c0.783-0.781,1.824-1.131,2.847-1.078l2.469-2.469c-2.463-1.057-5.425-0.586-7.438,1.426c-2.634,2.637-2.636,6.907,0,9.545c2.638,2.637,6.909,2.635,9.545,0l0.001,0.002C17.033,23.511,17.506,20.548,16.45,18.085zM14.552,12.915l2.467-2.469c-0.053-1.023,0.297-2.062,1.078-2.848C19.564,6.139,21.934,6.137,23.4,7.6c1.462,1.465,1.462,3.837,0,5.301c-0.783,0.783-1.822,1.132-2.846,1.079l-2.469,2.468c2.463,1.057,5.424,0.584,7.438-1.424c2.634-2.639,2.633-6.91,0-9.546c-2.639-2.636-6.91-2.637-9.545-0.001C13.967,7.489,13.495,10.451,14.552,12.915zM18.152,10.727l-7.424,7.426c-0.585,0.584-0.587,1.535,0,2.121c0.585,0.584,1.536,0.584,2.121-0.002l7.425-7.424c0.584-0.586,0.584-1.535,0-2.121C19.687,10.141,18.736,10.142,18.152,10.727z")
 
-    modal = new LightFace.Request({
+
+    # FIXME(auxesis): move this into a Backbone.HandlebarsView
+    success = "
+      <form class='share'>
+        <div class='row'>
+          Share this profile of graphs with others:
+        </div>
+        <div class='row permalink'>
+          <a href='{{permalink}}' target='_profile_{{id}}'>{{permalink}}</a>
+        </div>
+        <hr/>
+        <div class='row question'>
+          <input id='profile-anonymous' name='profile[anonymous]' class='checkbox' type='checkbox' {{#notAnonymous}}checked=true{{/notAnonymous}}>
+          <label for='profile-anonymous'>Name this profile</label>
+          <p>Naming a profile is helpful if you need to refer back to a collection of graphs.</p>
+          <p>If you don't name the profile, you can still access it via the link above.</p>
+        </div>
+        <hr class='named'/>
+        <div class='row text named'>
+          <label for='profile-name'>Profile name</label>
+          <input id='profile-name' name='profile[name]' class='text' type='text' value='{{name}}'>
+        </div>
+        <hr class='named'/>
+        <div class='row question named'>
+          <input id='profile-timeframe' timeframe='profile[timeframe]' class='checkbox' type='checkbox' checked='{{timeframe}}'>
+          <label for='profile-timeframe'>Timeframe</label>
+          <p>Lorem ipsum dolor sit amet</p>
+        </div>
+        <hr class='named'/>
+        <div class='row text named'>
+          <label for='profile-tags'>Tags<span class='tip'> (comma separated)</label>
+          <input id='profile-tags' tags='profile[tags]' class='text' type='text' value='{{tags}}'>
+        </div>
+      </form>
+    "
+
+    modal = new LightFace({
         width:     600,
         draggable: true,
         title:     'Share profile',
         content:   "<img src='/images/loader.gif'/>",
-        request: {
-          method: 'get'
-        },
         buttons: [
             { title: "Close", color: 'blue', event: () -> this.close() }
         ],
-        resetOnScroll: true
+        resetOnScroll: true,
     });
 
     shareToggler.grab(icon, 'top')
@@ -450,9 +491,15 @@ GraphCollectionView = Backbone.View.extend({
 
           profile.save({}, {
             success: (profile, response, options) ->
-              # FIXME(auxesis): use of global variable window - is this the best pattern?
               window.Application.navigate("profiles/#{profile.id}", {trigger: true})
-              modal.load("/profiles/share/#{profile.id}", "Share profile")
+              #modal.load("/profiles/share/#{profile.id}", "Share profile")
+              modal.open()
+              fn = Handlebars.compile(success)
+              modal.messageBox.set('html', fn(window.profile))
+              modal.messageBox.getElements('.named').each((element) -> element.hide())
+              modal.messageBox.getElementById('profile-anonymous').addEvent('click', (event) ->
+                modal.messageBox.getElements('.named').each((element) -> element.toggle())
+              )
 
             error: (model, xhr, options) ->
               console.log(model, xhr, options)
@@ -466,13 +513,31 @@ GraphCollectionView = Backbone.View.extend({
           profile.save({}, {
             success: (profile, response, options) ->
               window.Application.navigate("profiles/#{profile.id}", {trigger: true})
-              modal.load("/profiles/share/#{profile.id}", "Share profile")
+              modal.open()
+
+              fn = Handlebars.compile(success)
+              modal.messageBox.set('html', fn(window.profile))
+              modal.messageBox.getElements('.named').each((element) -> element.hide())
+              modal.messageBox.getElementById('profile-anonymous').addEvent('click', (event) ->
+                modal.messageBox.getElements('.named').each((element) -> element.toggle())
+              )
 
             error: (model, xhr, options) ->
               console.log(model, xhr, options)
           })
         else
-          modal.load("/profiles/share/#{profile.id}", "Share profile")
+          modal.open()
+
+          fn = Handlebars.compile(success)
+          modal.messageBox.set('html', fn(window.profile))
+          modal.messageBox.getElements('.named').each((element) -> element.hide())
+          modal.messageBox.getElementById('profile-anonymous').addEvent('click', (event) ->
+            modal.messageBox.getElements('.named').each((element) -> element.toggle())
+          )
+
+#          new ProfileView({
+#            model: window.profile
+#          })
           # modal.
 
   #        profile = new Profile()
