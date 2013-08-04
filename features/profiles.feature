@@ -44,3 +44,11 @@ Feature: Viewing data
     And I share the profile
     Then I should see a new permalink for the profile
 
+  @javascript
+  Scenario: Create a named profile
+    When I go to /profiles/new
+    And I add a graph
+    And I share the profile with the name "Collection of graphs"
+    Then I should see a permalink for the profile
+    When I go to /profiles
+    Then I should see a profile named "Collection of graphs"

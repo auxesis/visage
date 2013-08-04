@@ -39,3 +39,24 @@ end
 Then(/^I should see a new permalink for the profile$/) do
   page.current_path.should_not == @anonymous_profile_url
 end
+
+When(/^I share the profile with the name "(.*?)"$/) do |name|
+  script = <<-SCRIPT
+    $('share-toggler').fireEvent('click');
+    $('profile-name').set('value', '#{name}');
+    //$('save').fireEvent('click');
+  SCRIPT
+  page.execute_script(script)
+  step 'show me the page'
+
+  sleep 2 # so the toggler has time to render
+end
+
+Then(/^I should see a profile named "(.*?)"$/) do |name|
+  doc = Nokogiri::HTML(page.body)
+  profiles = doc.search('div#named_profiles ul li')
+  profiles.size.should > 0
+
+  match = profiles.find {|profile| profile.text =~ /#{name}/}
+  match.should_not be_nil
+end
