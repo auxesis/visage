@@ -108,12 +108,18 @@ Profile = Backbone.Model.extend({
     window.location.host +
     "/profiles/#{this.id}"
 
-  url: () ->
+  url: (options) ->
     id = this.id
-    if id
-      "/profiles/#{id}.json"
+    if options and options.json == false
+      if id
+        "/profiles/#{id}"
+      else
+        '/profiles'
     else
-      '/profiles'
+      if id
+        "/profiles/#{id}.json"
+      else
+        '/profiles'
 
   change: (event) ->
     # Ignore change events triggered by fetch()

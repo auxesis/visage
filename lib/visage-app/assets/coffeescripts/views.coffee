@@ -417,7 +417,7 @@ GraphCollectionView = Backbone.View.extend({
 
     # FIXME(auxesis): move this into a Backbone.HandlebarsView
     success = "
-      <form class='share'>
+      <form id='share' class='share'>
         <div class='row'>
           Share this profile of graphs with others:
         </div>
@@ -426,7 +426,7 @@ GraphCollectionView = Backbone.View.extend({
         </div>
         <hr/>
         <div class='row question'>
-          <input id='profile-anonymous' name='profile[anonymous]' class='checkbox' type='checkbox' {{#notAnonymous}}checked=true{{/notAnonymous}}>
+          <input id='profile-anonymous' name='profile[anonymous]' class='checkbox' type='checkbox' {{#notAnonymous}}checked=true{{/notAnonymous}} value='false'>
           <label for='profile-anonymous'>Name this profile</label>
           <p>Naming a profile is helpful if you need to refer back to a collection of graphs.</p>
           <p>If you don't name the profile, you can still access it via the link above.</p>
@@ -534,6 +534,14 @@ GraphCollectionView = Backbone.View.extend({
           modal.messageBox.getElementById('profile-anonymous').addEvent('click', (event) ->
             modal.messageBox.getElements('.named').each((element) -> element.toggle())
           )
+          form = modal.messageBox.getElementById('share')
+          #form.addEvent('submit', () ->)
+
+          modal.addButton('Save', (() ->
+            #form.fireEvent('submit')
+            form.send(window.profile.url({json: false}))
+          ), true)
+          modal.showButton('Save')
 
 #          new ProfileView({
 #            model: window.profile
