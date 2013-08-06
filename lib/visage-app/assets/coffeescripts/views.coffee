@@ -530,7 +530,10 @@ GraphCollectionView = Backbone.View.extend({
 
           fn = Handlebars.compile(success)
           modal.messageBox.set('html', fn(window.profile))
-          modal.messageBox.getElements('.named').each((element) -> element.hide())
+
+          if window.profile.get('anonymous')
+            modal.messageBox.getElements('.named').each((element) -> element.hide())
+
           modal.messageBox.getElementById('profile-anonymous').addEvent('click', (event) ->
             modal.messageBox.getElements('.named').each((element) -> element.toggle())
           )
