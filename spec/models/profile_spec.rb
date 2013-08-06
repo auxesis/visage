@@ -87,6 +87,24 @@ describe "Profile" do
       profile.save.should be_true
     end
 
+    it "should convert boolean fields on save" do
+      attributes = {
+        :name      => 'An example profile',
+        :graphs    => [
+          { :plugin => 'memory', :host => 'foo', :start => Time.now.to_i },
+          { :plugin => 'memory', :host => 'bar', :start => Time.now.to_i },
+        ]
+      }
+
+      profile = Profile.new(attributes.merge({:anonymous => 'true'}))
+      profile.save.should be_true
+      profile.anonymous.class.should be(TrueClass)
+
+      profile = Profile.new(attributes.merge({:anonymous => 'false'}))
+      profile.save.should be_true
+      profile.anonymous.class.should be(FalseClass)
+    end
+
     it "should be fetchable by id" do
       attributes = {
         :anonymous => true,

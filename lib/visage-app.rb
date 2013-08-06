@@ -132,7 +132,6 @@ module Visage
       @profile = Profile.get(id)
       raise Sinatra::NotFound unless @profile
 
-      p params
       if format == 'json'
         attrs = ::JSON.parse(request.body.read).symbolize_keys
       else

@@ -106,11 +106,16 @@ class Profile
     if new_record?
       self.id         = SecureRandom.hex
       self.created_at = Time.now
-    else
-      # created_at in submitted JSON is converted to a String. Convert to Time.
-      if @attributes[:created_at].class == String
-        @attributes[:created_at] = @attributes[:created_at].to_time(:local)
-      end
+    end
+
+    # Fix up the record
+    # created_at in submitted JSON is converted to a String. Convert to Time.
+    if @attributes[:created_at].class == String
+      @attributes[:created_at] = @attributes[:created_at].to_time(:local)
+    end
+
+    if not [true,false].include?(@attributes[:anonymous])
+      @attributes[:anonymous] = @attributes[:anonymous].to_bool
     end
 
     if valid?
