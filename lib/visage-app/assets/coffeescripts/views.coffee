@@ -493,13 +493,26 @@ GraphCollectionView = Backbone.View.extend({
             success: (profile, response, options) ->
               window.Application.navigate("profiles/#{profile.id}", {trigger: true})
               #modal.load("/profiles/share/#{profile.id}", "Share profile")
+
               modal.open()
+
               fn = Handlebars.compile(success)
               modal.messageBox.set('html', fn(window.profile))
-              modal.messageBox.getElements('.named').each((element) -> element.hide())
+
+              if window.profile.get('anonymous')
+                modal.messageBox.getElements('.named').each((element) -> element.hide())
+
               modal.messageBox.getElementById('profile-anonymous').addEvent('click', (event) ->
                 modal.messageBox.getElements('.named').each((element) -> element.toggle())
               )
+              form = modal.messageBox.getElementById('share')
+
+              modal.addButton('Save', (() ->
+                form.send(window.profile.url({json: false}))
+                modal.close()
+              ), true)
+              button = modal.showButton('Save')
+              button.set('id', 'save')
 
             error: (model, xhr, options) ->
               console.log(model, xhr, options)
@@ -538,24 +551,12 @@ GraphCollectionView = Backbone.View.extend({
             modal.messageBox.getElements('.named').each((element) -> element.toggle())
           )
           form = modal.messageBox.getElementById('share')
-          #form.addEvent('submit', () ->)
 
           modal.addButton('Save', (() ->
-            #form.fireEvent('submit')
             form.send(window.profile.url({json: false}))
+            modal.close()
           ), true)
           modal.showButton('Save')
-
-#          new ProfileView({
-#            model: window.profile
-#          })
-          # modal.
-
-  #        profile = new Profile()
-  #        profile.fetch({
-  #          success: (model) ->
-  #            console.log('hello', model.attributes)
-  #        })
     )
 
   render: () ->

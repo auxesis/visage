@@ -43,13 +43,20 @@ end
 When(/^I share the profile with the name "(.*?)"$/) do |name|
   script = <<-SCRIPT
     $('share-toggler').fireEvent('click');
-    $('profile-name').set('value', '#{name}');
-    //$('save').fireEvent('click');
   SCRIPT
-  page.execute_script(script)
-  step 'show me the page'
+  execute_script(script)
 
-  sleep 2 # so the toggler has time to render
+  script = <<-SCRIPT
+    $('profile-anonymous').checked = true;
+    $('profile-anonymous').fireEvent('click');
+  SCRIPT
+  execute_script(script)
+
+  script = <<-SCRIPT
+    $('profile-name').set('value', '#{name}');
+    $('save').fireEvent('click');
+  SCRIPT
+  execute_script(script)
 end
 
 Then(/^I should see a profile named "(.*?)"$/) do |name|
@@ -60,3 +67,16 @@ Then(/^I should see a profile named "(.*?)"$/) do |name|
   match = profiles.find {|profile| profile.text =~ /#{name}/}
   match.should_not be_nil
 end
+
+def execute_script(script, opts={})
+  options = {
+    :wait => 1,
+    :snapshot => false
+  }.merge!(opts)
+
+  page.execute_script(script)
+  sleep(options[:wait])
+
+  step 'show me the page' if options[:snapshot]
+end
+
