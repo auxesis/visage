@@ -444,12 +444,13 @@ GraphCollectionView = Backbone.View.extend({
           })
 
           profile.save({}, {
-            success: (profile, response, options) ->
+            success: ((profile, response, options) ->
               window.Application.navigate("profiles/#{profile.id}", {trigger: true})
               this.displayShareModal()
-
-            error: (model, xhr, options) ->
+            ).bind(this)
+            error: ((model, xhr, options) ->
               console.log(model, xhr, options)
+            ).bind(this)
           })
         # Create a new profile when updating.
         when profile.dirty()
@@ -458,12 +459,14 @@ GraphCollectionView = Backbone.View.extend({
           profile.unset('id')
 
           profile.save({}, {
-            success: (profile, response, options) ->
+            success: ((profile, response, options) ->
               window.Application.navigate("profiles/#{profile.id}", {trigger: true})
               this.displayShareModal()
+            ).bind(this)
 
-            error: (model, xhr, options) ->
+            error: ((model, xhr, options) ->
               console.log(model, xhr, options)
+            ).bind(this)
           })
         else
           this.displayShareModal()
@@ -546,7 +549,9 @@ GraphCollectionView = Backbone.View.extend({
       form.send(window.profile.url({json: false}))
       modal.close()
     ), true)
-    modal.showButton('Save')
+
+    button = modal.showButton('Save')
+    button.set('id', 'save')
 
 })
 
@@ -628,7 +633,7 @@ TimeframeCollectionView = Backbone.View.extend({
       if model == that.default_timeframe()
         model.set('selected', true)
         label = $('timeframe-label')
-        label.set('html', timeframe.label)
+        label.set('html', model.label)
 
       # for the timeframe in the cookie
       if timeframe and timeframe.label == model.get('label') and not that.default_timeframe()
