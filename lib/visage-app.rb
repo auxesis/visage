@@ -114,6 +114,7 @@ module Visage
     # Creating a new profile
     post '/profiles' do
       attributes = ::JSON.parse(request.body.read).symbolize_keys
+      filter_parameters!(attributes)
       @profile = Profile.new(attributes)
 
       if @profile.save
@@ -133,17 +134,24 @@ module Visage
       raise Sinatra::NotFound unless @profile
 
       if format == 'json'
-        attrs = ::JSON.parse(request.body.read).symbolize_keys
+        attributes = ::JSON.parse(request.body.read).symbolize_keys
       else
-        attrs = params['profile'].symbolize_keys
+        attributes = params['profile'].symbolize_keys
       end
+      filter_parameters!(attributes)
 
-      if @profile.update_attributes(attrs)
+      if @profile.update_attributes(attributes)
         {'status' => 'ok', 'id' => @profile.id}.to_json
       else
         status 400 # Bad Request
         {'status' => 'error', 'errors' => @profile.errors}.to_json
       end
+    end
+
+    private
+    def filter_parameters!(attributes)
+      allowed = [ :id, :name, :graphs, :anonymous, :created_at, :timeframe, :tags ]
+      attributes.reject! {|k,v| !allowed.include?(k) }
     end
   end
 
@@ -222,4 +230,5 @@ module Visage
     end
 
   end
+
 end
