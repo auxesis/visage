@@ -415,6 +415,74 @@ GraphCollectionView = Backbone.View.extend({
     paper.path("M16.45,18.085l-2.47,2.471c0.054,1.023-0.297,2.062-1.078,2.846c-1.465,1.459-3.837,1.459-5.302-0.002c-1.461-1.465-1.46-3.836-0.001-5.301c0.783-0.781,1.824-1.131,2.847-1.078l2.469-2.469c-2.463-1.057-5.425-0.586-7.438,1.426c-2.634,2.637-2.636,6.907,0,9.545c2.638,2.637,6.909,2.635,9.545,0l0.001,0.002C17.033,23.511,17.506,20.548,16.45,18.085zM14.552,12.915l2.467-2.469c-0.053-1.023,0.297-2.062,1.078-2.848C19.564,6.139,21.934,6.137,23.4,7.6c1.462,1.465,1.462,3.837,0,5.301c-0.783,0.783-1.822,1.132-2.846,1.079l-2.469,2.468c2.463,1.057,5.424,0.584,7.438-1.424c2.634-2.639,2.633-6.91,0-9.546c-2.639-2.636-6.91-2.637-9.545-0.001C13.967,7.489,13.495,10.451,14.552,12.915zM18.152,10.727l-7.424,7.426c-0.585,0.584-0.587,1.535,0,2.121c0.585,0.584,1.536,0.584,2.121-0.002l7.425-7.424c0.584-0.586,0.584-1.535,0-2.121C19.687,10.141,18.736,10.142,18.152,10.727z")
 
 
+    shareToggler.grab(icon, 'top')
+    shareToggler.addEvent('click', (() ->
+      #modal.open()
+
+      current = Backbone.history.fragment.toString()
+      profile = window.profile
+
+      # If we're saving a new profile (/profiles/new):
+      #
+      #  - Collect up all the graphs
+      #  - Construct a new profile
+      #  - Save the profile
+      #  - Navigate to the permalink
+      #  - Pop up a share dialog (to provide more customisation)
+      #
+      # If we're on an existing profile:
+      #
+      #  - Pop up a share dialog (to provide more customisation)
+      #
+
+      switch
+        # Save the profile if it is new.
+        when profile.isNew()
+          profile.set({
+            anonymous: true,
+            timeframe: true,
+          })
+
+          profile.save({}, {
+            success: (profile, response, options) ->
+              window.Application.navigate("profiles/#{profile.id}", {trigger: true})
+              this.displayShareModal()
+
+            error: (model, xhr, options) ->
+              console.log(model, xhr, options)
+          })
+        # Create a new profile when updating.
+        when profile.dirty()
+          window.profile = profile = profile.clone()
+
+          profile.unset('id')
+
+          profile.save({}, {
+            success: (profile, response, options) ->
+              window.Application.navigate("profiles/#{profile.id}", {trigger: true})
+              this.displayShareModal()
+
+            error: (model, xhr, options) ->
+              console.log(model, xhr, options)
+          })
+        else
+          this.displayShareModal()
+    ).bind(this))
+
+  render: () ->
+    that = this
+    that.collection.each((model) ->
+      if not model.get('rendered')
+        view  = new GraphView({model: model})
+        that.views.include(view)
+        graph = view.render()
+        that.el.grab(graph)
+        model.set('rendered', true) # So the graph isn't re-rendered every time "show" is clicked
+        that.sortable.addItems(view.el)
+    )
+    return that
+
+  displayShareModal: () ->
     # FIXME(auxesis): move this into a Backbone.HandlebarsView
     success = "
       <form id='share' class='share'>
@@ -461,116 +529,25 @@ GraphCollectionView = Backbone.View.extend({
         resetOnScroll: true,
     });
 
-    shareToggler.grab(icon, 'top')
-    shareToggler.addEvent('click', () ->
-      modal.open()
+    modal.open()
 
-      current = Backbone.history.fragment.toString()
-      profile = window.profile
+    fn = Handlebars.compile(success)
+    modal.messageBox.set('html', fn(window.profile))
 
-      # If we're saving a new profile (/profiles/new):
-      #
-      #  - Collect up all the graphs
-      #  - Construct a new profile
-      #  - Save the profile
-      #  - Navigate to the permalink
-      #  - Pop up a share dialog (to provide more customisation)
-      #
-      # If we're on an existing profile:
-      #
-      #  - Pop up a share dialog (to provide more customisation)
-      #
+    if window.profile.get('anonymous')
+      modal.messageBox.getElements('.named').each((element) -> element.hide())
 
-      switch
-        # Save the profile if it is new.
-        when profile.isNew()
-          profile.set({
-            anonymous: true,
-            timeframe: true,
-          })
-
-          profile.save({}, {
-            success: (profile, response, options) ->
-              window.Application.navigate("profiles/#{profile.id}", {trigger: true})
-              #modal.load("/profiles/share/#{profile.id}", "Share profile")
-
-              modal.open()
-
-              fn = Handlebars.compile(success)
-              modal.messageBox.set('html', fn(window.profile))
-
-              if window.profile.get('anonymous')
-                modal.messageBox.getElements('.named').each((element) -> element.hide())
-
-              modal.messageBox.getElementById('profile-anonymous').addEvent('click', (event) ->
-                modal.messageBox.getElements('.named').each((element) -> element.toggle())
-              )
-              form = modal.messageBox.getElementById('share')
-
-              modal.addButton('Save', (() ->
-                form.send(window.profile.url({json: false}))
-                modal.close()
-              ), true)
-              button = modal.showButton('Save')
-              button.set('id', 'save')
-
-            error: (model, xhr, options) ->
-              console.log(model, xhr, options)
-          })
-        # Create a new profile when updating.
-        when profile.dirty()
-          window.profile = profile = profile.clone()
-
-          profile.unset('id')
-
-          profile.save({}, {
-            success: (profile, response, options) ->
-              window.Application.navigate("profiles/#{profile.id}", {trigger: true})
-              modal.open()
-
-              fn = Handlebars.compile(success)
-              modal.messageBox.set('html', fn(window.profile))
-              modal.messageBox.getElements('.named').each((element) -> element.hide())
-              modal.messageBox.getElementById('profile-anonymous').addEvent('click', (event) ->
-                modal.messageBox.getElements('.named').each((element) -> element.toggle())
-              )
-
-            error: (model, xhr, options) ->
-              console.log(model, xhr, options)
-          })
-        else
-          modal.open()
-
-          fn = Handlebars.compile(success)
-          modal.messageBox.set('html', fn(window.profile))
-
-          if window.profile.get('anonymous')
-            modal.messageBox.getElements('.named').each((element) -> element.hide())
-
-          modal.messageBox.getElementById('profile-anonymous').addEvent('click', (event) ->
-            modal.messageBox.getElements('.named').each((element) -> element.toggle())
-          )
-          form = modal.messageBox.getElementById('share')
-
-          modal.addButton('Save', (() ->
-            form.send(window.profile.url({json: false}))
-            modal.close()
-          ), true)
-          modal.showButton('Save')
+    modal.messageBox.getElementById('profile-anonymous').addEvent('click', (event) ->
+      modal.messageBox.getElements('.named').each((element) -> element.toggle())
     )
+    form = modal.messageBox.getElementById('share')
 
-  render: () ->
-    that = this
-    that.collection.each((model) ->
-      if not model.get('rendered')
-        view  = new GraphView({model: model})
-        that.views.include(view)
-        graph = view.render()
-        that.el.grab(graph)
-        model.set('rendered', true) # So the graph isn't re-rendered every time "show" is clicked
-        that.sortable.addItems(view.el)
-    )
-    return that
+    modal.addButton('Save', (() ->
+      form.send(window.profile.url({json: false}))
+      modal.close()
+    ), true)
+    modal.showButton('Save')
+
 })
 
 TimeframeView = Backbone.View.extend({
