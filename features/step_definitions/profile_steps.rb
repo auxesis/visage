@@ -19,7 +19,7 @@ When /^I share the profile$/ do
 end
 
 Then /^I should see a permalink for the profile$/ do
-  #page.current_path.should_not match(/\/profiles\/new$/)
+  page.current_path.should_not match(/\/profiles\/new$/)
   page.current_path.should match(/\/profiles\/[0-9a-f]+$/)
 end
 
@@ -56,7 +56,7 @@ When(/^I share the profile with the name "(.*?)"$/) do |name|
     $('profile-name').set('value', '#{name}');
     $('save').fireEvent('click');
   SCRIPT
-  execute_script(script)
+  execute_script(script, :snapshot => true, :wait => 3)
 end
 
 Then(/^I should see a profile named "(.*?)"$/) do |name|
@@ -66,6 +66,29 @@ Then(/^I should see a profile named "(.*?)"$/) do |name|
 
   match = profiles.find {|profile| profile.text =~ /#{name}/}
   match.should_not be_nil
+end
+
+Then(/^I should not see a profile named "(.*?)"$/) do |name|
+  doc = Nokogiri::HTML(page.body)
+  profiles = doc.search('div#named_profiles ul li')
+  profiles.size.should > 0
+
+  match = profiles.find {|profile| profile.text =~ /#{name}/}
+  match.should be_nil
+end
+
+When(/^I create a profile named "(.*?)"$/) do |name|
+  step %(I go to /profiles/new)
+  step %(I add a graph)
+  step %(I share the profile with the name "#{name}")
+  step %(I should see a permalink for the profile)
+  step %(I go to /profiles)
+  step %(I should see a profile named "#{name}")
+end
+
+When(/^I visit a profile named "(.*?)"$/) do |name|
+  step 'I go to /profiles'
+  step %(I follow "#{name}")
 end
 
 def execute_script(script, opts={})

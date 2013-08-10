@@ -52,3 +52,18 @@ Feature: Viewing data
     Then I should see a permalink for the profile
     When I go to /profiles
     Then I should see a profile named "Collection of graphs"
+
+  @javascript
+  Scenario: Update a named profile
+    When I create a profile named "Collection of graphs"
+    And I visit a profile named "Collection of graphs"
+    And I add a graph
+    And I share the profile with the name "A different collection of graphs"
+    Then I should see a permalink for the profile
+    When I go to /profiles
+    Then I should see a profile named "A different collection of graphs"
+    Then I should not see a profile named "Collection of graphs"
+
+  Scenario: Delete a named profile
+  Scenario: Retain the timeframe of a profile
+  Scenario: Use the existing timeframe of a profile
