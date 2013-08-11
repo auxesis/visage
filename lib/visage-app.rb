@@ -148,6 +148,21 @@ module Visage
       end
     end
 
+    delete %r{/profiles/([^/\.]+).?([^/]+)?} do
+      id     = params[:captures][0]
+      format = params[:captures][1]
+
+      @profile = Profile.get(id)
+      raise Sinatra::NotFound unless @profile
+
+      if @profile.destroy
+        {'status' => 'ok', 'id' => @profile.id}.to_json
+      else
+        status 400 # Bad Request
+        {'status' => 'error', 'errors' => @profile.errors}.to_json
+      end
+    end
+
     private
     def filter_parameters!(attributes)
       allowed = [ :id, :name, :graphs, :anonymous, :created_at, :timeframe, :tags ]
