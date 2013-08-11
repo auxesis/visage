@@ -134,8 +134,12 @@ class Profile
   end
 
   def destroy
-    File.delete(self.path)
-    true
+    begin
+      File.delete(self.path)
+      true
+    rescue
+      false
+    end
   end
 
   def path
