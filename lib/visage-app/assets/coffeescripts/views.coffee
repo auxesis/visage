@@ -527,32 +527,58 @@ GraphCollectionView = Backbone.View.extend({
         title:     'Share profile',
         content:   "<img src='/images/loader.gif'/>",
         buttons: [
-            { title: "Close", color: 'blue', event: () -> this.close() }
+            {
+              title: 'Delete',
+              color: 'red',
+              event: () ->
+                window.profile.destroy({
+                  success: (model, response) ->
+                    window.location = '/profiles'
+                })
+            }
+            {
+              title: "Close",
+              color: 'blue',
+              event: () ->
+                this.close()
+                this.destroy()
+            }
+            {
+              title: 'Save',
+              color: 'green',
+              event: () ->
+                form = this.messageBox.getElementById('share')
+                form.set('send', {
+                  url: window.profile.url({json: false})
+                  onSuccess: ((responseText, responseXML) ->
+                    this.close()
+                    #this.destroy()
+                  ).bind(this)
+                })
+                form.send()
+            }
         ],
         resetOnScroll: true,
     });
+
+    [ 'delete', 'save', 'close' ].each((title) ->
+      modal.showButton(title.capitalize()).set('id', "share-#{title}")
+      modal.showButton(title.capitalize()).getParent().set('id', "share-#{title}-label")
+    )
 
     modal.open()
 
     fn = Handlebars.compile(success)
     modal.messageBox.set('html', fn(window.profile))
 
+    # If the profile is anonymous, hide the named profile options
     if window.profile.get('anonymous')
       modal.messageBox.getElements('.named').each((element) -> element.hide())
 
+    # Toggle the display of the named profile options
     modal.messageBox.getElementById('profile-anonymous').addEvent('click', (event) ->
       modal.messageBox.getElements('.named').each((element) -> element.toggle())
     )
-    form = modal.messageBox.getElementById('share')
-
-    modal.addButton('Save', (() ->
-      form.send(window.profile.url({json: false}))
-      modal.close()
-    ), true)
-
-    button = modal.showButton('Save')
-    button.set('id', 'save')
-
 })
 
 TimeframeView = Backbone.View.extend({
