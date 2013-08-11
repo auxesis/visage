@@ -91,6 +91,21 @@ When(/^I visit a profile named "(.*?)"$/) do |name|
   step %(I follow "#{name}")
 end
 
+When(/^I activate the share modal$/) do
+  step 'I share the profile'
+end
+
+When(/^I delete the profile$/) do
+  script = <<-SCRIPT
+    $('delete').fireEvent('click');
+  SCRIPT
+  execute_script(script, :snapshot => true, :wait => 3)
+end
+
+Then(/^I should be at (.*)$/) do |path|
+  page.current_path.should be(path)
+end
+
 def execute_script(script, opts={})
   options = {
     :wait => 1,

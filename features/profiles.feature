@@ -64,6 +64,14 @@ Feature: Viewing data
     Then I should see a profile named "A different collection of graphs"
     Then I should not see a profile named "Collection of graphs"
 
+  @javascript
   Scenario: Delete a named profile
+    When I create a profile named "Graphs to delete"
+    And I visit a profile named "Graphs to delete"
+    And I activate the share modal
+    And I delete the profile
+    Then I should be at /profiles
+    Then I should not see a profile named "Graphs to delete"
+
   Scenario: Retain the timeframe of a profile
   Scenario: Use the existing timeframe of a profile
