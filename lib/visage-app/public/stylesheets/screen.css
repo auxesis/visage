@@ -391,15 +391,6 @@ input#show {
   margin-left:   16px;
 }
 
-input#save {
-  float: right;
-  font-size: 80%;
-  padding: 4px 8px;
-  font-family: 'Bitstream Vera Sans', 'Helvetica Neue', sans-serif;
-  margin-bottom: 16px;
-  margin-left:   16px;
-}
-
 button::-moz-focus-inner,
 input[type="reset"]::-moz-focus-inner,
 input[type="button"]::-moz-focus-inner,
@@ -639,4 +630,8 @@ form.share input.text {
 div#bottom_nav {
   padding: 16px 48px;
   clear: both;
+}
+
+#share-delete {
+  float: left;
 }
