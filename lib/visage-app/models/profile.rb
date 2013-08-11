@@ -133,6 +133,11 @@ class Profile
     save
   end
 
+  def destroy
+    File.delete(self.path)
+    true
+  end
+
   def path
     File.join(self.class.config_path, "#{self.id}.yaml")
   end

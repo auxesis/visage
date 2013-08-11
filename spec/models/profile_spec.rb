@@ -162,6 +162,12 @@ describe "Profile" do
       profile.name.should == attributes[:name]
       profile.graphs.should == attributes[:graphs]
     end
+
+    it "should be deletable" do
+      Profile.all.each do |profile|
+        profile.destroy.should be_true
+      end
+    end
   end
 
   describe "validations and callbacks" do
