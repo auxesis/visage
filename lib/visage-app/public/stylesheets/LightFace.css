@@ -109,16 +109,17 @@
   padding: 6px 10px;
   text-align: right;
 }
-/*
+
 .lightface .lightfaceFooter input[type='button'] {
   border: 1px solid #666;
   border-top-color: #e7e7e7;
   border-left-color: #e7e7e7;
+  /*
   background-color: #f0f0f0;
+  */
   padding: 1px 0 2px;
   line-height: 16px;
   vertical-align: middle;
-  margin-left: 5px;
   cursor: pointer;
   font-size: 13px;
   display: inline-block;
@@ -137,7 +138,6 @@
   background-color: #3b598a;
   color: #fff;
 }
-*/
 
 .lightface .lightfaceFooter label {
   font-size: 13px;
@@ -180,41 +180,36 @@
 * html .lightface .lightfaceFooter label input { border:0; }
 
 .lightface .lightfaceFooter label.lightfaceblue {
+  border-color: #29447E #29447E #1A356E;
   background-position:0 -48px;
   outline: none;
-
-  -moz-border-radius: 5px;
-  -webkit-border-radius: 5px;
-  -moz-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
-  -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
-  background-color: #637020;
-  background-repeat: repeat-x;
-  background: -moz-linear-gradient(100% 100% 90deg, #244671, #4C94F0);
-  background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#4C94F0), to(#244671));
-  border: medium none;
-  color: white;
-  cursor: pointer;
-  font-family: Lucida Grande,sans-serif;
-  font-weight: bold;
-  padding: 4px;
-  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.75);
 }
 
-.lightface .lightfaceFooter label.lightfaceblue:hover {
-  text-shadow: 0 2px 1px rgba(255, 255, 255, 0.1);
-  background: -webkit-gradient(linear, left top, left bottom, from(#529EFF), to(#274C7A));
-  background: -moz-linear-gradient(top, #529EFF, #274C7A);
+.lightface .lightfaceFooter label.lightfaceblue.lightfacefocusblue {
+  background-color: #5b74a8;
+  background-image:none;
 }
 
-.lightface .lightfaceFooter label.lightfaceblue.lightfacefocusblue { background-color: #5b74a8; background-image:none; }
+.lightface .lightfaceFooter label.lightfacered {
+  border-color: #74412B;
+  background-position:0 -288px;
+}
+
+.lightface .lightfaceFooter label.lightfacered.lightfacefocusred {
+  background-color: #74412B; background-image:none;
+}
 
 .lightface .lightfaceFooter label.lightfacegreen {
   border-color: #3B6E22 #3B6E22 #2C5115;
   background-position:0 -96px;
 }
-.lightface .lightfaceFooter label.lightfacegreen.lightfacefocusgreen { background-color: #69A74E; background-image:none; }
+
+.lightface .lightfaceFooter label.lightfacegreen.lightfacefocusgreen {
+  background-color: #69A74E; background-image:none;
+}
 
 .lightface .lightfaceFooter label.lightfaceblue input,
+.lightface .lightfaceFooter label.lightfacered input,
 .lightface .lightfaceFooter label.lightfacegreen input {
   color:#fff;
 }
