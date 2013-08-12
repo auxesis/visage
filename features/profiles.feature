@@ -45,6 +45,14 @@ Feature: Viewing data
     Then I should see a new permalink for the profile
 
   @javascript
+  Scenario: Delete an anonymous profile
+    When I create an anonymous profile
+    And I visit that anonymous profile
+    And I activate the share modal
+    And I delete the profile
+    Then I should be at /profiles
+
+  @javascript
   Scenario: Create a named profile
     When I go to /profiles/new
     And I add a graph
