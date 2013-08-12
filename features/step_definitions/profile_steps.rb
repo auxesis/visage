@@ -114,13 +114,13 @@ end
 
 def execute_script(script, opts={})
   options = {
-    :wait => 1,
-    :snapshot => false
+    :wait       => 1,
+    :screenshot => false
   }.merge!(opts)
 
   page.execute_script(script)
   sleep(options[:wait])
 
-  step 'show me the page' if options[:snapshot]
+  step 'show me the page' if options[:screenshot]
 end
 
