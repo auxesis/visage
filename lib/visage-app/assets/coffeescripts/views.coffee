@@ -542,10 +542,12 @@ GraphCollectionView = Backbone.View.extend({
               title: 'Delete',
               color: 'red',
               event: () ->
-                window.profile.destroy({
-                  success: (model, response) ->
-                    window.location = '/profiles'
-                })
+                destroy = confirm('Are you sure you want to delete this profile?')
+                if destroy
+                  window.profile.destroy({
+                    success: (model, response) ->
+                      window.location = '/profiles'
+                  })
             }
             {
               title: "Close",
