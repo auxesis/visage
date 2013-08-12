@@ -14,6 +14,17 @@ require 'visage-app/config'
 require 'visage-app/data'
 require 'visage-app/upgrade'
 
+module Sinatra
+  module PutOrPost
+    def put_or_post(path,options={},&block)
+      put(path,options,&block)
+      post(path,options,&block)
+    end
+  end
+
+  register PutOrPost
+end
+
 module Visage
   class Application < Sinatra::Base
     @root = Pathname.new(File.dirname(__FILE__)).expand_path
@@ -27,6 +38,8 @@ module Visage
     helpers Sinatra::RequireJSHelper
     helpers Sinatra::RequireCSSHelper
     helpers Sinatra::FormatHelper
+
+    register Sinatra::PutOrPost
 
     configure do
       Visage::Config.use do |c|
@@ -126,7 +139,7 @@ module Visage
     end
 
     # Updating an existing profile
-    post %r{/profiles/([^/\.]+).?([^/]+)?} do
+    put_or_post %r{/profiles/([^/\.]+).?([^/]+)?} do
       id     = params[:captures][0]
       format = params[:captures][1]
 

@@ -452,8 +452,8 @@ GraphCollectionView = Backbone.View.extend({
               console.log(model, xhr, options)
             ).bind(this)
           })
-        # Create a new profile when updating.
-        when profile.dirty()
+        # Create a new profile when updating an anonymous profile
+        when profile.dirty() and profile.isAnonymous()
           window.profile = profile = profile.clone()
 
           profile.unset('id')
@@ -461,6 +461,17 @@ GraphCollectionView = Backbone.View.extend({
           profile.save({}, {
             success: ((profile, response, options) ->
               window.Application.navigate("profiles/#{profile.id}", {trigger: true})
+              this.displayShareModal()
+            ).bind(this)
+
+            error: ((model, xhr, options) ->
+              console.log(model, xhr, options)
+            ).bind(this)
+          })
+        # Update existing profile if it is not anonymous
+        when profile.dirty() and profile.isNotAnonymous()
+          profile.save({}, {
+            success: ((profile, response, options) ->
               this.displayShareModal()
             ).bind(this)
 
@@ -497,7 +508,7 @@ GraphCollectionView = Backbone.View.extend({
         </div>
         <hr/>
         <div class='row question'>
-          <input id='profile-anonymous' name='profile[anonymous]' class='checkbox' type='checkbox' {{#notAnonymous}}checked=true{{/notAnonymous}} value='false'>
+          <input id='profile-anonymous' name='profile[anonymous]' class='checkbox' type='checkbox' {{#isNotAnonymous}}checked=true{{/isNotAnonymous}} value='false'>
           <label for='profile-anonymous'>Name this profile</label>
           <p>Naming a profile is helpful if you need to refer back to a collection of graphs.</p>
           <p>If you don't name the profile, you can still access it via the link above.</p>

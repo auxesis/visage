@@ -135,8 +135,11 @@ Profile = Backbone.Model.extend({
     this.is_dirty = status if status
     !!this.is_dirty
 
-  notAnonymous: () ->
-    !this.get('anonymous')
+  isAnonymous: () ->
+    !!this.get('anonymous')
+
+  isNotAnonymous: () ->
+    !this.isAnonymous()
 
   initialize: () ->
     id = document.location.pathname.split('/')[2]
