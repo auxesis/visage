@@ -106,6 +106,12 @@ Then(/^I should be at (.*)$/) do |path|
   page.current_path.should == path
 end
 
+Then(/^I should see "(.*?)" in the page title$/) do |name|
+  doc = Nokogiri::HTML(page.body)
+  title = doc.search('head title')
+  title.text.should match(/#{name}/)
+end
+
 def execute_script(script, opts={})
   options = {
     :wait => 1,

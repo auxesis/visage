@@ -52,6 +52,8 @@ Feature: Viewing data
     Then I should see a permalink for the profile
     When I go to /profiles
     Then I should see a profile named "Collection of graphs"
+    When I visit a profile named "Collection of graphs"
+    Then I should see "Collection of graphs" in the page title
 
   @javascript
   Scenario: Update a named profile

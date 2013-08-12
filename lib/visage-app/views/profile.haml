@@ -1,4 +1,7 @@
-- page_title 'Explore Metrics'
+- if @profile && !@profile.anonymous
+  - page_title(@profile.name)
+- else
+  - page_title('Explore Metrics')
 
 - require_js 'highcharts-mootools-adapter.src'
 - require_js 'highcharts.src'
