@@ -56,7 +56,7 @@ When(/^I share the profile with the name "(.*?)"$/) do |name|
     $('profile-name').set('value', '#{name}');
     $('share-save').fireEvent('click');
   SCRIPT
-  execute_script(script, :snapshot => true, :wait => 3)
+  execute_script(script, :wait => 3)
 end
 
 Then(/^I should see a profile named "(.*?)"$/) do |name|
@@ -99,7 +99,7 @@ When(/^I delete the profile$/) do
   script = <<-SCRIPT
     $('share-delete').fireEvent('click');
   SCRIPT
-  execute_script(script, :snapshot => true, :wait => 3)
+  execute_script(script, :wait => 3)
 end
 
 Then(/^I should be at (.*)$/) do |path|
