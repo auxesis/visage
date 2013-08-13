@@ -44,7 +44,7 @@ when "start"
   server.start
 when "genapache"
   require 'socket'
-  public_dir = (@root + 'lib/visage-app/public').to_s
+  public_dir = (@root + 'visage-app/public').to_s
 
   puts <<-CONFIG
 <VirtualHost *>
