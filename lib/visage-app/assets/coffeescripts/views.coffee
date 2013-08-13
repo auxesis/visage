@@ -392,6 +392,46 @@ GraphView = Backbone.View.extend({
     return element
 })
 
+SuccessView = "
+<form id='share' class='share'>
+  <div class='row'>
+    Share this profile of graphs with others:
+  </div>
+  <div class='row permalink'>
+    <a href='{{permalink}}' target='_profile_{{id}}'>{{permalink}}</a>
+  </div>
+  <hr/>
+  <div class='row question'>
+    <input id='profile-anonymous' name='profile[anonymous]' class='checkbox' type='checkbox' {{#isNotAnonymous}}checked=true{{/isNotAnonymous}} value='false'>
+    <label for='profile-anonymous'>Name this profile</label>
+    <p>Naming a profile is helpful if you need to refer back to a collection of graphs.</p>
+    <p>If you don't name the profile, you can still access it via the link above.</p>
+  </div>
+  <hr class='named'/>
+  <div class='row text named'>
+    <label for='profile-name'>Profile name</label>
+    <input id='profile-name' name='profile[name]' class='text' type='text' value='{{name}}'>
+  </div>
+  <hr class='named'/>
+  <div class='row question named'>
+    <input id='profile-timeframe' timeframe='profile[timeframe]' class='checkbox' type='checkbox' checked='{{timeframe}}'>
+    <label for='profile-timeframe'>Timeframe</label>
+    <p>Lorem ipsum dolor sit amet</p>
+  </div>
+  <hr class='named'/>
+  <div class='row text named'>
+    <label for='profile-tags'>Tags<span class='tip'> (comma separated)</label>
+    <input id='profile-tags' tags='profile[tags]' class='text' type='text' value='{{tags}}'>
+  </div>
+</form>
+"
+
+FailureView = "
+  <div id='errors'>
+    Shit is real, yo.
+  </div>
+"
+
 GraphCollectionView = Backbone.View.extend({
   tagName:   'div'
   className: 'graph'
@@ -436,6 +476,9 @@ GraphCollectionView = Backbone.View.extend({
       #
 
       switch
+        when !profile.isValid()
+          this.displayShareModal({template: 'failure'})
+
         # Save the profile if it is new.
         when profile.isNew()
           profile.set({
@@ -496,82 +539,49 @@ GraphCollectionView = Backbone.View.extend({
     )
     return that
 
-  displayShareModal: () ->
-    # FIXME(auxesis): move this into a Backbone.HandlebarsView
-    success = "
-      <form id='share' class='share'>
-        <div class='row'>
-          Share this profile of graphs with others:
-        </div>
-        <div class='row permalink'>
-          <a href='{{permalink}}' target='_profile_{{id}}'>{{permalink}}</a>
-        </div>
-        <hr/>
-        <div class='row question'>
-          <input id='profile-anonymous' name='profile[anonymous]' class='checkbox' type='checkbox' {{#isNotAnonymous}}checked=true{{/isNotAnonymous}} value='false'>
-          <label for='profile-anonymous'>Name this profile</label>
-          <p>Naming a profile is helpful if you need to refer back to a collection of graphs.</p>
-          <p>If you don't name the profile, you can still access it via the link above.</p>
-        </div>
-        <hr class='named'/>
-        <div class='row text named'>
-          <label for='profile-name'>Profile name</label>
-          <input id='profile-name' name='profile[name]' class='text' type='text' value='{{name}}'>
-        </div>
-        <hr class='named'/>
-        <div class='row question named'>
-          <input id='profile-timeframe' timeframe='profile[timeframe]' class='checkbox' type='checkbox' checked='{{timeframe}}'>
-          <label for='profile-timeframe'>Timeframe</label>
-          <p>Lorem ipsum dolor sit amet</p>
-        </div>
-        <hr class='named'/>
-        <div class='row text named'>
-          <label for='profile-tags'>Tags<span class='tip'> (comma separated)</label>
-          <input id='profile-tags' tags='profile[tags]' class='text' type='text' value='{{tags}}'>
-        </div>
-      </form>
-    "
+  displayShareModal: (options={}) ->
+    options.template ||= 'success'
 
     modal = new LightFace({
-        width:     600,
-        draggable: true,
-        title:     'Share profile',
-        content:   "<img src='/images/loader.gif'/>",
-        buttons: [
-            {
-              title: 'Delete',
-              color: 'red',
-              event: () ->
-                destroy = confirm('Are you sure you want to delete this profile?')
-                if destroy
-                  window.profile.destroy({
-                    success: (model, response) ->
-                      window.location = '/profiles'
-                  })
-            }
-            {
-              title: "Close",
-              color: 'blue',
-              event: () ->
+      width:     600,
+      draggable: true,
+      title:     'Share profile',
+      content:   "<img src='/images/loader.gif'/>",
+      buttons: [
+        {
+          title: 'Delete',
+          color: 'red',
+          event: () ->
+            destroy = confirm('Are you sure you want to delete this profile?')
+            if destroy
+              window.profile.destroy({
+                success: (model, response) ->
+                  window.location = '/profiles'
+              })
+        }
+        {
+          title: "Close",
+          color: 'blue',
+          event: () ->
+            this.close()
+            this.destroy()
+        }
+        {
+          title: 'Save',
+          color: 'green',
+          event: () ->
+            form = this.messageBox.getElementById('share')
+            form.set('send', {
+              url: window.profile.url({json: false})
+              onSuccess: ((responseText, responseXML) ->
                 this.close()
-                this.destroy()
-            }
-            {
-              title: 'Save',
-              color: 'green',
-              event: () ->
-                form = this.messageBox.getElementById('share')
-                form.set('send', {
-                  url: window.profile.url({json: false})
-                  onSuccess: ((responseText, responseXML) ->
-                    this.close()
-                    #this.destroy()
-                  ).bind(this)
-                })
-                form.send()
-            }
-        ],
-        resetOnScroll: true,
+                #this.destroy()
+              ).bind(this)
+            })
+            form.send()
+        }
+      ],
+      resetOnScroll: true,
     });
 
     [ 'delete', 'save', 'close' ].each((title) ->
@@ -581,7 +591,8 @@ GraphCollectionView = Backbone.View.extend({
 
     modal.open()
 
-    fn = Handlebars.compile(success)
+    template = eval((options.template.capitalize() + 'View'))
+    fn = Handlebars.compile(template)
     modal.messageBox.set('html', fn(window.profile))
 
     # If the profile is anonymous, hide the named profile options
