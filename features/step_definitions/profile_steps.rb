@@ -112,6 +112,23 @@ Then(/^I should see "(.*?)" in the page title$/) do |name|
   title.text.should match(/#{name}/)
 end
 
+Then(/^I should not see a permalink for the profile$/) do
+  page.current_path.should match(/\/profiles\/new$/)
+  page.current_path.should_not match(/\/profiles\/[0-9a-f]+$/)
+end
+
+Then(/^I should see a modal prompting me to add graphs$/) do
+  script = <<-SCRIPT
+    $('errors') == null
+  SCRIPT
+  page.evaluate_script(script).should be_false
+
+  script = <<-SCRIPT
+    $$('div#errors div.error').length
+  SCRIPT
+  page.evaluate_script(script).should > 0
+end
+
 def execute_script(script, opts={})
   options = {
     :wait       => 1,

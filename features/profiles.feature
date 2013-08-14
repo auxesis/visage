@@ -85,3 +85,10 @@ Feature: Viewing data
 
   Scenario: Retain the timeframe of a profile
   Scenario: Use the existing timeframe of a profile
+
+  @javascript
+  Scenario: Create a profile without any graphs
+    When I go to /profiles/new
+    And I share the profile
+    Then I should not see a permalink for the profile
+    And I should see a modal prompting me to add graphs
