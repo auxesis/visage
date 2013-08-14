@@ -127,8 +127,10 @@ Profile = Backbone.Model.extend({
       # Mark the profile as dirty if graphs have been updated
       this.dirty(true) if event.changes.graphs
   validate: (attrs, options) ->
-    if attrs.graphs == undefined or attrs.graphs.length == 0
-      return "You must add some graphs before you can share this profile."
+    # FIXME(auxesis): this is fucking horrible
+    if !attrs or !attrs.id
+      if attrs == undefined or attrs.graphs == undefined or attrs.graphs.length == 0
+        return "You must add some graphs before you can share this profile."
 
   # Dirty means out of sync with the server.
   #

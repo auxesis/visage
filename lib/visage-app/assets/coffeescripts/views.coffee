@@ -428,7 +428,7 @@ SuccessView = "
 
 FailureView = "
   <div id='errors'>
-    Shit is real, yo.
+    <div class='error message'><strong>Error:</strong> {{validate}}</div>
   </div>
 "
 

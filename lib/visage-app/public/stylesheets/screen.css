@@ -568,6 +568,14 @@ ul#timeframes li.selected {
   padding: 0;
 }
 
+.lightface div#errors {
+  padding: 10px;
+}
+
+.lightface div#errors div.error {
+  /*color: #74412B;*/
+}
+
 form.share div.row {
   padding: 10px;
 }
