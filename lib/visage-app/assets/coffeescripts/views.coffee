@@ -593,6 +593,7 @@ GraphCollectionView = Backbone.View.extend({
 
     [ 'delete', 'save', 'close' ].each((title) ->
       modal.showButton(title.capitalize()).set('id', "share-#{title}")
+      modal.showButton(title.capitalize()).set('class', 'action')
       modal.showButton(title.capitalize()).getParent().set('id', "share-#{title}-label")
     )
 
