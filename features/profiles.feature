@@ -92,3 +92,4 @@ Feature: Viewing data
     And I share the profile
     Then I should not see a permalink for the profile
     And I should see a modal prompting me to add graphs
+    And I should only see a button to close the dialog

@@ -129,6 +129,13 @@ Then(/^I should see a modal prompting me to add graphs$/) do
   page.evaluate_script(script).should > 0
 end
 
+Then(/^I should only see a button to close the dialog$/) do
+  script = <<-SCRIPT
+    $$('div.lightfaceFooter input.action').length
+  SCRIPT
+  page.evaluate_script(script).should == 1
+end
+
 def execute_script(script, opts={})
   options = {
     :wait       => 1,
