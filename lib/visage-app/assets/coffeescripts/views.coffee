@@ -398,11 +398,11 @@ SuccessView = "
     Share this profile of graphs with others:
   </div>
   <div class='row permalink'>
-    <a href='{{permalink}}' target='_profile_{{id}}'>{{permalink}}</a>
+    <a href='{{model.permalink}}' target='_profile_{{model.id}}'>{{model.permalink}}</a>
   </div>
   <hr/>
   <div class='row question'>
-    <input id='profile-anonymous' name='profile[anonymous]' class='checkbox' type='checkbox' {{#isNotAnonymous}}checked=true{{/isNotAnonymous}} value='false'>
+    <input id='profile-anonymous' name='profile[anonymous]' class='checkbox' type='checkbox' {{#model.isNotAnonymous}}checked=true{{/model.isNotAnonymous}} value='false'>
     <label for='profile-anonymous'>Name this profile</label>
     <p>Naming a profile is helpful if you need to refer back to a collection of graphs.</p>
     <p>If you don't name the profile, you can still access it via the link above.</p>
@@ -410,25 +410,27 @@ SuccessView = "
   <hr class='named'/>
   <div class='row text named'>
     <label for='profile-name'>Profile name</label>
-    <input id='profile-name' name='profile[name]' class='text' type='text' value='{{name}}'>
+    <input id='profile-name' name='profile[name]' class='text' type='text' value='{{model.name}}'>
   </div>
   <hr class='named'/>
   <div class='row question named'>
-    <input id='profile-timeframe' timeframe='profile[timeframe]' class='checkbox' type='checkbox' checked='{{timeframe}}'>
+    <input id='profile-timeframe' timeframe='profile[timeframe]' class='checkbox' type='checkbox' checked='{{model.timeframe}}'>
     <label for='profile-timeframe'>Timeframe</label>
     <p>Lorem ipsum dolor sit amet</p>
   </div>
   <hr class='named'/>
   <div class='row text named'>
     <label for='profile-tags'>Tags<span class='tip'> (comma separated)</label>
-    <input id='profile-tags' tags='profile[tags]' class='text' type='text' value='{{tags}}'>
+    <input id='profile-tags' tags='profile[tags]' class='text' type='text' value='{{model.tags}}'>
   </div>
 </form>
 "
 
 FailureView = "
   <div id='errors'>
-    <div class='error message'><strong>Error:</strong> {{validate}}</div>
+    {{#each model}}
+    <div class='error message'><strong>Error:</strong> {{this}}</div>
+    {{/each}}
   </div>
 "
 
@@ -476,9 +478,6 @@ GraphCollectionView = Backbone.View.extend({
       #
 
       switch
-        when !profile.isValid()
-          this.displayShareModal({template: 'failure'})
-
         # Save the profile if it is new.
         when profile.isNew()
           profile.set({
@@ -492,7 +491,14 @@ GraphCollectionView = Backbone.View.extend({
               this.displayShareModal()
             ).bind(this)
             error: ((model, xhr, options) ->
-              console.log(model, xhr, options)
+              response = JSON.parse(xhr.responseText)
+              errors   = []
+              Object.each(response.errors, ((item, key, object) ->
+                item.each((message) ->
+                  errors.include("#{key.capitalize()} #{message}")
+                )
+              ))
+              this.displayShareModal({template: 'failure', model: errors})
             ).bind(this)
           })
         # Create a new profile when updating an anonymous profile
@@ -541,6 +547,7 @@ GraphCollectionView = Backbone.View.extend({
 
   displayShareModal: (options={}) ->
     options.template ||= 'success'
+    options.model    ||= window.profile
 
     modal = new LightFace({
       width:     600,
@@ -591,9 +598,11 @@ GraphCollectionView = Backbone.View.extend({
 
     modal.open()
 
-    template = eval((options.template.capitalize() + 'View'))
-    fn = Handlebars.compile(template)
-    modal.messageBox.set('html', fn(window.profile))
+    source   = eval((options.template.capitalize() + 'View'))
+    template = Handlebars.compile(source)
+    context  = { model: options.model }
+    html     = template(context)
+    modal.messageBox.set('html', html)
 
     # If the profile is anonymous, hide the named profile options
     if window.profile.get('anonymous')
