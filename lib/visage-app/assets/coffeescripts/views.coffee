@@ -459,8 +459,6 @@ GraphCollectionView = Backbone.View.extend({
 
     shareToggler.grab(icon, 'top')
     shareToggler.addEvent('click', (() ->
-      #modal.open()
-
       current = Backbone.history.fragment.toString()
       profile = window.profile
 
@@ -599,12 +597,14 @@ GraphCollectionView = Backbone.View.extend({
 
     modal.open()
 
+    # Inject content into the modal
     source   = eval((options.template.capitalize() + 'View'))
     template = Handlebars.compile(source)
     context  = { model: options.model }
     html     = template(context)
     modal.messageBox.set('html', html)
 
+    # FIXME(auxesis): consider moving these into a callback on a dedicated view
     switch options.template
       when 'success'
         # If the profile is anonymous, hide the named profile options
@@ -616,6 +616,7 @@ GraphCollectionView = Backbone.View.extend({
           modal.messageBox.getElements('.named').each((element) -> element.toggle())
         )
       when 'failure'
+        # Remove buttons, only display "Close" as it's the only valid action
         [ 'delete', 'save' ].each((title) ->
           modal.showButton(title.capitalize()).getParent().dispose()
         )
