@@ -426,13 +426,13 @@ SuccessView = "
 </form>
 "
 
-FailureView = "
+FailureView = """
   <div id='errors'>
     {{#each model}}
     <div class='error message'><strong>Error:</strong> {{this}}</div>
     {{/each}}
   </div>
-"
+"""
 
 GraphCollectionView = Backbone.View.extend({
   tagName:   'div'
@@ -571,7 +571,7 @@ GraphCollectionView = Backbone.View.extend({
           color: 'blue',
           event: () ->
             this.close()
-            this.destroy()
+            #this.destroy()
         }
         {
           title: 'Save',
@@ -605,14 +605,20 @@ GraphCollectionView = Backbone.View.extend({
     html     = template(context)
     modal.messageBox.set('html', html)
 
-    # If the profile is anonymous, hide the named profile options
-    if window.profile.get('anonymous')
-      modal.messageBox.getElements('.named').each((element) -> element.hide())
+    switch options.template
+      when 'success'
+        # If the profile is anonymous, hide the named profile options
+        if window.profile.get('anonymous')
+          modal.messageBox.getElements('.named').each((element) -> element.hide())
 
-    # Toggle the display of the named profile options
-    modal.messageBox.getElementById('profile-anonymous').addEvent('click', (event) ->
-      modal.messageBox.getElements('.named').each((element) -> element.toggle())
-    )
+        # Toggle the display of the named profile options
+        modal.messageBox.getElementById('profile-anonymous').addEvent('click', (event) ->
+          modal.messageBox.getElements('.named').each((element) -> element.toggle())
+        )
+      when 'failure'
+        [ 'delete', 'save' ].each((title) ->
+          modal.showButton(title.capitalize()).getParent().dispose()
+        )
 })
 
 TimeframeView = Backbone.View.extend({
