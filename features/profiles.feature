@@ -108,6 +108,12 @@ Feature: Viewing data
     And I visit a profile named "Remember the timeframe"
     Then the graphs should have data for the last 12 hours
 
+  Scenario: Store relative timeframes
+  Scenario: Store absolute timeframes
+  Scenario: 95e on graphs
+  Scenario: Store tags on profile
+  Scenario: Filter profiles by tags
+
   @javascript @validation
   Scenario: Create a profile without any graphs
     When I go to /profiles/new
