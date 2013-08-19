@@ -149,6 +149,7 @@ Configuring
 Visage looks for some environment variables when starting up:
 
   * `CONFIG_PATH`, an entry on the configuration file search path.
+  * `TYPES`, the location of collectd's `types.db`
   * `RRDDIR`, the location of collectd's RRDs.
   * `COLLECTDSOCK`, the location of collectd's Unix socket.
   * `RRDCACHEDSOCK`, the location of rrdcached's Unix socket.
