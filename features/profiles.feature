@@ -29,14 +29,14 @@ Feature: Viewing data
     When I go to /profiles
     Then I should see a list of recently shared profiles
 
-  @javascript
+  @javascript @anonymous
   Scenario: Create an anonymous profile
     When I go to /profiles/new
     And I add a graph
     And I share the profile
     Then I should see a permalink for the profile
 
-  @javascript
+  @javascript @anonymous
   Scenario: Update an anonymous profile
     When I create an anonymous profile
     And I visit that anonymous profile
@@ -44,7 +44,7 @@ Feature: Viewing data
     And I share the profile
     Then I should see a new permalink for the profile
 
-  @javascript
+  @javascript @anonymous
   Scenario: Delete an anonymous profile
     When I create an anonymous profile
     And I visit that anonymous profile
@@ -52,7 +52,7 @@ Feature: Viewing data
     And I delete the profile
     Then I should be at /profiles
 
-  @javascript
+  @javascript @named
   Scenario: Create a named profile
     When I go to /profiles/new
     And I add a graph
@@ -63,7 +63,7 @@ Feature: Viewing data
     When I visit a profile named "Collection of graphs"
     Then I should see "Collection of graphs" in the page title
 
-  @javascript
+  @javascript @named
   Scenario: Update a named profile
     When I create a profile named "Collection of graphs"
     And I visit a profile named "Collection of graphs"
@@ -74,7 +74,7 @@ Feature: Viewing data
     Then I should see a profile named "A different collection of graphs"
     Then I should not see a profile named "Collection of graphs"
 
-  @javascript
+  @javascript @named
   Scenario: Delete a named profile
     When I create a profile named "Graphs to delete"
     And I visit a profile named "Graphs to delete"
