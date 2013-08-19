@@ -83,10 +83,32 @@ Feature: Viewing data
     Then I should be at /profiles
     Then I should not see a profile named "Graphs to delete"
 
-  Scenario: Retain the timeframe of a profile
-  Scenario: Use the existing timeframe of a profile
+  @javascript @timeframe
+  Scenario: Timeframe specifier
+    When I go to /profiles/new
+    And I set the timeframe to "last 6 hours"
+    And I add a graph
+    Then the graphs should have data for the last 6 hours
 
-  @javascript
+  @javascript @timeframe
+  Scenario: Use the existing timeframe
+    When I go to /profiles/new
+    And I set the timeframe to "last 2 hours"
+    When I go to /profiles/new
+    And I add a graph
+    Then the graphs should have data for the last 2 hours
+
+  @javascript @timeframe
+  Scenario: Remember a timeframe on a profile
+    When I go to /profiles/new
+    And I set the timeframe to "last 12 hours"
+    And I add a graph
+    And I remember the timeframe when sharing the profile named "Remember the timeframe"
+    And I reset the timeframe
+    And I visit a profile named "Remember the timeframe"
+    Then the graphs should have data for the last 12 hours
+
+  @javascript @validation
   Scenario: Create a profile without any graphs
     When I go to /profiles/new
     And I share the profile

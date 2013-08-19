@@ -136,6 +136,70 @@ Then(/^I should only see a button to close the dialog$/) do
   page.evaluate_script(script).should == 1
 end
 
+When(/^I set the timeframe to "(.*?)"$/) do |timeframe|
+  script = <<-SCRIPT
+    $('timeframe-toggler').fireEvent('click');
+
+    var timeframes = $$('ul#timeframes li.timeframe');
+    var match = timeframes.filter(function(item, index) {
+      return item.get('html') == '#{timeframe}'
+    })[0];
+    match.fireEvent('click');
+  SCRIPT
+  execute_script(script)
+end
+
+Then(/^the graphs should have data for the last (\d+) hours$/) do |hours|
+  script = <<-SCRIPT
+    window.profile.get('graphs').map(function(graph) { return graph.start })
+  SCRIPT
+  start_times = page.evaluate_script(script)
+  start_times.size.should > 0
+
+  n_hours_ago = (Time.now - (hours.to_i * 3600)).to_i
+  start_range = n_hours_ago - 30
+  end_range   = n_hours_ago + 30
+
+  start_times.each do |time|
+    (start_range..end_range).should include(time)
+  end
+end
+
+When(/^I set the profile name to "(.*?)"$/) do |name|
+  script = <<-SCRIPT
+    $('profile-anonymous').checked = true;
+    $('profile-anonymous').fireEvent('click');
+    $('profile-name').set('value', '#{name}');
+  SCRIPT
+  execute_script(script)
+end
+
+When(/^I save the profile$/) do
+  script = <<-SCRIPT
+    $('share-save').fireEvent('click');
+  SCRIPT
+  execute_script(script, :wait => 3)
+end
+
+When(/^I check the "Remember the timeframe" option$/) do
+  script = <<-SCRIPT
+    $('profile-timeframe').checked = true;
+    $('profile-timeframe').fireEvent('click');
+  SCRIPT
+end
+
+When(/^I remember the timeframe when sharing the profile named "(.*?)"$/) do |name|
+  step %(I activate the share modal)
+  step %(I set the profile name to "#{name}")
+  step %(I check the "Remember the timeframe" option)
+  step %(I save the profile)
+end
+
+When(/^I reset the timeframe$/) do
+  step %(I go to /profiles/new)
+  step %(I set the timeframe to "last 6 hours")
+end
+
 def execute_script(script, opts={})
   options = {
     :wait       => 1,
