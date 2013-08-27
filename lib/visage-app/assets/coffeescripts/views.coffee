@@ -130,6 +130,12 @@ ProfileView = Backbone.View.extend({
     #this.listenTo(that.model, "change", that.render)
 })
 
+Highcharts.setOptions({
+  global: {
+    useUTC: false
+  }
+})
+
 GraphView = Backbone.View.extend({
   tagName: 'li',
   className: 'graph',
@@ -306,23 +312,16 @@ GraphView = Backbone.View.extend({
         }
       },
       tooltip: {
-        formatter: () ->
-          tip =  '<strong>'
-          tip += formatSeriesLabel(this.series.name).trim()
-          tip += '</strong>' + ' -> '
-          tip += '<span style="font-family: monospace; font-size: 14px;">'
-          tip += formatValue(this.y, { 'precision': 2, 'min': min, 'max': max })
-          tip += '<span style="font-size: 9px; color: #777">'
-          tip += ' (' + this.y + ')'
-          tip += '</span>'
-          tip += '</span>'
-          tip += '<br/>'
-          tip += '<span style="font-family: monospace">'
-          tip += formatDate(this.x)
-          tip += '</span>'
-
-          return tip
-      },
+        animation: false
+        shadow: false
+        shared: true
+        useHTML: true
+        headerFormat: '<small>Date: {point.key}</small><table>'
+        pointFormat: "<tr><td style='color: {series.color}'>{series.name}: </td><td style='text-align: left'>{point.y}</td></tr>"
+        footerFormat: '</table>'
+        valueDecimals: 2
+        xDateFormat: '%Y-%m-%d %H:%M:%S'
+      }
       legend: {
         layout: 'horizontal',
         align: 'center',
@@ -330,8 +329,6 @@ GraphView = Backbone.View.extend({
         y: 320,
         borderWidth: 0,
         floating: true,
-        labelFormatter: () ->
-          formatSeriesLabel(this.name)
         itemStyle: {
           cursor: 'pointer',
           color:  '#1a1a1a'

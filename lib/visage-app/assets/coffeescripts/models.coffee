@@ -50,8 +50,8 @@ Graph  = Backbone.Model.extend({
         )
 
         set = {
-          name:         [ host, plugin, instanceName, metricName ]
-          data:         data,
+          name:         formatSeriesLabel([ host, plugin, instanceName, metricName ])
+          data:         data
           percentile95: metric.percentile_95
         }
 
