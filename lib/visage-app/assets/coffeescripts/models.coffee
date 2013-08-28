@@ -60,8 +60,8 @@ Graph  = Backbone.Model.extend({
     )
 
     obj.series = obj.series.sort((a,b) ->
-      return -1 if a.name[2] < b.name[2]
-      return 1  if a.name[2] > b.name[2]
+      return -1 if a.name < b.name
+      return 1  if a.name > b.name
       return 0
     )
 
