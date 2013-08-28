@@ -319,7 +319,6 @@ GraphView = Backbone.View.extend({
             'precision': 1
             'min': min
             'max': max
-            'base': 1024
           }
 
           s = ''
