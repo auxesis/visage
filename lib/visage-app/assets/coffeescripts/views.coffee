@@ -273,7 +273,6 @@ GraphView = Backbone.View.extend({
         startOnTick: false,
         endOnTick: false,
         gridLineWidth: 0,
-
         title: {
           text: null
         },
@@ -282,12 +281,11 @@ GraphView = Backbone.View.extend({
             color: '#000',
           },
           formatter: () ->
-            precision = 1
-            value     = formatValue(this.value, {
-                            'precision': precision,
-                            'min':       min,
-                            'max':       max
-                        });
+            formatValue(this.value, {
+              'precision': 1,
+              'min':       min,
+              'max':       max
+            });
         },
       },
       plotOptions: {
@@ -316,11 +314,27 @@ GraphView = Backbone.View.extend({
         shadow: false
         shared: true
         useHTML: true
-        headerFormat: '<small>Date: {point.key}</small><table>'
-        pointFormat: "<tr><td style='color: {series.color}'>{series.name}: </td><td style='text-align: left'>{point.y}</td></tr>"
-        footerFormat: '</table>'
-        valueDecimals: 2
-        xDateFormat: '%Y-%m-%d %H:%M:%S'
+        formatter: () ->
+          options = {
+            'precision': 1
+            'min': min
+            'max': max
+            'base': 1024
+          }
+
+          s = ''
+          s += '<small>'
+          s += "<span style='font-weight: bold'>Time:</span> "
+          s += formatDate(this.points[0].key)
+          s += '</small>'
+          s += '<table>'
+          this.points.each((point, index) ->
+            s += "<tr>"
+            s += "<td style='color: " + point.series.color + "'>" + point.series.name + ": </td>"
+            s += "<td style='text-align: left'>" + formatValue(point.y, options) + "</td>"
+            s += "</tr>"
+          )
+          s += '</table>'
       }
       legend: {
         layout: 'horizontal',
