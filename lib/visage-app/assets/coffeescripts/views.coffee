@@ -41,6 +41,9 @@ DimensionCollectionView = Backbone.View.extend({
     that = this
     container = $(that.options.container)
 
+    if linked = that.options.linked
+      linked.on('change', that.filter, that)
+
     # FIXME: Refactor into dedicated class
     # http://stackoverflow.com/questions/6258521/clear-icon-inside-input-text
     icon = new Element('div', {
@@ -120,6 +123,21 @@ DimensionCollectionView = Backbone.View.extend({
       that.el.grab(selectAll)
 
     return that
+
+  filter: () ->
+    that = this
+    conditions = that.options.linked.selected().map((item) -> item.id)
+    if conditions.length > 0
+      that.collection.setConditions(conditions)
+      that.collection.fetch({
+        success: (collection) ->
+          list = that.render().el
+          that.options.container.grab(list)
+      })
+    else
+      that.collection.reset
+      that.options.container.getElement('ul.dimensioncollection').empty()
+
 })
 
 ProfileView = Backbone.View.extend({

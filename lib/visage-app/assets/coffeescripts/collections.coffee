@@ -24,13 +24,16 @@ HostCollection = Backbone.Collection.extend({
 })
 
 MetricCollection = Backbone.Collection.extend({
-  url: '/data/*',
+  url: () ->
+    '/data/' + this.getConditions().join(',')
+
   model: Metric,
   parse: (response) ->
     attrs = response.metrics.map((metric) ->
       { id: metric }
     )
     _.sortBy(attrs, (attr) -> attr.id)
+
   # FIXME: Refactor into common class
   filter: (term) ->
     this.each((item) ->
@@ -41,9 +44,17 @@ MetricCollection = Backbone.Collection.extend({
 
       item.set('display', match)
     )
+
   # FIXME: Refactor into common class
   selected: () ->
     this.models.filter((model) -> model.get('checked') == true)
+
+  initialize: () ->
+    this.conditions = []
+  setConditions: (conditions) ->
+    this.conditions = conditions
+  getConditions: () ->
+    this.conditions
 })
 
 GraphCollection = Backbone.Collection.extend({

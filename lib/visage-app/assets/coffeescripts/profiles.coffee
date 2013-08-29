@@ -29,13 +29,9 @@ window.addEvent('domready', () ->
   metricsContainer = $('metrics')
   metrics     = new MetricCollection
   metricsView = new DimensionCollectionView({
-    collection: metrics,
+    collection: metrics
     container:  metricsContainer
-  })
-  metrics.fetch({
-    success: (collection) ->
-      list = metricsView.render().el
-      metricsContainer.grab(list)
+    linked:     hosts
   })
 
   # FIXME(auxesis): use of global variable window - is this the best pattern?
