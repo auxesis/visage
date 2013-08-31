@@ -9,8 +9,6 @@ When /^I add a graph$/ do
     $$('div#display input.button')[0].click();
   SCRIPT
   execute_script(script)
-
-  #sleep 2 # so the graphs have time to render
 end
 
 When /^I share the profile$/ do
