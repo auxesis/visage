@@ -1,12 +1,16 @@
 When /^I add a graph$/ do
   script = <<-SCRIPT
     $$('div#hosts input.checkbox')[0].click();
+  SCRIPT
+  execute_script(script) # so metrics can be fetched
+
+  script = <<-SCRIPT
     $$('div#metrics input.checkbox')[0].click();
     $$('div#display input.button')[0].click();
   SCRIPT
-  page.execute_script(script)
+  execute_script(script)
 
-  sleep 2 # so the graphs have time to render
+  #sleep 2 # so the graphs have time to render
 end
 
 When /^I share the profile$/ do
