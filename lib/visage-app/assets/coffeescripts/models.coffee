@@ -27,6 +27,7 @@ Graph  = Backbone.Model.extend({
     query = if Object.getLength(query) > 0 then '?' + Object.toQueryString(query) else ''
 
     "/data/#{host}/#{plugin}#{query}"
+
   parse: (response) ->
     that   = this
     host   = response.host   || that.get('host')
