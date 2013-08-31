@@ -32,6 +32,7 @@ MetricCollection = Backbone.Collection.extend({
 
   model: Metric,
   parse: (response) ->
+    # TODO(auxesis): add support for nesting instances under plugins
     attrs = response.metrics.map((metric) ->
       { id: metric }
     )
