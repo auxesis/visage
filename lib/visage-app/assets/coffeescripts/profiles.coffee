@@ -59,24 +59,6 @@ window.addEvent('domready', () ->
         )
     })
 
-  get_selected_hosts = () -> hosts.selected().map((host) -> host.get('id')).unique()
-  get_selected_metrics = () ->
-    selected = {}
-    selected_metrics = []
-
-    metrics.selected().each((metric) ->
-      id = metric.get('id')
-      [ plugin, instance ] = id.split('/')
-      selected[plugin] ||= []
-      selected[plugin].include(instance)
-    )
-    Object.each(selected, (item, key, object) ->
-      selected_metrics.include("#{key}/#{item.join(',')}")
-    )
-
-    selected_metrics
-
-
   button = new Element('input', {
     'type': 'button',
     'value': 'Add graphs',
@@ -87,11 +69,8 @@ window.addEvent('domready', () ->
     },
     'events': {
       'click': (event) ->
-        selected_hosts   = get_selected_hosts()
-        selected_metrics = get_selected_metrics()
-
-        selected_hosts.each((host) ->
-          selected_metrics.each((metric) ->
+        hosts.for_api().each((host) ->
+          metrics.for_api().each((metric) ->
 
             attributes = {
               host:   host

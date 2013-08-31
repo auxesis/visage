@@ -22,6 +22,8 @@ HostCollection = Backbone.Collection.extend({
   # FIXME: Refactor into common class
   selected: () ->
     this.models.filter((model) -> model.get('checked') == true)
+  for_api: () ->
+    this.selected().map((host) -> host.get('id')).unique()
 })
 
 MetricCollection = Backbone.Collection.extend({
@@ -50,6 +52,21 @@ MetricCollection = Backbone.Collection.extend({
   # FIXME: Refactor into common class
   selected: () ->
     this.models.filter((model) -> model.get('checked') == true)
+  for_api: () ->
+    selected = {}
+    selected_metrics = []
+
+    this.selected().each((metric) ->
+      id = metric.get('id')
+      [ plugin, instance ] = id.split('/')
+      selected[plugin] ||= []
+      selected[plugin].include(instance)
+    )
+    Object.each(selected, (item, key, object) ->
+      selected_metrics.include("#{key}/#{item.join(',')}")
+    )
+
+    selected_metrics
 
   initialize: () ->
     this.conditions = []
@@ -57,6 +74,7 @@ MetricCollection = Backbone.Collection.extend({
     this.conditions = conditions
   getConditions: () ->
     this.conditions
+
 })
 
 GraphCollection = Backbone.Collection.extend({
