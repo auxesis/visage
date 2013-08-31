@@ -14,7 +14,8 @@ HostCollection = Backbone.Collection.extend({
       try
         match = !!item.get('id').match(term)
       catch error
-        throw error unless error.type == 'malformed_regexp'
+        if not error instanceof SyntaxError
+          throw error
 
       item.set('display', match)
     )
@@ -40,7 +41,8 @@ MetricCollection = Backbone.Collection.extend({
       try
         match = !!item.get('id').match(term)
       catch error
-        throw error unless error.type == 'malformed_regexp'
+        if not error instanceof SyntaxError
+          throw error
 
       item.set('display', match)
     )
