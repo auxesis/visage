@@ -30,7 +30,7 @@ Graph  = Backbone.Model.extend({
   parse: (response) ->
     that   = this
     host   = response.host   || that.get('host')
-    plugin = response.plugin || that.get('plugin')
+    [plugin, instance] = (response.plugin || that.get('plugin')).split('/')
     data   = response
 
     obj = {}
