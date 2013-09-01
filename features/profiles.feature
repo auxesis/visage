@@ -114,14 +114,41 @@ Feature: Viewing data
     And I reset the timeframe
     And I visit a profile named "Remember the timeframe"
     Then the graphs should have data for the last 12 hours
+    Then the timeframe should be "As specified by profile"
 
   @javascript @timeframe
+  Scenario: Switch between timeframes on a remembered profile
+    When I go to /profiles/new
+    And I set the timeframe to "last 12 hours"
+    And I add a graph
+    And I remember the timeframe when sharing the profile named "Remember the timeframe"
+    And I reset the timeframe
+    And I visit a profile named "Remember the timeframe"
+    Then the graphs should have data for the last 12 hours
+    Then the timeframe should be "As specified by profile"
+    When I set the timeframe to "last 2 hours"
+    Then the graphs should have data for the last 2 hours
+    When I set the timeframe to "As specified by profile"
+    Then the graphs should have data for the last 12 hours
+
+  @javascript @timeframe
+  Scenario: Store absolute timeframes
+    When I go to /profiles/new
+    When I set the timeframe to "last 6 hours"
+    And I add a graph
+    And I remember the timeframe absolutely
+    And I share the profile named "Store relative timeframe"
+    Then the timeframe should be "last 6 hours"
+
+  @javascript @timeframe @fixme
   Scenario: Store relative timeframes
     When I go to /profiles/new
-    When I set the timeframe to "last 12 hours"
-    Then the timeframe should be "last 12 hours"
+    When I set the timeframe to "last 6 hours"
+    And I add a graph
+    And I remember the timeframe relatively
+    And I share the profile named "Store relative timeframe"
+    Then the timeframe should be "last 6 hours"
 
-  Scenario: Store absolute timeframes
   Scenario: 95e on graphs
   Scenario: Store tags on profile
   Scenario: Filter profiles by tags
