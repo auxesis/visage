@@ -717,24 +717,40 @@ TimeframeCollectionView = Backbone.View.extend({
     that = this
     that.collection.find((model) -> model.get('default'))
 
-  render: () ->
-    timeframe = JSON.decode(Cookie.read('timeframe'))
+  selected_timeframe: () ->
+    that = this
+    that.collection.find((model) -> model.get('selected'))
 
+  render: () ->
     that = this
     that.el.empty()
+    timeframe = JSON.decode(Cookie.read('timeframe'))
+    selected  = false
 
     that.collection.each((model) ->
-      if model == that.default_timeframe()
-        model.set('selected', true)
-        label = $('timeframe-label')
-        label.set('html', model.get('label'))
 
-      # for the timeframe in the cookie
-      if timeframe and timeframe.label == model.get('label') and not that.default_timeframe()
-        model.set('selected', true)
+      if not selected
+        switch
+          # Pre-selected timeframe
+          when model == that.selected_timeframe()
+            console.log('selected timeframe', model)
+            that.setTimeframe(model)
+            selected = true
+
+          # Cookie timeframe
+          when timeframe and timeframe.label == model.get('label')
+            console.log('cookie timeframe', model)
+            that.setTimeframe(model)
+            selected = true
 
       view = new TimeframeView({model: model})
       that.el.grab(view.render().el)
     )
+
+  setTimeframe: (model) ->
+    model.set('selected', true)
+    label = $('timeframe-label')
+    label.set('html', model.get('label'))
+
 })
 

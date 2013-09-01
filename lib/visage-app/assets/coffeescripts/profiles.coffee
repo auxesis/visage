@@ -59,12 +59,11 @@ window.addEvent('domready', () ->
         )
 
         if model.get('timeframe')
-          timeframes.each((timeframe) -> timeframe.set('selected', false))
-          timeframes.add({
+          timeframesView.collection.each((timeframe) -> timeframe.set('selected', false))
+          timeframesView.collection.add({
             label:    'As specified by profile',
             selected: true
           }, {at: 0})
-          Cookie.write('timeframe', JSON.encode(model.toTimeAttributes()))
           timeframesView.render()
     })
 
