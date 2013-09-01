@@ -151,7 +151,7 @@ When(/^I set the timeframe to "(.*?)"$/) do |timeframe|
   execute_script(script)
 end
 
-Then(/^the graphs should have data for the last (\d+) hours$/) do |hours|
+Then(/^the graphs should have data for the last (\d+) hours*$/) do |hours|
   script = <<-SCRIPT
     window.profile.get('graphs').map(function(graph) { return graph.start })
   SCRIPT
@@ -202,6 +202,21 @@ When(/^I reset the timeframe$/) do
   step %(I set the timeframe to "last 6 hours")
 end
 
+Then(/^the timeframe should be "(.*?)"$/) do |timeframe|
+  script = <<-SCRIPT
+    $('timeframe-label').get('html')
+  SCRIPT
+
+  page.evaluate_script(script).should == timeframe
+end
+
+Then(/^show me the timeframe cookie$/) do
+  script = <<-SCRIPT
+    Cookie.read('timeframe')
+  SCRIPT
+  p page.evaluate_script(script)
+end
+
 def execute_script(script, opts={})
   options = {
     :wait       => 1,
@@ -213,4 +228,5 @@ def execute_script(script, opts={})
 
   step 'show me the page' if options[:screenshot]
 end
+
 

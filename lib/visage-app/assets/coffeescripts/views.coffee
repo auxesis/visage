@@ -724,11 +724,10 @@ TimeframeCollectionView = Backbone.View.extend({
     that.el.empty()
 
     that.collection.each((model) ->
-
       if model == that.default_timeframe()
         model.set('selected', true)
         label = $('timeframe-label')
-        label.set('html', model.label)
+        label.set('html', model.get('label'))
 
       # for the timeframe in the cookie
       if timeframe and timeframe.label == model.get('label') and not that.default_timeframe()

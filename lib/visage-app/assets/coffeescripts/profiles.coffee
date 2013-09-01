@@ -57,6 +57,15 @@ window.addEvent('domready', () ->
               window.graphsView.render().el
           })
         )
+
+        if model.get('timeframe')
+          timeframes.each((timeframe) -> timeframe.set('selected', false))
+          timeframes.add({
+            label:    'As specified by profile',
+            selected: true
+          }, {at: 0})
+          Cookie.write('timeframe', JSON.encode(model.toTimeAttributes()))
+          timeframesView.render()
     })
 
   button = new Element('input', {
@@ -109,7 +118,7 @@ window.addEvent('domready', () ->
 
   timeframes = new TimeframeCollection
   timeframes.add([
-    { label: 'last 1 hour',      start: -1,     unit: 'hours' }
+    { label: 'last 1 hour',      start: -1,     unit: 'hours', 'default': true }
     { label: 'last 2 hours',     start: -2,     unit: 'hours' }
     { label: 'last 6 hours',     start: -6,     unit: 'hours' }
     { label: 'last 12 hours',    start: -12,    unit: 'hours' }
@@ -128,11 +137,9 @@ window.addEvent('domready', () ->
     { label: 'three months ago', start: -3, finish: -2, unit: 'months' }
   ])
 
-  if window.profile
-    timeframes.add({
-      label:   'As specified by profile',
-      default: true
-    }, {at: 0})
+  if !Cookie.read('timeframe')
+    attributes = timeframes.find((model) -> model.get('default')).toTimeAttributes()
+    Cookie.write('timeframe', JSON.encode(attributes))
 
   timeframesView = new TimeframeCollectionView({
     collection: timeframes,

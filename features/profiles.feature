@@ -84,6 +84,13 @@ Feature: Viewing data
     Then I should not see a profile named "Graphs to delete"
 
   @javascript @timeframe
+  Scenario: Default timeframe
+    When I go to /profiles/new
+    Then the timeframe should be "last 1 hour"
+    And I add a graph
+    Then the graphs should have data for the last 1 hour
+
+  @javascript @timeframe
   Scenario: Timeframe specifier
     When I go to /profiles/new
     And I set the timeframe to "last 6 hours"
@@ -108,7 +115,12 @@ Feature: Viewing data
     And I visit a profile named "Remember the timeframe"
     Then the graphs should have data for the last 12 hours
 
+  @javascript @timeframe
   Scenario: Store relative timeframes
+    When I go to /profiles/new
+    When I set the timeframe to "last 12 hours"
+    Then the timeframe should be "last 12 hours"
+
   Scenario: Store absolute timeframes
   Scenario: 95e on graphs
   Scenario: Store tags on profile
