@@ -1,6 +1,9 @@
 When /^I add a graph$/ do
   script = <<-SCRIPT
-    $$('div#hosts input.checkbox')[0].click();
+    // Reset all the checkboxes
+    $$('div#hosts input.checkbox').each(function(checkbox) { if (checkbox.checked) { checkbox.click() }})
+    // Select a random checkbox
+    $$('div#hosts input.checkbox').shuffle()[0].click();
   SCRIPT
   execute_script(script) # so metrics can be fetched
 
@@ -9,6 +12,16 @@ When /^I add a graph$/ do
     $$('div#display input.button')[0].click();
   SCRIPT
   execute_script(script)
+end
+
+When(/^I add (\d+) graphs$/) do |count|
+  count = count.to_i
+  count.times { step 'I add a graph' }
+
+  script = <<-SCRIPT
+    window.graphs.length
+  SCRIPT
+  page.evaluate_script(script).should == count
 end
 
 When /^I share the profile$/ do
@@ -162,6 +175,8 @@ Then(/^the graphs should have data for the last (\d+) hours*$/) do |hours|
   start_range = n_hours_ago - 30
   end_range   = n_hours_ago + 30
 
+  # All the start times should be the same
+  start_times.uniq.size.should == 1
   start_times.each do |time|
     (start_range..end_range).should include(time)
   end

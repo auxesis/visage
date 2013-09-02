@@ -109,7 +109,7 @@ Feature: Viewing data
   Scenario: Remember a timeframe on a profile
     When I go to /profiles/new
     And I set the timeframe to "last 12 hours"
-    And I add a graph
+    And I add 3 graphs
     And I remember the timeframe when sharing the profile named "Remember the timeframe"
     And I reset the timeframe
     And I visit a profile named "Remember the timeframe"
