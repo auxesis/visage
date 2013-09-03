@@ -120,7 +120,7 @@ Feature: Viewing data
   Scenario: Switch between timeframes on a remembered profile
     When I go to /profiles/new
     And I set the timeframe to "last 12 hours"
-    And I add a graph
+    And I add 4 graphs
     And I remember the timeframe when sharing the profile named "Remember the timeframe"
     And I reset the timeframe
     And I visit a profile named "Remember the timeframe"

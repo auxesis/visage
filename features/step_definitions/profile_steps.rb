@@ -171,14 +171,23 @@ Then(/^the graphs should have data for the last (\d+) hours*$/) do |hours|
   start_times = page.evaluate_script(script)
   start_times.size.should > 0
 
+  start_times.each do |t|
+    time = Time.at(t)
+    p [ t, time.getlocal, time.getutc ]
+  end
+
   n_hours_ago = (Time.now - (hours.to_i * 3600)).to_i
   start_range = n_hours_ago - 30
   end_range   = n_hours_ago + 30
 
   # All the start times should be the same
   start_times.uniq.size.should == 1
+
+  offset = Time.now.gmtoff
   start_times.each do |time|
-    (start_range..end_range).should include(time)
+    t = time - offset
+    p [offset, time, t]
+    time.should be_between(start_range, end_range)
   end
 end
 
