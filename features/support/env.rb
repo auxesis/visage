@@ -6,6 +6,7 @@ require 'rspec'
 require 'capybara'
 require 'capybara/cucumber'
 require 'capybara/poltergeist'
+require 'delorean'
 
 # Application setup
 ENV['RACK_ENV'] = 'test'

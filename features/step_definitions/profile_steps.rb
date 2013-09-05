@@ -28,9 +28,7 @@ When /^I share the profile$/ do
   script = <<-SCRIPT
     $('share-toggler').fireEvent('click');
   SCRIPT
-  page.execute_script(script)
-
-  sleep 2 # so the toggler has time to render
+  execute_script(script)
 end
 
 Then /^I should see a permalink for the profile$/ do
@@ -171,11 +169,6 @@ Then(/^the graphs should have data for the last (\d+) hours*$/) do |hours|
   start_times = page.evaluate_script(script)
   start_times.size.should > 0
 
-  start_times.each do |t|
-    time = Time.at(t)
-    p [ t, time.getlocal, time.getutc ]
-  end
-
   n_hours_ago = (Time.now - (hours.to_i * 3600)).to_i
   start_range = n_hours_ago - 30
   end_range   = n_hours_ago + 30
@@ -186,8 +179,30 @@ Then(/^the graphs should have data for the last (\d+) hours*$/) do |hours|
   offset = Time.now.gmtoff
   start_times.each do |time|
     t = time - offset
-    p [offset, time, t]
+    p [offset, start_range, time, t, end_range]
+    p start_range == end_range
     time.should be_between(start_range, end_range)
+  end
+end
+
+Then(/^the graphs should have data for exactly (\d+) hours$/) do |hours|
+  hours   = hours.to_i
+  seconds = hours * 60 * 60
+
+  script = <<-SCRIPT
+    window.profile.get('graphs').map(function(graph) { return graph.start })
+  SCRIPT
+  start_times = page.evaluate_script(script).compact
+  start_times.size.should > 0
+
+  script = <<-SCRIPT
+    window.profile.get('graphs').map(function(graph) { return graph.finish })
+  SCRIPT
+  finish_times = page.evaluate_script(script).compact
+  finish_times.size.should > 0
+
+  start_times.zip(finish_times).each do |start, finish|
+    (finish - start).should == seconds
   end
 end
 
@@ -214,6 +229,10 @@ When(/^I check the "Remember the timeframe" option$/) do
   SCRIPT
 end
 
+When(/^I remember the timeframe absolutely$/) do
+  step %(I check the "Remember the timeframe" option)
+end
+
 When(/^I remember the timeframe when sharing the profile named "(.*?)"$/) do |name|
   step %(I activate the share modal)
   step %(I set the profile name to "#{name}")
@@ -224,6 +243,10 @@ end
 When(/^I reset the timeframe$/) do
   step %(I go to /profiles/new)
   step %(I set the timeframe to "last 6 hours")
+end
+
+When(/^I go (\d+) minutes into the future$/) do |minutes|
+  Delorean.time_travel_to("#{minutes} minutes from now")
 end
 
 Then(/^the timeframe should be "(.*?)"$/) do |timeframe|
