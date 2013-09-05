@@ -223,14 +223,23 @@ When(/^I save the profile$/) do
 end
 
 When(/^I check the "Remember the timeframe" option$/) do
-  script = <<-SCRIPT
-    $('profile-timeframe').checked = true;
-    $('profile-timeframe').fireEvent('click');
-  SCRIPT
+  pending
 end
 
 When(/^I remember the timeframe absolutely$/) do
-  step %(I check the "Remember the timeframe" option)
+  script = <<-SCRIPT
+    $('profile-timeframe-absolute').checked = true;
+    $('profile-timeframe-absolute').fireEvent('click');
+  SCRIPT
+  execute_script(script)
+end
+
+When(/^I remember the timeframe relatively$/) do
+  script = <<-SCRIPT
+    $('profile-timeframe-relative').checked = true;
+    $('profile-timeframe-relative').fireEvent('click');
+  SCRIPT
+  execute_script(script)
 end
 
 When(/^I remember the timeframe when sharing the profile named "(.*?)"$/) do |name|
