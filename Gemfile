@@ -18,4 +18,5 @@ group :development do
   gem 'guard-rack'
   gem 'guard-ronn'
   gem 'guard-rake'
+  gem 'delorean'
 end
