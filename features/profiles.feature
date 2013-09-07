@@ -138,11 +138,11 @@ Feature: Viewing data
     And I add 3 graphs
     And I share the profile
     And I remember the timeframe absolutely
-    And I set the profile name to "Store relative timeframe"
+    And I set the profile name to "Store absolute timeframe"
     And I save the profile
     And I reset the timeframe
     And I go 15 minutes into the future
-    And I visit a profile named "Store relative timeframe"
+    And I visit a profile named "Store absolute timeframe"
     Then the timeframe should be "As specified by profile"
     Then the graphs should have data for exactly 6 hours
 

@@ -186,8 +186,10 @@ Then(/^the graphs should have data for the last (\d+) hours*$/) do |hours|
 end
 
 Then(/^the graphs should have data for exactly (\d+) hours$/) do |hours|
-  hours   = hours.to_i
-  seconds = hours * 60 * 60
+  hours        = hours.to_i
+  seconds      = hours * 60 * 60
+  fuzzy_start  = seconds - 30
+  fuzzy_finish = seconds + 30
 
   script = <<-SCRIPT
     window.profile.get('graphs').map(function(graph) { return graph.start })
@@ -202,7 +204,7 @@ Then(/^the graphs should have data for exactly (\d+) hours$/) do |hours|
   finish_times.size.should > 0
 
   start_times.zip(finish_times).each do |start, finish|
-    (finish - start).should == seconds
+    (finish - start).should be_between(fuzzy_start, fuzzy_finish)
   end
 end
 

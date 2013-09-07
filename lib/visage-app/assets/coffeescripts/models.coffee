@@ -40,8 +40,8 @@ Graph  = Backbone.Model.extend({
 
     Object.each(data[host][plugin], (instance, instanceName) ->
       Object.each(instance, (metric, metricName) ->
-        start    = metric.start
-        finish   = metric.finish
+        start    = obj.start  = metric.start
+        finish   = obj.finish = metric.finish
         interval = (finish - start) / metric.data.length
 
         data = metric.data.map((value, index) ->
@@ -142,11 +142,20 @@ Profile = Backbone.Model.extend({
   isNotAnonymous: () ->
     !this.isAnonymous()
 
+  isAbsolute: () ->
+    console.log(this.get('timeframe'), this.get('timeframe') == 'absolute')
+    this.get('timeframe') == 'absolute'
+
+  isRelative: () ->
+    console.log(this.get('timeframe') == 'relative')
+    this.get('timeframe') == 'relative'
+
   initialize: () ->
     id = document.location.pathname.split('/')[2]
     if id == 'new'
       # Stub out the graphs if this is truly a new profile
       this.set('graphs', [])
+      this.set('timeframe', 'absolute')
     else
       # Set the object id
       this.set('id', id)

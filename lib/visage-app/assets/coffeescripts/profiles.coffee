@@ -117,23 +117,23 @@ window.addEvent('domready', () ->
 
   timeframes = new TimeframeCollection
   timeframes.add([
-    { label: 'last 1 hour',      start: -1,     unit: 'hours', 'default': true }
-    { label: 'last 2 hours',     start: -2,     unit: 'hours' }
-    { label: 'last 6 hours',     start: -6,     unit: 'hours' }
-    { label: 'last 12 hours',    start: -12,    unit: 'hours' }
-    { label: 'last 24 hours',    start: -24,    unit: 'hours' }
-    { label: 'last 3 days',      start: -72,    unit: 'hours' }
-    { label: 'last 7 days',      start: -168,   unit: 'hours' }
-    { label: 'last 2 weeks',     start: -336,   unit: 'hours' }
-    { label: 'last 1 month',     start: -774,   unit: 'hours' }
-    { label: 'last 3 months',    start: -2322,  unit: 'hours' }
-    { label: 'last 6 months',    start: -4368,  unit: 'hours' }
-    { label: 'last 1 year',      start: -8760,  unit: 'hours' }
-    { label: 'last 2 years',     start: -17520, unit: 'hours' }
-    { label: 'current month',    start: 0,  finish: 1,  unit: 'months' }
-    { label: 'previous month',   start: -1, finish: 0,  unit: 'months' }
-    { label: 'two months ago',   start: -2, finish: -1, unit: 'months' }
-    { label: 'three months ago', start: -3, finish: -2, unit: 'months' }
+    { label: 'last 1 hour',      start: -1,     finish: 0,  unit: 'hours', 'default': true }
+    { label: 'last 2 hours',     start: -2,     finish: 0,  unit: 'hours' }
+    { label: 'last 6 hours',     start: -6,     finish: 0,  unit: 'hours' }
+    { label: 'last 12 hours',    start: -12,    finish: 0,  unit: 'hours' }
+    { label: 'last 24 hours',    start: -24,    finish: 0,  unit: 'hours' }
+    { label: 'last 3 days',      start: -72,    finish: 0,  unit: 'hours' }
+    { label: 'last 7 days',      start: -168,   finish: 0,  unit: 'hours' }
+    { label: 'last 2 weeks',     start: -336,   finish: 0,  unit: 'hours' }
+    { label: 'last 1 month',     start: -774,   finish: 0,  unit: 'hours' }
+    { label: 'last 3 months',    start: -2322,  finish: 0,  unit: 'hours' }
+    { label: 'last 6 months',    start: -4368,  finish: 0,  unit: 'hours' }
+    { label: 'last 1 year',      start: -8760,  finish: 0,  unit: 'hours' }
+    { label: 'last 2 years',     start: -17520, finish: 0,  unit: 'hours' }
+    { label: 'current month',    start: 0,      finish: 1,  unit: 'months' }
+    { label: 'previous month',   start: -1,     finish: 0,  unit: 'months' }
+    { label: 'two months ago',   start: -2,     finish: -1, unit: 'months' }
+    { label: 'three months ago', start: -3,     finish: -2, unit: 'months' }
   ])
 
   if !Cookie.read('timeframe')

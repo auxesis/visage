@@ -428,6 +428,20 @@ SuccessView = "
   <div class='row permalink'>
     <a href='{{model.permalink}}' target='_profile_{{model.id}}'>{{model.permalink}}</a>
   </div>
+  <hr>
+  <div class='row'>
+    <label>Timeframe</label>
+    <p>
+      <input id='profile-timeframe-absolute' name='profile[timeframe]' class='radio' type='radio' value='absolute' {{#model.isAbsolute}}checked{{/model.isAbsolute}}>
+      <label for='profile-timeframe-absolute' class='radio'>Absolute</label>
+      - view the time as currently displayed on the graphs (<em>Start: {{timeframe.start}}</em>).
+    </p>
+    <p>
+      <input id='profile-timeframe-relative' name='profile[timeframe]' class='radio' type='radio' value='relative' {{#model.isRelative}}checked{{/model.isRelative}}'>
+      <label for='profile-timeframe-relative' class='radio'>Relative</label>
+      - view the time as a sliding window of &quot;{{ timeframe.label }}&quot;.
+    </p>
+  </div>
   <hr/>
   <div class='row question'>
     <input id='profile-anonymous' name='profile[anonymous]' class='checkbox' type='checkbox' {{#model.isNotAnonymous}}checked=true{{/model.isNotAnonymous}} value='false'>
@@ -439,12 +453,6 @@ SuccessView = "
   <div class='row text named'>
     <label for='profile-name'>Profile name</label>
     <input id='profile-name' name='profile[name]' class='text' type='text' value='{{model.name}}'>
-  </div>
-  <hr class='named'/>
-  <div class='row question named'>
-    <input id='profile-timeframe' timeframe='profile[timeframe]' class='checkbox' type='checkbox' checked='{{model.timeframe}}'>
-    <label for='profile-timeframe'>Timeframe</label>
-    <p>Lorem ipsum dolor sit amet</p>
   </div>
   <hr class='named'/>
   <div class='row text named'>
@@ -628,7 +636,10 @@ GraphCollectionView = Backbone.View.extend({
     # Inject content into the modal
     source   = eval((options.template.capitalize() + 'View'))
     template = Handlebars.compile(source)
-    context  = { model: options.model }
+    timeframe = JSON.parse(Cookie.read('timeframe'))
+    timeframe.start  = new Date(timeframe.start * 1000).format("%Y/%m/%d at %H:%M")
+    timeframe.finish = new Date(timeframe.finish * 1000)
+    context  = { model: options.model, timeframe: timeframe }
     html     = template(context)
     modal.messageBox.set('html', html)
 

@@ -611,6 +611,11 @@ form.share div.row.text label {
   margin-left: 0px;
 }
 
+form.share div.row label.radio {
+  /*font-weight: normal;*/
+  font-size: 11px;
+}
+
 form.share div.row p {
   margin: 0;
   margin-top:  4px;
