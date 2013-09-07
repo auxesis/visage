@@ -143,11 +143,9 @@ Profile = Backbone.Model.extend({
     !this.isAnonymous()
 
   isAbsolute: () ->
-    console.log(this.get('timeframe'), this.get('timeframe') == 'absolute')
     this.get('timeframe') == 'absolute'
 
   isRelative: () ->
-    console.log(this.get('timeframe') == 'relative')
     this.get('timeframe') == 'relative'
 
   initialize: () ->

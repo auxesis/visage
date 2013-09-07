@@ -744,13 +744,11 @@ TimeframeCollectionView = Backbone.View.extend({
         switch
           # Pre-selected timeframe
           when model == that.selected_timeframe()
-            console.log('selected timeframe', model)
             that.setTimeframe(model)
             selected = true
 
           # Cookie timeframe
           when timeframe and timeframe.label == model.get('label')
-            console.log('cookie timeframe', model)
             that.setTimeframe(model)
             selected = true
 
