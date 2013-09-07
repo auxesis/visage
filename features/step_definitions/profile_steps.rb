@@ -179,8 +179,8 @@ Then(/^the graphs should have data for the last (\d+) hours*$/) do |hours|
   offset = Time.now.gmtoff
   start_times.each do |time|
     t = time - offset
-    p [offset, start_range, time, t, end_range]
-    p start_range == end_range
+#    p [offset, start_range, time, t, end_range]
+#    p start_range == end_range
     time.should be_between(start_range, end_range)
   end
 end
@@ -247,7 +247,7 @@ end
 When(/^I remember the timeframe when sharing the profile named "(.*?)"$/) do |name|
   step %(I activate the share modal)
   step %(I set the profile name to "#{name}")
-  step %(I check the "Remember the timeframe" option)
+  step %(I remember the timeframe absolutely)
   step %(I save the profile)
 end
 
