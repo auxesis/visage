@@ -36,7 +36,7 @@ window.addEvent('domready', () ->
 
   # FIXME(auxesis): use of global variable window - is this the best pattern?
   window.graphsContainer = $('graphs')
-  window.graphs   = new GraphCollection
+  window.graphs          = new GraphCollection
   window.graphsView      = new GraphCollectionView({
     el:         window.graphsContainer
     collection: window.graphs
