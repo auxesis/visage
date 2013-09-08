@@ -146,15 +146,19 @@ Feature: Viewing data
     Then the timeframe should be "As specified by profile"
     Then the graphs should have data for exactly 6 hours
 
-  @javascript @timeframe @fixme
+  @javascript @timeframe
   Scenario: Store relative timeframes
     When I go to /profiles/new
-    When I set the timeframe to "last 6 hours"
-    And I add a graph
+    And I set the timeframe to "last 12 hours"
+    And I add 1 graph
+    And I share the profile
     And I remember the timeframe relatively
-    And I share the profile named "Store relative timeframe"
-    Then the timeframe should be "last 6 hours"
-    Then the graphs should have data for the last 6 hours
+    When I set the profile name to "Store relative timeframe"
+    And I save the profile
+    And I reset the timeframe
+    And I go 15 minutes into the future
+    And I visit a profile named "Store relative timeframe"
+    Then the graphs should have data for the last 12 hours
 
   Scenario: 95e on graphs
   Scenario: Store tags on profile

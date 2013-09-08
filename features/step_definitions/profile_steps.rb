@@ -14,7 +14,7 @@ When /^I add a graph$/ do
   execute_script(script)
 end
 
-When(/^I add (\d+) graphs$/) do |count|
+When(/^I add (\d+) graphs*$/) do |count|
   count = count.to_i
   count.times { step 'I add a graph' }
 
@@ -154,9 +154,11 @@ When(/^I set the timeframe to "(.*?)"$/) do |timeframe|
     $('timeframe-toggler').fireEvent('click');
 
     var timeframes = $$('ul#timeframes li.timeframe');
+    // we use filter instead of find, as we're operating on a collection of elements
     var match = timeframes.filter(function(item, index) {
       return item.get('html') == '#{timeframe}'
     })[0];
+
     match.fireEvent('click');
   SCRIPT
   execute_script(script)
@@ -169,20 +171,21 @@ Then(/^the graphs should have data for the last (\d+) hours*$/) do |hours|
   start_times = page.evaluate_script(script)
   start_times.size.should > 0
 
-  n_hours_ago = (Time.now - (hours.to_i * 3600)).to_i
-  start_range = n_hours_ago - 30
-  end_range   = n_hours_ago + 30
+  n_hours_ago  = (Time.now - (hours.to_i * 3600)).to_i
+  fuzzy_start  = n_hours_ago - 30
+  fuzzy_finish = n_hours_ago + 30
 
   # All the start times should be the same
   start_times.uniq.size.should == 1
 
+
   offset = Time.now.gmtoff
-  start_times.each do |time|
-    t = time - offset
-#    p [offset, start_range, time, t, end_range]
-#    p start_range == end_range
-    time.should be_between(start_range, end_range)
-  end
+  time = start_times.first
+  t = time - offset
+  p t
+#  p [offset, start_range, time, t, end_range]
+#  p start_range == end_range
+  time.should be_between(fuzzy_start, fuzzy_finish)
 end
 
 Then(/^the graphs should have data for exactly (\d+) hours$/) do |hours|

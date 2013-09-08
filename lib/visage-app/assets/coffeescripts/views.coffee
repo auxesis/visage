@@ -432,12 +432,12 @@ SuccessView = "
   <div class='row'>
     <label>Timeframe</label>
     <p>
-      <input id='profile-timeframe-absolute' name='profile[timeframe]' class='radio' type='radio' value='absolute' {{#model.isAbsolute}}checked{{/model.isAbsolute}}>
+      <input id='profile-timeframe-absolute' name='profile[timeframe]' class='radio' type='radio' value='absolute'/>
       <label for='profile-timeframe-absolute' class='radio'>Absolute</label>
       - view the time as currently displayed on the graphs (<em>Start: {{timeframe.start}}</em>).
     </p>
     <p>
-      <input id='profile-timeframe-relative' name='profile[timeframe]' class='radio' type='radio' value='relative' {{#model.isRelative}}checked{{/model.isRelative}}'>
+      <input id='profile-timeframe-relative' name='profile[timeframe]' class='radio' type='radio' value='{{ timeframe.label }}'/>
       <label for='profile-timeframe-relative' class='radio'>Relative</label>
       - view the time as a sliding window of &quot;{{ timeframe.label }}&quot;.
     </p>

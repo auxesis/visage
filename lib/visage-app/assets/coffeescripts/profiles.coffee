@@ -48,7 +48,29 @@ window.addEvent('domready', () ->
   if not window.profile.isNew()
     window.profile.fetch({
       success: (model) ->
+        timeframe = model.get('timeframe')
+        timeframesView.collection.each((timeframe) -> timeframe.set('selected', false))
+
+        if timeframe == 'absolute'
+          timeframesView.collection.add({
+            label:    'As specified by profile',
+            selected: true
+          }, {at: 0})
+          timeframesView.render()
+        else
+          selected = timeframesView.collection.find((entry) ->
+            entry.get('label') == timeframe
+          )
+          selected.set('selected', true)
+          timeframesView.render()
+          time_attributes = selected.toTimeAttributes()
+
+
         model.get('graphs').each((attributes) ->
+          if timeframe != 'absolute'
+            attributes.start  = time_attributes.start
+            attributes.finish = time_attributes.finish
+
           graph = new Graph(attributes)
           graph.fetch({
             success: (model, response) ->
@@ -57,14 +79,6 @@ window.addEvent('domready', () ->
               window.graphsView.render().el
           })
         )
-
-        if model.get('timeframe')
-          timeframesView.collection.each((timeframe) -> timeframe.set('selected', false))
-          timeframesView.collection.add({
-            label:    'As specified by profile',
-            selected: true
-          }, {at: 0})
-          timeframesView.render()
     })
 
   button = new Element('input', {
