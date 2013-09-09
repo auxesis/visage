@@ -11,6 +11,6 @@
 - host: baz
   plugin: cpu-0
   start: 1375268235
-:timeframe: true
+:timeframe: "last 2 hours"
 :id: ffffe7aacef2d355851af1ee78d293e3
 :created_at: 2013-07-31 23:39:19.208713 +10:00
