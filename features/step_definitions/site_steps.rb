@@ -19,7 +19,11 @@ Then /^I should see a list of graphs$/ do
 end
 
 Then /^I should see a collection of graphs$/ do
-  result = page.evaluate_script("$$('div#graphs li.graph').length")
+  script = <<-SCRIPT
+    $$('div#graphs li.graph').length
+  SCRIPT
+
+  result = page.evaluate_script(script)
   result.should > 0
 end
 
