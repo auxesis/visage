@@ -217,6 +217,7 @@ Then(/^the graphs should have data for exactly (\d+) hours$/) do |hours|
   SCRIPT
   start_times = page.evaluate_script(script).compact
   start_times.size.should > 0
+  start_times.uniq.size.should eq(1), 'more than one start time'
 
   script = <<-SCRIPT
     window.profile.get('graphs').map(function(graph) { return graph.finish })
