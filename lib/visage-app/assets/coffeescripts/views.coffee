@@ -432,12 +432,12 @@ SuccessView = "
   <div class='row'>
     <label>Timeframe</label>
     <p>
-      <input id='profile-timeframe-absolute' name='profile[timeframe]' class='radio' type='radio' value='absolute'/>
+      <input id='profile-timeframe-absolute' name='profile[timeframe]' class='radio' type='radio' value='absolute' {{#if model.isAbsolute}}checked{{/if}}/>
       <label for='profile-timeframe-absolute' class='radio'>Absolute</label>
       - view the time as currently displayed on the graphs (<em>Start: {{timeframe.start}}</em>).
     </p>
     <p>
-      <input id='profile-timeframe-relative' name='profile[timeframe]' class='radio' type='radio' value='{{ timeframe.label }}'/>
+      <input id='profile-timeframe-relative' name='profile[timeframe]' class='radio' type='radio' value='{{ timeframe.label }}'{{#if model.isRelative}}checked{{/if}}/>
       <label for='profile-timeframe-relative' class='radio'>Relative</label>
       - view the time as a sliding window of &quot;{{ timeframe.label }}&quot;.
     </p>
@@ -516,7 +516,6 @@ GraphCollectionView = Backbone.View.extend({
         when profile.isNew()
           profile.set({
             anonymous: true,
-            timeframe: true,
           })
 
           profile.save({}, {
