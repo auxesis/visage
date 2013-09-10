@@ -178,14 +178,32 @@ Then(/^the graphs should have data for the last (\d+) hours*$/) do |hours|
   # All the start times should be the same
   start_times.uniq.size.should == 1
 
-
   offset = Time.now.gmtoff
   time = start_times.first
   t = time - offset
-  p t
-#  p [offset, start_range, time, t, end_range]
-#  p start_range == end_range
+  #p t, time
+
+  debug = {
+    :fuzzy_start  => fuzzy_start,
+    :time         => time,
+    :t            => t,
+    :fuzzy_finish => fuzzy_finish,
+  }
+  print_hash(debug)
+
   time.should be_between(fuzzy_start, fuzzy_finish)
+end
+
+def print_hash(hash)
+  max = hash.keys.sort_by {|k| k.size}.last.size
+
+  hash.each_pair do |key, value|
+    puts "#{key.to_s.ljust(max)} | #{value} | #{Time.at(value)}"
+  end
+end
+
+When(/^I wait (\d+) seconds$/) do |arg1|
+  sleep(arg1.to_i)
 end
 
 Then(/^the graphs should have data for exactly (\d+) hours$/) do |hours|

@@ -127,6 +127,8 @@ Feature: Viewing data
     Then the graphs should have data for the last 12 hours
     Then the timeframe should be "As specified by profile"
     When I set the timeframe to "last 2 hours"
+    And I wait 5 seconds
+    Then the graphs should have data for the last 12 hours
     Then the graphs should have data for the last 2 hours
     When I set the timeframe to "As specified by profile"
     Then the graphs should have data for the last 12 hours
