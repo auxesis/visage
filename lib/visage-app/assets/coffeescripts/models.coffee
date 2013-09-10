@@ -146,7 +146,7 @@ Profile = Backbone.Model.extend({
     this.get('timeframe') == 'absolute'
 
   isRelative: () ->
-    this.get('timeframe') == 'relative'
+    !this.isAbsolute()
 
   initialize: () ->
     id = document.location.pathname.split('/')[2]
