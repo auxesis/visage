@@ -166,32 +166,36 @@ end
 
 Then(/^the graphs should have data for the last (\d+) hours*$/) do |hours|
   script = <<-SCRIPT
+    window.profile.get('graphs').map(function(graph) { return graph.finish });
+  SCRIPT
+  finish_times = page.evaluate_script(script)
+  finish_times.size.should > 0
+
+  script = <<-SCRIPT
     window.profile.get('graphs').map(function(graph) { return graph.start })
   SCRIPT
   start_times = page.evaluate_script(script)
   start_times.size.should > 0
 
-  n_hours_ago  = (Time.now - (hours.to_i * 3600)).to_i
+  now = Time.now
+  n_hours_ago  = (now - (hours.to_i * 3600)).to_i
   fuzzy_start  = n_hours_ago - 30
   fuzzy_finish = n_hours_ago + 30
 
   # All the start times should be the same
   start_times.uniq.size.should == 1
 
-  offset = Time.now.gmtoff
-  time = start_times.first
-  t = time - offset
-  #p t, time
+  n_hours_ago = start_times.first
 
   debug = {
     :fuzzy_start  => fuzzy_start,
-    :time         => time,
-    :t            => t,
+    :n_hours_ago  => n_hours_ago,
+    :now          => now.to_i,
     :fuzzy_finish => fuzzy_finish,
   }
   print_hash(debug)
 
-  time.should be_between(fuzzy_start, fuzzy_finish)
+  Time.at(n_hours_ago).should be_between(Time.at(fuzzy_start), Time.at(fuzzy_finish))
 end
 
 def print_hash(hash)
@@ -278,8 +282,10 @@ When(/^I reset the timeframe$/) do
   step %(I set the timeframe to "last 6 hours")
 end
 
-When(/^I go (\d+) minutes into the future$/) do |minutes|
+When(/^I go (\d+) minutes into the future$/) do |n|
+  minutes = n.to_i
   Delorean.time_travel_to("#{minutes} minutes from now")
+  @javascript_time_offset = minutes * 60 * 1000
 end
 
 Then(/^the timeframe should be "(.*?)"$/) do |timeframe|
@@ -303,6 +309,17 @@ def execute_script(script, opts={})
     :screenshot => false
   }.merge!(opts)
 
+  p @javascript_time_offset
+  if @javascript_time_offset
+    script.prepend(
+    <<-SCRIPT
+      DeLorean.globalApi(true);
+      DeLorean.advance(#{@javascript_time_offset});
+    SCRIPT
+    )
+  end
+
+  puts script
   page.execute_script(script)
   sleep(options[:wait])
 
