@@ -128,6 +128,7 @@ Feature: Viewing data
     Then the timeframe should be "As specified by profile"
     When I set the timeframe to "last 2 hours"
     And I wait 5 seconds
+    #And I go 15 minutes into the future
     Then the graphs should have data for the last 12 hours
     Then the graphs should have data for the last 2 hours
     When I set the timeframe to "As specified by profile"
@@ -158,7 +159,6 @@ Feature: Viewing data
     When I set the profile name to "Store relative timeframe"
     And I save the profile
     And I reset the timeframe
-    And I go 15 minutes into the future
     And I visit a profile named "Store relative timeframe"
     Then the graphs should have data for the last 12 hours
 
