@@ -165,6 +165,8 @@ When(/^I set the timeframe to "(.*?)"$/) do |timeframe|
 end
 
 Then(/^the graphs should have data for the last (\d+) hours*$/) do |hours|
+  step 'show me the page'
+
   script = <<-SCRIPT
     window.profile.get('graphs').map(function(graph) { return graph.finish });
   SCRIPT
@@ -176,26 +178,28 @@ Then(/^the graphs should have data for the last (\d+) hours*$/) do |hours|
   SCRIPT
   start_times = page.evaluate_script(script)
   start_times.size.should > 0
+  start_times.uniq.size.should == 1
+  start_time = start_times.first
 
-  now = Time.now
+  ############# start debugging
+  now    = Time.now
+  js_now = page.evaluate_script("(new Date).getTime() / 1000").to_i
+
   n_hours_ago  = (now - (hours.to_i * 3600)).to_i
   fuzzy_start  = n_hours_ago - 30
   fuzzy_finish = n_hours_ago + 30
 
-  # All the start times should be the same
-  start_times.uniq.size.should == 1
-
-  n_hours_ago = start_times.first
-
   debug = {
     :fuzzy_start  => fuzzy_start,
-    :n_hours_ago  => n_hours_ago,
-    :now          => now.to_i,
+    :start_time   => start_time,
+    :ruby_now     => now.to_i,
+    :js_now       => js_now,
     :fuzzy_finish => fuzzy_finish,
   }
   print_hash(debug)
+  ############# end debugging
 
-  Time.at(n_hours_ago).should be_between(Time.at(fuzzy_start), Time.at(fuzzy_finish))
+  Time.at(start_time).should be_between(Time.at(fuzzy_start), Time.at(fuzzy_finish))
 end
 
 def print_hash(hash)
@@ -284,8 +288,24 @@ end
 
 When(/^I go (\d+) minutes into the future$/) do |n|
   minutes = n.to_i
+
+  # Ruby time manipulation
   Delorean.time_travel_to("#{minutes} minutes from now")
+
+  script = "new Date"
+  p page.evaluate_script(script)
+
+  # JavaScript time manipulation
   @javascript_time_offset = minutes * 60 * 1000
+  script = <<-SCRIPT
+    DeLorean.globalApi(true);
+    DeLorean.advance(#{@javascript_time_offset});
+  SCRIPT
+  execute_script(script)
+
+  script = "new Date"
+  p page.evaluate_script(script)
+
 end
 
 Then(/^the timeframe should be "(.*?)"$/) do |timeframe|
@@ -309,17 +329,6 @@ def execute_script(script, opts={})
     :screenshot => false
   }.merge!(opts)
 
-  p @javascript_time_offset
-  if @javascript_time_offset
-    script.prepend(
-    <<-SCRIPT
-      DeLorean.globalApi(true);
-      DeLorean.advance(#{@javascript_time_offset});
-    SCRIPT
-    )
-  end
-
-  puts script
   page.execute_script(script)
   sleep(options[:wait])
 
