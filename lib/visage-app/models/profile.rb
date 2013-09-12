@@ -36,6 +36,7 @@ class Profile
     def all(opts={})
       sort      = opts[:sort]
       order     = opts[:order]
+      tags      = opts[:tags]
       # Anonymous profiles don't have names, so if we see the sort key is the
       # profile name, we automatically filter out anonymous profiles.
       anonymous = sort == :name ? false : opts[:anonymous]
@@ -48,6 +49,7 @@ class Profile
       result = result.find_all {|r| r.anonymous == anonymous} unless anonymous.nil?
       result = result.sort_by {|r| r.send(sort)} if sort
       result = result.reverse if order == :descending
+      result = result.find_all {|r| r.tags && r.tags.include?(tags) } if tags
 
       result
     end

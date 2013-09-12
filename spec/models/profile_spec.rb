@@ -16,9 +16,10 @@ describe "Profile" do
     # Create stub profiles
     [
       {:anonymous => true,  :id => 'zzz', :created_at => Time.now - 90, :graphs => graphs},
-      {:anonymous => true,  :id => 'aaa', :created_at => Time.now - 10, :graphs => graphs},
+      {:anonymous => true,  :id => 'aaa', :created_at => Time.now - 10, :graphs => graphs, :tags => %w(memory aaa) },
       {:anonymous => false, :id => 'yyy', :name => 'Carol', :created_at => Time.now - 80, :graphs => graphs},
       {:anonymous => false, :id => 'bbb', :name => 'Bob',   :created_at => Time.now - 20, :graphs => graphs},
+
     ].each do |attributes|
       filename = File.join(Profile.config_path, "#{attributes[:id]}.yaml")
       File.open(filename, 'w') {|f| f << attributes.to_yaml}
@@ -70,6 +71,15 @@ describe "Profile" do
 
       ascending.reverse.should == descending
     end
+
+    it "should allow filtering by tags" do
+      profiles = Profile.all(:tags => 'memory')
+      profiles.size.should == 1
+      profiles.each do |profile|
+        profile.tags.should include('memory')
+      end
+    end
+
   end
 
   describe "records" do
