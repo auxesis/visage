@@ -186,11 +186,6 @@ div.builder img.icon {
   float: right;
 }
 
-div.builder h5 {
-  margin-top: 8px;
-  margin-left: 8px;
-}
-
 div.builder ul.results {
   font-family: Lucida Grande, sans-serif;
   font-size:   16px;
@@ -240,27 +235,6 @@ li.graph {
   list-style-type: none;
 }
 
-h1, h2, h3, h4, h5 {
-  font-family: Bitstream Vera Sans, Helvetica Neue, sans-serif;
-}
-
-h2 {
-  font-weight: bold;
-  color: #333;
-  border-bottom: 4px solid #888;
-  margin-bottom: 12px;
-}
-
-h1 {
-  font-size: 4em;
-}
-
-h1 span.project-name {
-  padding: 0 0.1em 0.1em;
-  background-color: #3465a4;
-  color: white;
-}
-
 a#edit {
   float: right;
   display: block;
@@ -270,14 +244,6 @@ div#chart-builder-slider {
   clear: both;
   overflow-x: hidden;
   overflow-y: hidden;
-}
-
-h2#profile_name {
-  margin: 36px 0;
-}
-
-h4.error {
-  margin: 8px 0;
 }
 
 div#footer {
