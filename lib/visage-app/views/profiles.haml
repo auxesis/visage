@@ -1,47 +1,48 @@
 - page_title 'Profiles'
 - require_css 'profiles'
 
-%div#named_profiles.profile_column
-  %h2 Profiles
-  / FIXME - disabling sort links as default is now sorted by profile name
-  / and there's no ability to sort by created time (until it's saved with
-  / profiles on creation)
-  /%div#sort
-  /  Sort by:
-  /  %a{:href => link_to("/profiles?sort=name")} name
-  /  |
-  /  %a{:href => link_to("/profiles?sort=created")} created
+%div.row
+  %div.col-md-6
+    %h2 Profiles
+    / FIXME - disabling sort links as default is now sorted by profile name
+    / and there's no ability to sort by created time (until it's saved with
+    / profiles on creation)
+    /%div#sort
+    /  Sort by:
+    /  %a{:href => link_to("/profiles?sort=name")} name
+    /  |
+    /  %a{:href => link_to("/profiles?sort=created")} created
 
-  %ul
-    - @profiles.each_with_index do |profile,index|
-      %li
-        %a{:href => link_to("/profiles/#{profile.id}")}= profile.name
-
-  %p.create
-    %a{:href => link_to("/profiles/new")} Create a profile
-
-%div#recent_profiles.profile_column
-  %h2 Recently shared
-
-  - if @anonymous.size > 0
     %ul
-      - @anonymous.each_with_index do |profile,index|
+      - @profiles.each_with_index do |profile,index|
         %li
-          %a{:href => link_to("/profiles/#{profile.id}")}
-            - description = profile.graphs.map {|prof| "#{prof['plugin']} on #{prof['host']}" }.join(', ')
-            - count       = profile.graphs.size
-            = "#{count} graphs (#{truncate(description, :length => 46)})"
-          %p.time{:title => "Shared at #{profile.created_at.strftime("%Y-%m-%d %H:%M")}"}
-            = distance_of_time_in_words(profile.created_at)
+          %a{:href => link_to("/profiles/#{profile.id}")}= profile.name
 
     %p.create
       %a{:href => link_to("/profiles/new")} Create a profile
 
-  - else
-    %p
-      No activity.
-    %p
-      Why not
-      %a{:href => link_to("/profiles/new")} create a profile?
+  %div.col-md-6
+    %h2 Recently shared
+
+    - if @anonymous.size > 0
+      %ul
+        - @anonymous.each_with_index do |profile,index|
+          %li
+            %a{:href => link_to("/profiles/#{profile.id}")}
+              - description = profile.graphs.map {|prof| "#{prof['plugin']} on #{prof['host']}" }.join(', ')
+              - count       = profile.graphs.size
+              = "#{count} graphs (#{truncate(description, :length => 46)})"
+            %p.time{:title => "Shared at #{profile.created_at.strftime("%Y-%m-%d %H:%M")}"}
+              = distance_of_time_in_words(profile.created_at)
+
+      %p.create
+        %a{:href => link_to("/profiles/new")} Create a profile
+
+    - else
+      %p
+        No activity.
+      %p
+        Why not
+        %a{:href => link_to("/profiles/new")} create a profile?
 
 
