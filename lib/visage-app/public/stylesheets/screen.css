@@ -21,29 +21,30 @@ body {
   font-size: 1.2em;
 }
 
-div#header {
-  margin-bottom: 16px;
-  border-bottom: 2px solid #C5D6ED;
+nav.header {
+  color: white;
+  height: 36px;
   background-color: #3465a4;
   background: -moz-linear-gradient(100% 100% 90deg, #244671, #4C94F0);
   background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#4C94F0), to(#244671));
   -moz-box-shadow: -7px 0 7px rgba(0,0,0,0.4);
   -webkit-box-shadow: -7px 0 7px rgba(0,0,0,0.4);
-}
-
-div#nav {
-  color: white;
-  font-family: Bitstream Vera Sans, Helvetica Neue, sans-serif;
-  text-align: right;
   font-size: 16px;
-  height: 36px;
-  padding-top: 4px;
 }
 
+footer.footer {
+  text-align: center;
+  font-size: 10px;
+  color: gray;
+  margin-bottom: 4px;
+}
+
+/*
 div#content, div#nav {
   width: 950px;
   margin: auto;
 }
+*/
 
 div#hosts {
   clear: left;
