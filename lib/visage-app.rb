@@ -42,6 +42,8 @@ module Visage
     register Sinatra::PutOrPost
 
     configure do
+      set :haml, { :format => :html5 }
+
       Visage::Config.use do |c|
         # FIXME: make this configurable through a YAML config file
         c['data_backend']  = ENV['VISAGE_DATA_BACKEND'] || 'RRD'
