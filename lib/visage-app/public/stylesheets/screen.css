@@ -12,15 +12,6 @@ a:hover         { text-decoration: underline; }
 a:visited       { color: #75507b; }
 a:hover:visited { text-decoration: underline; }
 
-p {
-  margin: 0 0 1em;
-}
-
-body {
-  font-family: Bitstream Vera Serif, Baskerville, Garamond, serif;
-  font-size: 1.2em;
-}
-
 nav.header {
   color: white;
   height: 36px;
@@ -47,6 +38,7 @@ footer.footer {
   background-color: gainsboro;
   border: 1px solid white;
 }
+
 
 div#profile-meta, div#profile-preview {
   float: left;
@@ -164,6 +156,11 @@ div.profile_column p.create {
   font-size: 85%;
 }
 
+ul.profile-list p.created-at {
+  color: gray;
+  font-size: 85%;
+}
+
 .mask {
   position: absolute;
   opacity: 0.7;
@@ -172,27 +169,6 @@ div.profile_column p.create {
   z-index: 999;
   background: #000;
 }
-
-div#shortcuts {
-  font-family:      Bitstream Vera Sans, Helvetica Neue, sans-serif;
-  z-index:          1000;
-  width:            600px;
-  position:         absolute;
-  top:              100px;
-  left:             50%;
-  margin-left:      -300px;
-  background-color: white;
-  padding:          8px;
-}
-
-div#shortcuts table td, div#shortcuts table th {
-  padding: 4px 8px;
-}
-
-div#shortcuts table th {
-  text-align: left;
-}
-
 
 .button {
   -moz-border-radius: 5px;
