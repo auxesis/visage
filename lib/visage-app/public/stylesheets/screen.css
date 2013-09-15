@@ -39,15 +39,13 @@ footer.footer {
   margin-bottom: 4px;
 }
 
-/*
-div#content, div#nav {
-  width: 950px;
-  margin: auto;
-}
-*/
-
-div#hosts {
-  clear: left;
+.col-md-1,
+.col-md-2,
+.col-md-4,
+.col-md-6,
+.col-md-8 {
+  background-color: gainsboro;
+  border: 1px solid white;
 }
 
 div#profile-meta, div#profile-preview {

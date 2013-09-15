@@ -2,7 +2,7 @@
 - require_css 'profiles'
 
 %div.row
-  %div.col-md-6
+  %div.span6
     %h2 Profiles
     / FIXME - disabling sort links as default is now sorted by profile name
     / and there's no ability to sort by created time (until it's saved with
@@ -21,7 +21,7 @@
     %p.create
       %a{:href => link_to("/profiles/new")} Create a profile
 
-  %div.col-md-6
+  %div.span6
     %h2 Recently shared
 
     - if @anonymous.size > 0
