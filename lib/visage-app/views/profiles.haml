@@ -13,10 +13,12 @@
     /  |
     /  %a{:href => link_to("/profiles?sort=created")} created
 
-    %ul
+    %ul.unstyled.profile-list
       - @profiles.each_with_index do |profile,index|
         %li
           %a{:href => link_to("/profiles/#{profile.id}")}= profile.name
+          %p.created-at{:title => "Shared at #{profile.created_at.strftime("%Y-%m-%d %H:%M")}"}
+            = distance_of_time_in_words(profile.created_at)
 
     %p.create
       %a{:href => link_to("/profiles/new")} Create a profile
@@ -25,14 +27,14 @@
     %h2 Recently shared
 
     - if @anonymous.size > 0
-      %ul
+      %ul.unstyled.profile-list
         - @anonymous.each_with_index do |profile,index|
           %li
             %a{:href => link_to("/profiles/#{profile.id}")}
               - description = profile.graphs.map {|prof| "#{prof['plugin']} on #{prof['host']}" }.join(', ')
               - count       = profile.graphs.size
               = "#{count} graphs (#{truncate(description, :length => 46)})"
-            %p.time{:title => "Shared at #{profile.created_at.strftime("%Y-%m-%d %H:%M")}"}
+            %p.created-at{:title => "Shared at #{profile.created_at.strftime("%Y-%m-%d %H:%M")}"}
               = distance_of_time_in_words(profile.created_at)
 
       %p.create
