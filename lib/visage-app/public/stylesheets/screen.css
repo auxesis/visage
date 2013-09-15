@@ -193,27 +193,21 @@ label.metric, label.host {
   cursor: pointer;
 }
 
-li.row {
-  padding: 4px 2px;
-  list-style-type: none;
+li.item {
+  padding: 4px 2px 2px;
+  /*
   cursor: pointer;
   overflow: hidden;
   text-overflow: ellipsis;
+  */
 }
 
-li.row:hover {
+li.item:hover {
   background-color: #efefef;
 }
 
-li.row.toggle:hover {
+li.item.toggle:hover {
   background-color: #D1E5FF;
-}
-
-li.row input.checkbox {
-  margin-right: 6px;
-  cursor: pointer;
-  float: left;
-  margin-top: 6px;
 }
 
 li.row label {

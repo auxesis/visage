@@ -3,7 +3,7 @@
 #
 DimensionView = Backbone.View.extend({
   tagName: 'li',
-  className: 'row',
+  className: 'item',
   render: () ->
     that = this
     id = name = this.model.id
@@ -20,12 +20,14 @@ DimensionView = Backbone.View.extend({
     label    = new Element('label', {
       'for': id,
       'html': id,
-      'class': "#{name} label",
+      'class': "#{name} checkbox",
       'title': "#{name}",
     })
 
-    $(this.el).grab(checkbox)
-    $(this.el).grab(label)
+    $(this.el).grab(label.grab(checkbox))
+
+#    $(this.el).grab(checkbox)
+#    $(this.el).grab(label)
     $(this.el).addEvent('click', (event) ->
       if event.target.tagName.toLowerCase() == 'li'
         checkbox = event.target.getElement('input.checkbox')
@@ -36,7 +38,7 @@ DimensionView = Backbone.View.extend({
 
 DimensionCollectionView = Backbone.View.extend({
   tagName: 'ul',
-  className: 'dimensioncollection',
+  className: 'unstyled dimensioncollection',
   initialize: () ->
     that = this
     container = $(that.options.container)
@@ -110,7 +112,7 @@ DimensionCollectionView = Backbone.View.extend({
     else
       selectAll = new Element('li', {
         'html': '&uarr; toggle all',
-        'class': 'row toggle',
+        'class': 'item toggle',
         'events': {
           'click': (event) ->
             checkboxes = that.el.getElements('input.checkbox')
