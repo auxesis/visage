@@ -43,6 +43,10 @@ div#toggler-group {
   margin-top: 3px;
 }
 
+div#nav-buttons {
+  text-align: right;
+}
+
 a.toggler {
   margin-right: 4px;
 }
