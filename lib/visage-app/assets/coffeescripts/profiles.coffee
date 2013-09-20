@@ -81,14 +81,10 @@ window.addEvent('domready', () ->
         )
     })
 
-  button = new Element('input', {
-    'type': 'button',
-    'value': 'Add graphs',
-    'class': 'button',
-    'styles': {
-      'font-size': '80%',
-      'padding': '4px 8px',
-    },
+  button = new Element('a', {
+    'html': '<i class="icon-plus icon-white"></i> Add graphs',
+    'class': 'btn btn-success',
+    'data-toggle': 'dropdown',
     'events': {
       'click': (event) ->
         hosts.for_api().each((host) ->
