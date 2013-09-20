@@ -220,13 +220,15 @@ GraphView = Backbone.View.extend({
             }
           }
         },
-
-
         width:        873,
         height:       350,
         plotBorderWidth: 1,
         plotBorderColor: '#020508',
         events: {}
+        style: {
+          'margin':      'auto',
+          'font-family': "'Helvetica Neue', Helvetica, Arial, sans-serif",
+        }
       },
       title: {
         text: title
@@ -374,49 +376,49 @@ GraphView = Backbone.View.extend({
       }
     })
 
-    destroy = new Element('div', {
-      'class': 'action destroy'
-      'styles': {
-        opacity: 0
-      }
-      'events': {
-        'click': (event) ->
-          that.el.fade('out').get('tween').chain(() ->
-            that.el.tween('height', '0').get('tween').chain(() ->
-              that.chart.destroy()
-              that.el.destroy()
-              that.model.collection.remove(that.model)
-              that.model.destroy()
-            )
-          )
-      }
-    })
-    # http://raphaeljs.com/icons/
-    destroyPaper = Raphael(destroy, 26, 26);
-    destroyPaper.path("M24.778,21.419 19.276,15.917 24.777,10.415 21.949,7.585 16.447,13.087 10.945,7.585 8.117,10.415 13.618,15.917 8.116,21.419 10.946,24.248 16.447,18.746 21.948,24.248z")
-
-    move = new Element('div', {
-      'class': 'action move'
-      'styles': {
-        opacity: 0
-        cursor: 'move'
-      }
-    })
-    movePaper = Raphael(move, 26, 26);
-    movePaper.path("M4.082,8.083v2.999h24.835V8.083H4.082zM4.082,24.306h22.835v-2.999H4.082V20.306zM4.082,17.694h22.835v-2.999H4.082V13.694z")
-
-    # Insert icons.
-    element.grab(move,  'top')
-    element.grab(destroy, 'top')
-
-    # Roll graph out.
+#    destroy = new Element('div', {
+#      'class': 'action destroy'
+#      'styles': {
+#        opacity: 1
+#      }
+#      'events': {
+#        'click': (event) ->
+#          that.el.fade('out').get('tween').chain(() ->
+#            that.el.tween('height', '0').get('tween').chain(() ->
+#              that.chart.destroy()
+#              that.el.destroy()
+#              that.model.collection.remove(that.model)
+#              that.model.destroy()
+#            )
+#          )
+#      }
+#    })
+#    # http://raphaeljs.com/icons/
+#    destroyPaper = Raphael(destroy, 26, 26);
+#    destroyPaper.path("M24.778,21.419 19.276,15.917 24.777,10.415 21.949,7.585 16.447,13.087 10.945,7.585 8.117,10.415 13.618,15.917 8.116,21.419 10.946,24.248 16.447,18.746 21.948,24.248z")
+#
+#    move = new Element('div', {
+#      'class': 'action move'
+#      'styles': {
+#        opacity: 1
+#        cursor: 'move'
+#      }
+#    })
+#    movePaper = Raphael(move, 26, 26);
+#    movePaper.path("M4.082,8.083v2.999h24.835V8.083H4.082zM4.082,24.306h22.835v-2.999H4.082V20.306zM4.082,17.694h22.835v-2.999H4.082V13.694z")
+#
+#    # Insert icons.
+#    element.grab(move,  'top')
+#    element.grab(destroy, 'top')
+#
+#    # Roll graph out.
     element.tween('height', 376)
 
     # Hide/show the icons based on mouse events.
-    element.addEvent('mouseenter', () -> move.tween('opacity', 1))
-    element.addEvent('mouseleave', () -> move.tween('opacity', 0))
-    element.addEvent('mouseenter', () -> destroy.tween('opacity', 1))
-    element.addEvent('mouseleave', () -> destroy.tween('opacity', 0))
+#    element.addEvent('mouseenter', () -> move.tween('opacity', 1))
+#    element.addEvent('mouseleave', () -> move.tween('opacity', 0))
+#    element.addEvent('mouseenter', () -> destroy.tween('opacity', 1))
+#    element.addEvent('mouseleave', () -> destroy.tween('opacity', 0))
 
     return element
 })
