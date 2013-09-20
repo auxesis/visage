@@ -665,18 +665,8 @@ TimeframeView = Backbone.View.extend({
     anchor = new Element('a', {'tabindex':'-1', 'href': '#', 'html': this.model.get('label') })
     that.el.grab(anchor)
 
-    #that.el.set('html', this.model.get('label'))
-
-    that.el.addClass('selected') if that.model.get('selected') # for the timeframe in the cookie
     that.el.addEvent('click', () ->
-      label = $('timeframe-label')
-      label.set('html', that.model.get('label'))
-
-      $('timeframes').fade('out')
-      that.el.getParent('ul').getElements('li').each((el) ->
-        el.removeClass('selected')
-      )
-      that.el.toggleClass('selected')
+      $('timeframe-label').set('html', that.model.get('label'))
 
       attrs = that.model.toTimeAttributes()
       Cookie.write('timeframe', JSON.encode(attrs)) # So new graphs have the timeframe set
