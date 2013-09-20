@@ -246,8 +246,8 @@ div.clear svg {
   cursor: pointer;
   position: relative;
   float: right;
-  bottom: -30px;
   z-index: 3;
+  right: 148px;
 }
 
 .graph div.action path {
