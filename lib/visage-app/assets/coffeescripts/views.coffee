@@ -662,7 +662,7 @@ TimeframeView = Backbone.View.extend({
   selected:  false,
   render: () ->
     that = this
-    anchor = new Element('a', {'tabindex':'-1', 'href': '#', 'html': this.model.get('label') })
+    anchor = new Element('a', {'tabindex':'-1', 'html': this.model.get('label') })
     that.el.grab(anchor)
 
     that.el.addEvent('click', () ->

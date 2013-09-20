@@ -300,6 +300,12 @@ div.toggler label {
   position: absolute;
 }
 
+li.timeframe {
+  cursor: pointer;
+}
+
+
+
 .lightface .lightfaceMessageBox {
   padding: 0;
 }
