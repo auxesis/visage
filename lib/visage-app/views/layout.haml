@@ -16,21 +16,25 @@
     %script{:type => "text/javascript", :src => link_to("/javascripts/handlebars.js")}
     %script{:type => "text/javascript", :src => link_to("/javascripts/backbone.handlebars.js")}
     %script{:type => "text/javascript", :src => link_to("/javascripts/delorean.js")}
+    %script{:type => "text/javascript", :src => link_to("/javascripts/dropdown.js")}
     = include_required_js
 
   %body
     %nav.navbar.navbar-default.header{:role => 'navigation'}
       %div.row
         %div.span3.offset10#nav-buttons
-          %div.btn-group#toggler-group
-            %a#share-toggler.toggler.btn.btn-success.dropdown-toggle{'data-toggle' => 'dropdown'}
-              %i.icon-share.icon-white
-              %span#share-label Share
+          %div#toggler-group
+            %div.share.dropdown.btn-group
+              %a#share-toggler.toggler.btn.btn-success.dropdown-toggle{'data-toggle' => 'dropdown'}
+                %i.icon-share.icon-white
+                %span#share-label Share
 
-            %a#timeframe-toggler.toggler.btn.btn-inverse.dropdown-toggle{'data-toggle' => 'dropdown'}
-              %i.icon-time.icon-white
-              %span#timeframe-label Timeframe
-              %span{:class => 'caret'}
+            %div.timeframe.dropdown.btn-group
+              %a#timeframe-toggler.toggler.btn.btn-inverse.dropdown-toggle{'data-toggle' => 'dropdown'}
+                %i.icon-time.icon-white
+                %span#timeframe-label Timeframe
+                %span{:class => 'caret'}
+              %ul#timeframes.dropdown-menu{:role => 'menu', 'aria-labelledby' => "dropdownMenu"}
 
     %div#content.container
       = yield

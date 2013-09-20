@@ -662,7 +662,11 @@ TimeframeView = Backbone.View.extend({
   selected:  false,
   render: () ->
     that = this
-    that.el.set('html', this.model.get('label'))
+    anchor = new Element('a', {'tabindex':'-1', 'href': '#', 'html': this.model.get('label') })
+    that.el.grab(anchor)
+
+    #that.el.set('html', this.model.get('label'))
+
     that.el.addClass('selected') if that.model.get('selected') # for the timeframe in the cookie
     that.el.addEvent('click', () ->
       label = $('timeframe-label')
@@ -699,14 +703,11 @@ TimeframeView = Backbone.View.extend({
 
 TimeframeCollectionView = Backbone.View.extend({
   tagName: 'ul',
-  className: 'timeframe',
+  className: 'timeframe dropdown-menu',
   initialize: () ->
     that = this
 
     toggler = $('timeframe-toggler')
-    toggler.addEvent('click', () ->
-      that.el.fade('toggle')
-    )
 
     timeframe = JSON.decode(Cookie.read('timeframe'))
     if timeframe and timeframe.label

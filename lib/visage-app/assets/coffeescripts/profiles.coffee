@@ -155,4 +155,7 @@ window.addEvent('domready', () ->
     el:         $('timeframes')
   })
   timeframesView.render()
+
+  container = $$('div.dropdown.timeframe')[0]
+  dropdown  = new Bootstrap.Dropdown(container)
 )
