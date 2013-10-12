@@ -76,6 +76,21 @@ Then install the app with:
 gem install visage-app
 ```
 
+#### openSUSE 12.3+ ####
+
+On openSUSE 12.3+, to install dependencies run:
+
+``` bash
+sudo zypper install -y ruby-rrdtool ruby ruby-devel collectd
+```
+Then install the app with:
+
+``` bash
+gem install visage-app
+```
+
+Before running visage-app set the environment variable to "RRDDIR=/var/lib/collectd"
+
 ### Mac OS X ###
 
 Visage is not supported on Mac OS X, as RRDtool is a pain in the arse on that
