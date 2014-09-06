@@ -425,43 +425,53 @@ GraphView = Backbone.View.extend({
 
 SuccessView = "
 <form id='share' class='share'>
-  <div class='row'>
-    Share this profile of graphs with others:
-  </div>
-  <div class='row permalink'>
-    <a href='{{model.permalink}}' target='_profile_{{model.id}}'>{{model.permalink}}</a>
-  </div>
-  <hr>
-  <div class='row'>
-    <label>Timeframe</label>
-    <p>
+  <fieldset>
+    <h5>Share</h5>
+
+    <span class='help-block'>Share this profile of graphs with others:</span>
+    <div class='section permalink'>
+      <a href='{{model.permalink}}' target='_profile_{{model.id}}'>{{model.permalink}}</a>
+    </div>
+
+    <h5>Timeframe</h5>
+    <label class='radio'>
       <input id='profile-timeframe-absolute' name='profile[timeframe]' class='radio' type='radio' value='absolute' {{#if model.isAbsolute}}checked{{/if}}/>
-      <label for='profile-timeframe-absolute' class='radio'>Absolute</label>
-      - view the time as currently displayed on the graphs (<em>Start: {{timeframe.start}}</em>).
-    </p>
-    <p>
+      Absolute
+      <span class='help-block'>View the time as currently displayed on the graphs (<em>Start: {{timeframe.start}}</em>).</span>
+    </label>
+    <label class='radio'>
       <input id='profile-timeframe-relative' name='profile[timeframe]' class='radio' type='radio' value='{{ timeframe.label }}'{{#if model.isRelative}}checked{{/if}}/>
-      <label for='profile-timeframe-relative' class='radio'>Relative</label>
-      - view the time as a sliding window of &quot;{{ timeframe.label }}&quot;.
-    </p>
-  </div>
-  <hr/>
-  <div class='row question'>
-    <input id='profile-anonymous' name='profile[anonymous]' class='checkbox' type='checkbox' {{#model.isNotAnonymous}}checked=true{{/model.isNotAnonymous}} value='false'>
-    <label for='profile-anonymous'>Name this profile</label>
-    <p>Naming a profile is helpful if you need to refer back to a collection of graphs.</p>
-    <p>If you don't name the profile, you can still access it via the link above.</p>
-  </div>
-  <hr class='named'/>
-  <div class='row text named'>
-    <label for='profile-name'>Profile name</label>
-    <input id='profile-name' name='profile[name]' class='text' type='text' value='{{model.name}}'>
-  </div>
-  <hr class='named'/>
-  <div class='row text named'>
-    <label for='profile-tags'>Tags<span class='tip'> (comma separated)</label>
-    <input id='profile-tags' tags='profile[tags]' class='text' type='text' value='{{model.tags}}'>
-  </div>
+      Relative
+      <span class='help-block'>View the time as a sliding window of &quot;{{ timeframe.label }}&quot;.</span>
+    </label>
+
+    <h5>Name this profile</h5>
+    <label class='checkbox'>
+      <input id='profile-anonymous' name='profile[anonymous]' class='checkbox' type='checkbox' {{#model.isNotAnonymous}}checked=true{{/model.isNotAnonymous}} value='false'>
+      Name this profile
+      <span class='help-block'>
+        Naming a profile is helpful if you need to refer back to a collection of graphs.
+      </span>
+      <span class='help-block'>
+        If you don't name the profile, you can still access it via the link above.
+      </span>
+    </label>
+
+    <hr class='named'/>
+    <div class='section text named'>
+      <label for='profile-name'>Profile name</label>
+      <input id='profile-name' name='profile[name]' class='text' type='text' value='{{model.name}}'>
+    </div>
+    <hr class='named'/>
+    <!--
+    <div class='section text named'>
+      <label class='checkbox'>
+        <input id='profile-tags' tags='profile[tags]' type='checkbox' value='{{model.tags}}'>
+        Tags<span class='tip'> (comma separated)
+      </label>
+    </div>
+    -->
+  </fieldset>
 </form>
 "
 
@@ -578,82 +588,129 @@ GraphCollectionView = Backbone.View.extend({
     options.template ||= 'success'
     options.model    ||= window.profile
 
-    modal = new LightFace({
-      width:     600,
-      draggable: true,
-      title:     'Share profile',
-      content:   "<img src='/images/loader.gif'/>",
-      buttons: [
-        {
-          title: 'Delete',
-          color: 'red',
-          event: () ->
-            destroy = confirm('Are you sure you want to delete this profile?')
-            if destroy
-              window.profile.destroy({
-                success: (model, response) ->
-                  window.location = '/profiles'
-              })
-        }
-        {
-          title: "Close",
-          color: 'blue',
-          event: () ->
-            this.close()
-            #this.destroy()
-        }
-        {
-          title: 'Save',
-          color: 'green',
-          event: () ->
-            form = this.messageBox.getElementById('share')
-            form.set('send', {
-              url: window.profile.url({json: false})
-              onSuccess: ((responseText, responseXML) ->
-                this.close()
-                #this.destroy()
-              ).bind(this)
-            })
-            form.send()
-        }
-      ],
-      resetOnScroll: true,
-    });
+    template = """
+<!-- sample modal content -->
+<div data-behavior="BS.Popup" id="myModal" class="modal fade">
+  <div class="modal-dialog">
+    <div class="modal-content">
 
-    [ 'delete', 'save', 'close' ].each((title) ->
-      modal.showButton(title.capitalize()).set('id', "share-#{title}")
-      modal.showButton(title.capitalize()).set('class', 'action')
-      modal.showButton(title.capitalize()).getParent().set('id', "share-#{title}-label")
-    )
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        <h4 class="modal-title" id="myModalLabel">Modal Heading</h4>
+      </div>
+      <div class="modal-body">
+        <h4>Text in a modal</h4>
+        <p>Duis mollis, est non commodo luctus, nisi erat porttitor ligula.</p>
 
-    modal.open()
+        <h4>Popover in a modal</h4>
+        <p>This <a role="button" class="btn btn-default popover-test" title="A Title" data-behavior="BS.Popover" data-bs-popover-options="
+            'content': 'And here\'s some amazing content. It\'s very engaging. right?',
+            'trigger': 'click'
+          ">button</a> should trigger a popover on click.</p>
 
-    # Inject content into the modal
-    source   = eval((options.template.capitalize() + 'View'))
-    template = Handlebars.compile(source)
+        <h4>Tooltips in a modal</h4>
+        <p><a href="#" class="tooltip-test" title="Tooltip" data-behavior="BS.Tooltip">This link</a> and <a href="#" class="tooltip-test" title="Tooltip" data-behavior="BS.Tooltip">that link</a> should have tooltips on hover.</p>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+"""
+
+    template = Handlebars.compile(template)
     timeframe = JSON.parse(Cookie.read('timeframe'))
     timeframe.start  = new Date(timeframe.start * 1000).format("%Y/%m/%d at %H:%M")
     timeframe.finish = new Date(timeframe.finish * 1000)
     context  = { model: options.model, timeframe: timeframe }
     html     = template(context)
-    modal.messageBox.set('html', html)
 
-    # FIXME(auxesis): consider moving these into a callback on a dedicated view
-    switch options.template
-      when 'success'
-        # If the profile is anonymous, hide the named profile options
-        if window.profile.get('anonymous')
-          modal.messageBox.getElements('.named').each((element) -> element.hide())
+    c = $('template')
+    c.set('html', html)
 
-        # Toggle the display of the named profile options
-        modal.messageBox.getElementById('profile-anonymous').addEvent('click', (event) ->
-          modal.messageBox.getElements('.named').each((element) -> element.toggle())
-        )
-      when 'failure'
-        # Remove buttons, only display "Close" as it's the only valid action
-        [ 'delete', 'save' ].each((title) ->
-          modal.showButton(title.capitalize()).getParent().dispose()
-        )
+    modal = new Bootstrap.Popup(c)
+    modal.show()
+
+#    modal = new LightFace({
+#      width:     600,
+#      draggable: true,
+#      title:     'Share profile',
+#      content:   "<img src='/images/loader.gif'/>",
+#      buttons: [
+#        {
+#          title: 'Delete',
+#          color: 'red',
+#          event: () ->
+#            destroy = confirm('Are you sure you want to delete this profile?')
+#            if destroy
+#              window.profile.destroy({
+#                success: (model, response) ->
+#                  window.location = '/profiles'
+#              })
+#        }
+#        {
+#          title: "Close",
+#          color: 'blue',
+#          event: () ->
+#            this.close()
+#            #this.destroy()
+#        }
+#        {
+#          title: 'Save',
+#          color: 'green',
+#          event: () ->
+#            form = this.messageBox.getElementById('share')
+#            form.set('send', {
+#              url: window.profile.url({json: false})
+#              onSuccess: ((responseText, responseXML) ->
+#                this.close()
+#                #this.destroy()
+#              ).bind(this)
+#            })
+#            form.send()
+#        }
+#      ],
+#      resetOnScroll: true,
+#    });
+#
+#    [ 'delete', 'save', 'close' ].each((title) ->
+#      modal.showButton(title.capitalize()).set('id', "share-#{title}")
+#      modal.showButton(title.capitalize()).set('class', 'action')
+#      modal.showButton(title.capitalize()).getParent().set('id', "share-#{title}-label")
+#    )
+#
+#    modal.open()
+#
+#    # Inject content into the modal
+#    source   = eval((options.template.capitalize() + 'View'))
+#    template = Handlebars.compile(source)
+#    timeframe = JSON.parse(Cookie.read('timeframe'))
+#    timeframe.start  = new Date(timeframe.start * 1000).format("%Y/%m/%d at %H:%M")
+#    timeframe.finish = new Date(timeframe.finish * 1000)
+#    context  = { model: options.model, timeframe: timeframe }
+#    html     = template(context)
+#    modal.messageBox.set('html', html)
+#
+#    # FIXME(auxesis): consider moving these into a callback on a dedicated view
+#    switch options.template
+#      when 'success'
+#        # If the profile is anonymous, hide the named profile options
+#        if window.profile.get('anonymous')
+#          modal.messageBox.getElements('.named').each((element) -> element.hide())
+#
+#        # Toggle the display of the named profile options
+#        modal.messageBox.getElementById('profile-anonymous').addEvent('click', (event) ->
+#          modal.messageBox.getElements('.named').each((element) -> element.toggle())
+#        )
+#      when 'failure'
+#        # Remove buttons, only display "Close" as it's the only valid action
+#        [ 'delete', 'save' ].each((title) ->
+#          modal.showButton(title.capitalize()).getParent().dispose()
+#        )
 })
 
 TimeframeView = Backbone.View.extend({

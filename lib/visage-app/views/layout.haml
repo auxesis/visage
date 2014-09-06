@@ -17,6 +17,7 @@
     %script{:type => "text/javascript", :src => link_to("/javascripts/backbone.handlebars.js")}
     %script{:type => "text/javascript", :src => link_to("/javascripts/delorean.js")}
     %script{:type => "text/javascript", :src => link_to("/javascripts/dropdown.js")}
+    %script{:type => "text/javascript", :src => link_to("/javascripts/popup.js")}
     = include_required_js
 
   %body
@@ -38,6 +39,8 @@
 
     %div#content.container
       = yield
+
+    %div#template
 
     %footer.footer
       %a{:href => link_to('http://visage.io/')} Visage

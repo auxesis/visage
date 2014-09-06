@@ -314,15 +314,19 @@ li.timeframe {
   padding: 10px;
 }
 
-.lightface div#errors div.error {
-  /*color: #74412B;*/
+/*
+ * Sharing form
+ */
+
+fieldset {
+  padding: 8px;
 }
 
-form.share div.row {
+form.share div.section {
   padding: 10px;
 }
 
-form.share div.row.permalink {
+form.share div.section.permalink {
   font-weight: bold;
   margin-bottom: 8px;
 }
@@ -332,40 +336,39 @@ form.share hr {
   border-top: 1px solid #ccc;
 }
 
-form.share div.row.permalink a {
+form.share div.section.permalink a {
   font-size: 14px;
 }
 
-form.share div.row.permalink a:visited {
+form.share div.section.permalink a:visited {
   color: #3465a4;
 }
 
-form.share div.row label {
+form.share div.section label {
   margin-left: 4px;
   margin-bottom: 4px;
   font-size: 14px;
-  font-weight: bold;
   cursor: pointer;
 }
 
-form.share div.row.text label {
+form.share div.section.text label {
   display: block;
   margin-left: 0px;
 }
 
-form.share div.row label.radio {
+form.share div.section label.radio {
   /*font-weight: normal;*/
   font-size: 11px;
 }
 
-form.share div.row p {
+form.share div.section p {
   margin: 0;
   margin-top:  4px;
   margin-left: 21px;
   line-height: 1.5em;
 }
 
-form.share div.row label span.tip {
+form.share div.section label span.tip {
   font-weight: normal;
   font-style:  italic;
   font-size:   90%;

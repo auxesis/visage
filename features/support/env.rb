@@ -48,3 +48,7 @@ end
 World do
   SinatraWorld.new
 end
+
+After do
+  @javascript_time_offset = nil
+end

@@ -17,7 +17,6 @@
   background-color: transparent;
   vertical-align: top;
   font-family: 'Verdana';
-  font-size: 11px;
 }
 
 .lightface .centerLeft, .lightface .centerRight {
@@ -72,7 +71,6 @@
 }
 
 .lightface .lightfaceContent .lightfaceTitle {
-  font-size: 14px;
   color: #fff;
   //*background-color: #6d84b4;*/
   background: -moz-linear-gradient(100% 100% 90deg, #244671, #4C94F0);
@@ -121,7 +119,6 @@
   line-height: 16px;
   vertical-align: middle;
   cursor: pointer;
-  font-size: 13px;
   display: inline-block;
   font-family: 'Lucida Grande', Tahoma, Verdana, Arial, sans-serif;
   font-weight: bold;
@@ -140,7 +137,6 @@
 }
 
 .lightface .lightfaceFooter label {
-  font-size: 13px;
   border-style: solid;
   background-image:url(../images/LightFace/button.png);
   cursor:pointer;
@@ -168,13 +164,11 @@
   white-space:nowrap;
   text-align:center;
   color:#fff;
-  font-size:13px;
   border: 2px outset buttonface;
   text-indent:0;
   text-shadow:none;
   display:inline-block;
   color:#444;
-  font-size:13px;
 }
 /* ie6 hacks */
 * html .lightface .lightfaceFooter label input { border:0; }
