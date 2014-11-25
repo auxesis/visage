@@ -150,9 +150,9 @@ To do this on Debian/Ubuntu:
 
 ``` bash
 sudo -s
-visage-app genapache > /etc/apache2/sites-available/visage
+visage-app genapache > /etc/apache2/sites-available/visage.conf
 a2ensite visage
-a2dissite default
+a2dissite 000-default
 service apache2 reload
 ```
 
